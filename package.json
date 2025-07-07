@@ -1,0 +1,31 @@
+{
+  "name": "tokamak-zk-evm-airdrop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "figma:sync": "node scripts/figma-to-tailwind.js $FIGMA_TOKEN $FIGMA_FILE_KEY",
+    "figma:setup": "node scripts/setup-figma-sync.js",
+    "figma:watch": "node scripts/figma-watch.js"
+  },
+  "dependencies": {
+    "next": "^15.3.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "autoprefixer": "^10.4.21",
+    "chokidar": "^3.5.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
+  }
+}

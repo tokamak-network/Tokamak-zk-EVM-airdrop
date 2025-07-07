@@ -1,0 +1,263 @@
+# Tokamak ZK-EVM Airdrop Event Project Rules
+
+## Project Context
+
+This is a Next.js TypeScript project for creating an airdrop event page. The project focuses on modern web development practices with type safety and user experience.
+
+## Tech Stack
+
+- **Framework**: Next.js 14+ with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand or React Context
+- **Package Manager**: npm or yarn
+
+## Code Style Guidelines
+
+### General Rules
+
+- All code comments must be written in English
+- Variable names, function names, and types should be descriptive and in English
+- Use camelCase for variables and functions
+- Use PascalCase for components and types/interfaces
+- Use kebab-case for file names
+
+### TypeScript Rules
+
+- Always use TypeScript strict mode
+- Define proper interfaces for all props and data structures
+- Use union types instead of any when possible
+- Prefer type over interface for simple type definitions
+- Use interface for object shapes that might be extended
+
+### React/Next.js Rules
+
+- Use functional components with hooks
+- Prefer server components when possible (Next.js 13+ App Router)
+- Use client components only when necessary (user interactions, state, etc.)
+- Always define proper types for props
+- Use React.FC or explicit function declarations for components
+
+### File Organization
+
+- Components should be in `/components` directory
+- Pages should use App Router structure (`/app`)
+- Utilities should be in `/utils` or `/lib` directory
+- Types should be in `/types` directory or co-located with components
+- Styles should be organized and use Tailwind classes
+
+### Tailwind CSS Rules
+
+- Use utility-first approach with Tailwind classes
+- Prefer Tailwind utilities over custom CSS when possible
+- Use responsive prefixes (sm:, md:, lg:, xl:, 2xl:) for responsive design
+- Group related utilities together (e.g., padding, margin, then layout, then colors)
+- Use semantic color names and create custom color palette in tailwind.config.js
+- Implement dark mode support using 'dark:' prefix
+- Use @apply directive sparingly, only for component-specific styles
+- Prefer arbitrary values [custom-value] over creating new utilities
+- Use Tailwind's animation and transition utilities for smooth interactions
+- Follow mobile-first responsive design approach
+- Use Tailwind's built-in spacing scale (4, 8, 12, 16, etc.)
+- Leverage Tailwind's gradient and shadow utilities for modern UI effects
+
+### Code Quality
+
+- Use ESLint and Prettier for code formatting
+- Write meaningful commit messages
+- Use async/await instead of .then()
+- Handle loading states and error states properly
+- Implement proper error boundaries
+
+### Performance
+
+- Optimize images using Next.js Image component
+- Use dynamic imports for code splitting when appropriate
+- Implement proper loading states
+- Use React.memo() for expensive components
+
+### Security
+
+- Validate all user inputs
+- Use environment variables for sensitive data
+- Implement proper CORS policies
+- Sanitize data before rendering
+
+## Communication Rules
+
+- When responding to user questions, always answer in Korean (한국어)
+- Code comments and documentation should be in English
+- Variable names and function names should be in English
+- Error messages in user interface can be in Korean for better UX
+
+## Example Code Structure
+
+```typescript
+// components/AirdropCard.tsx
+interface AirdropCardProps {
+  title: string;
+  description: string;
+  amount: number;
+  isEligible: boolean;
+  onClaim: () => void;
+  isLoading?: boolean;
+}
+
+const AirdropCard: React.FC<AirdropCardProps> = ({
+  title,
+  description,
+  amount,
+  isEligible,
+  onClaim,
+  isLoading = false
+}) => {
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-xl">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+        {title}
+      </h3>
+      <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+        {description}
+      </p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            {amount}
+          </span>
+          <span className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+            TON
+          </span>
+        </div>
+        <button
+          onClick={onClaim}
+          disabled={!isEligible || isLoading}
+          className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
+            isEligible && !isLoading
+              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl'
+              : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+          }`}
+        >
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Processing...
+            </div>
+          ) : isEligible ? (
+            'Claim Airdrop'
+          ) : (
+            'Not Eligible'
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default AirdropCard;
+```
+
+## Best Practices for Airdrop Event Page
+
+- Implement wallet connection functionality
+- Show clear eligibility criteria
+- Display countdown timers for events
+- Provide transaction status updates
+- Include social sharing features
+- Implement responsive design for mobile users
+- Add proper loading states during blockchain interactions
+- Include FAQ section for common questions
+- Implement error handling for failed transactions
+
+## Tailwind CSS Configuration
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        tokamak: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          900: '#0c4a6e',
+        },
+        airdrop: {
+          primary: '#6366f1',
+          secondary: '#8b5cf6',
+          accent: '#f59e0b',
+        }
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-slow': 'bounce 2s infinite',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+## Figma Integration
+
+### Automated Figma to Tailwind Sync
+
+This project supports automatic design token extraction from Figma files:
+
+1. **Setup**: Run `node scripts/setup-figma-sync.js` to configure
+2. **Manual Sync**: Run `npm run figma:sync` to update tokens
+3. **Auto-sync**: Run `npm run figma:watch` for continuous monitoring
+
+### Figma File Requirements
+
+- Use consistent naming for color styles (e.g., "Primary/500", "Secondary/100")
+- Define text styles with clear hierarchy (e.g., "Heading/Large", "Body/Medium")
+- Export design tokens using Figma's style system
+- Maintain consistent spacing and component patterns
+
+### Usage with Figma URL
+
+```bash
+# Extract file key from Figma URL
+https://www.figma.com/file/[FILE_KEY]/Your-Design-File
+
+# Use the FILE_KEY in setup
+node scripts/setup-figma-sync.js
+```
+
+### Design System Structure
+
+```
+design-system/
+├── tokens/
+│   └── tokens.json          # Auto-generated from Figma
+├── components/
+│   └── ...                  # Component definitions
+figma-exports/
+├── ...                      # Exported assets
+```
+
+## Development Workflow
+
+1. **Design First**: Update Figma file with new design tokens
+2. **Sync Tokens**: Run `npm run figma:sync` to update Tailwind config
+3. **Develop**: Use extracted tokens in components
+4. **Test**: Verify design consistency across devices
+5. **Commit**: Include both code and design token updates
+6. Create feature branches for new functionality
+7. Write tests for critical components
+8. Use TypeScript strict mode
+9. Run lint checks before committing
+10. Optimize for performance and accessibility
+11. Test on multiple devices and browsers
