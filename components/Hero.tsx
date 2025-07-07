@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import PipeImage from "@/assets/hero/overview/pipe.png";
+import Buttons from "./hero/Buttons";
+import { HeroCaoursel } from "./hero/HeroCaoursel";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -184,6 +186,7 @@ const Quest = () => {
           </TableRow>
         </div>
       </div>
+      <Buttons />
     </div>
   );
 };
@@ -206,6 +209,7 @@ const QuestSection = () => {
       </h1>
       <div className="flex flex-col w-[1360px] border-2 border-[#00477A]">
         <Quest />
+        <HeroCaoursel />
       </div>
     </div>
   );

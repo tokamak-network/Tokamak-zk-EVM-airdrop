@@ -2,17 +2,7 @@ import React from "react";
 import CarouselItemImage from "@/assets/header/carousel-item.svg";
 import LogoImage from "@/assets/header/logo.svg";
 import Image from "next/image";
-
-const HeaderLins = () => {
-  return (
-    <div>
-      <div className="h-[6px] bg-[#159CFC]"></div>
-      <div className="h-[6px] bg-[#7AC8FF]"></div>
-      <div className="h-[6px] bg-[#159CFC]"></div>
-      <div className="h-[6px] bg-[#0079D0]"></div>
-    </div>
-  );
-};
+import { Lines } from "./common/lines";
 
 const Banner = () => {
   return (
@@ -130,7 +120,7 @@ const Navigation = () => {
 const Header: React.FC = () => {
   return (
     <header>
-      <HeaderLins />
+      <Lines />
       <Banner />
       <Navigation />
     </header>

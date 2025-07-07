@@ -106,6 +106,19 @@
     background-size: 32px 32px; /* grid cell size */
     background-position: 0 0;
   }
+
+  .animate-scroll-left {
+    animation: scrollLeft 50s linear infinite;
+  }
+
+  @keyframes scrollLeft {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 /* 스크롤바 스타일링 */
