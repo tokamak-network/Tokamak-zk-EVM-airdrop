@@ -5,6 +5,7 @@
 /* 글로벌 폰트 설정 */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
 
 /* 기본 스타일 */
 * {
@@ -78,6 +79,32 @@
   .neon-glow {
     text-shadow: 0 0 5px currentColor, 0 0 10px currentColor,
       0 0 15px currentColor;
+  }
+
+  .text-hero-title {
+    color: #00477a !important;
+    text-shadow: 2px 2px 0px #00477a;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #7ed7ff;
+    font-family: var(--font-jersey-10), "Jersey 10", "Jersey 10 Regular",
+      monospace !important;
+    font-size: 90px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    letter-spacing: 8.1px !important;
+  }
+
+  .grid-background {
+    background-color: #ccefff;
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.5) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+    background-size: 32px 32px; /* grid cell size */
+    background-position: 0 0;
   }
 }
 

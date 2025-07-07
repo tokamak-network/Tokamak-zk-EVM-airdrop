@@ -113,6 +113,7 @@ module.exports = {
           "IBM Plex Mono",
           "monospace",
         ],
+        "jersey-10": ["var(--font-jersey-10)", "Jersey 10", "cursive"],
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1rem" }],
