@@ -3,6 +3,7 @@ import React from "react";
 import PipeImage from "@/assets/hero/overview/pipe.png";
 import Buttons from "./hero/Buttons";
 import { HeroCaoursel } from "./hero/HeroCaoursel";
+import QuestBGImage from "@/assets/hero/Quest-bg.svg";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -61,7 +62,6 @@ const TableRow: React.FC<TableRowProps> = ({
     <div
       style={{
         display: "flex",
-        borderRight: "1px solid var(--line, #00477A)",
         borderLeft: "1px solid var(--line, #00477A)",
         ...(isLastRow && { borderBottom: "1px solid var(--line, #00477A)" }),
       }}
@@ -69,7 +69,7 @@ const TableRow: React.FC<TableRowProps> = ({
       <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
         <span style={titleStyle}>{title}</span>
       </div>
-      <div className="w-[650px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-[#00477A] text-left bg-white">
+      <div className="w-[650px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
         {children}
       </div>
     </div>
@@ -112,6 +112,7 @@ const Overview = () => {
 const Quest = () => {
   return (
     <div
+      className="grid-background relative"
       style={{
         display: "flex",
         width: "1360px",
@@ -121,6 +122,11 @@ const Quest = () => {
         gap: "32px",
       }}
     >
+      <Image
+        className="absolute top-[39px] left-0"
+        src={QuestBGImage}
+        alt="QuestBGImage"
+      />
       <h1 className="text-hero-title">Quests</h1>
       <div
         style={{
