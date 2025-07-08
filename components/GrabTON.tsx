@@ -11,7 +11,21 @@ const GrabTON: React.FC = () => {
         </div>
       </div>
       <div className="w-[692px] mt-[80px] ml-[70px] text-center">
-        <div className="text-hero-title-70">
+        <div
+          style={{
+            color: "#00477A",
+            textAlign: "center",
+            textShadow: "2px 2px 0px #00477A",
+            WebkitTextStrokeWidth: "2px",
+            WebkitTextStrokeColor: "#7ED7FF",
+            fontFamily: "'Jersey 10', 'Press Start 2P', monospace",
+            fontSize: "70px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "normal",
+            letterSpacing: "6.3px",
+          }}
+        >
           Do quests, show proof,
           <br />
           grab TON!

@@ -83,30 +83,29 @@
 
   .text-hero-title {
     color: #00477a !important;
-    text-shadow: 2px 2px 0px #00477a;
-    -webkit-text-stroke-width: 3px;
-    -webkit-text-stroke-color: #7ed7ff;
-    font-family: var(--font-jersey-10), "Jersey 10", "Jersey 10 Regular",
-      monospace !important;
+    text-shadow: 2px 2px 0px #00477a !important;
+    -webkit-text-stroke-width: 3px !important;
+    -webkit-text-stroke-color: #7ed7ff !important;
+    font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 90px !important;
     font-style: normal !important;
     font-weight: 400 !important;
     line-height: normal !important;
-    letter-spacing: 2px !important;
+    letter-spacing: 8.1px !important;
   }
 
   .text-hero-title-70 {
     color: #00477a !important;
     text-shadow: 2px 2px 0px #00477a;
-    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #7ed7ff;
-    font-family: var(--font-jersey-10), "Jersey 10", "Jersey 10 Regular",
-      monospace !important;
+    font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 70px !important;
     font-style: normal !important;
-    font-weight: 400 !important;
+    font-weight: 700 !important;
     line-height: normal !important;
-    letter-spacing: 2px !important;
+    letter-spacing: 6.3px !important;
+    text-align: center !important;
   }
 
   .text-hero-title-70-compact {
@@ -114,8 +113,7 @@
     text-shadow: 2px 2px 0px #00477a;
     -webkit-text-stroke-width: 3px;
     -webkit-text-stroke-color: #7ed7ff;
-    font-family: var(--font-jersey-10), "Jersey 10", "Jersey 10 Regular",
-      monospace !important;
+    font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 70px !important;
     font-style: normal !important;
     font-weight: 400 !important;
