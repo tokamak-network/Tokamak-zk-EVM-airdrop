@@ -1,12 +1,21 @@
 import React from "react";
 import CarouselItemImage from "@/assets/header/carousel-item.svg";
 import LogoImage from "@/assets/header/logo.svg";
+import SwatchImage from "@/assets/header/swatch.svg";
 import Image from "next/image";
 import { Lines } from "./common/lines";
 
 const Banner = () => {
   return (
-    <div className="relative h-[144px] bg-gradient-to-r from-[#7AC8FF] to-[#159CFC] overflow-hidden">
+    <div
+      className="relative h-[144px] overflow-hidden"
+      style={{
+        backgroundImage: `url(${SwatchImage.src || SwatchImage})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "192px 192px",
+        backgroundPosition: "top left",
+      }}
+    >
       {/* 무한 스크롤 컨테이너 */}
       <div className="absolute inset-0 flex items-center">
         <div className="flex animate-scroll-right">
