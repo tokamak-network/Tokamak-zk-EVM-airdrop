@@ -7,7 +7,7 @@ const FAQ = () => {
   return (
     <div className="flex w-full items-center justify-center bg-[#CCEFFF]">
       <div
-        className="flex justify-between relative h-[947px]"
+        className="flex justify-between relative h-[924px]"
         style={{
           display: "flex",
           width: "1360px",

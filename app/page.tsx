@@ -1,11 +1,9 @@
 import React from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import AirdropSection from "@/components/AirdropSection";
-import HowItWorks from "@/components/HowItWorks";
-import Stats from "@/components/Stats";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import GrabTON from "@/components/GrabTON";
 
 export default function Home() {
   return (
@@ -13,6 +11,7 @@ export default function Home() {
       <Header />
       <Hero />
       <FAQ />
+      <GrabTON />
       <Footer />
     </main>
   );
