@@ -105,14 +105,39 @@ const Banner = () => {
 
 const Navigation = () => {
   return (
-    <div className="h-[80px] flex items-center pl-[40px] border-t-[2px] border-b-[2px] border-[#111111] gap-x-[112px]">
-      <Image src={LogoImage} alt="logo" />
-      <div className="flex gap-x-[72px] font-[500]">
-        <span style={{ cursor: "pointer" }}>Overview</span>
-        <span style={{ cursor: "pointer" }}>Quests</span>
-        <span style={{ cursor: "pointer" }}>Proof</span>
-        <span style={{ cursor: "pointer" }}>FAQ</span>
+    <div className="h-[80px] flex items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111]">
+      <div className="flex items-center gap-x-[112px]">
+        <Image src={LogoImage} alt="logo" />
+        <div className="flex gap-x-[72px] font-[500]">
+          <span style={{ cursor: "pointer" }}>Overview</span>
+          <span style={{ cursor: "pointer" }}>Quests</span>
+          <span style={{ cursor: "pointer" }}>Proof</span>
+          <span style={{ cursor: "pointer" }}>FAQ</span>
+        </div>
       </div>
+
+      {/* Start Now 버튼 */}
+      <button
+        style={{
+          display: "flex",
+          padding: "0px 32px",
+          alignItems: "center",
+          gap: "72px",
+          alignSelf: "stretch",
+          borderLeft: "2px solid #00477A",
+          background: "#008BEE",
+          color: "#FFF",
+          fontFamily: '"IBM Plex Mono"',
+          fontSize: "20px",
+          fontStyle: "normal",
+          fontWeight: 600,
+          lineHeight: "normal",
+          letterSpacing: "-0.1px",
+          cursor: "pointer",
+        }}
+      >
+        Start Now
+      </button>
     </div>
   );
 };
