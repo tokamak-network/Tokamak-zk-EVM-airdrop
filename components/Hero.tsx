@@ -8,20 +8,7 @@ const Overview = () => {
     <div className="w-full grid-background flex justify-center">
       <div className="flex w-full max-w-[1440px] h-[700px] pl-[72px] gap-x-[97px] items-center">
         <div className="flex flex-col justify-between min-w-[630px] max-w-[630px] h-[472px]">
-          <div
-            style={{
-              color: "#00477A",
-              textShadow: "2px 2px 0px #00477A",
-              WebkitTextStrokeWidth: "3px",
-              WebkitTextStrokeColor: "#7ED7FF",
-              fontFamily: "'Jersey 10'",
-              fontSize: "90px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-              letterSpacing: "8.1px",
-            }}
-          >
+          <div className="text-hero-title">
             <div>Experience</div>
             <div>Tokamak zk-EVM</div>
             <div>on Playground</div>

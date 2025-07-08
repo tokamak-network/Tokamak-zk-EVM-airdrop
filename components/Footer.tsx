@@ -32,7 +32,10 @@ const Footer: React.FC = () => {
       {/* 오른쪽 - 소셜 미디어 */}
       <div style={{ display: "flex", gap: "32px", alignItems: "center" }}>
         {/* X (Twitter) 아이콘 */}
-        <div
+        <a
+          href="https://twitter.com/tokamak_network"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             width: "20px",
             height: "20px",
@@ -64,10 +67,13 @@ const Footer: React.FC = () => {
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </a>
 
         {/* Medium 아이콘 */}
-        <div
+        <a
+          href="https://medium.com/tokamak-network"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             width: "20px",
             height: "11.354px",
@@ -95,10 +101,13 @@ const Footer: React.FC = () => {
               fill="#CCEFFF"
             />
           </svg>
-        </div>
+        </a>
 
         {/* GitHub 아이콘 */}
-        <div
+        <a
+          href="https://github.com/tokamak-network"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             width: "20px",
             height: "20px",
@@ -130,7 +139,7 @@ const Footer: React.FC = () => {
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </a>
 
         {/* YouTube 아이콘 */}
         <div
@@ -170,7 +179,10 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Telegram 아이콘 */}
-        <div
+        <a
+          href="https://t.me/tokamak_network"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             width: "20px",
             height: "20px",
@@ -204,7 +216,7 @@ const Footer: React.FC = () => {
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </a>
       </div>
     </footer>
   );

@@ -83,9 +83,10 @@
 
   .text-hero-title {
     color: #00477a !important;
-    text-shadow: 2px 2px 0px #00477a !important;
-    -webkit-text-stroke-width: 3px !important;
-    -webkit-text-stroke-color: #7ed7ff !important;
+    text-shadow: -2px -2px 0 #7ed7ff, -2px 0 0 #7ed7ff, -2px 2px 0 #7ed7ff,
+      0 -2px 0 #7ed7ff, 0 2px 0 #7ed7ff, 2px -2px 0 #7ed7ff, 2px 0 0 #7ed7ff,
+      2px 2px 0 #7ed7ff !important;
+    filter: drop-shadow(2px 2px 0 #00477a) !important;
     font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 90px !important;
     font-style: normal !important;
@@ -96,9 +97,10 @@
 
   .text-hero-title-70 {
     color: #00477a !important;
-    text-shadow: 2px 2px 0px #00477a;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #7ed7ff;
+    text-shadow: -2px -2px 0 #7ed7ff, -2px 0 0 #7ed7ff, -2px 2px 0 #7ed7ff,
+      0 -2px 0 #7ed7ff, 0 2px 0 #7ed7ff, 2px -2px 0 #7ed7ff, 2px 0 0 #7ed7ff,
+      2px 2px 0 #7ed7ff !important;
+    filter: drop-shadow(2px 2px 0 #00477a) !important;
     font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 70px !important;
     font-style: normal !important;
@@ -110,9 +112,10 @@
 
   .text-hero-title-70-compact {
     color: #00477a !important;
-    text-shadow: 2px 2px 0px #00477a;
-    -webkit-text-stroke-width: 3px;
-    -webkit-text-stroke-color: #7ed7ff;
+    text-shadow: -2px -2px 0 #7ed7ff, -2px 0 0 #7ed7ff, -2px 2px 0 #7ed7ff,
+      0 -2px 0 #7ed7ff, 0 2px 0 #7ed7ff, 2px -2px 0 #7ed7ff, 2px 0 0 #7ed7ff,
+      2px 2px 0 #7ed7ff !important;
+    filter: drop-shadow(2px 2px 0 #00477a) !important;
     font-family: "Jersey 10", "Press Start 2P", monospace !important;
     font-size: 70px !important;
     font-style: normal !important;
