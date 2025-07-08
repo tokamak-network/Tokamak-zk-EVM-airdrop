@@ -2,7 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
-import QuestBGImage from "@/assets/hero/Quest-bg.svg";
+import QuestBGImage from "@/assets/hero/quest-bg.png";
+import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -55,6 +56,78 @@ const rewardStyle = {
   letterSpacing: "-0.09px",
 };
 
+const notesCellStyle = {
+  flex: "1 0 0",
+  color: "var(--text, #002139)",
+  fontFamily: '"IBM Plex Mono"',
+  fontSize: "16px",
+  fontStyle: "normal" as const,
+  fontWeight: "400",
+  lineHeight: "normal",
+  letterSpacing: "-0.08px",
+};
+
+const ArrowIcon = () => (
+  <div
+    className="flex-shrink-0"
+    style={{
+      width: "21px",
+      height: "12px",
+    }}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="24"
+      viewBox="0 0 14 24"
+      fill="none"
+    >
+      <g filter="url(#filter0_d_1588_115946)">
+        <path
+          d="M2.50422e-07 0.000488138L3 0.000488174L3 3.00049L6 3.00049L6 6.00049L9 6.00049L9 9.00049L12 9.00049L12 12.0005L9 12.0005L9 15.0005L6 15.0005L6 18.0005L3 18.0005L3 21.0005L0 21.0005L2.50422e-07 0.000488138Z"
+          fill="#00CCEC"
+        />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_1588_115946"
+          x="0"
+          y="0.000488281"
+          width="14"
+          height="24"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dx="2" dy="3" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0.211765 0 0 0 0 0.34902 0 0 0 0 0.411765 0 0 0 1 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_1588_115946"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_1588_115946"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  </div>
+);
+
 // 테이블 행 컴포넌트
 interface TableRowProps {
   title: string;
@@ -72,7 +145,6 @@ const TableRow: React.FC<TableRowProps> = ({
       style={{
         display: "flex",
         borderLeft: "1px solid var(--line, #00477A)",
-        ...(isLastRow && { borderBottom: "1px solid var(--line, #00477A)" }),
       }}
     >
       <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
@@ -104,7 +176,6 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
       style={{
         display: "flex",
         borderLeft: "1px solid var(--line, #00477A)",
-        ...(isLastRow && { borderBottom: "1px solid var(--line, #00477A)" }),
       }}
     >
       {/* 첫번째 칸 - 250px */}
@@ -227,9 +298,9 @@ const QuestBoard = () => {
       }}
     >
       <Image
-        className="absolute top-[39px] left-0"
-        src={QuestBGImage}
-        alt="QuestBGImage"
+        className="absolute top-[229px] right-0"
+        src={QuestBoardBGImage}
+        alt="QuestBoardBGImage"
       />
       <h1 className="text-hero-title">Quest Board</h1>
       <div
@@ -312,6 +383,120 @@ const QuestBoard = () => {
   );
 };
 
+const Notes = () => {
+  return (
+    <div
+      className="grid-background relative"
+      style={{
+        display: "flex",
+        width: "1360px",
+        padding: "58px 0px",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "32px",
+      }}
+    >
+      <h1 className="text-hero-title">Notes</h1>
+      <div
+        style={{
+          display: "flex",
+          width: "900px",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          border: "1px solid var(--line, #00477A)",
+          background: "#FFF",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            Only one submission per wallet address is allowed
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            Submissions with copied content may be excluded from rewards
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            Make sure to enter accurate details — changes won't be allowed later
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            In the event of a tie, submission time and feedback quality will be
+            considered
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+          }}
+        >
+          <ArrowIcon />
+          <div style={notesCellStyle}>
+            <div className="font-bold">
+              Minimum and recommended system requirements:
+            </div>
+            <div>
+              <div>Minimum: at least 16GB RAM</div>
+              <div>Recommended: GPU supporting CUDA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const QuestSection = () => {
   return (
     <div className="w-full flex flex-col items-center gap-[40px] p-[40px] bg-[#ccefff]">
@@ -333,6 +518,7 @@ const QuestSection = () => {
         <HeroCaoursel />
         <QuestBoard />
         <HeroCaoursel />
+        <Notes />
       </div>
     </div>
   );
