@@ -202,7 +202,7 @@ const Quest = () => {
       className="grid-background relative"
       style={{
         display: "flex",
-        width: "1360px",
+        width: "1356px",
         padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
@@ -290,7 +290,7 @@ const QuestBoard = () => {
       className="grid-background relative"
       style={{
         display: "flex",
-        width: "1360px",
+        width: "1356px",
         padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
@@ -389,7 +389,7 @@ const Notes = () => {
       className="grid-background relative"
       style={{
         display: "flex",
-        width: "1360px",
+        width: "1356px",
         padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
