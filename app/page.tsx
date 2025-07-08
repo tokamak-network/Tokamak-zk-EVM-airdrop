@@ -12,9 +12,6 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50">
       <Header />
       <Hero />
-      <Stats />
-      <AirdropSection />
-      <HowItWorks />
       <FAQ />
       <Footer />
     </main>

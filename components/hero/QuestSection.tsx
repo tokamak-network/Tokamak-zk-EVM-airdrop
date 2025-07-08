@@ -214,7 +214,7 @@ const Quest = () => {
         src={QuestBGImage}
         alt="QuestBGImage"
       />
-      <h1 className="text-hero-title">Quests</h1>
+      <h1 className="text-hero-title-70">Quests</h1>
       <div
         style={{
           display: "flex",
@@ -302,7 +302,7 @@ const QuestBoard = () => {
         src={QuestBoardBGImage}
         alt="QuestBoardBGImage"
       />
-      <h1 className="text-hero-title">Quest Board</h1>
+      <h1 className="text-hero-title-70">Quest Board</h1>
       <div
         style={{
           display: "flex",
@@ -396,7 +396,7 @@ const Notes = () => {
         gap: "32px",
       }}
     >
-      <h1 className="text-hero-title">Notes</h1>
+      <h1 className="text-hero-title-70">Notes</h1>
       <div
         style={{
           display: "flex",
