@@ -18,7 +18,11 @@ const FAQ = () => {
             <Image className="" src={PipeTopImage} alt="piep_top" />
           </div>
           <div className="absolute top-[37px] left-[-30px]">
-            <Image src={ProofDashboardImage} alt="ProofDashboardImage" />
+            <Image
+              src={ProofDashboardImage}
+              alt="ProofDashboardImage"
+              className="w-[720px] h-[827px]"
+            />
           </div>
         </div>
 

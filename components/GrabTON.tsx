@@ -8,7 +8,11 @@ const GrabTON: React.FC = () => {
     <div className="grid-background w-full h-[380px] relative flex px-[30px] justify-between">
       <div className="w-[712px]">
         <div className="absolute top-[-76px] left-[0]">
-          <Image src={FooterTankImage} alt="FooterTankImage" />
+          <Image
+            src={FooterTankImage}
+            alt="FooterTankImage"
+            className="w-auto h-[389px]"
+          />
         </div>
       </div>
       <div className="w-[700px] mt-[82px] text-center flex flex-col items-center gap-y-[28px]">

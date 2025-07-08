@@ -6,7 +6,7 @@ import QuestSection from "./hero/QuestSection";
 const Overview = () => {
   return (
     <div className="w-full grid-background flex justify-center">
-      <div className="flex w-full max-w-[1440px] h-[700px] pl-[72px] gap-x-[97px] items-center">
+      <div className="relative flex w-full  h-[700px] pl-[72px] items-center">
         <div className="flex flex-col justify-between min-w-[630px] max-w-[630px] h-[472px]">
           <div className="text-hero-title">
             <div>Experience</div>
@@ -30,7 +30,11 @@ const Overview = () => {
             <span>and earn TON.</span>
           </div>
         </div>
-        <Image src={PipeImage} alt="overview" />
+        <Image
+          src={PipeImage}
+          alt="overview"
+          className="absolute bottom-0 right-0 w-auto h-[550px]"
+        />
       </div>
     </div>
   );

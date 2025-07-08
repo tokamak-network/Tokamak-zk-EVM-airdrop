@@ -210,7 +210,7 @@ const Quest = () => {
       }}
     >
       <Image
-        className="absolute top-[39px] left-0"
+        className="absolute top-[39px] left-0 w-[332px] h-[367px]"
         src={QuestBGImage}
         alt="QuestBGImage"
       />
