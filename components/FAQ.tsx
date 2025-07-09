@@ -1,6 +1,7 @@
 import React from "react";
 import ProofDesktop from "./ProofDesktop";
 import ProofMobile from "./ProofMobile";
+import FAQMobile from "./FAQMobile";
 
 const FAQ = () => {
   return (
@@ -338,11 +339,8 @@ const FAQ = () => {
       </div>
 
       {/* Mobile Layout - FAQ 질문들 */}
-      <div className="desktop:hidden w-full bg-[#CCEFFF] px-[20px] py-[32px]">
-        <div className="flex flex-col items-center gap-[32px]">
-          <h1 className="text-hero-title-70">FAQ</h1>
-          {/* FAQ 모바일 버전도 여기에 추가 예정 */}
-        </div>
+      <div className="desktop:hidden w-full bg-[#CCEFFF]">
+        <FAQMobile />
       </div>
     </div>
   );

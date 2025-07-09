@@ -36,6 +36,25 @@ export const GrabTONButton = () => {
   );
 };
 
+export const FAQMobileButtons = () => {
+  return (
+    <div className="flex items-center gap-4 max-800:flex-col max-800:gap-4 self-stretch justify-center">
+      <Image
+        src={CTA_4}
+        alt="Start on Desktop"
+        style={{ cursor: "pointer" }}
+        draggable={false}
+      />
+      <Image
+        src={CTA_2_MOBILE}
+        alt="Submit Proof"
+        style={{ cursor: "pointer" }}
+        draggable={false}
+      />
+    </div>
+  );
+};
+
 export default function Buttons() {
   return (
     <div className="flex items-center gap-10 max-800:flex-col max-800:gap-4">
