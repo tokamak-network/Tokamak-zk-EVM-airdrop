@@ -84,7 +84,7 @@ const ArrowIcon = () => (
     className="flex-shrink-0"
     style={{
       width: "21px",
-      height: "12px",
+      height: "21px",
     }}
   >
     <svg
@@ -653,23 +653,52 @@ const QuestBoard = () => {
   );
 };
 
+// Notes Mobile Card 컴포넌트
+interface NotesMobileCardProps {
+  children: React.ReactNode;
+  isLastRow?: boolean;
+}
+
+const NotesMobileCard: React.FC<NotesMobileCardProps> = ({
+  children,
+  isLastRow = false,
+}) => {
+  return (
+    <div
+      className="w-full border border-[#00477A] bg-white"
+      style={{
+        marginBottom: isLastRow ? "0" : "16px",
+      }}
+    >
+      <div className="px-[20px] py-[12px] bg-white flex items-center gap-[16px]">
+        <div className="flex-shrink-0">
+          <ArrowIcon />
+        </div>
+        <div className="flex-1" style={mobileContentStyle}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Notes = () => {
   return (
     <div
-      className="grid-background relative w-full desktop:w-[1356px] px-[16px] desktop:px-0"
+      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
       style={{
         display: "flex",
-        padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
         gap: "32px",
       }}
     >
       <h1 className="text-hero-title-70">Notes</h1>
+
+      {/* Desktop Layout */}
       <div
-        className="w-full desktop:w-[900px]"
+        className="hidden desktop:flex w-full desktop:w-[900px]"
         style={{
-          display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
           border: "1px solid var(--line, #00477A)",
@@ -761,6 +790,38 @@ const Notes = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="desktop:hidden w-full flex flex-col">
+        <NotesMobileCard>
+          Only one submission per wallet address is allowed
+        </NotesMobileCard>
+
+        <NotesMobileCard>
+          Submissions with copied content may be excluded from rewards
+        </NotesMobileCard>
+
+        <NotesMobileCard>
+          Make sure to enter accurate details — changes won't be allowed later
+        </NotesMobileCard>
+
+        <NotesMobileCard>
+          In the event of a tie, submission time and feedback quality will be
+          considered
+        </NotesMobileCard>
+
+        <NotesMobileCard isLastRow>
+          <div>
+            <div className="font-bold">
+              Minimum and recommended system requirements:
+            </div>
+            <div>
+              <div>Minimum: at least 16GB RAM</div>
+              <div>Recommended: GPU supporting CUDA</div>
+            </div>
+          </div>
+        </NotesMobileCard>
       </div>
     </div>
   );
