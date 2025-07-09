@@ -38,17 +38,15 @@ const FAQButtonIcon = () => (
 
 // FAQ Answer Component
 interface FAQAnswerProps {
-  answer: string;
+  answer: string | React.ReactNode;
 }
 
 const FAQAnswer: React.FC<FAQAnswerProps> = ({ answer }) => {
   return (
     <div
       style={{
-        display: "flex",
+        display: "block",
         padding: "12px 20px",
-        alignItems: "center",
-        gap: "16px",
         alignSelf: "stretch",
         borderRight: "1px solid var(--line, #00477A)",
         borderBottom: "1px solid var(--line, #00477A)",
@@ -77,7 +75,7 @@ const FAQAnswer: React.FC<FAQAnswerProps> = ({ answer }) => {
 // FAQ Card Component
 interface FAQCardProps {
   question: string;
-  answer: string;
+  answer: string | React.ReactNode;
   isOpen: boolean;
   onToggle: () => void;
 }
@@ -150,8 +148,17 @@ const FAQMobile = () => {
     },
     {
       question: "Q3. How do I know if my proof is valid?",
-      answer:
-        "If the water tank shows 1 (True), it means your proof is valid.\n\nOnce you send us the ZKP, we'll verify it on-chain for you. You can check the status of your proof [here].",
+      answer: (
+        <>
+          If the water tank shows 1 (True), it means your proof is valid.
+          <br />
+          <br />
+          Once you send us the ZKP, we'll verify it on-chain for you.
+          <br />
+          You can check the status of your proof [
+          <span style={{ fontWeight: "bold" }}>here</span>].
+        </>
+      ),
     },
     {
       question: "Q4. What can I do in Playground?",

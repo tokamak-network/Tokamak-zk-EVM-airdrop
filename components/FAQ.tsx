@@ -195,10 +195,8 @@ const FAQ = () => {
                 {/* 답변 영역 */}
                 <div
                   style={{
-                    display: "flex",
+                    display: "block",
                     padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
                     alignSelf: "stretch",
                     background: "#ECF9FF",
                     color: "var(--text, #002139)",
@@ -214,7 +212,9 @@ const FAQ = () => {
                   <br />
                   <br />
                   Once you send us the ZKP, we'll verify it on-chain for you.
-                  You can check the status of your proof [here].
+                  <br />
+                  You can check the status of your proof [
+                  <span style={{ fontWeight: "bold" }}>here</span>].
                 </div>
               </div>
 

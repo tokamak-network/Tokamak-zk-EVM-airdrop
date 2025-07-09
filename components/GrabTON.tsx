@@ -15,7 +15,7 @@ const GrabTON: React.FC = () => {
           />
         </div>
       </div>
-      <div className="w-[700px] mt-[82px] text-center flex flex-col items-center gap-y-[28px]">
+      <div className="w-[850px] mt-[82px] text-center flex flex-col items-center gap-y-[28px]">
         <div className="text-hero-title-70">
           Do quests, show proof,
           <br />
