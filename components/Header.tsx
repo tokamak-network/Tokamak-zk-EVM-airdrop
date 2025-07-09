@@ -10,7 +10,7 @@ import { Lines } from "./common/lines";
 const Banner = () => {
   return (
     <div
-      className="relative h-[144px] overflow-hidden"
+      className="desktop:block hidden relative h-[144px] overflow-hidden"
       style={{
         backgroundImage: `url(${SwatchImage.src || SwatchImage})`,
         backgroundRepeat: "repeat",
@@ -126,60 +126,158 @@ const Navigation = () => {
   };
 
   return (
-    <div className="h-[80px] flex items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111]">
-      <div className="flex items-center gap-x-[112px]">
-        <Image src={LogoImage} alt="logo" />
-        <div className="flex gap-x-[72px] font-[500]">
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => scrollToSection("overview")}
-          >
-            Overview
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => scrollToSection("quest")}
-          >
-            Quests
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => scrollToSection("proof-dashboard")}
-          >
-            Proof
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => scrollToSection("faq")}
-          >
-            FAQ
-          </span>
-        </div>
+    <>
+      {/* Mobile Logo Section */}
+      <div className="desktop:hidden flex justify-center items-center bg-white py-4">
+        <Image
+          src={LogoImage}
+          alt="logo"
+          style={{
+            width: "318px",
+            height: "27px",
+            flexShrink: 0,
+            aspectRatio: "106/9",
+          }}
+        />
       </div>
 
-      {/* Start Now 버튼 */}
-      <button
+      {/* Desktop Navigation */}
+      <div className="hidden desktop:flex h-[80px] items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111]">
+        <div className="flex items-center gap-x-[112px]">
+          <Image src={LogoImage} alt="logo" />
+          <div className="flex gap-x-[72px] font-[500]">
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => scrollToSection("overview")}
+            >
+              Overview
+            </span>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => scrollToSection("quest")}
+            >
+              Quests
+            </span>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => scrollToSection("proof-dashboard")}
+            >
+              Proof
+            </span>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => scrollToSection("faq")}
+            >
+              FAQ
+            </span>
+          </div>
+        </div>
+
+        {/* Start Now 버튼 */}
+        <button
+          style={{
+            display: "flex",
+            padding: "0px 32px",
+            alignItems: "center",
+            gap: "72px",
+            alignSelf: "stretch",
+            borderLeft: "2px solid #00477A",
+            background: "#008BEE",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "20px",
+            fontStyle: "normal",
+            fontWeight: 600,
+            lineHeight: "normal",
+            letterSpacing: "-0.1px",
+            cursor: "pointer",
+          }}
+        >
+          Start Now
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div
+        className="desktop:hidden flex w-full"
         style={{
-          display: "flex",
-          padding: "0px 32px",
-          alignItems: "center",
-          gap: "72px",
-          alignSelf: "stretch",
-          borderLeft: "2px solid #00477A",
-          background: "#008BEE",
-          color: "#FFF",
-          fontFamily: '"IBM Plex Mono"',
-          fontSize: "20px",
-          fontStyle: "normal",
-          fontWeight: 600,
-          lineHeight: "normal",
-          letterSpacing: "-0.1px",
-          cursor: "pointer",
+          borderTop: "2px solid var(--line, #00477A)",
+          borderBottom: "2px solid var(--line, #00477A)",
         }}
       >
-        Start Now
-      </button>
-    </div>
+        <div
+          className="flex cursor-pointer"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 0 0",
+            alignSelf: "stretch",
+            background: "#008BEE",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "22px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            letterSpacing: "-0.11px",
+            padding: "16px 0",
+            borderRight: "2px solid var(--line, #00477A)",
+          }}
+          onClick={() => scrollToSection("quest")}
+        >
+          Quests
+        </div>
+        <div
+          className="flex cursor-pointer"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 0 0",
+            alignSelf: "stretch",
+            background: "#008BEE",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "22px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            letterSpacing: "-0.11px",
+            padding: "16px 0",
+            borderRight: "2px solid var(--line, #00477A)",
+          }}
+          onClick={() => scrollToSection("proof-dashboard")}
+        >
+          Proof
+        </div>
+        <div
+          className="flex cursor-pointer"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 0 0",
+            alignSelf: "stretch",
+            background: "#008BEE",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "22px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            letterSpacing: "-0.11px",
+            padding: "16px 0",
+          }}
+          onClick={() => scrollToSection("faq")}
+        >
+          FAQ
+        </div>
+      </div>
+    </>
   );
 };
 

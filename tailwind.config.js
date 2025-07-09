@@ -7,6 +7,21 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
+    screens: {
+      xs: "475px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      desktop: "1360px", // 1360px 이상에서 데스크톱 레이아웃
+      "2xl": "1536px",
+      // Max-width breakpoints (반응형 적용 지점)
+      "max-desktop": { max: "1359px" }, // 1359px 이하에서 반응형 적용
+      "max-xl": { max: "1279px" },
+      "max-lg": { max: "1023px" },
+      "max-md": { max: "767px" },
+      "max-sm": { max: "639px" },
+    },
     extend: {
       colors: {
         // 피그마에서 추출한 주요 색상들
