@@ -125,6 +125,13 @@ const Navigation = () => {
     }
   };
 
+  const handlePlaygroundClick = () => {
+    window.open(
+      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+      "_blank"
+    );
+  };
+
   return (
     <>
       {/* Mobile Logo Section */}
@@ -175,6 +182,7 @@ const Navigation = () => {
 
         {/* Start Now 버튼 */}
         <button
+          onClick={handlePlaygroundClick}
           style={{
             display: "flex",
             padding: "0px 32px",
