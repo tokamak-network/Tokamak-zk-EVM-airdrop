@@ -11,7 +11,9 @@ export default function Home() {
       <Header />
       <Hero />
       <FAQ />
-      <GrabTON />
+      <div className="hidden desktop:block">
+        <GrabTON />
+      </div>
       <Footer />
     </main>
   );

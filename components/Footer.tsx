@@ -3,12 +3,8 @@ import React from "react";
 const Footer: React.FC = () => {
   return (
     <footer
-      className="w-full"
+      className="w-full flex justify-between items-center py-6 px-10 max-800:flex-col max-800:justify-center max-800:gap-3 max-800:py-8 max-800:px-0"
       style={{
-        display: "flex",
-        padding: "24px 40px",
-        justifyContent: "space-between",
-        alignItems: "center",
         alignSelf: "stretch",
         background: "var(--line, #00477A)",
       }}
