@@ -95,8 +95,11 @@ const Overview = () => {
 const BorderLine = () => {
   return (
     <div
-      className="h-[2px] bg-[#111111]"
-      style={{ backgroundColor: "#111111" }}
+      className="w-full h-[2px] relative z-10"
+      style={{
+        backgroundColor: "#111111",
+        borderTop: "2px solid #111111",
+      }}
     ></div>
   );
 };

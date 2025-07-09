@@ -26,6 +26,16 @@ const contentStyle = {
   letterSpacing: "-0.09px",
 };
 
+const mobileContentStyle = {
+  color: "var(--text, #002139)",
+  fontFamily: '"IBM Plex Mono"',
+  fontSize: "16px",
+  fontStyle: "normal" as const,
+  fontWeight: "400",
+  lineHeight: "normal",
+  letterSpacing: "-0.08px",
+};
+
 const boldStyle = {
   color: "var(--text, #002139)",
   fontFamily: '"IBM Plex Mono"',
@@ -96,9 +106,9 @@ const ArrowIcon = () => (
           width="14"
           height="24"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -157,6 +167,35 @@ const TableRow: React.FC<TableRowProps> = ({
   );
 };
 
+// 모바일 카드 컴포넌트
+interface MobileCardProps {
+  title: string;
+  children: React.ReactNode;
+  isLastRow?: boolean;
+}
+
+const MobileCard: React.FC<MobileCardProps> = ({
+  title,
+  children,
+  isLastRow = false,
+}) => {
+  return (
+    <div
+      className="w-full border border-[#00477A] bg-white"
+      style={{
+        marginBottom: isLastRow ? "0" : "16px",
+      }}
+    >
+      <div className="px-[20px] py-[12px] bg-[#ECF9FF] border-b border-[#00477A]">
+        <span style={titleStyle}>{title}</span>
+      </div>
+      <div className="px-[20px] py-[12px] bg-white">
+        <div style={mobileContentStyle}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
 // 3칸 테이블 행 컴포넌트
 interface ThreeColumnTableRowProps {
   title: string;
@@ -200,25 +239,25 @@ const Quest = () => {
   return (
     <div
       id="quest"
-      className="grid-background relative"
+      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
       style={{
         display: "flex",
-        width: "1356px",
-        padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
         gap: "32px",
       }}
     >
       <Image
-        className="absolute top-[39px] left-0 w-[332px] h-[367px]"
+        className="hidden desktop:block absolute top-[39px] left-0 w-[332px] h-[367px]"
         src={QuestBGImage}
         alt="QuestBGImage"
       />
       <h1 className="text-hero-title-70">Quests</h1>
+
+      {/* Desktop Layout */}
       <div
+        className="hidden desktop:flex"
         style={{
-          display: "flex",
           width: "900px",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -280,6 +319,57 @@ const Quest = () => {
           </TableRow>
         </div>
       </div>
+
+      {/* Mobile Layout */}
+      <div className="desktop:hidden w-full flex flex-col">
+        <MobileCard title="How to Participate">
+          Complete at least one task from the quest board
+        </MobileCard>
+
+        <MobileCard title="Reward Criteria">
+          Complete at least one task from the mission board to be eligible. Top
+          100 scorers will be rewarded with TON tokens
+        </MobileCard>
+
+        <MobileCard title="Reward Options">
+          <div className="flex flex-col gap-[12px] w-full">
+            <div className="flex flex-col gap-[6px]">
+              <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
+                1.Stake & Earn More (Default Option)
+              </span>
+              <div className="flex flex-col gap-[2px] ml-[12px]">
+                <span style={mobileContentStyle}>
+                  - Lock your reward to receive a 20% bonus.
+                </span>
+                <span style={mobileContentStyle}>
+                  - Example: 100 TON → 120 TON (claimable after lock period)
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-[6px]">
+              <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
+                2.Claim Now (Instant Payout)
+              </span>
+              <div className="flex flex-col gap-[2px] ml-[12px]">
+                <span style={mobileContentStyle}>
+                  - Receive TON immediately with no bonus.
+                </span>
+                <span style={mobileContentStyle}>
+                  - Example: 100 TON → ~83 TON
+                </span>
+              </div>
+            </div>
+          </div>
+        </MobileCard>
+
+        <MobileCard title="Schedule" isLastRow>
+          <div>- Deadline: TBD</div>
+          <div>- Announcement: TBD</div>
+          <div>- Result Rewards Distribution: TBD</div>
+        </MobileCard>
+      </div>
+
       <Buttons />
     </div>
   );
@@ -288,10 +378,9 @@ const Quest = () => {
 const QuestBoard = () => {
   return (
     <div
-      className="grid-background relative"
+      className="grid-background relative w-full desktop:w-[1356px] px-[16px] desktop:px-0"
       style={{
         display: "flex",
-        width: "1356px",
         padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
@@ -299,15 +388,15 @@ const QuestBoard = () => {
       }}
     >
       <Image
-        className="absolute top-[229px] right-0"
+        className="hidden desktop:block absolute top-[229px] right-0"
         src={QuestBoardBGImage}
         alt="QuestBoardBGImage"
       />
       <h1 className="text-hero-title-70">Quest Board</h1>
       <div
+        className="w-full desktop:w-[900px]"
         style={{
           display: "flex",
-          width: "900px",
           flexDirection: "column",
           alignItems: "flex-start",
         }}
@@ -387,10 +476,9 @@ const QuestBoard = () => {
 const Notes = () => {
   return (
     <div
-      className="grid-background relative"
+      className="grid-background relative w-full desktop:w-[1356px] px-[16px] desktop:px-0"
       style={{
         display: "flex",
-        width: "1356px",
         padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
@@ -399,9 +487,9 @@ const Notes = () => {
     >
       <h1 className="text-hero-title-70">Notes</h1>
       <div
+        className="w-full desktop:w-[900px]"
         style={{
           display: "flex",
-          width: "900px",
           flexDirection: "column",
           alignItems: "flex-start",
           border: "1px solid var(--line, #00477A)",
@@ -500,26 +588,69 @@ const Notes = () => {
 
 const QuestSection = () => {
   return (
-    <div className="w-full flex flex-col items-center gap-[40px] p-[40px] bg-[#ccefff]">
-      <h1
-        style={{
-          color: "var(--text, #002139)",
-          fontFamily: '"Jersey 10"',
-          fontSize: "64px",
-          fontStyle: "normal",
-          fontWeight: "400",
-          lineHeight: "normal",
-          letterSpacing: "3.2px",
-        }}
-      >
-        Complete quests, prove what you did, and earn TON
-      </h1>
-      <div className="flex flex-col w-[1360px] border-2 border-[#00477A]">
-        <Quest />
-        <HeroCaoursel />
-        <QuestBoard />
-        <HeroCaoursel />
-        <Notes />
+    <div className="w-full flex flex-col items-center bg-[#ccefff]">
+      {/* Desktop Layout - 기존 구조 유지 */}
+      <div className="hidden desktop:flex w-full flex-col items-center gap-[40px] p-[40px]">
+        <h1
+          className="text-center"
+          style={{
+            color: "var(--text, #002139)",
+            fontFamily: '"Jersey 10"',
+            fontSize: "64px",
+            fontStyle: "normal",
+            fontWeight: "400",
+            lineHeight: "normal",
+            letterSpacing: "3.2px",
+          }}
+        >
+          Complete quests, prove what you did, and earn TON
+        </h1>
+
+        <div className="flex flex-col w-full desktop:w-[1360px] border-2 border-[#00477A]">
+          <Quest />
+          <HeroCaoursel />
+          <QuestBoard />
+          <HeroCaoursel />
+          <Notes />
+        </div>
+      </div>
+
+      {/* Mobile Layout - 분리된 구조 */}
+      <div className="desktop:hidden w-full flex flex-col items-center">
+        {/* Mobile Title Section with padding */}
+        <div className="w-full flex flex-col items-center gap-[20px] py-[20px] px-[20px]">
+          <h1
+            className="text-center"
+            style={{
+              color: "var(--text, #002139)",
+              fontFamily: '"Jersey 10"',
+              fontSize: "64px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "normal",
+              letterSpacing: "3.2px",
+            }}
+          >
+            <div>Complete quests,</div>
+            <div>prove what you did,</div>
+            <div>and earn TON</div>
+          </h1>
+        </div>
+
+        {/* Mobile Top Border Line - 전체 너비 */}
+        <div className="w-full border-t-2 border-[#00477A]"></div>
+
+        {/* Mobile Content Section */}
+        <div className="flex flex-col w-full">
+          <Quest />
+          <HeroCaoursel />
+          <QuestBoard />
+          <HeroCaoursel />
+          <Notes />
+        </div>
+
+        {/* Mobile Bottom Border Line - 전체 너비 */}
+        <div className="w-full border-b-2 border-[#00477A]"></div>
       </div>
     </div>
   );

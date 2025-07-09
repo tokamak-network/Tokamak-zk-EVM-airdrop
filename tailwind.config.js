@@ -19,8 +19,10 @@ module.exports = {
       "max-desktop": { max: "1359px" }, // 1359px 이하에서 반응형 적용
       "max-xl": { max: "1279px" },
       "max-lg": { max: "1023px" },
+      "max-800": { max: "799px" }, // 800px 미만에서 세로 배치
       "max-md": { max: "767px" },
       "max-sm": { max: "639px" },
+      "max-450": { max: "449px" }, // 450px 미만에서 세로 배치
     },
     extend: {
       colors: {
