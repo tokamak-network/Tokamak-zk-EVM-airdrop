@@ -150,7 +150,7 @@ interface TableRowProps {
 const TableRow: React.FC<TableRowProps> = ({
   title,
   children,
-  isLastRow = false,
+  isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
 }) => {
   return (
     <div
@@ -210,7 +210,7 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
   title,
   content,
   reward,
-  isLastRow = false,
+  isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
 }) => {
   return (
     <div
@@ -232,48 +232,6 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
       {/* 세번째 칸 - 105px */}
       <div className="w-[105px] flex items-center justify-start px-[16px] py-[16px] border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
         {reward}
-      </div>
-    </div>
-  );
-};
-
-// QuestBoard용 2행 테이블 컴포넌트 (제목+리워드가 같은 행, 내용이 아래 행)
-interface QuestBoardRowProps {
-  title: string;
-  content: React.ReactNode;
-  reward: React.ReactNode;
-  isLastRow?: boolean;
-}
-
-const QuestBoardRow: React.FC<QuestBoardRowProps> = ({
-  title,
-  content,
-  reward,
-  isLastRow = false,
-}) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        borderLeft: "1px solid var(--line, #00477A)",
-      }}
-    >
-      {/* 제목 + 리워드 행 */}
-      <div style={{ display: "flex" }}>
-        <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF] py-[16px]">
-          <span style={titleStyle}>{title}</span>
-        </div>
-        <div className="w-[650px] flex items-center justify-end px-[20px] py-[16px] border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
-          {reward}
-        </div>
-      </div>
-
-      {/* 내용 행 */}
-      <div style={{ display: "flex" }}>
-        <div className="w-[900px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
-          {content}
-        </div>
       </div>
     </div>
   );
