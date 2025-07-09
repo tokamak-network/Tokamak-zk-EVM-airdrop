@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import CarouselItemImage from "@/assets/header/carousel-item.svg";
 import LogoImage from "@/assets/header/logo.svg";
@@ -113,15 +115,45 @@ const Banner = () => {
 };
 
 const Navigation = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <div className="h-[80px] flex items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111]">
       <div className="flex items-center gap-x-[112px]">
         <Image src={LogoImage} alt="logo" />
         <div className="flex gap-x-[72px] font-[500]">
-          <span style={{ cursor: "pointer" }}>Overview</span>
-          <span style={{ cursor: "pointer" }}>Quests</span>
-          <span style={{ cursor: "pointer" }}>Proof</span>
-          <span style={{ cursor: "pointer" }}>FAQ</span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => scrollToSection("overview")}
+          >
+            Overview
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => scrollToSection("quest")}
+          >
+            Quests
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => scrollToSection("proof-dashboard")}
+          >
+            Proof
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => scrollToSection("faq")}
+          >
+            FAQ
+          </span>
         </div>
       </div>
 

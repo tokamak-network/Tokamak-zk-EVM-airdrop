@@ -5,11 +5,11 @@ import QuestSection from "./hero/QuestSection";
 
 const Overview = () => {
   return (
-    <div className="w-full grid-background flex justify-center">
+    <div id="overview" className="w-full grid-background flex justify-center">
       <div className="relative flex w-full  h-[700px] pl-[72px] items-center">
         <div className="flex flex-col justify-between min-w-[630px] max-w-[630px] h-[472px]">
           <div className="text-hero-title">
-            <div>Experience</div>
+            <div>Experiehnce</div>
             <div>Tokamak zk-EVM</div>
             <div>on Playground</div>
           </div>

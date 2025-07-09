@@ -199,6 +199,7 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
 const Quest = () => {
   return (
     <div
+      id="quest"
       className="grid-background relative"
       style={{
         display: "flex",

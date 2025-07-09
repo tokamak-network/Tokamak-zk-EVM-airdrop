@@ -7,6 +7,7 @@ const FAQ = () => {
   return (
     <div className="flex w-full items-center justify-center bg-[#CCEFFF]">
       <div
+        id="proof-dashboard"
         className="flex justify-between relative h-[924px]"
         style={{
           display: "flex",
@@ -28,6 +29,7 @@ const FAQ = () => {
 
         {/* FAQ 섹션 - 오른쪽 */}
         <div
+          id="faq"
           className="gap-y-[32px] pt-[18px]"
           style={{
             display: "flex",
