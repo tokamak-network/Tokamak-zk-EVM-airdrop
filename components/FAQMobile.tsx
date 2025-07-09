@@ -65,6 +65,7 @@ const FAQAnswer: React.FC<FAQAnswerProps> = ({ answer }) => {
           fontWeight: 400,
           lineHeight: "normal",
           letterSpacing: "-0.08px",
+          whiteSpace: "pre-line",
         }}
       >
         {answer}
@@ -145,7 +146,7 @@ const FAQMobile = () => {
     {
       question: "Q2. Do I have to complete all missions?",
       answer:
-        "Nope! You can earn TON rewards even by completing a single task. But we highly recommend completing all missions to maximize your rewards.",
+        "Nope!\nYou can earn TON rewards even by completing a single task. But we highly recommend completing all missions to maximize your rewards.",
     },
     {
       question: "Q3. How do I know if my proof is valid?",
