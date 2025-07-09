@@ -4,6 +4,8 @@ import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
 import QuestBGImage from "@/assets/hero/quest-bg.png";
 import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
+import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
+import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -235,6 +237,108 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
   );
 };
 
+// QuestBoard용 2행 테이블 컴포넌트 (제목+리워드가 같은 행, 내용이 아래 행)
+interface QuestBoardRowProps {
+  title: string;
+  content: React.ReactNode;
+  reward: React.ReactNode;
+  isLastRow?: boolean;
+}
+
+const QuestBoardRow: React.FC<QuestBoardRowProps> = ({
+  title,
+  content,
+  reward,
+  isLastRow = false,
+}) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        borderLeft: "1px solid var(--line, #00477A)",
+      }}
+    >
+      {/* 제목 + 리워드 행 */}
+      <div style={{ display: "flex" }}>
+        <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF] py-[16px]">
+          <span style={titleStyle}>{title}</span>
+        </div>
+        <div className="w-[650px] flex items-center justify-end px-[20px] py-[16px] border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
+          {reward}
+        </div>
+      </div>
+
+      {/* 내용 행 */}
+      <div style={{ display: "flex" }}>
+        <div className="w-[900px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
+          {content}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// QuestBoard용 모바일 카드 컴포넌트
+interface QuestBoardMobileCardProps {
+  title: string;
+  content: React.ReactNode;
+  reward: React.ReactNode;
+  isLastRow?: boolean;
+}
+
+const QuestBoardMobileCard: React.FC<QuestBoardMobileCardProps> = ({
+  title,
+  content,
+  reward,
+  isLastRow = false,
+}) => {
+  const mobileTitleStyle = {
+    ...titleStyle,
+    fontSize: "16px",
+    lineHeight: "1.3",
+  };
+
+  const mobileRewardStyle = {
+    color: "#008BEE",
+    fontFamily: '"IBM Plex Mono"',
+    fontSize: "16px",
+    fontStyle: "normal" as const,
+    fontWeight: "700",
+    lineHeight: "1.3",
+    letterSpacing: "-0.08px",
+  };
+
+  const mobileUnifiedContentStyle = {
+    ...mobileContentStyle,
+    fontSize: "16px",
+  };
+
+  return (
+    <div
+      className="w-full border border-[#00477A] bg-white"
+      style={{
+        marginBottom: isLastRow ? "0" : "8px",
+      }}
+    >
+      <div className="px-[20px] py-[12px] bg-[#ECF9FF] border-b border-[#00477A] flex items-center gap-[12px]">
+        <div className="flex-1" style={mobileTitleStyle}>
+          {title}
+        </div>
+        <div
+          className="flex-shrink-0 flex items-center"
+          style={{ textAlign: "right", minHeight: "20px" }}
+        >
+          <div style={mobileRewardStyle}>{reward}</div>
+        </div>
+      </div>
+      <div className="px-[20px] py-[12px] bg-white">
+        <div style={mobileUnifiedContentStyle}>{content}</div>
+      </div>
+    </div>
+  );
+};
+
 const Quest = () => {
   return (
     <div
@@ -375,13 +479,37 @@ const Quest = () => {
   );
 };
 
+// Submit Proof Button 컴포넌트
+const SubmitProofButton = () => {
+  return (
+    <div className="flex items-center justify-center">
+      {/* 데스크탑용 CTA_2 (1360px 이상에서 표시) */}
+      <Image
+        src={CTA_2}
+        alt="submit proof"
+        style={{ cursor: "pointer" }}
+        draggable={false}
+        className="hidden desktop:block"
+      />
+
+      {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
+      <Image
+        src={CTA_2_MOBILE}
+        alt="submit proof"
+        style={{ cursor: "pointer" }}
+        draggable={false}
+        className="block desktop:hidden"
+      />
+    </div>
+  );
+};
+
 const QuestBoard = () => {
   return (
     <div
-      className="grid-background relative w-full desktop:w-[1356px] px-[16px] desktop:px-0"
+      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
       style={{
         display: "flex",
-        padding: "58px 0px",
         flexDirection: "column",
         alignItems: "center",
         gap: "32px",
@@ -393,10 +521,11 @@ const QuestBoard = () => {
         alt="QuestBoardBGImage"
       />
       <h1 className="text-hero-title-70">Quest Board</h1>
+
+      {/* Desktop Layout - 기존 디자인 유지 */}
       <div
-        className="w-full desktop:w-[900px]"
+        className="hidden desktop:flex w-full desktop:w-[900px]"
         style={{
-          display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
         }}
@@ -468,7 +597,58 @@ const QuestBoard = () => {
           />
         </div>
       </div>
-      <Buttons />
+
+      {/* Mobile Layout */}
+      <div className="desktop:hidden w-full flex flex-col">
+        <QuestBoardMobileCard
+          title="Setup and Feature Attempt"
+          content="Attempting Playground setup and initial feature usage"
+          reward="20 TON"
+        />
+
+        <QuestBoardMobileCard
+          title="Feature Completion"
+          content="Completing the use of key features within the Playground"
+          reward="30 TON"
+        />
+
+        <QuestBoardMobileCard
+          title="Experience Feedback"
+          content="Provide meaningful suggestions or bug reports"
+          reward={
+            <>
+              Up to
+              <br />
+              25 TON
+            </>
+          }
+        />
+
+        <QuestBoardMobileCard
+          title="SNS Activity"
+          content={
+            <div>
+              <div>Posts/comments/shares about Playground on social media:</div>
+              <ul className="mt-2 ml-4">
+                <li>• Follow X</li>
+                <li>• share posts</li>
+                <li>• comments</li>
+                <li>• YouTube subscribe</li>
+              </ul>
+            </div>
+          }
+          reward="20 TON"
+        />
+
+        <QuestBoardMobileCard
+          title="Quiz"
+          content="Answer a short quiz"
+          reward="5 TON"
+          isLastRow
+        />
+      </div>
+
+      <SubmitProofButton />
     </div>
   );
 };
