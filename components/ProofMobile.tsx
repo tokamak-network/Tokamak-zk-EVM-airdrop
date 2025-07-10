@@ -21,25 +21,38 @@ const CopyIcon = () => (
 
 // Proof Card Component
 interface ProofCardProps {
+  submitterAddress: string;
   hash: string;
   status: string;
 }
 
-const ProofCard: React.FC<ProofCardProps> = ({ hash, status }) => {
+const ProofCard: React.FC<ProofCardProps> = ({
+  submitterAddress,
+  hash,
+  status,
+}) => {
   return (
     <div
       style={{
         display: "flex",
-        padding: "12px 20px",
-        justifyContent: "space-between",
-        alignItems: "center",
+        padding: "16px 20px",
+        flexDirection: "column",
+        alignItems: "flex-start",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
+        gap: "16px",
       }}
     >
-      {/* Left Side - Transaction Hash */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+      {/* Submitter Address */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px",
+          width: "100%",
+        }}
+      >
         <div
           style={{
             color: "#619EC9",
@@ -50,9 +63,9 @@ const ProofCard: React.FC<ProofCardProps> = ({ hash, status }) => {
             lineHeight: "normal",
           }}
         >
-          Transaction Hash
+          Submitter Address
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <div
             style={{
               color: "#FFF",
@@ -63,7 +76,7 @@ const ProofCard: React.FC<ProofCardProps> = ({ hash, status }) => {
               lineHeight: "normal",
             }}
           >
-            {hash}
+            {submitterAddress}
           </div>
           <div
             style={{
@@ -78,38 +91,88 @@ const ProofCard: React.FC<ProofCardProps> = ({ hash, status }) => {
         </div>
       </div>
 
-      {/* Right Side - Proof Status */}
+      {/* Bottom Row - Transaction Hash & Proof Status */}
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "space-between",
           alignItems: "flex-start",
-          gap: "4px",
+          width: "100%",
         }}
       >
-        <div
-          style={{
-            color: "#619EC9",
-            fontFamily: "IBM Plex Mono",
-            fontSize: "14px",
-            fontStyle: "normal",
-            fontWeight: 300,
-            lineHeight: "normal",
-          }}
-        >
-          Proof Status
+        {/* Transaction Hash */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Transaction Hash
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {hash}
+            </div>
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+            >
+              <CopyIcon />
+            </div>
+          </div>
         </div>
+
+        {/* Proof Status */}
         <div
           style={{
-            color: "#66EAFF",
-            fontFamily: "IBM Plex Mono",
-            fontSize: "18px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "normal",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "4px",
           }}
         >
-          {status}
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Proof Status
+          </div>
+          <div
+            style={{
+              color: "#66EAFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "18px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+            }}
+          >
+            {status}
+          </div>
         </div>
       </div>
     </div>
@@ -142,11 +205,31 @@ const ProofMobile = () => {
           width: "100%",
         }}
       >
-        <ProofCard hash="0xf4fb9...f4fb9" status="1" />
-        <ProofCard hash="0xf4fb9...f4fb9" status="1" />
-        <ProofCard hash="0xf4fb9...f4fb9" status="1" />
-        <ProofCard hash="0xf4fb9...f4fb9" status="1" />
-        <ProofCard hash="0xf4fb9...f4fb9" status="1" />
+        <ProofCard
+          submitterAddress="0x0f4fb...48c2a"
+          hash="0xf4fb9...f4fb9"
+          status="1"
+        />
+        <ProofCard
+          submitterAddress="0x0f4fb...48c2a"
+          hash="0xf4fb9...f4fb9"
+          status="1"
+        />
+        <ProofCard
+          submitterAddress="0x0f4fb...48c2a"
+          hash="0xf4fb9...f4fb9"
+          status="1"
+        />
+        <ProofCard
+          submitterAddress="0x0f4fb...48c2a"
+          hash="0xf4fb9...f4fb9"
+          status="1"
+        />
+        <ProofCard
+          submitterAddress="0x0f4fb...48c2a"
+          hash="0xf4fb9...f4fb9"
+          status="1"
+        />
       </div>
     </div>
   );
