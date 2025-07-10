@@ -170,6 +170,11 @@ const FAQMobile = () => {
       answer:
         "Tokamak zkEVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
     },
+    {
+      question: "Q6. Can I trust this app?",
+      answer:
+        "You don't need to trust the app. If you're unsure, try participating in the event offline.",
+    },
   ];
 
   const toggleItem = (index: number) => {

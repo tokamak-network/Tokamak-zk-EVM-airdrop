@@ -333,6 +333,59 @@ const FAQ = () => {
                   app-specific Layer 2 at a low cost.
                 </div>
               </div>
+
+              {/* Q6 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid var(--line, #00477A)",
+                  background: "#FFF",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "var(--text, #002139)",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q6. Can I trust this app?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    background: "#ECF9FF",
+                    color: "var(--text, #002139)",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  You don't need to trust the app. If you're unsure, try
+                  participating in the event offline.
+                </div>
+              </div>
             </div>
           </div>
         </div>
