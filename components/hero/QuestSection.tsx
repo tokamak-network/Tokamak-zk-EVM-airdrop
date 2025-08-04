@@ -333,52 +333,82 @@ const Quest = () => {
         >
           <TableRow title="How to Participate">
             <span style={contentStyle}>
-              Complete at least one task from the quest board
+              Complete all mandatory tasks (Feature Completion, Experience
+              Feedback, SNS Activity, Quiz) from the quest board to qualify for
+              rewards.
             </span>
           </TableRow>
 
           <TableRow title="Reward Criteria">
-            <span style={contentStyle}>
-              Complete at least one task from the mission board to be eligible.
-              Top 100 scorers will be rewarded with TON tokens
-            </span>
+            <div style={contentStyle}>
+              <div>
+                All submitted proofs will be verified on-chain to ensure
+                fairness.
+              </div>
+              <ul
+                style={{
+                  paddingLeft: "16px",
+                  listStyleType: "disc",
+                }}
+              >
+                <li>
+                  If there are 30 or fewer verified participants, all will
+                  receive rewards.
+                </li>
+                <li>
+                  If there are more than 30, 30 participants will be randomly
+                  selected for rewards.
+                </li>
+              </ul>
+              <div style={contentStyle}>
+                Each selected participant can earn up to{" "}
+                <span style={{ fontWeight: "700" }}>100 TON.</span>
+              </div>
+            </div>
           </TableRow>
 
           <TableRow title="Reward Options">
             <div className="flex flex-col gap-[16px] w-full">
-              <div className="flex flex-col gap-[8px]">
-                <span style={boldStyle}>
-                  1.Stake & Earn More (Default Option)
-                </span>
-                <div className="flex flex-col gap-[4px] ml-[16px]">
+              <div className="flex flex-col">
+                <span style={boldStyle}>1.Stake (Default Option)</span>
+                <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
-                    - Lock your reward to receive a 20% bonus.
-                  </span>
-                  <span style={lightStyle}>
-                    &nbsp;&nbsp;&nbsp;- Example: 100 TON → 120 TON (claimable
-                    after lock period)
+                    - Receive the full reward amount (e.g., 100 TON → 100 TON)
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-[8px]">
-                <span style={boldStyle}>2.Claim Now (Instant Payout)</span>
-                <div className="flex flex-col gap-[4px] ml-[16px]">
+              <div className="flex flex-col">
+                <span style={boldStyle}>2.Claim Now</span>
+                <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
-                    - Receive TON immediately with no bonus.
+                    - Receive 80% of your reward immediately (e.g., 100 TON → 80
+                    TON)
                   </span>
-                  <span style={lightStyle}>- Example: 100 TON → ~83 TON</span>
                 </div>
               </div>
             </div>
           </TableRow>
 
           <TableRow title="Schedule">
-            <span style={contentStyle}>
-              <div>- Deadline: TBD </div>
-              <div>- Announcement: TBD</div>
-              <div>- Result Rewards Distribution: TBD</div>
-            </span>
+            <div
+              style={contentStyle}
+              className="h-[115px] flex flex-col justify-between"
+            >
+              <div>
+                <div>
+                  Event Period:{" "}
+                  <span style={{ fontWeight: "700" }}>
+                    Aug 11 (Mon) – Aug 24 (Sun)
+                  </span>
+                </div>
+                <div>Reward Distribution: Aug 25 (Mon)</div>
+              </div>
+              <div>
+                Verification results will be published on the event page after
+                on-chain proof validation.
+              </div>
+            </div>
           </TableRow>
 
           <TableRow title="Github Repositories" isLastRow>
@@ -487,8 +517,31 @@ const Quest = () => {
         </MobileCard>
 
         <MobileCard title="Reward Criteria">
-          Complete at least one task from the mission board to be eligible. Top
-          100 scorers will be rewarded with TON tokens
+          <div style={mobileContentStyle}>
+            <div>
+              All submitted proofs will be verified on-chain to ensure fairness.
+            </div>
+            <ul
+              style={{
+                margin: "4px 0",
+                paddingLeft: "16px",
+                listStyleType: "disc",
+              }}
+            >
+              <li>
+                If there are 30 or fewer verified participants, all will receive
+                rewards.
+              </li>
+              <li>
+                If there are more than 30, 30 participants will be randomly
+                selected for rewards.
+              </li>
+            </ul>
+            <div style={mobileContentStyle}>
+              Each selected participant can earn up to{" "}
+              <span style={{ fontWeight: "700" }}>100 TON.</span>
+            </div>
+          </div>
         </MobileCard>
 
         <MobileCard title="Reward Options">
@@ -524,9 +577,22 @@ const Quest = () => {
         </MobileCard>
 
         <MobileCard title="Schedule">
-          <div>- Deadline: TBD</div>
-          <div>- Announcement: TBD</div>
-          <div>- Result Rewards Distribution: TBD</div>
+          <div style={mobileContentStyle}>
+            <div>
+              Event Period:{" "}
+              <span style={{ fontWeight: "700" }}>
+                Aug 11 (Mon) – Aug 24 (Sun)
+              </span>
+            </div>
+            <div>
+              <span style={{ fontWeight: "700" }}>Reward Distribution:</span>{" "}
+              Aug 25 (Mon)
+            </div>
+            <div>
+              Verification results will be published on the event page after
+              on-chain proof validation.
+            </div>
+          </div>
         </MobileCard>
 
         <MobileCard title="Github Repositories" isLastRow>
