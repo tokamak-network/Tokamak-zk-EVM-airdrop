@@ -2,7 +2,6 @@ import React from "react";
 import ProofDesktop from "./ProofDesktop";
 import ProofMobile from "./ProofMobile";
 import FAQMobile from "./FAQMobile";
-import UnfoldedIcon from "../assets/FAQ/unfolded-icon.svg";
 
 const FAQ = () => {
   return (

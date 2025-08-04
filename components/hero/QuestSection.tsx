@@ -162,7 +162,8 @@ interface TableRowProps {
 const TableRow: React.FC<TableRowProps> = ({
   title,
   children,
-  isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // isLastRow = false,
 }) => {
   return (
     <div
@@ -222,7 +223,7 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
   title,
   content,
   reward,
-  isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
+  // isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
 }) => {
   return (
     <div
