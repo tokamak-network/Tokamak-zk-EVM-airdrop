@@ -22,6 +22,7 @@ module.exports = {
       "max-800": { max: "799px" }, // 800px 미만에서 세로 배치
       "max-md": { max: "767px" },
       "max-sm": { max: "639px" },
+      "max-500": { max: "499px" }, // 500px 미만에서 줄바꿈 적용
       "max-450": { max: "449px" }, // 450px 미만에서 세로 배치
     },
     extend: {

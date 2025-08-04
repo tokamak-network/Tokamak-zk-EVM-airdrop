@@ -586,13 +586,15 @@ const Quest = () => {
         <MobileCard title="Schedule">
           <div style={mobileContentStyle}>
             <div>
-              Event Period:{" "}
+              Event Period:
+              <br className="max-500:block hidden" />
               <span style={{ fontWeight: "700" }}>
                 Aug 11 (Mon) – Aug 24 (Sun)
               </span>
             </div>
             <div>
-              <span style={{ fontWeight: "700" }}>Reward Distribution:</span>{" "}
+              <span style={{ fontWeight: "700" }}>Reward Distribution:</span>
+              <br className="max-500:block hidden" />
               Aug 25 (Mon)
             </div>
             <div>
