@@ -24,12 +24,14 @@ interface ProofCardProps {
   submitterAddress: string;
   hash: string;
   status: string;
+  proveTime: string;
 }
 
 const ProofCard: React.FC<ProofCardProps> = ({
   submitterAddress,
   hash,
   status,
+  proveTime,
 }) => {
   return (
     <div
@@ -38,70 +40,126 @@ const ProofCard: React.FC<ProofCardProps> = ({
         padding: "16px 20px",
         flexDirection: "column",
         alignItems: "flex-start",
+        gap: "16px",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
-        gap: "16px",
       }}
     >
-      {/* Submitter Address */}
+      {/* Top Row */}
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          gap: "4px",
+          alignItems: "flex-start",
           width: "100%",
         }}
       >
+        {/* Submitter Address */}
         <div
           style={{
-            color: "#619EC9",
-            fontFamily: "IBM Plex Mono",
-            fontSize: "14px",
-            fontStyle: "normal",
-            fontWeight: 300,
-            lineHeight: "normal",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
           }}
         >
-          Submitter Address
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <div
             style={{
-              color: "#FFF",
+              color: "#619EC9",
               fontFamily: "IBM Plex Mono",
-              fontSize: "16px",
+              fontSize: "14px",
               fontStyle: "normal",
-              fontWeight: 500,
+              fontWeight: 300,
               lineHeight: "normal",
             }}
           >
-            {submitterAddress}
+            Submitter Address
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {submitterAddress}
+            </div>
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+            >
+              <CopyIcon />
+            </div>
+          </div>
+        </div>
+
+        {/* Prove Time */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            marginLeft: "auto",
+            marginRight: "14px",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Prove Time
           </div>
           <div
             style={{
-              width: "22px",
-              height: "22px",
-              aspectRatio: "1/1",
-              cursor: "pointer",
+              color: "#66EAFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "18px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+              textAlign: "left",
             }}
           >
-            <CopyIcon />
+            {proveTime}
           </div>
         </div>
       </div>
 
-      {/* Bottom Row - Transaction Hash & Proof Status */}
+      {/* Bottom Row */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "flex-start",
           width: "100%",
         }}
       >
         {/* Transaction Hash */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+          }}
+        >
           <div
             style={{
               color: "#619EC9",
@@ -145,8 +203,10 @@ const ProofCard: React.FC<ProofCardProps> = ({
           style={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "center",
             alignItems: "flex-start",
-            gap: "4px",
+            gap: "8px",
+            marginLeft: "auto",
           }}
         >
           <div
@@ -169,6 +229,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
               fontStyle: "normal",
               fontWeight: 500,
               lineHeight: "normal",
+              textAlign: "left",
             }}
           >
             {status}
@@ -209,26 +270,31 @@ const ProofMobile = () => {
           submitterAddress="0x0f4fb...48c2a"
           hash="0xf4fb9...f4fb9"
           status="1"
+          proveTime="00:15:00"
         />
         <ProofCard
           submitterAddress="0x0f4fb...48c2a"
           hash="0xf4fb9...f4fb9"
           status="1"
+          proveTime="00:12:45"
         />
         <ProofCard
           submitterAddress="0x0f4fb...48c2a"
           hash="0xf4fb9...f4fb9"
           status="1"
+          proveTime="00:08:30"
         />
         <ProofCard
           submitterAddress="0x0f4fb...48c2a"
           hash="0xf4fb9...f4fb9"
           status="1"
+          proveTime="00:20:15"
         />
         <ProofCard
           submitterAddress="0x0f4fb...48c2a"
           hash="0xf4fb9...f4fb9"
           status="1"
+          proveTime="00:18:22"
         />
       </div>
     </div>

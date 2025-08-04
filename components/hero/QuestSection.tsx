@@ -560,28 +560,23 @@ const Quest = () => {
           <div className="flex flex-col gap-[12px] w-full">
             <div className="flex flex-col gap-[6px]">
               <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
-                1.Stake & Earn More (Default Option)
+                1.Stake (Default Option)
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
-                  - Lock your reward to receive a 20% bonus.
-                </span>
-                <span style={mobileContentStyle}>
-                  - Example: 100 TON → 120 TON (claimable after lock period)
+                  - Receive the full reward amount (e.g., 100 TON → 100 TON)
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-[6px]">
               <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
-                2.Claim Now (Instant Payout)
+                2.Claim Now
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
-                  - Receive TON immediately with no bonus.
-                </span>
-                <span style={mobileContentStyle}>
-                  - Example: 100 TON → ~83 TON
+                  - Receive 80% of your reward immediately (e.g., 100 TON → 80
+                  TON)
                 </span>
               </div>
             </div>
@@ -793,7 +788,7 @@ const QuestBoard = () => {
                 </div>
               </div>
             }
-            reward={<span style={rewardStyle}>20 TON</span>}
+            reward={<span style={rewardStyle}>50 TON</span>}
           />
 
           <ThreeColumnTableRow
@@ -858,20 +853,36 @@ const QuestBoard = () => {
       {/* Mobile Layout */}
       <div className="desktop:hidden w-full flex flex-col">
         <QuestBoardMobileCard
-          title="Setup and Feature Attempt"
-          content="Attempting Playground setup and initial feature usage"
-          reward="20 TON"
-        />
-
-        <QuestBoardMobileCard
           title="Feature Completion"
-          content="Completing the use of key features within the Playground"
-          reward="30 TON"
+          content={
+            <div className="flex flex-col gap-2">
+              <div>Attempting Playground setup and initial feature usage</div>
+              <div className="flex items-start gap-2">
+                <Image
+                  src={ExclamationMark}
+                  alt={"ExclamationMark"}
+                  className="mt-0.5"
+                  style={{ width: "20px", height: "auto" }}
+                />
+                <span
+                  style={{
+                    ...mobileContentStyle,
+                    letterSpacing: "-0.54px",
+                    fontSize: "14px",
+                  }}
+                >
+                  TON transaction hashes are recommended for proof generation
+                  during the airdrop period.
+                </span>
+              </div>
+            </div>
+          }
+          reward="50 TON"
         />
 
         <QuestBoardMobileCard
           title="Experience Feedback"
-          content="Provide meaningful suggestions or bug reports"
+          content="Submitting meaningful improvement suggestions or bug reports"
           reward={
             <>
               Up to
@@ -914,7 +925,7 @@ const QuestBoard = () => {
 
         <QuestBoardMobileCard
           title="Quiz"
-          content="Answer a short quiz"
+          content="Answer a simple quiz about Tokamak-zk-EVM."
           reward="5 TON"
           isLastRow
         />
@@ -1131,7 +1142,8 @@ const Notes = () => {
         </NotesMobileCard>
 
         <NotesMobileCard>
-          Submissions with copied content may be excluded from rewards
+          Submissions with plagiarized or copied content may be excluded from
+          rewards.
         </NotesMobileCard>
 
         <NotesMobileCard>
@@ -1139,18 +1151,50 @@ const Notes = () => {
         </NotesMobileCard>
 
         <NotesMobileCard>
-          In the event of a tie, submission time and feedback quality will be
-          considered
+          If there are 30 or fewer verified participants, all will receive
+          rewards. If more than 30, 30 participants will be randomly selected.
+        </NotesMobileCard>
+
+        <NotesMobileCard>
+          Beware of fake apps or files containing malware. Download only from
+          the official Tokamak Network channels.
+        </NotesMobileCard>
+
+        <NotesMobileCard>
+          Check event announcements only on the official{" "}
+          <span style={{ fontWeight: "700" }}>Tokamak Network X</span> account.
         </NotesMobileCard>
 
         <NotesMobileCard isLastRow>
-          <div>
-            <div className="font-bold">
-              Minimum and recommended system requirements:
+          <div className="flex flex-col gap-4">
+            <div>
+              <div className="font-bold">System requirements:</div>
+              <ul
+                style={{
+                  paddingLeft: "16px",
+                  listStyleType: "disc",
+                }}
+                className="ml-2 mt-1"
+              >
+                <li>Minimum: 16GB RAM, 10GB disk space</li>
+                <li>
+                  Recommended: NVIDIA GPU supporting CUDA (highly recommended
+                  for faster processing)
+                </li>
+              </ul>
             </div>
             <div>
-              <div>Minimum: at least 16GB RAM</div>
-              <div>Recommended: GPU supporting CUDA</div>
+              <div className="font-bold">Estimated Processing Time:</div>
+              <ul
+                style={{
+                  paddingLeft: "16px",
+                  listStyleType: "disc",
+                }}
+                className="ml-2 mt-1"
+              >
+                <li>With GPU: ~10 minutes</li>
+                <li>Without GPU: Up to 1 hour</li>
+              </ul>
             </div>
           </div>
         </NotesMobileCard>
