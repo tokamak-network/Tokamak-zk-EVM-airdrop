@@ -1005,7 +1005,8 @@ const Notes = () => {
         >
           <ArrowIcon />
           <span style={notesCellStyle}>
-            Submissions with copied content may be excluded from rewards
+            Submissions with plagiarized or copied content may be excluded from
+            rewards.
           </span>
         </div>
 
@@ -1037,8 +1038,43 @@ const Notes = () => {
         >
           <ArrowIcon />
           <span style={notesCellStyle}>
-            In the event of a tie, submission time and feedback quality will be
-            considered
+            If there are 30 or fewer verified participants, all will receive
+            rewards. If more than 30, 30 participants will be randomly selected.
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            Beware of fake apps or files containing malware. Download only from
+            the official Tokamak Network channels.
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            borderBottom: "1px solid var(--line, #00477A)",
+          }}
+        >
+          <ArrowIcon />
+          <span style={notesCellStyle}>
+            Check event announcements only on the official{" "}
+            <span style={{ fontWeight: "700" }}>Tokamak Network X</span>{" "}
+            account.
           </span>
         </div>
 
@@ -1053,12 +1089,36 @@ const Notes = () => {
         >
           <ArrowIcon />
           <div style={notesCellStyle}>
-            <div className="font-bold">
-              Minimum and recommended system requirements:
-            </div>
-            <div>
-              <div>Minimum: at least 16GB RAM</div>
-              <div>Recommended: GPU supporting CUDA</div>
+            <div className="flex justify-between ">
+              <div className="flex flex-col w-[396px]">
+                <div className="font-bold">System requirements:</div>
+                <ul
+                  style={{
+                    paddingLeft: "16px",
+                    listStyleType: "disc",
+                  }}
+                  className="ml-2"
+                >
+                  <li>Minimum: 16GB RAM, 10GB disk space</li>
+                  <li>
+                    Recommended: NVIDIA GPU supporting CUDA (highly recommended
+                    for faster processing)
+                  </li>
+                </ul>
+              </div>
+              <div className="flex flex-col w-[396px]">
+                <div className="font-bold">Estimated Processing Time:</div>
+                <ul
+                  style={{
+                    paddingLeft: "16px",
+                    listStyleType: "disc",
+                  }}
+                  className="ml-2"
+                >
+                  <li>With GPU: ~10 minutes</li>
+                  <li>Without GPU: Up to 1 hour</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
