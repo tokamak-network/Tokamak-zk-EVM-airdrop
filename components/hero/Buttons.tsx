@@ -6,6 +6,12 @@ import CTA_3 from "../../assets/hero/buttons/CTA-3.svg";
 import CTA_4 from "../../assets/hero/buttons/CTA-4.svg";
 import CTA_2_MOBILE from "../../assets/hero/buttons/CTA-2-mobile.svg";
 
+const handleSubmitProofClick = () => {
+  alert(
+    "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+  );
+};
+
 export const GrabTONButton = () => {
   const handlePlaygroundClick = () => {
     window.open(
@@ -31,6 +37,7 @@ export const GrabTONButton = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         className="hidden desktop:block"
+        onClick={handleSubmitProofClick}
       />
 
       {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
@@ -40,6 +47,7 @@ export const GrabTONButton = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         className="block desktop:hidden"
+        onClick={handleSubmitProofClick}
       />
     </div>
   );
@@ -67,6 +75,7 @@ export const FAQMobileButtons = () => {
         alt="Submit Proof"
         style={{ cursor: "pointer" }}
         draggable={false}
+        onClick={handleSubmitProofClick}
       />
     </div>
   );
@@ -109,6 +118,7 @@ export default function Buttons() {
         style={{ cursor: "pointer" }}
         draggable={false}
         className="hidden desktop:block"
+        onClick={handleSubmitProofClick}
       />
 
       {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
@@ -117,6 +127,7 @@ export default function Buttons() {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
+        onClick={handleSubmitProofClick}
         className="block desktop:hidden"
       />
     </div>

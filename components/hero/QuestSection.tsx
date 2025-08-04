@@ -718,6 +718,11 @@ const SubmitProofButton = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         className="hidden desktop:block"
+        onClick={() =>
+          alert(
+            "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          )
+        }
       />
 
       {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
@@ -727,6 +732,11 @@ const SubmitProofButton = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         className="block desktop:hidden"
+        onClick={() =>
+          alert(
+            "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          )
+        }
       />
     </div>
   );
