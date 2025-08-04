@@ -2,6 +2,7 @@ import React from "react";
 import ProofDesktop from "./ProofDesktop";
 import ProofMobile from "./ProofMobile";
 import FAQMobile from "./FAQMobile";
+import UnfoldedIcon from "../assets/FAQ/unfolded-icon.svg";
 
 const FAQ = () => {
   return (
@@ -384,6 +385,64 @@ const FAQ = () => {
                 >
                   You don't need to trust the app. If you're unsure, try
                   participating in the event offline.
+                </div>
+              </div>
+
+              {/* Q7 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid var(--line, #00477A)",
+                  background: "#FFF",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "var(--text, #002139)",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q7. Why the proof generation is too slow on my computer?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    background: "#ECF9FF",
+                    color: "var(--text, #002139)",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Proof generation speed depends on your hardware. Systems with
+                  insufficient memory or no GPU acceleration may experience
+                  slower performance.
+                  <br />
+                  <br />
+                  On the testing setup (CPU: 14 cores, 48GB RAM or GPU: RTX
+                  3070ti, 32GB RAM), proof generation took around 2–3 minutes.
                 </div>
               </div>
             </div>

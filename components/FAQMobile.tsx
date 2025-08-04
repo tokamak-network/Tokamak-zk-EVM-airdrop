@@ -1,40 +1,55 @@
 "use client";
 import React, { useState } from "react";
 import { FAQMobileButtons } from "./hero/Buttons";
+import UnfoldedIcon from "../assets/FAQ/unfolded-icon.svg";
+import Image from "next/image";
 
 // FAQ Button Icon Component
-const FAQButtonIcon = () => (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M6 4V5.95H3V7.9H0V26.1H3V28.05H6V30H9V4H6Z" fill="#1D9BF0" />
-    <path
-      d="M6 3V0H9V2.4V4.8H6V7.2H3V24.8H6V27.2H9V29.6V32H6V29H3V26H0V6H3V3H6Z"
-      fill="#1D9BF0"
-    />
-    <rect
-      width="14"
+interface FAQButtonIconProps {
+  isOpen: boolean;
+}
+
+const FAQButtonIcon: React.FC<FAQButtonIconProps> = ({ isOpen }) => {
+  if (isOpen) {
+    return <Image src={UnfoldedIcon} alt="unfolded" width={32} height={32} />;
+  }
+
+  return (
+    <svg
+      width="32"
       height="32"
-      transform="translate(9 0.000488281)"
-      fill="#1D9BF0"
-    />
-    <rect x="9" y="0.000488281" width="14" height="3" fill="#1D9BF0" />
-    <rect x="9" y="29.0005" width="14" height="3" fill="#1D9BF0" />
-    <path d="M26 2V4.1H29V6.2H32V25.8H29V27.9H26V30H23V2H26Z" fill="#1D9BF0" />
-    <path
-      d="M26 3V0H23V2.4V4.8H26V7.2H29V24.8H26V27.2H23V29.6V32H26V29H29V26H32V6H29V3H26Z"
-      fill="#1D9BF0"
-    />
-    <path
-      d="M23.5 13V15.25H21.3574V17.5H19.2139V19.75H17.0713V22H14.9287V19.75H12.7861V17.5H10.6426V15.25H8.5V13H23.5Z"
-      fill="white"
-    />
-  </svg>
-);
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M6 4V5.95H3V7.9H0V26.1H3V28.05H6V30H9V4H6Z" fill="#1D9BF0" />
+      <path
+        d="M6 3V0H9V2.4V4.8H6V7.2H3V24.8H6V27.2H9V29.6V32H6V29H3V26H0V6H3V3H6Z"
+        fill="#1D9BF0"
+      />
+      <rect
+        width="14"
+        height="32"
+        transform="translate(9 0.000488281)"
+        fill="#1D9BF0"
+      />
+      <rect x="9" y="0.000488281" width="14" height="3" fill="#1D9BF0" />
+      <rect x="9" y="29.0005" width="14" height="3" fill="#1D9BF0" />
+      <path
+        d="M26 2V4.1H29V6.2H32V25.8H29V27.9H26V30H23V2H26Z"
+        fill="#1D9BF0"
+      />
+      <path
+        d="M26 3V0H23V2.4V4.8H26V7.2H29V24.8H26V27.2H23V29.6V32H26V29H29V26H32V6H29V3H26Z"
+        fill="#1D9BF0"
+      />
+      <path
+        d="M23.5 13V15.25H21.3574V17.5H19.2139V19.75H17.0713V22H14.9287V19.75H12.7861V17.5H10.6426V15.25H8.5V13H23.5Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
 
 // FAQ Answer Component
 interface FAQAnswerProps {
@@ -124,7 +139,7 @@ const FAQCard: React.FC<FAQCardProps> = ({
             aspectRatio: "1/1",
           }}
         >
-          <FAQButtonIcon />
+          <FAQButtonIcon isOpen={isOpen} />
         </div>
       </div>
       {isOpen && <FAQAnswer answer={answer} />}
@@ -174,6 +189,20 @@ const FAQMobile = () => {
       question: "Q6. Can I trust this app?",
       answer:
         "You don't need to trust the app. If you're unsure, try participating in the event offline.",
+    },
+    {
+      question: "Q7. Why the proof generation is too slow on my computer?",
+      answer: (
+        <>
+          Proof generation speed depends on your hardware. Systems with
+          insufficient memory or no GPU acceleration may experience slower
+          performance.
+          <br />
+          <br />
+          On the testing setup (CPU: 14 cores, 48GB RAM or GPU: RTX 3070ti, 32GB
+          RAM), proof generation took around 2–3 minutes.
+        </>
+      ),
     },
   ];
 
