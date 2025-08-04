@@ -7,6 +7,7 @@ import QuestBGImage from "@/assets/hero/quest-bg.png";
 import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
 import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
 import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
+import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -78,6 +79,16 @@ const notesCellStyle = {
   fontWeight: "400",
   lineHeight: "normal",
   letterSpacing: "-0.08px",
+};
+
+const subTextStyle = {
+  color: "var(--text, #002139)",
+  fontFamily: '"IBM Plex Mono"',
+  fontSize: "15px",
+  fontStyle: "normal" as const,
+  fontWeight: "400",
+  lineHeight: "normal",
+  letterSpacing: "-0.54px",
 };
 
 const ArrowIcon = () => (
@@ -350,6 +361,7 @@ const Quest = () => {
                   paddingLeft: "16px",
                   listStyleType: "disc",
                 }}
+                className="ml-2"
               >
                 <li>
                   If there are 30 or fewer verified participants, all will
@@ -755,30 +767,40 @@ const QuestBoard = () => {
           }}
         >
           <ThreeColumnTableRow
-            title="Setup and Feature Attempt"
-            content={
-              <span style={contentStyle}>
-                Attempting Playground setup and initial feature usage
-              </span>
-            }
-            reward={<span style={rewardStyle}>20 TON</span>}
-          />
-
-          <ThreeColumnTableRow
             title="Feature Completion"
             content={
-              <span style={contentStyle}>
-                Completing the use of key features within the Playground
-              </span>
+              <div className="flex flex-col h-[102px] justify-between">
+                <span style={contentStyle}>
+                  Attempting Playground setup and initial feature usage
+                </span>
+                <div className="relative">
+                  <Image
+                    src={ExclamationMark}
+                    alt={"ExclamationMark"}
+                    className="absolute top-0 left-0"
+                  />
+                  <span
+                    style={{
+                      ...subTextStyle,
+                      display: "block",
+                      paddingLeft: "30px",
+                      letterSpacing: "-0.54px",
+                    }}
+                  >
+                    TON transaction hashes are recommended for proof generation
+                    during the airdrop period.
+                  </span>
+                </div>
+              </div>
             }
-            reward={<span style={rewardStyle}>30 TON</span>}
+            reward={<span style={rewardStyle}>20 TON</span>}
           />
 
           <ThreeColumnTableRow
             title="Experience Feedback"
             content={
               <span style={contentStyle}>
-                Provide meaningful suggestions or bug reports
+                Submitting meaningful improvement suggestions or bug reports
               </span>
             }
             reward={
@@ -793,15 +815,27 @@ const QuestBoard = () => {
           <ThreeColumnTableRow
             title="SNS Activity"
             content={
-              <div style={contentStyle}>
-                <div>
-                  Posts/comments/shares about Playground on social media:
-                </div>
-                <ul className="mt-2 ml-4">
-                  <li>• Follow X</li>
-                  <li>• share posts</li>
-                  <li>• comments</li>
-                  <li>• YouTube subscribe</li>
+              <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
+                <div>Complete all social tasks:</div>
+                <ul
+                  className="ml-2"
+                  style={{
+                    paddingLeft: "16px",
+                    listStyleType: "disc",
+                  }}
+                >
+                  <li>
+                    Follow Tokamak Network on{" "}
+                    <span style={{ fontWeight: "700" }}>X</span> (Twitter)
+                  </li>
+                  <li>
+                    Share and comment on Tokamak Network{" "}
+                    <span style={{ fontWeight: "700" }}>posts</span> on X
+                  </li>
+                  <li>
+                    Subscribe to the Tokamak Network{" "}
+                    <span style={{ fontWeight: "700" }}>YouTube</span> channel
+                  </li>
                 </ul>
               </div>
             }
@@ -810,7 +844,11 @@ const QuestBoard = () => {
 
           <ThreeColumnTableRow
             title="Quiz"
-            content={<span style={contentStyle}>Answer a short quiz</span>}
+            content={
+              <span style={contentStyle}>
+                Answer a simple quiz about Tokamak-zk-EVM.
+              </span>
+            }
             reward={<span style={rewardStyle}>5 TON</span>}
             isLastRow
           />
@@ -847,12 +885,27 @@ const QuestBoard = () => {
           title="SNS Activity"
           content={
             <div>
-              <div>Posts/comments/shares about Playground on social media:</div>
-              <ul className="mt-2 ml-4">
-                <li>• Follow X</li>
-                <li>• share posts</li>
-                <li>• comments</li>
-                <li>• YouTube subscribe</li>
+              <div>Complete all social tasks:</div>
+              <ul
+                className="mt-2 ml-4"
+                style={{
+                  paddingLeft: "16px",
+                  listStyleType: "disc",
+                }}
+              >
+                <li>
+                  Follow Tokamak Network on{" "}
+                  <span style={{ fontWeight: "700" }}>X</span> (Twitter)
+                </li>
+                <li>
+                  Share and comment on Tokamak Network{" "}
+                  <span style={{ fontWeight: "700" }}>posts</span> on{" "}
+                  <span style={{ fontWeight: "700" }}>X</span>
+                </li>
+                <li>
+                  Subscribe to the Tokamak Network{" "}
+                  <span style={{ fontWeight: "700" }}>YouTube</span> channel
+                </li>
               </ul>
             </div>
           }
