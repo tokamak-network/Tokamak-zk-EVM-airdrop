@@ -1272,7 +1272,7 @@ const QuestSection = () => {
             style={{
               color: "var(--text, #002139)",
               fontFamily: '"Jersey 10"',
-              fontSize: "64px",
+              fontSize: "40px",
               fontStyle: "normal",
               fontWeight: "400",
               lineHeight: "normal",

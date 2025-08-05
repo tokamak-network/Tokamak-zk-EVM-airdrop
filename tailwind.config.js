@@ -15,6 +15,7 @@ module.exports = {
       xl: "1280px",
       desktop: "1360px", // 1360px 이상에서 데스크톱 레이아웃
       "2xl": "1536px",
+      "3xl": "1920px", // 1920px 이상에서 확장 레이아웃
       // Max-width breakpoints (반응형 적용 지점)
       "max-desktop": { max: "1359px" }, // 1359px 이하에서 반응형 적용
       "max-xl": { max: "1279px" },
