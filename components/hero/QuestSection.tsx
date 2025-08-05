@@ -8,6 +8,7 @@ import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
 import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
 import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
 import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
+import { LINKS } from "@/constants";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -346,8 +347,8 @@ const Quest = () => {
           <TableRow title="How to Participate">
             <span style={contentStyle}>
               Complete all mandatory tasks (Feature Completion, Experience
-              Feedback, SNS Activity, Quiz) from the quest board to qualify for
-              rewards.
+              Feedback, Social Media Activity, Quiz) from the quest board to
+              qualify for rewards.
             </span>
           </TableRow>
 
@@ -526,7 +527,9 @@ const Quest = () => {
       {/* Mobile Layout */}
       <div className="desktop:hidden w-full flex flex-col">
         <MobileCard title="How to Participate">
-          Complete at least one task from the quest board
+          Complete all mandatory tasks (Feature Completion, Experience Feedback,
+          Social Media Activity, Quiz) from the quest board to qualify for
+          rewards.
         </MobileCard>
 
         <MobileCard title="Reward Criteria">
@@ -821,10 +824,10 @@ const QuestBoard = () => {
           />
 
           <ThreeColumnTableRow
-            title="SNS Activity"
+            title="Social Media Activity"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
-                <div>Complete all social tasks:</div>
+                <div>Complete all social media tasks:</div>
                 <ul
                   className="ml-2"
                   style={{
@@ -834,7 +837,13 @@ const QuestBoard = () => {
                 >
                   <li>
                     Follow Tokamak Network on{" "}
-                    <span style={{ fontWeight: "700" }}>X</span> (Twitter)
+                    <span
+                      style={{ fontWeight: "700" }}
+                      onClick={() => window.open(LINKS.X)}
+                    >
+                      X
+                    </span>{" "}
+                    (Twitter)
                   </li>
                   <li>
                     Share and comment on Tokamak Network{" "}
@@ -906,10 +915,10 @@ const QuestBoard = () => {
         />
 
         <QuestBoardMobileCard
-          title="SNS Activity"
+          title="Social Media Activity"
           content={
             <div>
-              <div>Complete all social tasks:</div>
+              <div>Complete all social media tasks:</div>
               <ul
                 className="mt-2 ml-4"
                 style={{
@@ -919,7 +928,13 @@ const QuestBoard = () => {
               >
                 <li>
                   Follow Tokamak Network on{" "}
-                  <span style={{ fontWeight: "700" }}>X</span> (Twitter)
+                  <span
+                    style={{ fontWeight: "700", cursor: "pointer" }}
+                    onClick={() => window.open(LINKS.X)}
+                  >
+                    X
+                  </span>{" "}
+                  (Twitter)
                 </li>
                 <li>
                   Share and comment on Tokamak Network{" "}

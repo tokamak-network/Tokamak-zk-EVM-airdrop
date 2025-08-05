@@ -159,7 +159,7 @@ const FAQMobile = () => {
     {
       question: "Q2. Do I have to complete all missions?",
       answer:
-        "Nope!\nYou can earn TON rewards even by completing a single task. But we highly recommend completing all missions to maximize your rewards.",
+        "Yes. To qualify for rewards, you must complete all mandatory tasks:Feature Completion, Experience Feedback, Social Media Activity, and Quiz.",
     },
     {
       question: "Q3. How do I know if my proof is valid?",
@@ -193,15 +193,34 @@ const FAQMobile = () => {
     {
       question: "Q7. Why the proof generation is too slow on my computer?",
       answer: (
-        <>
-          Proof generation speed depends on your hardware. Systems with
-          insufficient memory or no GPU acceleration may experience slower
-          performance.
-          <br />
-          <br />
-          On the testing setup (CPU: 14 cores, 48GB RAM or GPU: RTX 3070ti, 32GB
-          RAM), proof generation took around 2–3 minutes.
-        </>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <span>
+            Proof generation speed depends on your system’s hardware.Devices
+            without a GPU or with only the minimum memory (16GB) may take longer
+            to process.
+          </span>
+          <ul
+            className="my-2"
+            style={{
+              paddingLeft: "16px",
+              listStyleType: "disc",
+            }}
+          >
+            <li>
+              With GPU (e.g., RTX 4070Ti + 7800X3D, 32GB RAM): about 10 minutes
+            </li>
+            <li>Without GPU: up to 1 hour</li>
+          </ul>
+          <span>
+            For faster results, we recommend a system with at least 16GB RAM and
+            an NVIDIA GPU supporting CUDA.
+          </span>
+        </div>
       ),
     },
   ];
