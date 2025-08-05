@@ -1,9 +1,30 @@
+"use client";
+
 import React from "react";
 import ProofDesktop from "./ProofDesktop";
 import ProofMobile from "./ProofMobile";
 import FAQMobile from "./FAQMobile";
 
 const FAQ = () => {
+  const scrollToProof = () => {
+    // Check if mobile screen (1359px and below)
+    const isMobile = window.innerWidth <= 1359;
+
+    let targetId = "proof-dashboard";
+
+    if (isMobile) {
+      targetId = "proof-mobile";
+    }
+
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <div className="w-full bg-[#CCEFFF]">
       {/* Mobile Layout - Proof 먼저 */}
@@ -214,7 +235,13 @@ const FAQ = () => {
                   Once you send us the ZKP, we'll verify it on-chain for you.
                   <br />
                   You can check the status of your proof [
-                  <span style={{ fontWeight: "bold" }}>here</span>].
+                  <span
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    onClick={() => scrollToProof()}
+                  >
+                    here
+                  </span>
+                  ].
                 </div>
               </div>
 

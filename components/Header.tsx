@@ -116,8 +116,8 @@ const Banner = () => {
 
 const Navigation = () => {
   const scrollToSection = (sectionId: string) => {
-    // Check if mobile screen (less than 1024px which is desktop breakpoint)
-    const isMobile = window.innerWidth < 1024;
+    // Check if mobile screen (1359px and below)
+    const isMobile = window.innerWidth <= 1359;
 
     let targetId = sectionId;
 
