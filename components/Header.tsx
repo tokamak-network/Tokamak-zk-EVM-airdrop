@@ -152,7 +152,7 @@ const Navigation = () => {
       <div className="hidden desktop:flex h-[80px] items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111] bg-white sticky top-0 z-50">
         <div className="flex items-center gap-x-[112px]">
           <Image src={LogoImage} alt="logo" />
-          <div className="flex gap-x-[72px] font-[500]">
+          <div className="flex gap-x-[72px] font-[500] text-[20px]">
             <span
               style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("overview")}
