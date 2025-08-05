@@ -838,7 +838,7 @@ const QuestBoard = () => {
                   <li>
                     Follow Tokamak Network on{" "}
                     <span
-                      style={{ fontWeight: "700" }}
+                      style={{ fontWeight: "700", cursor: "pointer" }}
                       onClick={() => window.open(LINKS.X)}
                     >
                       X
@@ -850,8 +850,14 @@ const QuestBoard = () => {
                     <span style={{ fontWeight: "700" }}>posts</span> on X
                   </li>
                   <li>
-                    Subscribe to the Tokamak Network{" "}
-                    <span style={{ fontWeight: "700" }}>YouTube</span> channel
+                    Subscribe to the Tokamak zk-EVM{" "}
+                    <span
+                      style={{ fontWeight: "700", cursor: "pointer" }}
+                      onClick={() => window.open(LINKS.YOUTUBE)}
+                    >
+                      YouTube
+                    </span>{" "}
+                    channel
                   </li>
                 </ul>
               </div>
@@ -942,8 +948,14 @@ const QuestBoard = () => {
                   <span style={{ fontWeight: "700" }}>X</span>
                 </li>
                 <li>
-                  Subscribe to the Tokamak Network{" "}
-                  <span style={{ fontWeight: "700" }}>YouTube</span> channel
+                  Subscribe to the Tokamak zk-EVM{" "}
+                  <span
+                    style={{ fontWeight: "700" }}
+                    onClick={() => window.open(LINKS.YOUTUBE)}
+                  >
+                    YouTube
+                  </span>{" "}
+                  channel
                 </li>
               </ul>
             </div>

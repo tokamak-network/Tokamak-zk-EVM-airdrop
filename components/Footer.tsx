@@ -1,3 +1,6 @@
+"use client";
+
+import { LINKS } from "@/constants";
 import React from "react";
 
 const Footer: React.FC = () => {
@@ -145,6 +148,7 @@ const Footer: React.FC = () => {
             aspectRatio: "1/1",
             cursor: "pointer",
           }}
+          onClick={() => window.open(LINKS.YOUTUBE)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

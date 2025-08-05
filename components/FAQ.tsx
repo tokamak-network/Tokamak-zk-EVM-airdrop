@@ -464,9 +464,9 @@ const FAQ = () => {
                   }}
                 >
                   <span>
-                    Proof generation speed depends on your system’s
-                    hardware.Devices without a GPU or with only the minimum
-                    memory (16GB) may take longer to process.
+                    Proof generation speed depends on your system’s hardware.
+                    Devices without a GPU may experience significantly slower
+                    performance.
                   </span>
                   <ul
                     className="my-2"
@@ -475,15 +475,15 @@ const FAQ = () => {
                       listStyleType: "disc",
                     }}
                   >
+                    <li>With GPU (7800X3D + RTX 4070Ti): about 10 minutes</li>
                     <li>
-                      With GPU (e.g., RTX 4070Ti + 7800X3D, 32GB RAM): about 10
-                      minutes
+                      Without GPU: about 1 hour, including Docker image download
+                      and verification
                     </li>
-                    <li>Without GPU: up to 1 hour</li>
                   </ul>
                   <span>
-                    For faster results, we recommend a system with at least 16GB
-                    RAM and an NVIDIA GPU supporting CUDA.
+                    For faster processing, using an NVIDIA GPU supporting CUDA
+                    is highly recommended, along with a multicore CPU.
                   </span>
                 </div>
               </div>

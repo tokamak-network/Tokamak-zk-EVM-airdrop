@@ -206,9 +206,9 @@ const FAQMobile = () => {
         "Playground is a tool that lets you experience converting Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All you need to do is select a transaction you want to apply ZKP to and click a button. Once you send us the ZKP, we'll verify it on-chain for you.",
     },
     {
-      question: "Q5. What is Tokamak zkEVM and what is it for?",
+      question: "Q5. What is Tokamak zk-EVM and what is it for?",
       answer:
-        "Tokamak zkEVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
+        "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
     },
     {
       question: "Q6. Can I trust this app?",
@@ -225,9 +225,8 @@ const FAQMobile = () => {
           }}
         >
           <span>
-            Proof generation speed depends on your system’s hardware.Devices
-            without a GPU or with only the minimum memory (16GB) may take longer
-            to process.
+            Proof generation speed depends on your system’s hardware. Devices
+            without a GPU may experience significantly slower performance.
           </span>
           <ul
             className="my-2"
@@ -236,14 +235,15 @@ const FAQMobile = () => {
               listStyleType: "disc",
             }}
           >
+            <li>With GPU (7800X3D + RTX 4070Ti): about 10 minutes</li>
             <li>
-              With GPU (e.g., RTX 4070Ti + 7800X3D, 32GB RAM): about 10 minutes
+              Without GPU: about 1 hour, including Docker image download and
+              verification
             </li>
-            <li>Without GPU: up to 1 hour</li>
           </ul>
           <span>
-            For faster results, we recommend a system with at least 16GB RAM and
-            an NVIDIA GPU supporting CUDA.
+            For faster processing, using an NVIDIA GPU supporting CUDA is highly
+            recommended, along with a multicore CPU.
           </span>
         </div>
       ),

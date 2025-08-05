@@ -5,6 +5,13 @@ import Image from "next/image";
 import PipeTopImage from "@/assets/FAQ/pipe-top.png";
 import ProofDashboardImage from "@/assets/FAQ/proof-dashboard.png";
 import { trimText, copyToClipboard } from "@/utils/text";
+import {
+  ProofCardProps,
+  proofData,
+  isEventLive,
+  mockProofData,
+} from "@/data/proofData";
+import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
 const CopyIcon = () => (
@@ -26,12 +33,6 @@ const CopyIcon = () => (
 );
 
 // Proof Card Component (Desktop Version)
-interface ProofCardProps {
-  submitterAddress: string;
-  hash: string;
-  status: string;
-  proveTime: string;
-}
 
 const ProofCard: React.FC<ProofCardProps> = ({
   submitterAddress,
@@ -292,66 +293,55 @@ const ProofDesktop = () => {
             flex: 1,
           }}
         >
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xf4fb9abc123456789012345678901234567890123456789012345678901234f4fb9"
-            status="1"
-            proveTime="00:15:00"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xa2b3c123456789012345678901234567890123456789012345678901234a2b3c"
-            status="1"
-            proveTime="00:12:45"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xd4e5f123456789012345678901234567890123456789012345678901234d4e5f"
-            status="0"
-            proveTime="00:08:30"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0x7g8h9123456789012345678901234567890123456789012345678901234a7g8h9"
-            status="1"
-            proveTime="00:20:15"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xj1k2l123456789012345678901234567890123456789012345678901234aj1k2l"
-            status="1"
-            proveTime="00:18:22"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xm3n4o123456789012345678901234567890123456789012345678901234am3n4o"
-            status="0"
-            proveTime="00:14:50"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xp5q6r123456789012345678901234567890123456789012345678901234ap5q6r"
-            status="1"
-            proveTime="00:11:35"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xs7t8u123456789012345678901234567890123456789012345678901234s7t8u"
-            status="1"
-            proveTime="00:16:40"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xv9w0x123456789012345678901234567890123456789012345678901234v9w0x"
-            status="1"
-            proveTime="00:13:25"
-          />
-          <ProofCard
-            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
-            hash="0xy1z2a123456789012345678901234567890123456789012345678901234y1z2a"
-            status="0"
-            proveTime="00:09:18"
-          />
+          {isEventLive ? (
+            proofData.map((proof, index) => (
+              <ProofCard
+                key={`proof-${index}`}
+                submitterAddress={proof.submitterAddress}
+                hash={proof.hash}
+                status={proof.status}
+                proveTime={proof.proveTime}
+              />
+            ))
+          ) : (
+            <>
+              <ComingSoonCard />
+              {mockProofData.map((proof, index) => (
+                <div
+                  key={`mock-proof-${index}`}
+                  style={{ position: "relative" }}
+                >
+                  <div
+                    style={{
+                      filter: "blur(2px)",
+                      opacity: 0.6,
+                    }}
+                  >
+                    <ProofCard
+                      submitterAddress={proof.submitterAddress}
+                      hash={proof.hash}
+                      status={proof.status}
+                      proveTime={proof.proveTime}
+                    />
+                  </div>
+                  {/* Overlay */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "#00223B",
+                      opacity: 0.4,
+                      zIndex: 10,
+                      cursor: "not-allowed",
+                    }}
+                  />
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>
