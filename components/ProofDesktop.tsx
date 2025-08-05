@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import PipeTopImage from "@/assets/FAQ/pipe-top.png";
 import ProofDashboardImage from "@/assets/FAQ/proof-dashboard.png";
+import { trimText, copyToClipboard } from "@/utils/text";
 
 // Copy Icon Component
 const CopyIcon = () => (
@@ -36,6 +39,21 @@ const ProofCard: React.FC<ProofCardProps> = ({
   status,
   proveTime,
 }) => {
+  const handleCopyAddress = () => {
+    copyToClipboard(submitterAddress, () => {
+      alert("Address copied to clipboard!");
+    });
+  };
+
+  const handleCopyHash = () => {
+    copyToClipboard(hash, () => {
+      alert("Hash copied to clipboard!");
+    });
+  };
+
+  // Use trimText function for display
+  const displayAddress = trimText(submitterAddress);
+  const displayHash = trimText(hash);
   return (
     <div
       style={{
@@ -85,7 +103,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
                 lineHeight: "normal",
               }}
             >
-              {submitterAddress}
+              {displayAddress}
             </div>
             <div
               style={{
@@ -94,6 +112,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
                 aspectRatio: "1/1",
                 cursor: "pointer",
               }}
+              onClick={handleCopyAddress}
             >
               <CopyIcon />
             </div>
@@ -134,7 +153,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
                 lineHeight: "normal",
               }}
             >
-              {hash}
+              {displayHash}
             </div>
             <div
               style={{
@@ -143,6 +162,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
                 aspectRatio: "1/1",
                 cursor: "pointer",
               }}
+              onClick={handleCopyHash}
             >
               <CopyIcon />
             </div>
@@ -273,62 +293,62 @@ const ProofDesktop = () => {
           }}
         >
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xf4fb9...f4fb9"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xf4fb9abc123456789012345678901234567890123456789012345678901234f4fb9"
             status="1"
             proveTime="00:15:00"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xa2b3c...a2b3c"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xa2b3c123456789012345678901234567890123456789012345678901234a2b3c"
             status="1"
             proveTime="00:12:45"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xd4e5f...d4e5f"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xd4e5f123456789012345678901234567890123456789012345678901234d4e5f"
             status="0"
             proveTime="00:08:30"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0x7g8h9...7g8h9"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0x7g8h9123456789012345678901234567890123456789012345678901234a7g8h9"
             status="1"
             proveTime="00:20:15"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xj1k2l...j1k2l"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xj1k2l123456789012345678901234567890123456789012345678901234aj1k2l"
             status="1"
             proveTime="00:18:22"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xm3n4o...m3n4o"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xm3n4o123456789012345678901234567890123456789012345678901234am3n4o"
             status="0"
             proveTime="00:14:50"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xp5q6r...p5q6r"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xp5q6r123456789012345678901234567890123456789012345678901234ap5q6r"
             status="1"
             proveTime="00:11:35"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xs7t8u...s7t8u"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xs7t8u123456789012345678901234567890123456789012345678901234s7t8u"
             status="1"
             proveTime="00:16:40"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xv9w0x...v9w0x"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xv9w0x123456789012345678901234567890123456789012345678901234v9w0x"
             status="1"
             proveTime="00:13:25"
           />
           <ProofCard
-            submitterAddress="0x0f4fb...48c2a"
-            hash="0xy1z2a...y1z2a"
+            submitterAddress="0x0f4fbc8e7a394b3b1b5b76f89a12345678901234348c2a"
+            hash="0xy1z2a123456789012345678901234567890123456789012345678901234y1z2a"
             status="0"
             proveTime="00:09:18"
           />
