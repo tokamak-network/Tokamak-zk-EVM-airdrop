@@ -1246,7 +1246,10 @@ const QuestSection = () => {
       </div>
 
       {/* Mobile Layout - 분리된 구조 */}
-      <div className="desktop:hidden w-full flex flex-col items-center">
+      <div
+        id="quest-mobile"
+        className="desktop:hidden w-full flex flex-col items-center"
+      >
         {/* Mobile Title Section with padding */}
         <div className="w-full flex flex-col items-center gap-[20px] py-[20px] px-[20px]">
           <h1

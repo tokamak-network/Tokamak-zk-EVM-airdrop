@@ -243,7 +243,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
 const ProofMobile = () => {
   return (
     <div
-      id="proof"
+      id="proof-mobile"
       className="w-full"
       style={{
         display: "flex",

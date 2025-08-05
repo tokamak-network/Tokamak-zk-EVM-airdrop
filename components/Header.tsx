@@ -116,7 +116,29 @@ const Banner = () => {
 
 const Navigation = () => {
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
+    // Check if mobile screen (less than 1024px which is desktop breakpoint)
+    const isMobile = window.innerWidth < 1024;
+
+    let targetId = sectionId;
+
+    if (isMobile) {
+      // Map desktop IDs to mobile IDs
+      switch (sectionId) {
+        case "quest":
+          targetId = "quest-mobile";
+          break;
+        case "proof-dashboard":
+          targetId = "proof-mobile";
+          break;
+        case "faq":
+          targetId = "faq-mobile";
+          break;
+        default:
+          targetId = sectionId;
+      }
+    }
+
+    const element = document.getElementById(targetId);
     if (element) {
       element.scrollIntoView({
         behavior: "smooth",

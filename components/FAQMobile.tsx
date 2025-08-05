@@ -215,7 +215,7 @@ const FAQMobile = () => {
 
   return (
     <div
-      id="faq"
+      id="faq-mobile"
       className="w-full"
       style={{
         display: "flex",
