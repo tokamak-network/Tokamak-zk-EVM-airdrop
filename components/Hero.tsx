@@ -11,7 +11,7 @@ const Overview = () => {
       <div className="hidden desktop:flex relative w-full h-[700px] pl-[72px] items-center">
         <div className="flex flex-col justify-between min-w-[630px] max-w-[630px] h-[472px]">
           <div className="text-hero-title">
-            <div>Experiehnce</div>
+            <div>Experience</div>
             <div>Tokamak zk-EVM</div>
             <div>on Playground</div>
           </div>
@@ -57,7 +57,7 @@ const Overview = () => {
               letterSpacing: "1px",
             }}
           >
-            <div>Experiehnce</div>
+            <div>Experience</div>
             <div>Tokamak zk-EVM</div>
             <div>on Playground</div>
           </div>
