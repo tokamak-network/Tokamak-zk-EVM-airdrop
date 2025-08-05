@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   keywords: ["Tokamak", "ZK-EVM", "Airdrop", "Blockchain", "Ethereum"],
   authors: [{ name: "Tokamak Network" }],
   viewport: "width=device-width, initial-scale=1",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head>
+      <head></head>
       <body
         className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gray-50 text-gray-900 antialiased`}
       >
