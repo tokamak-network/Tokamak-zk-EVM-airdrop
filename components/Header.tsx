@@ -134,7 +134,7 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Mobile Logo Section */}
+      {/* Mobile Logo Section - NOT sticky */}
       <div className="desktop:hidden flex justify-center items-center bg-white py-4">
         <Image
           src={LogoImage}
@@ -148,8 +148,8 @@ const Navigation = () => {
         />
       </div>
 
-      {/* Desktop Navigation */}
-      <div className="hidden desktop:flex h-[80px] items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111]">
+      {/* Desktop Navigation - sticky */}
+      <div className="hidden desktop:flex h-[80px] items-center justify-between pl-[40px] border-t-[2px] border-b-[2px] border-[#111111] bg-white sticky top-0 z-50">
         <div className="flex items-center gap-x-[112px]">
           <Image src={LogoImage} alt="logo" />
           <div className="flex gap-x-[72px] font-[500]">
@@ -205,9 +205,9 @@ const Navigation = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - sticky */}
       <div
-        className="desktop:hidden flex w-full"
+        className="desktop:hidden flex w-full bg-white sticky top-0 z-50"
         style={{
           borderTop: "2px solid var(--line, #00477A)",
           borderBottom: "2px solid var(--line, #00477A)",
@@ -291,11 +291,13 @@ const Navigation = () => {
 
 const Header: React.FC = () => {
   return (
-    <header>
-      <Lines />
-      <Banner />
+    <>
+      <header>
+        <Lines />
+        <Banner />
+      </header>
       <Navigation />
-    </header>
+    </>
   );
 };
 

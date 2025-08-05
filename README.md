@@ -1,43 +1,43 @@
 # Tokamak ZK-EVM Airdrop Event Page
 
-Next.js로 제작된 Tokamak Network ZK-EVM 에어드랍 이벤트 페이지입니다.
+An airdrop event page for Tokamak Network ZK-EVM built with Next.js.
 
-## 🚀 주요 기능
+## 🚀 Key Features
 
-- **피그마 디자인 토큰 자동 동기화**: 디자이너의 피그마 파일에서 자동으로 색상, 폰트, 간격 등을 추출
-- **현대적인 UI/UX**: Tailwind CSS와 피그마 디자인 시스템을 활용한 세련된 디자인
-- **반응형 디자인**: 모바일부터 데스크톱까지 모든 디바이스에서 최적화된 경험
-- **에어드랍 참여 기능**: 지갑 연결, 자격 확인, 토큰 신청 등 완전한 에어드랍 플로우
-- **다크모드 지원**: 사용자 선호도에 따른 테마 전환
-- **TypeScript**: 타입 안정성과 개발자 경험 향상
+- **Automated Figma Design Token Sync**: Automatically extract colors, fonts, spacing, etc. from designer's Figma files
+- **Modern UI/UX**: Sophisticated design utilizing Tailwind CSS and Figma design system
+- **Responsive Design**: Optimized experience for all devices from mobile to desktop
+- **Airdrop Participation Features**: Complete airdrop flow including wallet connection, eligibility verification, and token claiming
+- **Dark Mode Support**: Theme switching based on user preferences
+- **TypeScript**: Enhanced type safety and developer experience
 
-## 🎨 디자인 시스템
+## 🎨 Design System
 
-### 피그마 통합
+### Figma Integration
 
-- **파일**: [Figma Design File](https://www.figma.com/design/0R11fVZOkNSTJjhTKvUjc7/Ooo)
-- **자동 토큰 추출**: 색상, 타이포그래피, 간격 등 자동 동기화
-- **실시간 업데이트**: 피그마 파일 변경 시 자동 반영
+- **File**: [Figma Design File](https://www.figma.com/design/0R11fVZOkNSTJjhTKvUjc7/Ooo)
+- **Automatic Token Extraction**: Auto-sync colors, typography, spacing, etc.
+- **Real-time Updates**: Automatic reflection of Figma file changes
 
-### 색상 팔레트
+### Color Palette
 
-- **Primary**: Tokamak 브랜드 색상 (`tokamak-*`)
-- **Secondary**: 에어드랍 이벤트 색상 (`airdrop-*`)
-- **Grayscale**: 그레이스케일 시스템 (`grayscale-*`)
-- **Applied**: 적용된 표면 색상 (`applied-*`)
+- **Primary**: Tokamak brand colors (`tokamak-*`)
+- **Secondary**: Airdrop event colors (`airdrop-*`)
+- **Grayscale**: Grayscale system (`grayscale-*`)
+- **Applied**: Applied surface colors (`applied-*`)
 
-## 📦 기술 스택
+## 📦 Tech Stack
 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Design System**: Figma API 통합
+- **Design System**: Figma API Integration
 - **State Management**: React Hooks
 - **Development**: ESLint, Prettier
 
-## 🛠️ 설치 및 실행
+## 🛠️ Installation and Setup
 
-### 1. 클론 및 의존성 설치
+### 1. Clone and Install Dependencies
 
 ```bash
 git clone <repository-url>
@@ -45,167 +45,167 @@ cd tokamak-zk-evm-airdrop
 npm install
 ```
 
-### 2. 피그마 디자인 토큰 설정
+### 2. Setup Figma Design Tokens
 
 ```bash
-# 피그마 API 토큰과 파일 키 설정
+# Set up Figma API token and file key
 node setup-figma-quick.js
 
-# 또는 수동으로 .env.local 파일 생성
+# Or manually create .env.local file
 echo "FIGMA_TOKEN=your-figma-token" >> .env.local
 echo "FIGMA_FILE_KEY=0R11fVZOkNSTJjhTKvUjc7" >> .env.local
 ```
 
-### 3. 개발 서버 실행
+### 3. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-브라우저에서 `http://localhost:3000`을 열어 확인하세요.
+Open `http://localhost:3000` in your browser to view the application.
 
-## 📱 페이지 구성
+## 📱 Page Structure
 
-### 메인 페이지
+### Main Page
 
-- **Header**: 네비게이션 및 지갑 연결
-- **Hero Section**: 메인 배너 및 CTA
-- **Stats Section**: 에어드랍 통계
-- **Airdrop Section**: 에어드랍 참여 카드들
-- **How It Works**: 참여 방법 가이드
-- **FAQ Section**: 자주 묻는 질문
-- **Footer**: 링크 및 소셜 미디어
+- **Header**: Navigation and wallet connection
+- **Hero Section**: Main banner and CTA
+- **Stats Section**: Airdrop statistics
+- **Airdrop Section**: Airdrop participation cards
+- **How It Works**: Participation guide
+- **FAQ Section**: Frequently asked questions
+- **Footer**: Links and social media
 
-### 컴포넌트
+### Components
 
-- `Header.tsx`: 상단 네비게이션
-- `Hero.tsx`: 메인 히어로 섹션
-- `Stats.tsx`: 통계 표시
-- `AirdropSection.tsx`: 에어드랍 카드 리스트
-- `HowItWorks.tsx`: 참여 방법 가이드
-- `FAQ.tsx`: 확장 가능한 FAQ
-- `Footer.tsx`: 하단 정보
+- `Header.tsx`: Top navigation
+- `Hero.tsx`: Main hero section
+- `Stats.tsx`: Statistics display
+- `AirdropSection.tsx`: Airdrop card list
+- `HowItWorks.tsx`: Participation guide
+- `FAQ.tsx`: Expandable FAQ
+- `Footer.tsx`: Footer information
 
-## 🎯 에어드랍 기능
+## 🎯 Airdrop Features
 
-### 참여 플로우
+### Participation Flow
 
-1. **지갑 연결**: MetaMask 등 지원 지갑 연결
-2. **자격 확인**: 참여 조건 자동 검증
-3. **토큰 신청**: 원하는 에어드랍 선택
-4. **승인 대기**: 검토 과정 진행
-5. **토큰 수령**: 지갑으로 토큰 전송
+1. **Wallet Connection**: Connect supported wallets like MetaMask
+2. **Eligibility Check**: Automatic verification of participation conditions
+3. **Token Application**: Select desired airdrop
+4. **Approval Wait**: Review process
+5. **Token Receipt**: Token transfer to wallet
 
-### 에어드랍 유형
+### Airdrop Types
 
-- **얼리 어답터 보너스**: 초기 사용자 대상 (1,000 TON)
-- **개발자 인센티브**: DApp 개발자 대상 (2,500 TON)
-- **커뮤니티 참여**: 커뮤니티 활동 보상 (500 TON)
+- **Early Adopter Bonus**: For early users (1,000 TON)
+- **Developer Incentive**: For DApp developers (2,500 TON)
+- **Community Participation**: Community activity rewards (500 TON)
 
-## 🔧 개발 스크립트
+## 🔧 Development Scripts
 
 ```bash
-# 개발 서버 실행
+# Run development server
 npm run dev
 
-# 프로덕션 빌드
+# Production build
 npm run build
 
-# 프로덕션 서버 실행
+# Run production server
 npm start
 
-# 린팅
+# Linting
 npm run lint
 
-# 피그마 디자인 토큰 동기화
+# Sync Figma design tokens
 npm run figma:sync
 
-# 피그마 자동 감시 모드
+# Figma auto-watch mode
 npm run figma:watch
 ```
 
-## 🎨 Figma 통합
+## 🎨 Figma Integration
 
-### 설정 방법
+### Setup Instructions
 
-1. [Figma API 토큰 생성](https://www.figma.com/developers/api#access-tokens)
-2. `node setup-figma-quick.js` 실행
-3. 토큰 입력하여 자동 설정 완료
+1. [Generate Figma API Token](https://www.figma.com/developers/api#access-tokens)
+2. Run `node setup-figma-quick.js`
+3. Enter token to complete automatic setup
 
-### 사용 방법
+### Usage
 
 ```bash
-# 수동 동기화
+# Manual sync
 npm run figma:sync
 
-# 자동 감시 모드 (실시간 동기화)
+# Auto-watch mode (real-time sync)
 npm run figma:watch
 ```
 
-### 파일 구조
+### File Structure
 
 ```
 design-system/
 ├── tokens/
-│   └── tokens.json          # 피그마에서 추출한 디자인 토큰
+│   └── tokens.json          # Design tokens extracted from Figma
 ├── components/
-│   └── ...                  # 컴포넌트 정의
+│   └── ...                  # Component definitions
 figma-exports/
-├── ...                      # 피그마 에셋 내보내기
+├── ...                      # Figma asset exports
 ```
 
-## 🌐 배포
+## 🌐 Deployment
 
-### Vercel 배포
+### Vercel Deployment
 
 ```bash
-# Vercel CLI 설치
+# Install Vercel CLI
 npm i -g vercel
 
-# 배포
+# Deploy
 vercel --prod
 ```
 
-### 환경 변수 설정
+### Environment Variables
 
-- `FIGMA_TOKEN`: 피그마 API 토큰
-- `FIGMA_FILE_KEY`: 피그마 파일 키
+- `FIGMA_TOKEN`: Figma API token
+- `FIGMA_FILE_KEY`: Figma file key
 
-## 📖 코딩 가이드라인
+## 📖 Coding Guidelines
 
-### 스타일 규칙
+### Style Rules
 
-- **코드 주석**: 영어로 작성
-- **변수/함수명**: camelCase (영어)
-- **컴포넌트명**: PascalCase
-- **파일명**: kebab-case
+- **Code Comments**: Written in English
+- **Variable/Function Names**: camelCase (English)
+- **Component Names**: PascalCase
+- **File Names**: kebab-case
 
-### Tailwind CSS 규칙
+### Tailwind CSS Rules
 
-- Utility-first 접근법 사용
-- 피그마 디자인 토큰 우선 활용
-- 반응형 디자인 (mobile-first)
-- 다크모드 지원
+- Use utility-first approach
+- Prioritize Figma design tokens
+- Responsive design (mobile-first)
+- Dark mode support
 
-### TypeScript 규칙
+### TypeScript Rules
 
-- Strict mode 사용
-- 모든 props에 타입 정의
-- Interface > Type 선호
+- Use strict mode
+- Define types for all props
+- Prefer Interface over Type
 
-## 🤝 기여 방법
+## 🤝 Contributing
 
-1. 이슈 생성 또는 기존 이슈 확인
-2. 피처 브랜치 생성 (`git checkout -b feature/amazing-feature`)
-3. 변경사항 커밋 (`git commit -m 'Add amazing feature'`)
-4. 브랜치 푸시 (`git push origin feature/amazing-feature`)
-5. Pull Request 생성
+1. Create or check existing issues
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push branch (`git push origin feature/amazing-feature`)
+5. Create Pull Request
 
-## 📄 라이선스
+## 📄 License
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+This project is distributed under the MIT License.
 
-## 🔗 링크
+## 🔗 Links
 
 - [Tokamak Network](https://tokamak.network)
 - [Figma Design File](https://www.figma.com/design/0R11fVZOkNSTJjhTKvUjc7/Ooo)
