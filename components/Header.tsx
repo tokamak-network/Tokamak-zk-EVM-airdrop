@@ -140,9 +140,15 @@ const Navigation = () => {
 
     const element = document.getElementById(targetId);
     if (element) {
-      element.scrollIntoView({
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
+      // Calculate navigation height offset
+      const navigationHeight = isMobile ? 62 : 80; // Mobile navigation height: ~62px, Desktop: 80px
+      const targetPosition = elementPosition - navigationHeight;
+
+      window.scrollTo({
+        top: targetPosition,
         behavior: "smooth",
-        block: "start",
       });
     }
   };
