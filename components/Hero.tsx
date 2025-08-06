@@ -24,8 +24,8 @@ const Overview = () => {
               className="absolute inset-0 flex items-center justify-center"
               style={{
                 color: "#FFF716",
-                textShadow: "0px 1.5px 0px #002C4B",
-                WebkitTextStrokeWidth: "1.5px",
+                textShadow: "2px 3px 0px #002C4B",
+                WebkitTextStrokeWidth: "0.7px",
                 WebkitTextStrokeColor: "#002C4B",
                 fontFamily: '"Jersey 10"',
                 fontSize: "50px",
@@ -33,6 +33,7 @@ const Overview = () => {
                 fontWeight: 400,
                 lineHeight: "normal",
                 letterSpacing: "4.5px",
+                filter: "drop-shadow(1px 1px 0 #00477a) !important",
               }}
             >
               Event: 2025.08.11 ~ 08.24
@@ -96,13 +97,14 @@ const Overview = () => {
               className="absolute inset-0 flex items-center justify-center z-10 text-[40px] md:text-[50px] tracking-[3.6px] md:tracking-[2.5px]"
               style={{
                 color: "#FFF716",
-                textShadow: "0px 1.5px 0px #002C4B",
-                WebkitTextStrokeWidth: "1.5px",
+                textShadow: "2px 3px 0px #002C4B",
+                WebkitTextStrokeWidth: "0.7px",
                 WebkitTextStrokeColor: "#002C4B",
                 fontFamily: '"Jersey 10"',
                 fontStyle: "normal",
                 fontWeight: 400,
                 lineHeight: "normal",
+                filter: "drop-shadow(1px 1px 0 #00477a) !important",
               }}
             >
               <span className="md:hidden">2025.08.11 ~ 08.24</span>
