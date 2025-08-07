@@ -1124,7 +1124,9 @@ const Notes = () => {
           <ArrowIcon />
           <span style={notesCellStyle}>
             Check event announcements only on the official{" "}
-            <span style={{ fontWeight: "700" }}>Tokamak Network X</span>{" "}
+            <span style={{ fontWeight: "700", cursor: "pointer" }}>
+              Tokamak Network X
+            </span>{" "}
             account.
           </span>
         </div>
@@ -1202,7 +1204,13 @@ const Notes = () => {
 
         <NotesMobileCard>
           Check event announcements only on the official{" "}
-          <span style={{ fontWeight: "700" }}>Tokamak Network X</span> account.
+          <span
+            style={{ fontWeight: "700", cursor: "pointer" }}
+            onClick={() => window.open(LINKS.X)}
+          >
+            Tokamak Network X
+          </span>{" "}
+          account.
         </NotesMobileCard>
 
         <NotesMobileCard isLastRow>
