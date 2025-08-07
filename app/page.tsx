@@ -7,14 +7,16 @@ import GrabTON from "@/components/GrabTON";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <>
       <Header />
-      <Hero />
-      <FAQ />
-      <div className="hidden desktop:block">
-        <GrabTON />
-      </div>
-      <Footer />
-    </main>
+      <main className="min-h-screen bg-gray-50 overflow-x-hidden">
+        <Hero />
+        <FAQ />
+        <div className="hidden desktop:block">
+          <GrabTON />
+        </div>
+        <Footer />
+      </main>
+    </>
   );
 }
