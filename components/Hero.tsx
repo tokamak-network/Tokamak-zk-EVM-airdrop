@@ -8,7 +8,10 @@ import { Lines } from "./common/lines";
 
 const Overview = () => {
   return (
-    <div id="overview" className="w-full grid-background flex justify-center">
+    <div
+      id="overview"
+      className="w-full grid-background flex justify-center overflow-x-hidden"
+    >
       {/* Desktop Layout */}
       <div className="hidden desktop:flex relative w-full h-[700px] pl-[72px] items-center">
         <div className="flex flex-col justify-between min-w-[630px] max-w-[630px] 3xl:max-w-[1130px] h-[472px] 3xl:h-auto 3xl:mt-[95px] gap-y-[30px]">
@@ -67,8 +70,8 @@ const Overview = () => {
       </div>
 
       {/* Mobile Layout */}
-      <div className="desktop:hidden w-full pl-[21px] pt-[40px] flex flex-col items-center justify-center min-h-[400px]">
-        <div className="w-full flex flex-col items-center text-center gap-y-[23px] ">
+      <div className="desktop:hidden w-full pl-[21px] pt-[40px] flex flex-col items-center justify-center min-h-[400px] overflow-x-hidden">
+        <div className="w-full flex flex-col items-center text-center gap-y-[23px] max-w-full">
           <div
             style={{
               color: "#00477a",
@@ -134,17 +137,21 @@ const Overview = () => {
           </div>
 
           {/* Mobile Pipe Image */}
-          <div className="mt-[32px] w-full flex justify-end mr-[-21px]">
-            <Image
-              src={PipeImageMobile}
-              alt="overview mobile"
-              className="w-auto h-auto max-w-full md:hidden"
-            />
-            <Image
-              src={PipeMiddle}
-              alt="overview middle"
-              className="w-[704px] h-auto max-w-full hidden md:block"
-            />
+          <div className="mt-[32px] w-full relative overflow-hidden">
+            <div className="flex justify-end">
+              <Image
+                src={PipeImageMobile}
+                alt="overview mobile"
+                className="w-auto h-auto max-w-none md:hidden"
+                style={{ marginRight: "-21px" }}
+              />
+              <Image
+                src={PipeMiddle}
+                alt="overview middle"
+                className="w-[704px] h-auto max-w-none hidden md:block"
+                style={{ marginRight: "-21px" }}
+              />
+            </div>
           </div>
         </div>
       </div>
