@@ -847,7 +847,7 @@ const QuestBoard = () => {
         style={{
           flexDirection: "column",
           alignItems: "flex-start",
-          zIndex: 100,
+          zIndex: 10,
         }}
       >
         <div
