@@ -768,7 +768,11 @@ const Quest = () => {
               To report any bugs or technical issues encountered during the
               event, contact us via our official{" "}
               <span
-                style={{ fontWeight: "700", cursor: "pointer" }}
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
                 onClick={() => window.open(LINKS.DISCORD, "_blank")}
               >
                 Discord
