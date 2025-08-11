@@ -521,6 +521,21 @@ const Quest = () => {
               </div>
             </div>
           </TableRow>
+
+          <TableRow title="Bug Report">
+            <div style={contentStyle}>
+              <div>
+                To report any bugs or technical issues encountered during the
+                event, contact us via our official{" "}
+                <span
+                  style={{ fontWeight: "700", cursor: "pointer" }}
+                  onClick={() => window.open(LINKS.DISCORD, "_blank")}
+                >
+                  Discord
+                </span>
+              </div>
+            </div>
+          </TableRow>
         </div>
       </div>
 
@@ -608,7 +623,7 @@ const Quest = () => {
           </div>
         </MobileCard>
 
-        <MobileCard title="Github Repositories" isLastRow>
+        <MobileCard title="Github Repositories">
           <div
             style={{
               display: "flex",
@@ -701,6 +716,22 @@ const Quest = () => {
               <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
                 Tokamak-zk-EVM
               </span>
+            </div>
+          </div>
+        </MobileCard>
+
+        <MobileCard title="Bug Report" isLastRow>
+          <div style={mobileContentStyle}>
+            <div>
+              To report any bugs or technical issues encountered during the
+              event, contact us via our official{" "}
+              <span
+                style={{ fontWeight: "700", cursor: "pointer" }}
+                onClick={() => window.open(LINKS.DISCORD, "_blank")}
+              >
+                Discord
+              </span>
+              .
             </div>
           </div>
         </MobileCard>
