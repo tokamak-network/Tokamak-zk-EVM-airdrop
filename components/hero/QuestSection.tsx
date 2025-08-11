@@ -8,6 +8,8 @@ import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
 import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
 import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
 import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
+import PlusIcon from "@/assets/hero/quest/plus.svg";
+import EqualIcon from "@/assets/hero/quest/equal.svg";
 import { LINKS } from "@/constants";
 
 // 공통 스타일 정의
@@ -219,6 +221,7 @@ interface ThreeColumnTableRowProps {
   reward?: React.ReactNode;
   isFirstRewardRow?: boolean;
   isLastRewardRow?: boolean;
+  isLast?: boolean;
 }
 
 const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
@@ -227,6 +230,7 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
   reward,
   isFirstRewardRow = false,
   isLastRewardRow = false,
+  isLast,
 }) => {
   return (
     <div
@@ -248,10 +252,24 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
 
       {/* 세번째 칸 - 105px */}
       <div
-        className={`w-[137px] flex items-center justify-center border-r-[1px] border-[#00477A] text-left bg-white  ${
+        className={`w-[137px] flex items-center justify-center border-r-[1px] border-[#00477A] text-left bg-white relative  ${
           isFirstRewardRow ? "border-t-[1px]" : ""
         } ${isLastRewardRow ? "border-b-[1px]" : ""}`}
       >
+        {isLast && (
+          <Image
+            className="absolute top-[-19px]"
+            src={PlusIcon}
+            alt={"PlusIcon"}
+          />
+        )}
+        {isLast && (
+          <Image
+            className="absolute bottom-[-19px]"
+            src={EqualIcon}
+            alt={"EqualIcon"}
+          />
+        )}
         {reward}
       </div>
     </div>
@@ -836,7 +854,7 @@ const QuestBoard = () => {
           }}
         >
           <ThreeColumnTableRow
-            title="Feature Completion"
+            title="Feature Completion*"
             content={
               <div className="flex flex-col h-[102px] justify-between">
                 <span style={contentStyle}>
@@ -865,7 +883,7 @@ const QuestBoard = () => {
           />
 
           <ThreeColumnTableRow
-            title="Social Media Activity"
+            title="Social Media Activity*"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
                 <div>Complete all social media tasks:</div>
@@ -938,7 +956,7 @@ const QuestBoard = () => {
           />
 
           <ThreeColumnTableRow
-            title="Quiz"
+            title="Quiz*"
             content={
               <span style={{ ...contentStyle }}>
                 Answer a simple quiz about Tokamak-zk-EVM.
@@ -954,6 +972,7 @@ const QuestBoard = () => {
                 Submitting meaningful improvement suggestions or bug reports
               </span>
             }
+            isLast={true}
             reward={
               <div className="w-[84px] flex flex-col justify-between items-center">
                 <span style={{ fontSize: "14px", color: "#00477A" }}>
@@ -1072,8 +1091,95 @@ const QuestBoard = () => {
 
       {/* Mobile Layout */}
       <div className="desktop:hidden w-full flex flex-col">
+        <div
+          style={{
+            borderRight: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid var(--line, #00477A)",
+            borderLeft: "1px solid var(--line, #00477A)",
+            background: "#1D9BF0",
+            display: "flex",
+            height: "101px",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+            marginBottom: "8px",
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="12"
+            viewBox="0 0 14 24"
+            fill="none"
+            style={{
+              width: "21px",
+              height: "21px",
+              transform: "rotate(0deg)",
+            }}
+          >
+            <g filter="url(#filter0_d_2014_87967)">
+              <path
+                d="M2.50422e-07 0.000243998L3 0.000244033L3 3.00024L6 3.00024L6 6.00024L9 6.00024L9 9.00024L12 9.00024L12 12.0002L9 12.0002L9 15.0002L6 15.0002L6 18.0002L3 18.0002L3 21.0002L0 21.0002L2.50422e-07 0.000243998Z"
+                fill="#FFF716"
+              />
+            </g>
+            <defs>
+              <filter
+                id="filter0_d_2014_87967"
+                x="0"
+                y="0.000244141"
+                width="14"
+                height="24"
+                filterUnits="userSpaceOnUse"
+                colorInterpolationFilters="sRGB"
+              >
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feOffset dx="2" dy="3" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0.211765 0 0 0 0 0.34902 0 0 0 0 0.411765 0 0 0 1 0"
+                />
+                <feBlend
+                  mode="normal"
+                  in2="BackgroundImageFix"
+                  result="effect1_dropShadow_2014_87967"
+                />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="effect1_dropShadow_2014_87967"
+                  result="shape"
+                />
+              </filter>
+            </defs>
+          </svg>
+          <div
+            className="flex flex-col"
+            style={{
+              color: "#FFF716",
+              fontFamily: '"IBM Plex Mono"',
+              fontSize: "18px",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "normal",
+              letterSpacing: "-0.11px",
+            }}
+          >
+            <span>Claim up to 100 TON.</span>
+            <span className="text-white">Mandatory Tasks: 75 TON</span>
+            <span className="text-white">Optional: + 25 TON</span>
+          </div>
+        </div>
         <QuestBoardMobileCard
-          title="Feature Completion"
+          title="Feature Completion*"
           content={
             <div className="flex flex-col gap-2">
               <div>
@@ -1103,7 +1209,7 @@ const QuestBoard = () => {
         />
 
         <QuestBoardMobileCard
-          title="Social Media Activity"
+          title="Social Media Activity*"
           content={
             <div>
               <div>Complete all social media tasks:</div>
@@ -1161,7 +1267,7 @@ const QuestBoard = () => {
         />
 
         <QuestBoardMobileCard
-          title="Quiz"
+          title="Quiz*"
           content="Answer a simple quiz about Tokamak-zk-EVM."
           reward="Mandatory"
         />
