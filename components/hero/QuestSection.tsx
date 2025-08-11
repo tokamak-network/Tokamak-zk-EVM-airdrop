@@ -754,9 +754,10 @@ const SubmitProofButton = () => {
         draggable={false}
         className="hidden desktop:block"
         onClick={() =>
-          alert(
-            "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
-          )
+          // alert(
+          //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          // )
+          window.open(LINKS.SUBMIT_PROOF, "_blank")
         }
       />
 
@@ -768,9 +769,10 @@ const SubmitProofButton = () => {
         draggable={false}
         className="block desktop:hidden"
         onClick={() =>
-          alert(
-            "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
-          )
+          // alert(
+          //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          // )
+          window.open(LINKS.SUBMIT_PROOF, "_blank")
         }
       />
     </div>

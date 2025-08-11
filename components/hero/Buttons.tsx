@@ -5,11 +5,13 @@ import CTA_2 from "../../assets/hero/buttons/CTA-2.svg";
 import CTA_3 from "../../assets/hero/buttons/CTA-3.svg";
 import CTA_4 from "../../assets/hero/buttons/CTA-4.svg";
 import CTA_2_MOBILE from "../../assets/hero/buttons/CTA-2-mobile.svg";
+import { LINKS } from "@/constants";
 
 const handleSubmitProofClick = () => {
-  alert(
-    "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
-  );
+  // alert(
+  //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+  // );
+  window.open(LINKS.SUBMIT_PROOF, "_blank");
 };
 
 export const GrabTONButton = () => {
