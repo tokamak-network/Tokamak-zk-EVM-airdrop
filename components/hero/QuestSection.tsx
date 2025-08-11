@@ -1439,7 +1439,13 @@ const Notes = () => {
           <ArrowIcon />
           <span style={notesCellStyle}>
             Check event announcements only on the official{" "}
-            <span style={{ fontWeight: "700", cursor: "pointer" }}>
+            <span
+              style={{
+                fontWeight: "700",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
+            >
               Tokamak Network X
             </span>{" "}
             account.
@@ -1520,7 +1526,11 @@ const Notes = () => {
         <NotesMobileCard>
           Check event announcements only on the official{" "}
           <span
-            style={{ fontWeight: "700", cursor: "pointer" }}
+            style={{
+              fontWeight: "700",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
             onClick={() => window.open(LINKS.X)}
           >
             Tokamak Network X
