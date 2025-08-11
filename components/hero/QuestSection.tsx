@@ -64,7 +64,7 @@ const lightStyle = {
 const rewardStyle = {
   color: "#008BEE",
   fontFamily: '"IBM Plex Mono"',
-  fontSize: "18px",
+  fontSize: "26px",
   fontStyle: "normal" as const,
   fontWeight: "700",
   lineHeight: "normal",
@@ -216,21 +216,24 @@ const MobileCard: React.FC<MobileCardProps> = ({
 interface ThreeColumnTableRowProps {
   title: string;
   content: React.ReactNode;
-  reward: React.ReactNode;
-  isLastRow?: boolean;
+  reward?: React.ReactNode;
+  isFirstRewardRow?: boolean;
+  isLastRewardRow?: boolean;
 }
 
 const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
   title,
   content,
   reward,
-  // isLastRow = false, // eslint-disable-line @typescript-eslint/no-unused-vars
+  isFirstRewardRow = false,
+  isLastRewardRow = false,
 }) => {
   return (
     <div
       style={{
         display: "flex",
         borderLeft: "1px solid var(--line, #00477A)",
+        position: "relative",
       }}
     >
       {/* 첫번째 칸 - 250px */}
@@ -239,12 +242,16 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
       </div>
 
       {/* 두번째 칸 - 545px */}
-      <div className="w-[545px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
+      <div className="w-[513px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
         {content}
       </div>
 
       {/* 세번째 칸 - 105px */}
-      <div className="w-[105px] flex items-center justify-start px-[16px] py-[16px] border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
+      <div
+        className={`w-[137px] flex items-center justify-center border-r-[1px] border-[#00477A] text-left bg-white  ${
+          isFirstRewardRow ? "border-t-[1px]" : ""
+        } ${isLastRewardRow ? "border-b-[1px]" : ""}`}
+      >
         {reward}
       </div>
     </div>
@@ -803,6 +810,7 @@ const QuestBoard = () => {
         style={{
           flexDirection: "column",
           alignItems: "flex-start",
+          zIndex: 100,
         }}
       >
         <div
@@ -815,7 +823,7 @@ const QuestBoard = () => {
             content={
               <div className="flex flex-col h-[102px] justify-between">
                 <span style={contentStyle}>
-                  Attempting Playground setup and initial feature usage
+                  Completing the use of key features within the Playground
                 </span>
                 <div className="relative">
                   <Image
@@ -837,23 +845,6 @@ const QuestBoard = () => {
                 </div>
               </div>
             }
-            reward={<span style={rewardStyle}>50 TON</span>}
-          />
-
-          <ThreeColumnTableRow
-            title="Experience Feedback"
-            content={
-              <span style={contentStyle}>
-                Submitting meaningful improvement suggestions or bug reports
-              </span>
-            }
-            reward={
-              <span style={rewardStyle}>
-                Up to
-                <br />
-                25 TON
-              </span>
-            }
           />
 
           <ThreeColumnTableRow
@@ -871,7 +862,11 @@ const QuestBoard = () => {
                   <li>
                     Follow Tokamak Network on{" "}
                     <span
-                      style={{ fontWeight: "700", cursor: "pointer" }}
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
                       onClick={() => window.open(LINKS.X)}
                     >
                       X
@@ -880,12 +875,25 @@ const QuestBoard = () => {
                   </li>
                   <li>
                     Share and comment on Tokamak Network{" "}
-                    <span style={{ fontWeight: "700" }}>posts</span> on X
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => window.open(LINKS.X)}
+                    >
+                      posts
+                    </span>{" "}
+                    on X
                   </li>
                   <li>
                     Subscribe to the Tokamak zk-EVM{" "}
                     <span
-                      style={{ fontWeight: "700", cursor: "pointer" }}
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
                       onClick={() => window.open(LINKS.YOUTUBE)}
                     >
                       YouTube
@@ -895,19 +903,153 @@ const QuestBoard = () => {
                 </ul>
               </div>
             }
-            reward={<span style={rewardStyle}>20 TON</span>}
+            reward={
+              <div
+                className="w-[88px] flex justify-between absolute top-7"
+                style={rewardStyle}
+              >
+                <span>75</span>
+                <span
+                  style={{
+                    fontWeight: 400,
+                  }}
+                >
+                  TON
+                </span>
+              </div>
+            }
           />
 
           <ThreeColumnTableRow
             title="Quiz"
             content={
-              <span style={contentStyle}>
+              <span style={{ ...contentStyle }}>
                 Answer a simple quiz about Tokamak-zk-EVM.
               </span>
             }
-            reward={<span style={rewardStyle}>5 TON</span>}
-            isLastRow
+            isLastRewardRow
           />
+
+          <ThreeColumnTableRow
+            title="Experience Feedback"
+            content={
+              <span style={contentStyle}>
+                Submitting meaningful improvement suggestions or bug reports
+              </span>
+            }
+            reward={
+              <div className="w-[84px] flex flex-col justify-between items-center">
+                <span style={{ fontSize: "14px", color: "#00477A" }}>
+                  Up to
+                </span>
+                <div className="flex justify-between w-full">
+                  <span
+                    style={{
+                      ...rewardStyle,
+                      fontSize: "26px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    25
+                  </span>
+                  <span
+                    style={{
+                      ...rewardStyle,
+                      fontSize: "26px",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {" "}
+                    TON
+                  </span>
+                </div>
+              </div>
+            }
+            isLastRewardRow
+          />
+        </div>
+        <div
+          style={{
+            borderRight: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid var(--line, #00477A)",
+            borderLeft: "1px solid var(--line, #00477A)",
+            background: "#1D9BF0",
+            display: "flex",
+            height: "55px",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="12"
+            viewBox="0 0 14 24"
+            fill="none"
+            style={{
+              width: "21px",
+              height: "21px",
+              transform: "rotate(0deg)",
+            }}
+          >
+            <g filter="url(#filter0_d_2014_87967)">
+              <path
+                d="M2.50422e-07 0.000243998L3 0.000244033L3 3.00024L6 3.00024L6 6.00024L9 6.00024L9 9.00024L12 9.00024L12 12.0002L9 12.0002L9 15.0002L6 15.0002L6 18.0002L3 18.0002L3 21.0002L0 21.0002L2.50422e-07 0.000243998Z"
+                fill="#FFF716"
+              />
+            </g>
+            <defs>
+              <filter
+                id="filter0_d_2014_87967"
+                x="0"
+                y="0.000244141"
+                width="14"
+                height="24"
+                filterUnits="userSpaceOnUse"
+                colorInterpolationFilters="sRGB"
+              >
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feOffset dx="2" dy="3" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0.211765 0 0 0 0 0.34902 0 0 0 0 0.411765 0 0 0 1 0"
+                />
+                <feBlend
+                  mode="normal"
+                  in2="BackgroundImageFix"
+                  result="effect1_dropShadow_2014_87967"
+                />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="effect1_dropShadow_2014_87967"
+                  result="shape"
+                />
+              </filter>
+            </defs>
+          </svg>
+          <span
+            style={{
+              color: "#FFF716",
+              fontFamily: '"IBM Plex Mono"',
+              fontSize: "22px",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "normal",
+              letterSpacing: "-0.11px",
+            }}
+          >
+            Complete the Tasks. Claim up to 100 TON.
+          </span>
         </div>
       </div>
 
@@ -917,7 +1059,9 @@ const QuestBoard = () => {
           title="Feature Completion"
           content={
             <div className="flex flex-col gap-2">
-              <div>Attempting Playground setup and initial feature usage</div>
+              <div>
+                Completing the use of key features within the Playground
+              </div>
               <div className="flex items-start gap-2">
                 <Image
                   src={ExclamationMark}
@@ -938,19 +1082,7 @@ const QuestBoard = () => {
               </div>
             </div>
           }
-          reward="50 TON"
-        />
-
-        <QuestBoardMobileCard
-          title="Experience Feedback"
-          content="Submitting meaningful improvement suggestions or bug reports"
-          reward={
-            <>
-              Up to
-              <br />
-              25 TON
-            </>
-          }
+          reward="Mandatory"
         />
 
         <QuestBoardMobileCard
@@ -968,7 +1100,11 @@ const QuestBoard = () => {
                 <li>
                   Follow Tokamak Network on{" "}
                   <span
-                    style={{ fontWeight: "700", cursor: "pointer" }}
+                    style={{
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    }}
                     onClick={() => window.open(LINKS.X)}
                   >
                     X
@@ -977,13 +1113,24 @@ const QuestBoard = () => {
                 </li>
                 <li>
                   Share and comment on Tokamak Network{" "}
-                  <span style={{ fontWeight: "700" }}>posts</span> on{" "}
-                  <span style={{ fontWeight: "700" }}>X</span>
+                  <span
+                    style={{
+                      fontWeight: "700",
+                      textDecoration: "underline",
+                    }}
+                    onClick={() => window.open(LINKS.X)}
+                  >
+                    posts
+                  </span>{" "}
+                  on X
                 </li>
                 <li>
                   Subscribe to the Tokamak zk-EVM{" "}
                   <span
-                    style={{ fontWeight: "700" }}
+                    style={{
+                      fontWeight: "700",
+                      textDecoration: "underline",
+                    }}
                     onClick={() => window.open(LINKS.YOUTUBE)}
                   >
                     YouTube
@@ -993,13 +1140,25 @@ const QuestBoard = () => {
               </ul>
             </div>
           }
-          reward="20 TON"
+          reward="Mandatory"
         />
 
         <QuestBoardMobileCard
           title="Quiz"
           content="Answer a simple quiz about Tokamak-zk-EVM."
-          reward="5 TON"
+          reward="Mandatory"
+        />
+
+        <QuestBoardMobileCard
+          title="Experience Feedback"
+          content="Submitting meaningful improvement suggestions or bug reports"
+          reward={
+            <>
+              Up to
+              <br />
+              25 TON
+            </>
+          }
           isLastRow
         />
       </div>
