@@ -353,9 +353,12 @@ const Quest = () => {
         >
           <TableRow title="How to Participate">
             <span style={contentStyle}>
-              Complete all mandatory tasks (Feature Completion, Experience
-              Feedback, Social Media Activity, Quiz) from the quest board to
-              qualify for rewards.
+              Complete all mandatory tasks (
+              <span style={{ fontWeight: "700" }}>
+                Feature Completion, Experience Feedback, Social Media Activity,
+                Quiz
+              </span>
+              ) from the quest board to qualify for rewards.
             </span>
           </TableRow>
 
@@ -385,6 +388,17 @@ const Quest = () => {
                 Each selected participant can earn up to{" "}
                 <span style={{ fontWeight: "700" }}>100 TON.</span>
               </div>
+              <div className="flex flex-col mt-4">
+                <span>
+                  To prevent duplicate participation or farming, your account
+                  may be reviewed.{" "}
+                </span>
+                <span>
+                  This includes checking that the account was created at least 1
+                  month ago, holds at least 0.1 ETH, and that the provided
+                  social media IDs are valid and unique.
+                </span>
+              </div>
             </div>
           </TableRow>
 
@@ -394,7 +408,7 @@ const Quest = () => {
                 <span style={boldStyle}>1.Stake (Default Option)</span>
                 <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
-                    - Receive the full reward amount (e.g., 100 TON → 100 TON)
+                    - Receive the full reward amount
                   </span>
                 </div>
               </div>
@@ -403,8 +417,7 @@ const Quest = () => {
                 <span style={boldStyle}>2.Claim Now</span>
                 <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
-                    - Receive 80% of your reward immediately (e.g., 100 TON → 80
-                    TON)
+                    - Receive 80% of your reward immediately
                   </span>
                 </div>
               </div>
@@ -535,7 +548,11 @@ const Quest = () => {
                 To report any bugs or technical issues encountered during the
                 event, contact us via our official{" "}
                 <span
-                  style={{ fontWeight: "700", cursor: "pointer" }}
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
                   onClick={() => window.open(LINKS.DISCORD, "_blank")}
                 >
                   Discord
