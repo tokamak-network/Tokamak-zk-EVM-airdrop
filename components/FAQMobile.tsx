@@ -178,7 +178,7 @@ const FAQMobile = () => {
     {
       question: "Q2. Do I have to complete all missions?",
       answer:
-        "Yes. To qualify for rewards, you must complete all mandatory tasks:Feature Completion, Experience Feedback, Social Media Activity, and Quiz. Experience Feedback is optional but encouraged.",
+        "Yes. To qualify for rewards, you must complete all mandatory tasks:Feature Completion, Social Media Activity, and Quiz. Experience Feedback is optional but encouraged.",
     },
     {
       question: "Q3. How do I know if my proof is valid?",

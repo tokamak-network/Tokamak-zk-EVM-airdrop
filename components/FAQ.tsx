@@ -177,9 +177,8 @@ const FAQ = () => {
                   }}
                 >
                   Yes. To qualify for rewards, you must complete all mandatory
-                  tasks:Feature Completion, Experience Feedback, Social Media
-                  Activity, and Quiz. Experience Feedback is optional but
-                  encouraged.
+                  tasks:Feature Completion, Social Media Activity, and Quiz.
+                  Experience Feedback is optional but encouraged.
                 </div>
               </div>
 

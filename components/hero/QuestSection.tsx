@@ -373,8 +373,7 @@ const Quest = () => {
             <span style={contentStyle}>
               Complete all mandatory tasks (
               <span style={{ fontWeight: "700" }}>
-                Feature Completion, Experience Feedback, Social Media Activity,
-                Quiz
+                Feature Completion, Social Media Activity, Quiz
               </span>
               ) from the quest board to qualify for rewards.
             </span>
@@ -584,9 +583,8 @@ const Quest = () => {
       {/* Mobile Layout */}
       <div className="desktop:hidden w-full flex flex-col">
         <MobileCard title="How to Participate">
-          Complete all mandatory tasks (Feature Completion, Experience Feedback,
-          Social Media Activity, Quiz) from the quest board to qualify for
-          rewards.
+          Complete all mandatory tasks (Feature Completion, Social Media
+          Activity, Quiz) from the quest board to qualify for rewards.
         </MobileCard>
 
         <MobileCard title="Reward Criteria">
