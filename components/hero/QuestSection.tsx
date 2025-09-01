@@ -3,8 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
-import QuestBGImage from "@/assets/hero/quest-bg.png";
-import QuestBoardBGImage from "@/assets/hero/quest-board-bg.png";
+
 import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
 import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
 import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
@@ -14,7 +13,7 @@ import { LINKS } from "@/constants";
 
 // 공통 스타일 정의
 const titleStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "18px",
   fontStyle: "normal" as const,
@@ -24,7 +23,7 @@ const titleStyle = {
 };
 
 const contentStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "18px",
   fontStyle: "normal" as const,
@@ -34,7 +33,7 @@ const contentStyle = {
 };
 
 const mobileContentStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "16px",
   fontStyle: "normal" as const,
@@ -44,7 +43,7 @@ const mobileContentStyle = {
 };
 
 const boldStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "16px",
   fontStyle: "normal" as const,
@@ -54,7 +53,7 @@ const boldStyle = {
 };
 
 const lightStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "16px",
   fontStyle: "normal" as const,
@@ -75,7 +74,7 @@ const rewardStyle = {
 
 const notesCellStyle = {
   flex: "1 0 0",
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "16px",
   fontStyle: "normal" as const,
@@ -85,7 +84,7 @@ const notesCellStyle = {
 };
 
 const subTextStyle = {
-  color: "var(--text, #002139)",
+  color: "#ffffff",
   fontFamily: '"IBM Plex Mono"',
   fontSize: "15px",
   fontStyle: "normal" as const,
@@ -175,10 +174,10 @@ const TableRow: React.FC<TableRowProps> = ({
         borderLeft: "1px solid var(--line, #00477A)",
       }}
     >
-      <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
+      <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#4fc3f7] bg-[#1e3a8a]">
         <span style={titleStyle}>{title}</span>
       </div>
-      <div className="w-[650px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
+      <div className="w-[650px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
         {children}
       </div>
     </div>
@@ -199,15 +198,15 @@ const MobileCard: React.FC<MobileCardProps> = ({
 }) => {
   return (
     <div
-      className="w-full border border-[#00477A] bg-white"
+      className="w-full border border-[#4fc3f7] bg-[#0a1930]"
       style={{
         marginBottom: isLastRow ? "0" : "16px",
       }}
     >
-      <div className="px-[20px] py-[12px] bg-[#ECF9FF] border-b border-[#00477A]">
+      <div className="px-[20px] py-[12px] bg-[#1e3a8a] border-b border-[#4fc3f7]">
         <span style={titleStyle}>{title}</span>
       </div>
-      <div className="px-[20px] py-[12px] bg-white">
+      <div className="px-[20px] py-[12px] bg-[#0a1930]">
         <div style={mobileContentStyle}>{children}</div>
       </div>
     </div>
@@ -241,18 +240,18 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
       }}
     >
       {/* 첫번째 칸 - 250px */}
-      <div className="w-[250px] flex items-center justify-start px-[24px] py-[16px] border-b-[1px] border-r-[1px] border-[#00477A] bg-[#ECF9FF]">
+      <div className="w-[250px] flex items-center justify-start px-[24px] py-[16px] border-b-[1px] border-r-[1px] border-[#4fc3f7] bg-[#1e3a8a]">
         <span style={titleStyle}>{title}</span>
       </div>
 
       {/* 두번째 칸 - 545px */}
-      <div className="w-[513px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#00477A] text-left bg-white">
+      <div className="w-[513px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
         {content}
       </div>
 
       {/* 세번째 칸 - 105px */}
       <div
-        className={`w-[137px] flex items-center justify-center border-r-[1px] border-[#00477A] text-left bg-white relative  ${
+        className={`w-[137px] flex items-center justify-center border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930] relative  ${
           isFirstRewardRow ? "border-t-[1px]" : ""
         } ${isLastRewardRow ? "border-b-[1px]" : ""}`}
       >
@@ -313,12 +312,12 @@ const QuestBoardMobileCard: React.FC<QuestBoardMobileCardProps> = ({
 
   return (
     <div
-      className="w-full border border-[#00477A] bg-white"
+      className="w-full border border-[#4fc3f7] bg-[#0a1930]"
       style={{
         marginBottom: isLastRow ? "0" : "8px",
       }}
     >
-      <div className="px-[20px] py-[12px] bg-[#ECF9FF] border-b border-[#00477A] flex items-center gap-[12px]">
+      <div className="px-[20px] py-[12px] bg-[#1e3a8a] border-b border-[#4fc3f7] flex items-center gap-[12px]">
         <div className="flex-1" style={mobileTitleStyle}>
           {title}
         </div>
@@ -329,7 +328,7 @@ const QuestBoardMobileCard: React.FC<QuestBoardMobileCardProps> = ({
           <div style={mobileRewardStyle}>{reward}</div>
         </div>
       </div>
-      <div className="px-[20px] py-[12px] bg-white">
+      <div className="px-[20px] py-[12px] bg-[#0a1930]">
         <div style={mobileUnifiedContentStyle}>{content}</div>
       </div>
     </div>
@@ -340,7 +339,7 @@ const Quest = () => {
   return (
     <div
       id="quest"
-      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
+      className="relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px] bg-gradient-to-b from-[#0a1930] to-[#1a2347]"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -348,11 +347,7 @@ const Quest = () => {
         gap: "32px",
       }}
     >
-      <Image
-        className="hidden desktop:block absolute top-[39px] left-0 w-[332px] h-[367px]"
-        src={QuestBGImage}
-        alt="QuestBGImage"
-      />
+
       <h1 className="text-hero-title-70">Quests</h1>
 
       {/* Desktop Layout */}
@@ -826,7 +821,7 @@ const SubmitProofButton = () => {
 const QuestBoard = () => {
   return (
     <div
-      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
+      className="relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px] bg-gradient-to-b from-[#0a1930] to-[#1a2347]"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -834,11 +829,7 @@ const QuestBoard = () => {
         gap: "32px",
       }}
     >
-      <Image
-        className="hidden desktop:block absolute top-[229px] right-0"
-        src={QuestBoardBGImage}
-        alt="QuestBoardBGImage"
-      />
+
       <h1 className="text-hero-title-70">Quest Board</h1>
 
       {/* Desktop Layout - 기존 디자인 유지 */}
@@ -977,7 +968,7 @@ const QuestBoard = () => {
             isLast={true}
             reward={
               <div className="w-[84px] flex flex-col justify-between items-center">
-                <span style={{ fontSize: "14px", color: "#00477A" }}>
+                <span>
                   Up to
                 </span>
                 <div className="flex justify-between w-full">
@@ -1009,7 +1000,7 @@ const QuestBoard = () => {
         <div
           style={{
             borderRight: "1px solid var(--line, #00477A)",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
             borderLeft: "1px solid var(--line, #00477A)",
             background: "#1D9BF0",
             display: "flex",
@@ -1096,7 +1087,7 @@ const QuestBoard = () => {
         <div
           style={{
             borderRight: "1px solid var(--line, #00477A)",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
             borderLeft: "1px solid var(--line, #00477A)",
             background: "#1D9BF0",
             display: "flex",
@@ -1305,12 +1296,12 @@ const NotesMobileCard: React.FC<NotesMobileCardProps> = ({
 }) => {
   return (
     <div
-      className="w-full border border-[#00477A] bg-white"
+      className="w-full border border-[#4fc3f7] bg-[#0a1930]"
       style={{
         marginBottom: isLastRow ? "0" : "16px",
       }}
     >
-      <div className="px-[20px] py-[12px] bg-white flex items-center gap-[16px]">
+      <div className="px-[20px] py-[12px] bg-[#0a1930] flex items-center gap-[16px]">
         <div className="flex-shrink-0">
           <ArrowIcon />
         </div>
@@ -1325,7 +1316,7 @@ const NotesMobileCard: React.FC<NotesMobileCardProps> = ({
 const Notes = () => {
   return (
     <div
-      className="grid-background relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px]"
+      className="relative w-full desktop:w-[1356px] px-[20px] desktop:px-0 py-[32px] desktop:py-[58px] bg-gradient-to-b from-[#0a1930] to-[#1a2347]"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -1333,7 +1324,7 @@ const Notes = () => {
         gap: "32px",
       }}
     >
-      <h1 className="text-hero-title-70">Notes</h1>
+              <h1 className="text-hero-title-70" style={{color: '#ffffff'}}>Notes</h1>
 
       {/* Desktop Layout */}
       <div
@@ -1341,8 +1332,8 @@ const Notes = () => {
         style={{
           flexDirection: "column",
           alignItems: "flex-start",
-          border: "1px solid var(--line, #00477A)",
-          background: "#FFF",
+          border: "1px solid #4fc3f7",
+          background: "#0a1930",
         }}
       >
         <div
@@ -1352,7 +1343,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1368,7 +1359,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1385,7 +1376,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1401,7 +1392,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1418,7 +1409,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1435,7 +1426,7 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
-            borderBottom: "1px solid var(--line, #00477A)",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
@@ -1580,13 +1571,13 @@ const Notes = () => {
 
 const QuestSection = () => {
   return (
-    <div className="w-full flex flex-col items-center bg-[#ccefff]">
+    <div className="w-full flex flex-col items-center bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
       {/* Desktop Layout - 기존 구조 유지 */}
       <div className="hidden desktop:flex w-full flex-col items-center gap-[40px] p-[40px]">
         <h1
           className="text-center"
           style={{
-            color: "var(--text, #002139)",
+            color: "#ffffff",
             fontFamily: '"Jersey 10"',
             fontSize: "64px",
             fontStyle: "normal",
@@ -1598,7 +1589,7 @@ const QuestSection = () => {
           Complete quests, prove what you did, and earn TON
         </h1>
 
-        <div className="flex flex-col w-full desktop:w-[1360px] border-2 border-[#00477A]">
+        <div className="flex flex-col w-full desktop:w-[1360px] border-2 border-[#4fc3f7]">
           <Quest />
           <HeroCaoursel />
           <QuestBoard />
@@ -1617,7 +1608,7 @@ const QuestSection = () => {
           <h1
             className="text-center"
             style={{
-              color: "var(--text, #002139)",
+              color: "#ffffff",
               fontFamily: '"Jersey 10"',
               fontSize: "40px",
               fontStyle: "normal",
@@ -1633,7 +1624,7 @@ const QuestSection = () => {
         </div>
 
         {/* Mobile Top Border Line - 전체 너비 */}
-        <div className="w-full border-t-2 border-[#00477A]"></div>
+        <div className="w-full border-t-2 border-[#4fc3f7]"></div>
 
         {/* Mobile Content Section */}
         <div className="flex flex-col w-full">
@@ -1645,7 +1636,7 @@ const QuestSection = () => {
         </div>
 
         {/* Mobile Bottom Border Line - 전체 너비 */}
-        <div className="w-full border-b-2 border-[#00477A]"></div>
+        <div className="w-full border-b-2 border-[#4fc3f7]"></div>
       </div>
     </div>
   );

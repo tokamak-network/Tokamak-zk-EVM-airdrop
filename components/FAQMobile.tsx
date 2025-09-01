@@ -66,12 +66,12 @@ const FAQAnswer: React.FC<FAQAnswerProps> = ({ answer }) => {
         borderRight: "1px solid var(--line, #00477A)",
         borderBottom: "1px solid var(--line, #00477A)",
         borderLeft: "1px solid var(--line, #00477A)",
-        background: "#ECF9FF",
+        background: "#1e3a8a",
       }}
     >
       <div
         style={{
-          color: "var(--text, #002139)",
+          color: "#ffffff",
           fontFamily: "IBM Plex Mono",
           fontSize: "16px",
           fontStyle: "normal",
@@ -111,15 +111,15 @@ const FAQCard: React.FC<FAQCardProps> = ({
           alignItems: "center",
           gap: "12px",
           alignSelf: "stretch",
-          border: "1px solid var(--line, #00477A)",
-          background: "#FFF",
+          border: "1px solid #4fc3f7",
+          background: "#0a1930",
           cursor: "pointer",
         }}
       >
         <div
           style={{
             flex: 1,
-            color: "var(--text, #002139)",
+            color: "#ffffff",
             fontFamily: "IBM Plex Mono",
             fontSize: "16px",
             fontStyle: "normal",

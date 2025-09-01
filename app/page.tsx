@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50 overflow-x-hidden">
+      <main className="min-h-screen bg-gradient-to-b from-[#0a1930] to-[#1a2347] overflow-x-hidden relative">
         <Hero />
         <FAQ />
         <div className="hidden desktop:block">

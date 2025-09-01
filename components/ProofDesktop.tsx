@@ -2,8 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import PipeTopImage from "@/assets/FAQ/pipe-top.png";
-import ProofDashboardImage from "@/assets/FAQ/proof-dashboard.png";
+
 import { trimText, copyToClipboard } from "@/utils/text";
 import {
   ProofCardProps,
@@ -253,33 +252,24 @@ const ProofCard: React.FC<ProofCardProps> = ({
 
 const ProofDesktop = () => {
   return (
-    <div className="">
-      <div className="absolute top-[-154px] left-[146px]">
-        <Image className="" src={PipeTopImage} alt="piep_top" />
-      </div>
-      <div className="absolute top-[37px] left-[-30px]">
-        <Image
-          src={ProofDashboardImage}
-          alt="ProofDashboardImage"
-          className="w-[720px] h-[827px]"
-        />
+    <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
+      {/* Space-themed header */}
+      <div className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] p-4 border-b-2 border-[#4fc3f7]">
+        <h2 className="text-white text-3xl font-bold text-center" style={{fontFamily: '"Jersey 10"'}}>
+          ZK Proof Dashboard
+        </h2>
       </div>
 
       {/* Proof Cards Container */}
       <div
         style={{
-          position: "absolute",
-          top: "150px",
-          left: "38px",
           display: "flex",
-          width: "584px",
-          height: "598px",
-          padding: "0 24px 32px 24px",
-          marginTop: "32px",
+          width: "100%",
+          minHeight: "600px",
+          padding: "24px",
           flexDirection: "column",
           alignItems: "center",
-          gap: "32px",
-          flexShrink: 0,
+          gap: "16px",
           overflowY: "auto",
         }}
       >

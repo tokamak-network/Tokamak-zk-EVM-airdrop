@@ -39,7 +39,7 @@ export default function RootLayout({
     <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
       <head></head>
       <body
-        className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gray-50 text-gray-900 antialiased`}
+        className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gradient-to-b from-[#0a1930] to-[#1a2347] text-white antialiased`}
       >
         <div className="min-h-screen">{children}</div>
       </body>

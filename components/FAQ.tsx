@@ -26,7 +26,7 @@ const FAQ = () => {
   };
 
   return (
-    <div className="w-full bg-[#CCEFFF]">
+    <div className="w-full bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
       {/* Mobile Layout - Proof 먼저 */}
       <div className="desktop:hidden w-full">
         <ProofMobile />
@@ -58,7 +58,7 @@ const FAQ = () => {
             }}
           >
             {/* FAQ 제목 */}
-            <h1 className="text-hero-title-70">FAQ</h1>
+            <h1 className="text-hero-title-70" style={{color: '#ffffff'}}>FAQ</h1>
 
             {/* FAQ 박스들 전체 컨테이너 */}
             <div
@@ -81,8 +81,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -94,7 +94,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -113,8 +113,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -135,8 +135,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -148,7 +148,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -167,8 +167,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -189,8 +189,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -202,7 +202,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -219,8 +219,8 @@ const FAQ = () => {
                     display: "block",
                     padding: "16px 24px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -252,8 +252,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -265,7 +265,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -284,8 +284,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -308,8 +308,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -321,7 +321,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -340,8 +340,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -368,8 +368,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -381,7 +381,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -400,8 +400,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -421,8 +421,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -434,7 +434,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -454,8 +454,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -493,7 +493,7 @@ const FAQ = () => {
       </div>
 
       {/* Mobile Layout - FAQ 질문들 */}
-      <div className="desktop:hidden w-full bg-[#CCEFFF]">
+      <div className="desktop:hidden w-full bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
         <FAQMobile />
       </div>
     </div>

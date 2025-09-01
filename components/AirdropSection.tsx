@@ -20,7 +20,7 @@ const AirdropCard: React.FC<AirdropCardProps> = ({
 }) => {
   return (
     <div className="card">
-      <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
+      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
       <p className="text-gray-700 mb-6 leading-relaxed">{description}</p>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-2">
@@ -68,10 +68,10 @@ const AirdropSection: React.FC = () => {
   };
 
   return (
-    <section id="airdrop" className="py-20 bg-white">
+    <section id="airdrop" className="py-20 bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
       <div className="container-max section-padding">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             에어드랍 참여하기
           </h2>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
