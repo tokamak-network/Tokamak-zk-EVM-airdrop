@@ -8,7 +8,7 @@ const Star = ({ className, style }: { className?: string; style?: React.CSSPrope
   </div>
 );
 
-// Plus Sign Component for cosmic background
+// Plus Sign Component for cosmic background ( this is for the animation of the hero section )
 const PlusSign = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
   <div className={`absolute text-white ${className}`} style={style}>
     +
