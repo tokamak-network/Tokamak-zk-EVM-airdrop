@@ -5,7 +5,7 @@ import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import GrabTON from "@/components/GrabTON";
 
-//test commit
+//test commit2
 export default function Home() {
   return (
     <>
