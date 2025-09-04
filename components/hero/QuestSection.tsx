@@ -368,7 +368,7 @@ const Quest = () => {
             <span style={contentStyle}>
               Complete all mandatory tasks (
               <span style={{ fontWeight: "700" }}>
-                Feature Completion, Social Media Activity, Quiz
+                Feature Completion, Social Media Activity
               </span>
               ) from the quest board to qualify for rewards.
             </span>
@@ -579,7 +579,7 @@ const Quest = () => {
       <div className="desktop:hidden w-full flex flex-col">
         <MobileCard title="How to Participate">
           Complete all mandatory tasks (Feature Completion, Social Media
-          Activity, Quiz) from the quest board to qualify for rewards.
+          Activity) from the quest board to qualify for rewards.
         </MobileCard>
 
         <MobileCard title="Reward Criteria">
@@ -791,7 +791,7 @@ const SubmitProofButton = () => {
         alt="submit proof"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="hidden desktop:block"
+        className="hidden desktop:block transition-transform duration-200 hover:scale-125"
         onClick={() =>
           // alert(
           //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
@@ -806,7 +806,7 @@ const SubmitProofButton = () => {
         alt="submit proof"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="block desktop:hidden"
+        className="block desktop:hidden transition-transform duration-200 hover:scale-125"
         onClick={() =>
           // alert(
           //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
@@ -902,19 +902,6 @@ const QuestBoard = () => {
                     (Twitter)
                   </li>
                   <li>
-                    Share and comment on Tokamak Network{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => window.open(LINKS.X)}
-                    >
-                      posts
-                    </span>{" "}
-                    on X
-                  </li>
-                  <li>
                     Subscribe to the Tokamak zk-EVM{" "}
                     <span
                       style={{
@@ -946,17 +933,9 @@ const QuestBoard = () => {
                 </span>
               </div>
             }
-          />
-
-          <ThreeColumnTableRow
-            title="Quiz*"
-            content={
-              <span style={{ ...contentStyle }}>
-                Answer a simple quiz about Tokamak-zk-EVM.
-              </span>
-            }
             isLastRewardRow
           />
+
 
           <ThreeColumnTableRow
             title="Experience Feedback"
@@ -1077,7 +1056,7 @@ const QuestBoard = () => {
               letterSpacing: "-0.11px",
             }}
           >
-            Complete the Tasks. Claim up to 100 TON.
+            Complete 2 Tasks. Claim up to 100 TON.
           </span>
         </div>
       </div>
@@ -1166,9 +1145,8 @@ const QuestBoard = () => {
               letterSpacing: "-0.11px",
             }}
           >
-            <span>Claim up to 100 TON.</span>
-            <span className="text-white">Mandatory Tasks: 75 TON</span>
-            <span className="text-white">Optional: + 25 TON</span>
+            <span>Complete 2 Tasks. Claim up to 100 TON.</span>
+            <span className="text-white">Mandatory: 75 TON + Optional: 25 TON</span>
           </div>
         </div>
         <QuestBoardMobileCard
@@ -1213,57 +1191,39 @@ const QuestBoard = () => {
                   listStyleType: "disc",
                 }}
               >
-                <li>
-                  Follow Tokamak Network on{" "}
-                  <span
-                    style={{
-                      fontWeight: "700",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    }}
-                    onClick={() => window.open(LINKS.X)}
-                  >
-                    X
-                  </span>{" "}
-                  (Twitter)
-                </li>
-                <li>
-                  Share and comment on Tokamak Network{" "}
-                  <span
-                    style={{
-                      fontWeight: "700",
-                      textDecoration: "underline",
-                    }}
-                    onClick={() => window.open(LINKS.X)}
-                  >
-                    posts
-                  </span>{" "}
-                  on X
-                </li>
-                <li>
-                  Subscribe to the Tokamak zk-EVM{" "}
-                  <span
-                    style={{
-                      fontWeight: "700",
-                      textDecoration: "underline",
-                    }}
-                    onClick={() => window.open(LINKS.YOUTUBE)}
-                  >
-                    YouTube
-                  </span>{" "}
-                  channel
-                </li>
+                                 <li>
+                   Follow Tokamak Network on{" "}
+                   <span
+                     style={{
+                       fontWeight: "700",
+                       cursor: "pointer",
+                       textDecoration: "underline",
+                     }}
+                     onClick={() => window.open(LINKS.X)}
+                   >
+                     X
+                   </span>{" "}
+                   (Twitter)
+                 </li>
+                 <li>
+                   Subscribe to the Tokamak zk-EVM{" "}
+                   <span
+                     style={{
+                       fontWeight: "700",
+                       textDecoration: "underline",
+                     }}
+                     onClick={() => window.open(LINKS.YOUTUBE)}
+                   >
+                     YouTube
+                   </span>{" "}
+                   channel
+                 </li>
               </ul>
             </div>
           }
           reward="Mandatory"
         />
 
-        <QuestBoardMobileCard
-          title="Quiz*"
-          content="Answer a simple quiz about Tokamak-zk-EVM."
-          reward="Mandatory"
-        />
 
         <QuestBoardMobileCard
           title="Experience Feedback"

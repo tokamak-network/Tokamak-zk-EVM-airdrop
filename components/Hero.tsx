@@ -1,5 +1,9 @@
+"use client";
 import React from "react";
+import Image from "next/image";
 import QuestSection from "./hero/QuestSection";
+import CTA_1 from "@/assets/hero/buttons/CTA.svg";
+import CTA_4 from "@/assets/hero/buttons/CTA-4.svg";
 
 // Star Component for cosmic background
 const Star = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
@@ -69,22 +73,36 @@ const Overview = () => {
         </div>
 
         {/* Interactive Button */}
-        <div className="mt-16 relative">
-          <div 
-            className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] border-2 border-[#4fc3f7] rounded-lg px-8 py-4 cursor-pointer hover:shadow-lg hover:shadow-[#4fc3f7]/50 transition-all duration-300 group max-w-md"
-          >
-            <div className="flex items-center justify-between">
-              <span 
-                className="text-white text-lg font-medium"
-                style={{
-                  fontFamily: '"IBM Plex Mono", monospace',
-                }}
-              >
-                Turn your Ethereum transaction<br />
-                into a proof instantly
-              </span>
-            </div>
-          </div>
+        <div className="mt-16 relative flex items-center justify-center">
+          {/* 데스크탑용 CTA_1 (1360px 이상에서 표시) */}
+          <Image
+            src={CTA_1}
+            alt="Try it Now"
+            style={{ cursor: "pointer" }}
+            draggable={false}
+            className="hidden desktop:block transition-transform duration-200 hover:scale-125"
+            onClick={() => {
+              window.open(
+                "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+                "_blank"
+              );
+            }}
+          />
+
+          {/* 모바일용 CTA_4 (1359px 이하에서 표시) */}
+          <Image
+            src={CTA_4}
+            alt="Try it Now"
+            style={{ cursor: "pointer" }}
+            draggable={false}
+            className="block desktop:hidden transition-transform duration-200 hover:scale-125"
+            onClick={() => {
+              window.open(
+                "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+                "_blank"
+              );
+            }}
+          />
         </div>
 
         {/* Event Information */}
@@ -106,7 +124,7 @@ const Overview = () => {
               lineHeight: '1.6',
             }}
           >
-            Try real onchain tasks, prove your actions, and earn TON.
+            Complete onchain tasks, prove your actions, and earn TON.
           </div>
         </div>
       </div>

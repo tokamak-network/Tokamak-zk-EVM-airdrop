@@ -76,28 +76,28 @@ const Navigation = () => {
             <span
               style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("overview")}
-              className="hover:text-[#4fc3f7] transition-colors duration-300"
+              className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
               Overview
             </span>
             <span
               style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("quest")}
-              className="hover:text-[#4fc3f7] transition-colors duration-300"
+              className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
               Quests
             </span>
             <span
               style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("proof-dashboard")}
-              className="hover:text-[#4fc3f7] transition-colors duration-300"
+              className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
               Proof
             </span>
             <span
               style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("faq")}
-              className="hover:text-[#4fc3f7] transition-colors duration-300"
+              className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
               FAQ
             </span>
