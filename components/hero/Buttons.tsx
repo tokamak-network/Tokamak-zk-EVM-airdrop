@@ -30,6 +30,7 @@ export const GrabTONButton = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         onClick={handlePlaygroundClick}
+        className="transition-transform duration-200 hover:scale-125"
       />
 
       {/* 데스크탑용 CTA_2 (1360px 이상에서 표시) */}
@@ -38,7 +39,7 @@ export const GrabTONButton = () => {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="hidden desktop:block"
+        className="hidden desktop:block transition-transform duration-200 hover:scale-125"
         onClick={handleSubmitProofClick}
       />
 
@@ -48,7 +49,7 @@ export const GrabTONButton = () => {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="block desktop:hidden"
+        className="block desktop:hidden transition-transform duration-200 hover:scale-125"
         onClick={handleSubmitProofClick}
       />
     </div>
@@ -71,6 +72,7 @@ export const FAQMobileButtons = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         onClick={handlePlaygroundClick}
+        className="transition-transform duration-200 hover:scale-125"
       />
       <Image
         src={CTA_2_MOBILE}
@@ -78,6 +80,7 @@ export const FAQMobileButtons = () => {
         style={{ cursor: "pointer" }}
         draggable={false}
         onClick={handleSubmitProofClick}
+        className="transition-transform duration-200 hover:scale-125"
       />
     </div>
   );
@@ -99,7 +102,7 @@ export default function Buttons() {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="hidden desktop:block"
+        className="hidden desktop:block transition-transform duration-200 hover:scale-125"
         onClick={handlePlaygroundClick}
       />
 
@@ -109,7 +112,7 @@ export default function Buttons() {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="block desktop:hidden"
+        className="block desktop:hidden transition-transform duration-200 hover:scale-125"
         onClick={handlePlaygroundClick}
       />
 
@@ -119,7 +122,7 @@ export default function Buttons() {
         alt="start now"
         style={{ cursor: "pointer" }}
         draggable={false}
-        className="hidden desktop:block"
+        className="hidden desktop:block transition-transform duration-200 hover:scale-125"
         onClick={handleSubmitProofClick}
       />
 
@@ -130,7 +133,7 @@ export default function Buttons() {
         style={{ cursor: "pointer" }}
         draggable={false}
         onClick={handleSubmitProofClick}
-        className="block desktop:hidden"
+        className="block desktop:hidden transition-transform duration-200 hover:scale-125"
       />
     </div>
   );
