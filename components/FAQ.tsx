@@ -268,16 +268,14 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q4. What can I do in Playground?
+                  Q4. What is the difference between the two reward options?
                 </div>
 
                 {/* 답변 영역 */}
                 <div
                   style={{
-                    display: "flex",
+                    display: "block",
                     padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
                     alignSelf: "stretch",
                     background: "#1e3a8a",
                     color: "#ffffff",
@@ -288,11 +286,38 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Playground is a tool that lets you experience converting
-                  Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All
-                  you need to do is select a transaction you want to apply ZKP
-                  to and click a button. Once you send us the ZKP, we'll verify
-                  it on-chain for you.
+                  <strong>1. Stake (Default Option):</strong> Your reward will lock it into{" "}
+                  <a
+                    href="https://etherscan.io/address/0x0b58ca72b12f01fc05f8f252e226f3e2089bd00e#writeProxyContract"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Tokamak Staking (TON/WTON) Contract
+                  </a>
+                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with some interest after at least two weeks. For a step-by-step tutorial,{" "}
+                  <a
+                    href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Visit
+                  </a>
+                  .
+                  <br />
+                  <br />
+                  <strong>2. Claim Now:</strong> You take 50% immediately, with no waiting period. The trade-off is that you give up the other half and miss out on any extra yield from staking.
                 </div>
               </div>
 
@@ -324,7 +349,63 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q5. What is Tokamak zkEVM and what is it for?
+                  Q5. What can I do in Playground?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Playground is a tool that lets you experience converting
+                  Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All
+                  you need to do is select a transaction you want to apply ZKP
+                  to and click a button. Once you send us the ZKP, we'll verify
+                  it on-chain for you.
+                </div>
+              </div>
+
+              {/* Q6 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q6. What is Tokamak zkEVM and what is it for?
                 </div>
 
                 {/* 답변 영역 */}

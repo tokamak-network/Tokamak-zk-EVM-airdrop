@@ -201,12 +201,51 @@ const FAQMobile = () => {
       ),
     },
     {
-      question: "Q4. What can I do in Playground?",
+      question: "Q4. What is the difference between the two reward options?",
+      answer: (
+        <>
+          <strong>1. Stake (Default Option):</strong> Your reward will lock it into{" "}
+          <a
+            href="https://etherscan.io/address/0x0b58ca72b12f01fc05f8f252e226f3e2089bd00e#writeProxyContract"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Tokamak Staking (TON/WTON) Contract
+          </a>
+          . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with some interest after at least two weeks. For a step-by-step tutorial,{" "}
+          <a
+            href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Visit
+          </a>
+          .
+          <br />
+          <br />
+          <strong>2. Claim Now:</strong> You take 50% immediately, with no waiting period. The trade-off is that you give up the other half and miss out on any extra yield from staking.
+        </>
+      ),
+    },
+    {
+      question: "Q5. What can I do in Playground?",
       answer:
         "Playground is a tool that lets you experience converting Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All you need to do is select a transaction you want to apply ZKP to and click a button. Once you send us the ZKP, we'll verify it on-chain for you.",
     },
     {
-      question: "Q5. What is Tokamak zk-EVM and what is it for?",
+      question: "Q6. What is Tokamak zk-EVM and what is it for?",
       answer:
         "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
     },
