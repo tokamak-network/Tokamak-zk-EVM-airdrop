@@ -411,7 +411,7 @@ const Quest = () => {
           <TableRow title="Schedule">
             <div
               style={contentStyle}
-              className="h-[115px] flex flex-col justify-between"
+              className="h-[115px] flex flex-col justify-center items-center text-left"
             >
               <div>
                 <div>
@@ -420,7 +420,7 @@ const Quest = () => {
                     Sep 8 (Mon) – Sep 10 (Wed), 12PM KST
                   </span>
                 </div>
-                <div>Reward Distribution: Sep 18 (Thu)</div>
+                <div style={{ marginTop: "8px" }}>Reward Distribution: Sep 18 (Thu)</div>
               </div>
             </div>
           </TableRow>
@@ -558,7 +558,7 @@ const Quest = () => {
         </MobileCard>
 
         <MobileCard title="Schedule">
-          <div style={mobileContentStyle}>
+          <div style={{ ...mobileContentStyle, textAlign: "center" }}>
             <div>
               Event Period:
               <br className="max-500:block hidden" />
@@ -566,7 +566,7 @@ const Quest = () => {
                 Sep 8 (Mon) – Sep 10 (Wed), 12PM KST
               </span>
             </div>
-            <div>
+            <div style={{ marginTop: "8px" }}>
               <span style={{ fontWeight: "700" }}>Reward Distribution:</span>
               <br className="max-500:block hidden" />
               Sep 18 (Thu)
@@ -761,8 +761,12 @@ const QuestBoard = () => {
             isFirstRewardRow
             reward={
               <div
-                className="w-[88px] flex justify-between"
-                style={rewardStyle}
+                className="w-[88px] flex justify-between absolute"
+                style={{
+                  ...rewardStyle,
+                  top: "75%",
+                  transform: "translateY(0%)"
+                }}
               >
                 <span>125</span>
                 <span
@@ -780,7 +784,7 @@ const QuestBoard = () => {
             title="Social Media Activity*"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
-                <div>Complete required social media tasks: ( <span style={{ fontWeight: "700" }}>125 TON</span> )</div>
+                <div>Complete required social media tasks: </div>
                 <ul
                   className="ml-2"
                   style={{
@@ -1061,7 +1065,7 @@ const QuestBoard = () => {
           title="Social Media Activity*"
           content={
             <div>
-              <div>Complete required social media tasks: ( <span style={{ fontWeight: "700" }}>125 TON</span> )</div>
+              <div>Complete required social media tasks:</div>
               <ul
                 className="mt-2 ml-4"
                 style={{

@@ -227,8 +227,8 @@ const FAQ = () => {
                   Playground has initially verified the ZKP you generate. If you want more, you can verify your ZKP at the following link. In addition, you can check the status of your proof in the Proof section.
                   <br />
                   <br />
-                  - I WILL GIVE YOU A LINK TO THE VERIFY ALGORITHM
-                  <br />
+                  {/* - I WILL GIVE YOU A LINK TO THE VERIFY ALGORITHM */}
+                  {/* <br /> */}
                   You can check the status of your proof [
                   <span
                     style={{ fontWeight: "bold", cursor: "pointer" }}
