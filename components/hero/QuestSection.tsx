@@ -858,7 +858,7 @@ const QuestBoard = () => {
             title="Social Media Activity*"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
-                <div>Complete all social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
+                <div>Complete required social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
                 <ul
                   className="ml-2"
                   style={{
@@ -866,78 +866,30 @@ const QuestBoard = () => {
                     listStyleType: "disc",
                   }}
                 >
-                  <li>
-                    Repost our event announcement
-                  </li>
-                  <li>
-                    Follow Tokamak Network on{" "}
+                  <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                    <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
                     <span
                       style={{
                         fontWeight: "700",
                         cursor: "pointer",
                         textDecoration: "underline",
+                        color: "#ffffff"
                       }}
                       onClick={() => window.open(LINKS.X)}
                     >
                       X
                     </span>{" "}
-                    (Twitter)
+                    <span style={{ color: "#ffffff" }}>(Twitter) - </span>
+                    <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
-                  <li>
-                    Subscribe to the Tokamak zk-EVM{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => window.open(LINKS.YOUTUBE)}
-                    >
-                      YouTube
-                    </span>{" "}
-                    channel
-                  </li>
-                  <li>
-                    Join Tokamak ZKP World{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => window.open("https://discord.gg/6NaZnw3b", "_blank")}
-                    >
-                      Discord
-                    </span>
-                  </li>
-                  <li>
-                    Join Tokamak ZKP World{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => window.open("https://t.me/+9My2ZmBemYs2YTFk", "_blank")}
-                    >
-                      Telegram
-                    </span>
-                  </li>
-                  <li>
-                    Follow{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                      onClick={() => window.open("https://x.com/TokamakZKPWorld", "_blank")}
-                    >
-                      @TokamakZKPWorld
-                    </span>{" "}
-                    on X
+                  <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                    <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
+                    <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
                 </ul>
+                <div style={{ marginTop: "12px", fontSize: "14px", fontStyle: "italic", color: "#cccccc" }}>
+                  Additional social activities (YouTube, Discord, Telegram) are optional for extra engagement but not required for the 125 TON reward.
+                </div>
               </div>
             }
             reward={
@@ -1205,7 +1157,7 @@ const QuestBoard = () => {
           title="Social Media Activity*"
           content={
             <div>
-              <div>Complete all social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
+              <div>Complete required social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
               <ul
                 className="mt-2 ml-4"
                 style={{
@@ -1213,77 +1165,30 @@ const QuestBoard = () => {
                   listStyleType: "disc",
                 }}
               >
-                 <li>
-                   Repost our event announcement
-                 </li>
-                 <li>
-                   Follow Tokamak Network on{" "}
+                 <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                   <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
                    <span
                      style={{
                        fontWeight: "700",
                        cursor: "pointer",
                        textDecoration: "underline",
+                       color: "#ffffff"
                      }}
                      onClick={() => window.open(LINKS.X)}
                    >
                      X
                    </span>{" "}
-                   (Twitter)
+                   <span style={{ color: "#ffffff" }}>(Twitter) - </span>
+                   <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
-                 <li>
-                   Subscribe to the Tokamak zk-EVM{" "}
-                   <span
-                     style={{
-                       fontWeight: "700",
-                       textDecoration: "underline",
-                     }}
-                     onClick={() => window.open(LINKS.YOUTUBE)}
-                   >
-                     YouTube
-                   </span>{" "}
-                   channel
-                 </li>
-                 <li>
-                   Join Tokamak ZKP World{" "}
-                   <span
-                     style={{
-                       fontWeight: "700",
-                       cursor: "pointer",
-                       textDecoration: "underline",
-                     }}
-                     onClick={() => window.open("https://discord.gg/6NaZnw3b", "_blank")}
-                   >
-                     Discord
-                   </span>
-                 </li>
-                 <li>
-                   Join Tokamak ZKP World{" "}
-                   <span
-                     style={{
-                       fontWeight: "700",
-                       cursor: "pointer",
-                       textDecoration: "underline",
-                     }}
-                     onClick={() => window.open("https://t.me/+9My2ZmBemYs2YTFk", "_blank")}
-                   >
-                     Telegram
-                   </span>
-                 </li>
-                 <li>
-                   Follow{" "}
-                   <span
-                     style={{
-                       fontWeight: "700",
-                       cursor: "pointer",
-                       textDecoration: "underline",
-                     }}
-                     onClick={() => window.open("https://x.com/TokamakZKPWorld", "_blank")}
-                   >
-                     @TokamakZKPWorld
-                   </span>{" "}
-                   on X
+                 <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                   <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
+                   <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
               </ul>
+              <div style={{ marginTop: "12px", fontSize: "12px", fontStyle: "italic", color: "#cccccc" }}>
+                Additional social activities (YouTube, Discord, Telegram) are optional for extra engagement but not required for the 125 TON reward.
+              </div>
             </div>
           }
           reward="Mandatory"
