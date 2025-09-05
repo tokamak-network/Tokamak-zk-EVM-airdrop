@@ -24,7 +24,7 @@ export const HeroCaoursel = () => {
                 marginRight: "88px",
               }}
             >
-              Claim up to 100 TON.
+              Claim up to 150 TON.
             </span>
           ))}
           {Array.from({ length: 20 }, (_, index) => (
@@ -45,7 +45,7 @@ export const HeroCaoursel = () => {
                 marginRight: "88px",
               }}
             >
-              Claim up to 100 TON.
+              Claim up to 150 TON.
             </span>
           ))}
         </div>

@@ -171,23 +171,23 @@ const FAQMobile = () => {
 
   const faqData = [
     {
-      question: "Q1. Who can participate?",
+      question: "Q1. What types of transactions can be converted to ZKP",
       answer:
-        "Anyone with access to Playground Airdrop can participate freely. However, each wallet address can only submit once, so double-check before submitting!",
+        "While Tokamak zk-EVM is theoretically compatible with any transaction that calls a smart contract, the event limited the transaction types. This is due to a trade-off between compatibility and proof generation speed. Under the event configuration, we confirmed that the Playground is compatible with frequently used and simple transactions, such as USDC, USDT, and TON transfers. Transactions requiring high fees, such as TON's approve-and-call transactions or rollup transactions, may not be able to be converted to ZKP under the current configuration.",
     },
     {
       question: "Q2. Do I have to complete all missions?",
       answer:
-        "Yes. To qualify for rewards, you must complete all mandatory tasks:Feature Completion, Social Media Activity, and Quiz. Experience Feedback is optional but encouraged.",
+        "Yes. To qualify for rewards, you must complete all mandatory tasks: ZKP submission and Social Media Activity. Experience Feedback is optional but encouraged.",
     },
     {
       question: "Q3. How do I know if my proof is valid?",
       answer: (
         <>
-          If the water tank shows 1 (True), it means your proof is valid.
+          Playground has initially verified the ZKP you generate. If you want more, you can verify your ZKP at the following link. In addition, you can check the status of your proof in the Proof section.
           <br />
           <br />
-          Once you send us the ZKP, we'll verify it on-chain for you.
+          - I WILL GIVE YOU A LINK TO THE VERIFY ALGORITHM
           <br />
           You can check the status of your proof [
           <span
@@ -201,52 +201,53 @@ const FAQMobile = () => {
       ),
     },
     {
-      question: "Q4. What can I do in Playground?",
+      question: "Q4. What is the difference between the two reward options?",
+      answer: (
+        <>
+          <strong>1. Stake (Default Option):</strong> Your reward will lock it into{" "}
+          <a
+            href="https://etherscan.io/address/0x0b58ca72b12f01fc05f8f252e226f3e2089bd00e#writeProxyContract"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Tokamak Staking (TON/WTON) Contract
+          </a>
+          . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with some interest after at least two weeks. For a step-by-step tutorial,{" "}
+          <a
+            href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Visit
+          </a>
+          .
+          <br />
+          <br />
+          <strong>2. Claim Now:</strong> You take 50% immediately, with no waiting period. The trade-off is that you give up the other half and miss out on any extra yield from staking.
+        </>
+      ),
+    },
+    {
+      question: "Q5. What can I do in Playground?",
       answer:
         "Playground is a tool that lets you experience converting Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All you need to do is select a transaction you want to apply ZKP to and click a button. Once you send us the ZKP, we'll verify it on-chain for you.",
     },
     {
-      question: "Q5. What is Tokamak zk-EVM and what is it for?",
+      question: "Q6. What is Tokamak zk-EVM and what is it for?",
       answer:
         "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
-    },
-    {
-      question: "Q6. Can I trust this app?",
-      answer:
-        "You don't need to trust the app. If you're unsure, try participating in the event offline.",
-    },
-    {
-      question: "Q7. Why the proof generation is too slow on my computer?",
-      answer: (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <span>
-            Proof generation speed depends on your system’s hardware. Devices
-            without a GPU may experience significantly slower performance.
-          </span>
-          <ul
-            className="my-2"
-            style={{
-              paddingLeft: "16px",
-              listStyleType: "disc",
-            }}
-          >
-            <li>With GPU (7800X3D + RTX 4070Ti): about 10 minutes</li>
-            <li>
-              Without GPU: about 1 hour, including Docker image download and
-              verification
-            </li>
-          </ul>
-          <span>
-            For faster processing, using an NVIDIA GPU supporting CUDA is highly
-            recommended, along with a multicore CPU.
-          </span>
-        </div>
-      ),
     },
   ];
 
