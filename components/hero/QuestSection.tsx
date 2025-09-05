@@ -374,39 +374,23 @@ const Quest = () => {
             </span>
           </TableRow>
 
-          <TableRow title="Reward Criteria">
+          <TableRow title="How to Earn">
             <div style={contentStyle}>
               <div>
-                All submitted proofs will be verified on-chain to ensure
+                - All submitted proofs will be verified on-chain to ensure
                 fairness.
               </div>
-              <ul
-                style={{
-                  paddingLeft: "16px",
-                  listStyleType: "disc",
-                }}
-                className="ml-2"
-              >
-                <li>
-                  If there are 30 or fewer verified participants, all will
-                  receive rewards.
-                </li>
-                <li>
-                  If there are more than 30, 30 participants will be randomly
-                  selected for rewards.
-                </li>
-              </ul>
-              <div style={contentStyle}>
-                Each selected participant can earn up to{" "}
-                <span style={{ fontWeight: "700" }}>100 TON.</span>
+              <div className="mt-2">
+                - Thirty winners will be selected at random from participants (any abuse will be detected and filtered out).
+              </div>
+              <div className="mt-2" style={contentStyle}>
+                - Each selected participant can earn up to{" "}
+                <span style={{ fontWeight: "700" }}>150 TON.</span>
               </div>
               <div className="flex flex-col mt-4">
                 <span>
                   To prevent duplicate participation or farming, your account
-                  may be reviewed.{" "}
-                </span>
-                <span>
-                  This includes checking that the account was created at least 1
+                  may be reviewed. This includes checking that the account was created at least 1
                   month ago, holds at least 0.1 ETH, and that the provided
                   social media IDs are valid and unique.
                 </span>
@@ -429,7 +413,7 @@ const Quest = () => {
                 <span style={boldStyle}>2.Claim Now</span>
                 <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
-                    - Receive 80% of your reward immediately
+                    - Receive 50% of your reward immediately
                   </span>
                 </div>
               </div>
@@ -568,7 +552,19 @@ const Quest = () => {
                   onClick={() => window.open(LINKS.DISCORD, "_blank")}
                 >
                   Discord
+                </span>{" "}
+                or{" "}
+                <span
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => window.open("https://github.com/tokamak-network", "_blank")}
+                >
+                  Github
                 </span>
+                .
               </div>
             </div>
           </TableRow>
@@ -582,30 +578,20 @@ const Quest = () => {
           Activity) from the quest board to qualify for rewards.
         </MobileCard>
 
-        <MobileCard title="Reward Criteria">
+        <MobileCard title="How to Earn">
           <div style={mobileContentStyle}>
             <div>
-              All submitted proofs will be verified on-chain to ensure fairness.
+              - All submitted proofs will be verified on-chain to ensure fairness.
             </div>
-            <ul
-              style={{
-                margin: "4px 0",
-                paddingLeft: "16px",
-                listStyleType: "disc",
-              }}
-            >
-              <li>
-                If there are 30 or fewer verified participants, all will receive
-                rewards.
-              </li>
-              <li>
-                If there are more than 30, 30 participants will be randomly
-                selected for rewards.
-              </li>
-            </ul>
-            <div style={mobileContentStyle}>
-              Each selected participant can earn up to{" "}
-              <span style={{ fontWeight: "700" }}>100 TON.</span>
+            <div className="mt-2">
+              - Thirty winners will be selected at random from participants (any abuse will be detected and filtered out).
+            </div>
+            <div className="mt-2" style={mobileContentStyle}>
+              - Each selected participant can earn up to{" "}
+              <span style={{ fontWeight: "700" }}>150 TON.</span>
+            </div>
+            <div className="mt-2">
+              To prevent duplicate participation or farming, your account may be reviewed. This includes checking that the account was created at least 1 month ago, holds at least 0.1 ETH, and that the provided social media IDs are valid and unique.
             </div>
           </div>
         </MobileCard>
@@ -618,7 +604,7 @@ const Quest = () => {
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
-                  - Receive the full reward amount (e.g., 100 TON → 100 TON)
+                  - Receive the full reward amount
                 </span>
               </div>
             </div>
@@ -629,7 +615,7 @@ const Quest = () => {
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
-                  - Receive 80% of your reward immediately (e.g., 100 TON → 80
+                  - Receive 50% of your reward immediately (e.g., 150 TON → 75
                   TON)
                 </span>
               </div>
@@ -769,6 +755,17 @@ const Quest = () => {
                 onClick={() => window.open(LINKS.DISCORD, "_blank")}
               >
                 Discord
+              </span>{" "}
+              or{" "}
+              <span
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+                onClick={() => window.open("https://github.com/tokamak-network", "_blank")}
+              >
+                Github
               </span>
               .
             </div>
@@ -851,7 +848,7 @@ const QuestBoard = () => {
             content={
               <div className="flex flex-col h-[102px] justify-between">
                 <span style={contentStyle}>
-                  Completing the use of key features within the Playground
+                  Generate a zero-knowledge proof (ZKP) from an Ethereum transaction and submit it through the Playground.
                 </span>
                 <div className="relative">
                   <Image
@@ -867,7 +864,7 @@ const QuestBoard = () => {
                       letterSpacing: "-0.54px",
                     }}
                   >
-                    TON transaction hashes are recommended for proof generation
+                    TON transfer transactions are recommended for proof generation
                     during the airdrop period.
                   </span>
                 </div>
@@ -879,7 +876,7 @@ const QuestBoard = () => {
             title="Social Media Activity*"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
-                <div>Complete all social media tasks:</div>
+                <div>Complete all social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
                 <ul
                   className="ml-2"
                   style={{
@@ -887,6 +884,9 @@ const QuestBoard = () => {
                     listStyleType: "disc",
                   }}
                 >
+                  <li>
+                    Repost our event announcement
+                  </li>
                   <li>
                     Follow Tokamak Network on{" "}
                     <span
@@ -915,6 +915,46 @@ const QuestBoard = () => {
                     </span>{" "}
                     channel
                   </li>
+                  <li>
+                    Join Tokamak ZKP World{" "}
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => window.open("https://discord.gg/6NaZnw3b", "_blank")}
+                    >
+                      Discord
+                    </span>
+                  </li>
+                  <li>
+                    Join Tokamak ZKP World{" "}
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => window.open("https://t.me/+9My2ZmBemYs2YTFk", "_blank")}
+                    >
+                      Telegram
+                    </span>
+                  </li>
+                  <li>
+                    Follow{" "}
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                      onClick={() => window.open("https://x.com/TokamakZKPWorld", "_blank")}
+                    >
+                      @TokamakZKPWorld
+                    </span>{" "}
+                    on X
+                  </li>
                 </ul>
               </div>
             }
@@ -923,7 +963,7 @@ const QuestBoard = () => {
                 className="w-[88px] flex justify-between absolute top-7"
                 style={rewardStyle}
               >
-                <span>75</span>
+                <span>125</span>
                 <span
                   style={{
                     fontWeight: 400,
@@ -1056,7 +1096,7 @@ const QuestBoard = () => {
               letterSpacing: "-0.11px",
             }}
           >
-            Complete 2 Tasks. Claim up to 100 TON.
+            Complete 2 Tasks. Claim up to 150 TON.
           </span>
         </div>
       </div>
@@ -1145,8 +1185,8 @@ const QuestBoard = () => {
               letterSpacing: "-0.11px",
             }}
           >
-            <span>Complete 2 Tasks. Claim up to 100 TON.</span>
-            <span className="text-white">Mandatory: 75 TON + Optional: 25 TON</span>
+            <span>Complete 2 Tasks. Claim up to 150 TON.</span>
+            <span className="text-white">Mandatory: 125 TON + Optional: 25 TON</span>
           </div>
         </div>
         <QuestBoardMobileCard
@@ -1154,7 +1194,7 @@ const QuestBoard = () => {
           content={
             <div className="flex flex-col gap-2">
               <div>
-                Completing the use of key features within the Playground
+                Generate a zero-knowledge proof (ZKP) from an Ethereum transaction and submit it through the Playground.
               </div>
               <div className="flex items-start gap-2">
                 <Image
@@ -1170,7 +1210,7 @@ const QuestBoard = () => {
                     fontSize: "14px",
                   }}
                 >
-                  TON transaction hashes are recommended for proof generation
+                  TON transfer transactions are recommended for proof generation
                   during the airdrop period.
                 </span>
               </div>
@@ -1183,7 +1223,7 @@ const QuestBoard = () => {
           title="Social Media Activity*"
           content={
             <div>
-              <div>Complete all social media tasks:</div>
+              <div>Complete all social media tasks: ( <span style={{ fontWeight: "700" }}>125TON</span> )</div>
               <ul
                 className="mt-2 ml-4"
                 style={{
@@ -1191,7 +1231,10 @@ const QuestBoard = () => {
                   listStyleType: "disc",
                 }}
               >
-                                 <li>
+                 <li>
+                   Repost our event announcement
+                 </li>
+                 <li>
                    Follow Tokamak Network on{" "}
                    <span
                      style={{
@@ -1217,6 +1260,46 @@ const QuestBoard = () => {
                      YouTube
                    </span>{" "}
                    channel
+                 </li>
+                 <li>
+                   Join Tokamak ZKP World{" "}
+                   <span
+                     style={{
+                       fontWeight: "700",
+                       cursor: "pointer",
+                       textDecoration: "underline",
+                     }}
+                     onClick={() => window.open("https://discord.gg/6NaZnw3b", "_blank")}
+                   >
+                     Discord
+                   </span>
+                 </li>
+                 <li>
+                   Join Tokamak ZKP World{" "}
+                   <span
+                     style={{
+                       fontWeight: "700",
+                       cursor: "pointer",
+                       textDecoration: "underline",
+                     }}
+                     onClick={() => window.open("https://t.me/+9My2ZmBemYs2YTFk", "_blank")}
+                   >
+                     Telegram
+                   </span>
+                 </li>
+                 <li>
+                   Follow{" "}
+                   <span
+                     style={{
+                       fontWeight: "700",
+                       cursor: "pointer",
+                       textDecoration: "underline",
+                     }}
+                     onClick={() => window.open("https://x.com/TokamakZKPWorld", "_blank")}
+                   >
+                     @TokamakZKPWorld
+                   </span>{" "}
+                   on X
                  </li>
               </ul>
             </div>
@@ -1341,7 +1424,7 @@ const Notes = () => {
         >
           <ArrowIcon />
           <span style={notesCellStyle}>
-            Make sure to enter accurate details — changes won't be allowed later
+            Make sure to enter accurate details, changes won't be allowed later
           </span>
         </div>
 
@@ -1463,7 +1546,7 @@ const Notes = () => {
         </NotesMobileCard>
 
         <NotesMobileCard>
-          Make sure to enter accurate details — changes won't be allowed later
+          Make sure to enter accurate details, changes won't be allowed later
         </NotesMobileCard>
 
         <NotesMobileCard>

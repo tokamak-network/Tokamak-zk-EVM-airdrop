@@ -102,7 +102,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q1. Who can participate?
+                  Q1. What types of transactions can be converted to ZKP
                 </div>
 
                 {/* 답변 영역 */}
@@ -122,9 +122,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Anyone with access to Playground Airdrop can participate
-                  freely. However, each wallet address can only submit once, so
-                  double-check before submitting!
+                  While Tokamak zk-EVM is theoretically compatible with any transaction that calls a smart contract, the event limited the transaction types. This is due to a trade-off between compatibility and proof generation speed. Under the event configuration, we confirmed that the Playground is compatible with frequently used and simple transactions, such as USDC, USDT, and TON transfers. Transactions requiring high fees, such as TON's approve-and-call transactions or rollup transactions, may not be able to be converted to ZKP under the current configuration.
                 </div>
               </div>
 
@@ -176,9 +174,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Yes. To qualify for rewards, you must complete all mandatory
-                  tasks:Feature Completion, Social Media Activity, and Quiz.
-                  Experience Feedback is optional but encouraged.
+                  Yes. To qualify for rewards, you must complete all mandatory tasks: ZKP submission and Social Media Activity. Experience Feedback is optional but encouraged.
                 </div>
               </div>
 
@@ -228,11 +224,10 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  If the water tank shows 1 (True), it means your proof is
-                  valid.
+                  Playground has initially verified the ZKP you generate. If you want more, you can verify your ZKP at the following link. In addition, you can check the status of your proof in the Proof section.
                   <br />
                   <br />
-                  Once you send us the ZKP, we'll verify it on-chain for you.
+                  - I WILL GIVE YOU A LINK TO THE VERIFY ALGORITHM
                   <br />
                   You can check the status of your proof [
                   <span
@@ -361,132 +356,6 @@ const FAQ = () => {
                 </div>
               </div>
 
-              {/* Q6 박스 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "640px",
-                  border: "1px solid #4fc3f7",
-                  background: "#0a1930",
-                }}
-              >
-                {/* 질문 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    borderBottom: "1px solid var(--line, #00477A)",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: 700,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Q6. Can I trust this app?
-                </div>
-
-                {/* 답변 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    background: "#1e3a8a",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  You don't need to trust the app. If you're unsure, try
-                  participating in the event offline.
-                </div>
-              </div>
-
-              {/* Q7 박스 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "640px",
-                  border: "1px solid #4fc3f7",
-                  background: "#0a1930",
-                }}
-              >
-                {/* 질문 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    borderBottom: "1px solid var(--line, #00477A)",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: 700,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Q7. Why the proof generation is too slow on my computer?
-                </div>
-
-                {/* 답변 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    background: "#1e3a8a",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  <span>
-                    Proof generation speed depends on your system’s hardware.
-                    Devices without a GPU may experience significantly slower
-                    performance.
-                  </span>
-                  <ul
-                    className="my-2"
-                    style={{
-                      paddingLeft: "16px",
-                      listStyleType: "disc",
-                    }}
-                  >
-                    <li>With GPU (7800X3D + RTX 4070Ti): about 10 minutes</li>
-                    <li>
-                      Without GPU: about 1 hour, including Docker image download
-                      and verification
-                    </li>
-                  </ul>
-                  <span>
-                    For faster processing, using an NVIDIA GPU supporting CUDA
-                    is highly recommended, along with a multicore CPU.
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
