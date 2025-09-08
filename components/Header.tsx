@@ -1,12 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LogoImage from "@/assets/header/logo.svg";
 import Image from "next/image";
+import { isPlaygroundAppSource } from "@/utils/url";
+import { LINKS } from "@/constants";
 
 
 
 const Navigation = () => {
+  const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
+
+  useEffect(() => {
+    setIsFromPlaygroundApp(isPlaygroundAppSource());
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     // Check if mobile screen (1359px and below)
     const isMobile = window.innerWidth <= 1359;
@@ -45,11 +53,15 @@ const Navigation = () => {
     }
   };
 
-  const handlePlaygroundClick = () => {
-    window.open(
-      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
-      "_blank"
-    );
+  const handleButtonClick = () => {
+    if (isFromPlaygroundApp) {
+      window.open(LINKS.SUBMIT_PROOF, "_blank");
+    } else {
+      window.open(
+        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+        "_blank"
+      );
+    }
   };
 
   return (
@@ -104,9 +116,9 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Start Now 버튼 */}
+        {/* Conditional Button */}
         <button
-          onClick={handlePlaygroundClick}
+          onClick={handleButtonClick}
           style={{
             display: "flex",
             padding: "0px 32px",
@@ -126,7 +138,7 @@ const Navigation = () => {
           }}
           className="hover:shadow-lg hover:shadow-[#4fc3f7]/50 transition-all duration-300"
         >
-          Start Now
+          {isFromPlaygroundApp ? "Submit Proof" : "Start Now"}
         </button>
       </div>
 

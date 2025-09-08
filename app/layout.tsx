@@ -22,12 +22,16 @@ export const metadata: Metadata = {
     "Participate in the Tokamak ZK-EVM airdrop event and claim your tokens",
   keywords: ["Tokamak", "ZK-EVM", "Airdrop", "Blockchain", "Ethereum"],
   authors: [{ name: "Tokamak Network" }],
-  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
