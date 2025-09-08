@@ -1,9 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import QuestSection from "./hero/QuestSection";
 import CTA_1 from "@/assets/hero/buttons/CTA.svg";
+import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
 import CTA_4 from "@/assets/hero/buttons/CTA-4.svg";
+import { isPlaygroundAppSource } from "@/utils/url";
+import { LINKS } from "@/constants";
 
 // Star Component for cosmic background
 const Star = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
@@ -27,6 +30,23 @@ const Gear = ({ className, style }: { className?: string; style?: React.CSSPrope
 );
 
 const Overview = () => {
+  const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
+
+  useEffect(() => {
+    setIsFromPlaygroundApp(isPlaygroundAppSource());
+  }, []);
+
+  const handleButtonClick = () => {
+    if (isFromPlaygroundApp) {
+      window.open(LINKS.SUBMIT_PROOF, "_blank");
+    } else {
+      window.open(
+        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+        "_blank"
+      );
+    }
+  };
+
   return (
     <div
       id="overview"
@@ -74,35 +94,39 @@ const Overview = () => {
 
         {/* Interactive Button */}
         <div className="mt-16 relative flex items-center justify-center">
-          {/* 데스크탑용 CTA_1 (1360px 이상에서 표시) */}
-          <Image
-            src={CTA_1}
-            alt="Try it Now"
-            style={{ cursor: "pointer" }}
-            draggable={false}
-            className="hidden desktop:block transition-transform duration-200 hover:scale-125"
-            onClick={() => {
-              window.open(
-                "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
-                "_blank"
-              );
-            }}
-          />
+          {isFromPlaygroundApp ? (
+            // Show Submit Proof button when from playground app
+            <Image
+              src={CTA_2}
+              alt="Submit Proof"
+              style={{ cursor: "pointer" }}
+              draggable={false}
+              className="transition-transform duration-200 hover:scale-125"
+              onClick={handleButtonClick}
+            />
+          ) : (
+            <>
+              {/* 데스크탑용 CTA_1 (1360px 이상에서 표시) */}
+              <Image
+                src={CTA_1}
+                alt="Try it Now"
+                style={{ cursor: "pointer" }}
+                draggable={false}
+                className="hidden desktop:block transition-transform duration-200 hover:scale-125"
+                onClick={handleButtonClick}
+              />
 
-          {/* 모바일용 CTA_4 (1359px 이하에서 표시) */}
-          <Image
-            src={CTA_4}
-            alt="Try it Now"
-            style={{ cursor: "pointer" }}
-            draggable={false}
-            className="block desktop:hidden transition-transform duration-200 hover:scale-125"
-            onClick={() => {
-              window.open(
-                "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
-                "_blank"
-              );
-            }}
-          />
+              {/* 모바일용 CTA_4 (1359px 이하에서 표시) */}
+              <Image
+                src={CTA_4}
+                alt="Start on Desktop"
+                style={{ cursor: "pointer" }}
+                draggable={false}
+                className="block desktop:hidden transition-transform duration-200 hover:scale-125"
+                onClick={handleButtonClick}
+              />
+            </>
+          )}
         </div>
 
         {/* Event Information */}
@@ -115,7 +139,7 @@ const Overview = () => {
               letterSpacing: '2px',
             }}
           >
-            Event: 2025.09.08 ~ 09.10
+            Event: 2025.09.09 ~ 09.10
           </div>
           <div 
             className="text-white text-lg max-w-2xl"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
@@ -10,7 +10,6 @@ import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
 import PlusIcon from "@/assets/hero/quest/plus.svg";
 import EqualIcon from "@/assets/hero/quest/equal.svg";
 import { LINKS } from "@/constants";
-import { isPlaygroundAppSource } from "@/utils/url";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -666,28 +665,38 @@ const Quest = () => {
   );
 };
 
-// Submit Proof Button 컴포넌트 - Always shows Submit Proof
+// Submit Proof Button 컴포넌트
 const SubmitProofButton = () => {
   return (
     <div className="flex items-center justify-center">
       {/* 데스크탑용 CTA_2 (1360px 이상에서 표시) */}
       <Image
         src={CTA_2}
-        alt="Submit Proof"
+        alt="submit proof"
         style={{ cursor: "pointer" }}
         draggable={false}
         className="hidden desktop:block transition-transform duration-200 hover:scale-125"
-        onClick={() => window.open(LINKS.SUBMIT_PROOF, "_blank")}
+        onClick={() =>
+          // alert(
+          //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          // )
+          window.open(LINKS.SUBMIT_PROOF, "_blank")
+        }
       />
 
       {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
       <Image
         src={CTA_2_MOBILE}
-        alt="Submit Proof"
+        alt="submit proof"
         style={{ cursor: "pointer" }}
         draggable={false}
         className="block desktop:hidden transition-transform duration-200 hover:scale-125"
-        onClick={() => window.open(LINKS.SUBMIT_PROOF, "_blank")}
+        onClick={() =>
+          // alert(
+          //   "Hold on! 🚀 TONs are still traveling from space! Please wait a little longer~ ⏰"
+          // )
+          window.open(LINKS.SUBMIT_PROOF, "_blank")
+        }
       />
     </div>
   );
@@ -1192,7 +1201,7 @@ const Notes = () => {
           <span style={notesCellStyle}>
             Only one submission per wallet address is allowed
           </span>
-        </div>
+
         <div
           style={{
             display: "flex",

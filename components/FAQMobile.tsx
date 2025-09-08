@@ -173,7 +173,7 @@ const FAQMobile = () => {
     {
       question: "Q1. What types of transactions can be converted to ZKP",
       answer:
-        "While Tokamak zk-EVM is theoretically compatible with any transaction that calls a smart contract, the event limited the transaction types. This is due to a trade-off between compatibility and proof generation speed. Under the event configuration, we confirmed that the Playground is compatible with frequently used and simple transactions, such as USDC, USDT, and TON transfers. Transactions requiring high fees, such as TON's approve-and-call transactions or rollup transactions, may not be able to be converted to ZKP under the current configuration.",
+        "While Tokamak zk-EVM is theoretically compatible with any transaction that calls a smart contract, the airdrop limited the transaction types. This is due to a trade-off between compatibility and proof generation speed. Under the event configuration, we confirmed that the Playground is compatible with frequently used and simple transactions, such as USDC, USDT, and TON transfers. Transactions requiring high fees, such as TON's approve-and-call transactions or rollup transactions, may not be able to be converted to ZKP under the current configuration.",
     },
     {
       question: "Q2. Do I have to complete all missions?",
@@ -218,7 +218,7 @@ const FAQMobile = () => {
           >
             Tokamak Staking (TON/WTON) Contract
           </a>
-          . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with some interest after at least two weeks. For a step-by-step tutorial,{" "}
+          . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. For a step-by-step tutorial,{" "}
           <a
             href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
             target="_blank"
