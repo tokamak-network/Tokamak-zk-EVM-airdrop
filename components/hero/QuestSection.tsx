@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
@@ -10,7 +10,6 @@ import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
 import PlusIcon from "@/assets/hero/quest/plus.svg";
 import EqualIcon from "@/assets/hero/quest/equal.svg";
 import { LINKS } from "@/constants";
-import { isPlaygroundAppSource } from "@/utils/url";
 
 // 공통 스타일 정의
 const titleStyle = {
