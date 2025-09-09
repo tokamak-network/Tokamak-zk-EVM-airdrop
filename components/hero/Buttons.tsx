@@ -18,7 +18,7 @@ const handleSubmitProofClick = () => {
 export const GrabTONButton = () => {
   const handlePlaygroundClick = () => {
     window.open(
-      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
       "_blank"
     );
   };
@@ -62,7 +62,7 @@ export const GrabTONButton = () => {
 export const FAQMobileButtons = () => {
   const handlePlaygroundClick = () => {
     window.open(
-      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
       "_blank"
     );
   };
@@ -95,7 +95,7 @@ export const FAQMobileButtons = () => {
 export default function Buttons() {
   const handlePlaygroundClick = () => {
     window.open(
-      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+      "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
       "_blank"
     );
   };
