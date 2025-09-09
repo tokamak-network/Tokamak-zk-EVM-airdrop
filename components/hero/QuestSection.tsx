@@ -177,7 +177,7 @@ const TableRow: React.FC<TableRowProps> = ({
       <div className="w-[250px] flex items-center justify-center border-b-[1px] border-r-[1px] border-[#4fc3f7] bg-[#1e3a8a]">
         <span style={titleStyle}>{title}</span>
       </div>
-      <div className="w-[650px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
+      <div className="w-[750px] px-[20px] py-[16px] flex items-start justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
         {children}
       </div>
     </div>
@@ -244,8 +244,8 @@ const ThreeColumnTableRow: React.FC<ThreeColumnTableRowProps> = ({
         <span style={titleStyle}>{title}</span>
       </div>
 
-      {/* 두번째 칸 - 600px */}
-      <div className="w-[600px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
+      {/* 두번째 칸 - 613px */}
+      <div className="w-[613px] px-[20px] py-[16px] flex items-center justify-start border-b-[1px] border-r-[1px] border-[#4fc3f7] text-left bg-[#0a1930]">
         {content}
       </div>
 
@@ -354,7 +354,7 @@ const Quest = () => {
       <div
         className="hidden desktop:flex"
         style={{
-          width: "900px",
+          width: "1000px",
           flexDirection: "column",
           alignItems: "flex-start",
         }}
@@ -417,7 +417,7 @@ const Quest = () => {
                 <div>
                   Event Period:{" "}
                   <span style={{ fontWeight: "700" }}>
-                    Sep 8 (Mon) – Sep 10 (Wed), 12PM KST
+                    Sep 9 (Tue) – Sep 10 (Wed), 12PM KST
                   </span>
                 </div>
                 <div style={{ marginTop: "8px" }}>Reward Distribution: Sep 18 (Thu)</div>
@@ -447,7 +447,7 @@ const Quest = () => {
                     cursor: "pointer",
                     textDecoration: "underline",
                   }}
-                  onClick={() => window.open("https://github.com/tokamak-network", "_blank")}
+                  onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/issues", "_blank")}
                 >
                   Github
                 </span>
@@ -597,7 +597,7 @@ const Quest = () => {
                   cursor: "pointer",
                   textDecoration: "underline",
                 }}
-                onClick={() => window.open("https://github.com/tokamak-network", "_blank")}
+                onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/issues", "_blank")}
               >
                 Github
               </span>
@@ -718,7 +718,7 @@ const QuestBoard = () => {
         <div
           style={{
             borderTop: "1px solid var(--line, #00477A)",
-            width: "987px",
+            width: "1000px",
           }}
         >
           <ThreeColumnTableRow
@@ -764,6 +764,7 @@ const QuestBoard = () => {
                     fontWeight: 400,
                   }}
                 >
+                  {" "}
                   TON
                 </span>
               </div>
@@ -855,7 +856,7 @@ const QuestBoard = () => {
             borderLeft: "1px solid var(--line, #00477A)",
             background: "#1D9BF0",
             display: "flex",
-            width: "990px",
+            width: "1003px",
             height: "55px",
             padding: "16px 24px",
             alignItems: "center",
@@ -1277,6 +1278,7 @@ const Notes = () => {
                 cursor: "pointer",
                 textDecoration: "underline",
               }}
+              onClick={() => window.open(LINKS.X)}
             >
               Tokamak Network X
             </span>{" "}

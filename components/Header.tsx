@@ -58,7 +58,7 @@ const Navigation = () => {
       window.open(LINKS.SUBMIT_PROOF, "_blank");
     } else {
       window.open(
-        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/README.md",
+        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
         "_blank"
       );
     }
