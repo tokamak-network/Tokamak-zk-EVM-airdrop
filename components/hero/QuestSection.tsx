@@ -441,6 +441,33 @@ const Quest = () => {
                   <span style={lightStyle}>
                     - Receive the full reward amount. You can withdraw your rewards with {">"}25% APY after at least two weeks.
                   </span>
+                  <span style={lightStyle}>
+                    For detailed withdrawal instructions, visit the{" "}
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        color: "#4fc3f7"
+                      }}
+                      onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
+                    >
+                      staking guide
+                    </span>
+                    {" "}or check{" "}
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        color: "#4fc3f7"
+                      }}
+                      onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
+                    >
+                      community sites
+                    </span>
+                    .
+                  </span>
                 </div>
               </div>
 
@@ -637,6 +664,33 @@ const Quest = () => {
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
                   - Receive the full reward amount. You can withdraw your rewards with {">"}25% APY after at least two weeks.
+                </span>
+                <span style={mobileContentStyle}>
+                  For detailed withdrawal instructions, visit the{" "}
+                  <span
+                    style={{
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#4fc3f7"
+                    }}
+                    onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
+                  >
+                    staking guide
+                  </span>
+                  {" "}or check{" "}
+                  <span
+                    style={{
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#4fc3f7"
+                    }}
+                    onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
+                  >
+                    community sites
+                  </span>
+                  .
                 </span>
               </div>
             </div>
