@@ -365,13 +365,60 @@ const Quest = () => {
           }}
         >
           <TableRow title="How to Participate">
-            <span style={contentStyle}>
-              Complete all mandatory tasks (
-              <span style={{ fontWeight: "700" }}>
-              ZKP submission, Social Media Activity
-              </span>
-              ) from the quest board to qualify for rewards.
-            </span>
+            <div style={contentStyle}>
+              <div className="mb-4">
+                Complete all mandatory tasks (
+                <span style={{ fontWeight: "700" }}>
+                ZKP submission, Social Media Activity
+                </span>
+                ) from the quest board to qualify for rewards.
+              </div>
+              <div className="mt-4">
+                <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Download Guide:</div>
+                <div className="ml-4">
+                  <div className="mb-3">
+                    <span className="font-bold">macOS:</span> Download{" "}
+                    <span 
+                      className="font-bold cursor-pointer underline"
+                      style={{ color: "#4fc3f7" }}
+                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
+                    >
+                      Tokamak Playground for Mac
+                    </span>
+                    <br />
+                    <span className="text-sm">Alternative:{" "}
+                      <span 
+                        className="cursor-pointer underline"
+                        style={{ color: "#4fc3f7" }}
+                        onClick={() => window.open("https://drive.google.com/file/d/1fCT5AAgkB8djF3TCw5a3wp784jOS1fMz/view", "_blank")}
+                      >
+                        Google Drive
+                      </span>
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold">Windows/Linux:</span> Download{" "}
+                    <span 
+                      className="font-bold cursor-pointer underline"
+                      style={{ color: "#4fc3f7" }}
+                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
+                    >
+                      Tokamak Playground for Windows/Linux
+                    </span>
+                    <br />
+                    <span className="text-sm">Alternative:{" "}
+                      <span 
+                        className="cursor-pointer underline"
+                        style={{ color: "#4fc3f7" }}
+                        onClick={() => window.open("https://drive.google.com/file/d/1_c5GfsA6RQ1s9pFNn5P4MnZM84Hbt5hR/view", "_blank")}
+                      >
+                        Google Drive
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </TableRow>
 
           <TableRow title="How to Earn">
@@ -514,8 +561,59 @@ const Quest = () => {
       {/* Mobile Layout */}
       <div className="desktop:hidden w-full flex flex-col">
         <MobileCard title="How to Participate">
-          Complete all mandatory tasks (Feature Completion, Social Media
-          Activity) from the quest board to qualify for rewards.
+          <div style={mobileContentStyle}>
+            <div className="mb-4">
+              Complete all mandatory tasks (Feature Completion, Social Media
+              Activity) from the quest board to qualify for rewards.
+            </div>
+            <div className="mt-4">
+              <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Download Guide:</div>
+              <div className="ml-2">
+                <div className="mb-3">
+                  <span className="font-bold">macOS:</span>
+                  <br />
+                  <span 
+                    className="font-bold cursor-pointer underline text-sm"
+                    style={{ color: "#4fc3f7" }}
+                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
+                  >
+                    Tokamak Playground for Mac
+                  </span>
+                  <br />
+                  <span className="text-xs">Alternative:{" "}
+                    <span 
+                      className="cursor-pointer underline"
+                      style={{ color: "#4fc3f7" }}
+                      onClick={() => window.open("https://drive.google.com/file/d/1fCT5AAgkB8djF3TCw5a3wp784jOS1fMz/view", "_blank")}
+                    >
+                      Google Drive
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <span className="font-bold">Windows/Linux:</span>
+                  <br />
+                  <span 
+                    className="font-bold cursor-pointer underline text-sm"
+                    style={{ color: "#4fc3f7" }}
+                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
+                  >
+                    Tokamak Playground for Windows/Linux
+                  </span>
+                  <br />
+                  <span className="text-xs">Alternative:{" "}
+                    <span 
+                      className="cursor-pointer underline"
+                      style={{ color: "#4fc3f7" }}
+                      onClick={() => window.open("https://drive.google.com/file/d/1_c5GfsA6RQ1s9pFNn5P4MnZM84Hbt5hR/view", "_blank")}
+                    >
+                      Google Drive
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </MobileCard>
 
         <MobileCard title="How to Earn">
@@ -1308,10 +1406,9 @@ const Notes = () => {
                   }}
                   className="ml-2"
                 >
-                  <li>Minimum: 8GB RAM, 3GB disk space</li>
+                  <li>Minimum: 8GB RAM, 5GB disk space</li>
                   <li>
-                    Recommended: NVIDIA GPU supporting CUDA (highly recommended
-                    for faster processing)
+                    Recommended: NVIDIA GPU supporting CUDA
                   </li>
                 </ul>
               </div>
@@ -1347,12 +1444,55 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
           <span style={notesCellStyle}>
-            If your computer has lower specifications than those listed in the table above, processing may take longer (typically 5-10 minutes or more). This is completely normal and the playground will still work perfectly, just be patient! For faster performance, consider installing CUDA if you have an NVIDIA GPU (see CUDA Setup Guide). Close other resource-intensive applications during processing.
+            If your computer has lower specifications than those listed in the table above, processing may take longer (typically 5-10 minutes or more). This is completely normal and the playground will still work perfectly, just be patient! Close other resource-intensive applications during processing.
           </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+          }}
+        >
+          <ArrowIcon />
+          <div style={notesCellStyle}>
+            <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Windows Users:</div>
+            <div>
+              If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+              <span
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "#4fc3f7"
+                }}
+                onClick={() => window.open("https://apps.microsoft.com/detail/9p9tqf7mrm4r", "_blank")}
+              >
+                Microsoft Store
+              </span>
+              {" "}or follow the{" "}
+              <span
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "#4fc3f7"
+                }}
+                onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/tree/main/packages/playground-hub", "_blank")}
+              >
+                setup guide
+              </span>
+              .
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1415,10 +1555,9 @@ const Notes = () => {
                 }}
                 className="ml-2 mt-1"
               >
-                <li>Minimum: 8GB RAM, 3GB disk space</li>
+                <li>Minimum: 8GB RAM, 5GB disk space</li>
                 <li>
-                  Recommended: NVIDIA GPU supporting CUDA (highly recommended
-                  for faster processing)
+                  Recommended: NVIDIA GPU supporting CUDA
                 </li>
               </ul>
             </div>
@@ -1446,8 +1585,41 @@ const Notes = () => {
           </div>
         </NotesMobileCard>
 
+        <NotesMobileCard>
+          If your computer has lower specifications than those listed in the table above, processing may take longer (typically 5-10 minutes or more). This is completely normal and the playground will still work perfectly, just be patient! Close other resource-intensive applications during processing.
+        </NotesMobileCard>
+
         <NotesMobileCard isLastRow>
-          If your computer has lower specifications than those listed in the table above, processing may take longer (typically 5-10 minutes or more). This is completely normal and the playground will still work perfectly, just be patient! For faster performance, consider installing CUDA if you have an NVIDIA GPU (see CUDA Setup Guide). Close other resource-intensive applications during processing.
+          <div>
+            <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Windows Users:</div>
+            <div>
+              If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+              <span
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "#4fc3f7"
+                }}
+                onClick={() => window.open("https://apps.microsoft.com/detail/9p9tqf7mrm4r", "_blank")}
+              >
+                Microsoft Store
+              </span>
+              {" "}or follow the{" "}
+              <span
+                style={{
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  color: "#4fc3f7"
+                }}
+                onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/tree/main/packages/playground-hub", "_blank")}
+              >
+                setup guide
+              </span>
+              .
+            </div>
+          </div>
         </NotesMobileCard>
       </div>
     </div>

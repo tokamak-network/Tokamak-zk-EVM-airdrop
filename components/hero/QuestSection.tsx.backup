@@ -1316,7 +1316,7 @@ const Notes = () => {
                   }}
                   className="ml-2"
                 >
-                  <li>Minimum: 8GB RAM, 3GB disk space</li>
+                  <li>Minimum: 8GB RAM, 5GB disk space</li>
                   <li>
                     Recommended: NVIDIA GPU supporting CUDA (highly recommended
                     for faster processing)
@@ -1423,7 +1423,7 @@ const Notes = () => {
                 }}
                 className="ml-2 mt-1"
               >
-                <li>Minimum: 8GB RAM, 3GB disk space</li>
+                <li>Minimum: 8GB RAM, 5GB disk space</li>
                 <li>
                   Recommended: NVIDIA GPU supporting CUDA (highly recommended
                   for faster processing)
