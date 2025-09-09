@@ -312,7 +312,7 @@ const FAQ = () => {
                   >
                     Tokamak Staking (TON/WTON) Contract
                   </a>
-                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. For a step-by-step tutorial,{" "}
+                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. You can either interact directly with the smart contract or use community-hosted sites. For a step-by-step tutorial,{" "}
                   <a
                     href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
                     target="_blank"
@@ -325,6 +325,20 @@ const FAQ = () => {
                     }}
                   >
                     Visit
+                  </a>
+                  {" "}or check the{" "}
+                  <a
+                    href="https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    community sites
                   </a>
                   .
                   <br />
