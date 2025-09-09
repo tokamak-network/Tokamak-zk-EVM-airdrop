@@ -383,7 +383,7 @@ const Quest = () => {
                       style={{ color: "#4fc3f7" }}
                       onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                     >
-                      Tokamak-zk-EVM-playground-1.0.0-arm64.dmg
+                      Tokamak Playground for Mac
                     </span>
                     <br />
                     <span className="text-sm">Alternative:{" "}
@@ -403,7 +403,7 @@ const Quest = () => {
                       style={{ color: "#4fc3f7" }}
                       onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                     >
-                      Tokamak-zk-EVM-playground-win32-x64.7z
+                      Tokamak Playground for Windows/Linux
                     </span>
                     <br />
                     <span className="text-sm">Alternative:{" "}
@@ -577,7 +577,7 @@ const Quest = () => {
                     style={{ color: "#4fc3f7" }}
                     onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                   >
-                    Tokamak-zk-EVM-playground-1.0.0-arm64.dmg
+                    Tokamak Playground for Mac
                   </span>
                   <br />
                   <span className="text-xs">Alternative:{" "}
@@ -598,7 +598,7 @@ const Quest = () => {
                     style={{ color: "#4fc3f7" }}
                     onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                   >
-                    Tokamak-zk-EVM-playground-win32-x64.7z
+                    Tokamak Playground for Windows/Linux
                   </span>
                   <br />
                   <span className="text-xs">Alternative:{" "}
