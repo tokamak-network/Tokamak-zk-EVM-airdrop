@@ -417,7 +417,67 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q6. What is Tokamak zkEVM and what is it for?
+                  Q6. Why is Windows showing a security warning?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "block",
+                    padding: "16px 24px",
+                    alignSelf: "stretch",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Windows may show a security warning because the app is new and hasn't been widely downloaded yet. This is normal for newly released applications.
+                  <br />
+                  <br />
+                  <strong>To run the app safely:</strong>
+                  <br />
+                  1. Click on <strong>"More info"</strong> when you see the warning
+                  <br />
+                  2. Then click <strong>"Run anyway"</strong>
+                  <br />
+                  <br />
+                  The app is safe to use and comes directly from the official Tokamak Network team.
+                </div>
+              </div>
+
+              {/* Q7 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q7. What is Tokamak zkEVM and what is it for?
                 </div>
 
                 {/* 답변 영역 */}

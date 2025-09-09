@@ -257,9 +257,14 @@ const FAQMobile = () => {
         "Playground is a tool that lets you experience converting Ethereum transactions into ZKPs (Zero-Knowledge Proofs). All you need to do is select a transaction you want to apply ZKP to and click a button. Once you send us the ZKP, we'll verify it on-chain for you.",
     },
     {
-      question: "Q6. What is Tokamak zk-EVM and what is it for?",
+      question: "Q6. Why is Windows showing a security warning?",
       answer:
-        "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.",
+        "Windows may show a security warning because the app is new and hasn't been widely downloaded yet. This is normal for newly released applications.\n\nTo run the app safely:\n1. Click on \"More info\" when you see the warning\n2. Then click \"Run anyway\"\n\nThe app is safe to use and comes directly from the official Tokamak Network team.",
+    },
+    {
+      question: "Q7. What is Tokamak zk-EVM and what is it for?",
+      answer:
+        "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.\n\nIt's also one of the core technologies for Tokamak Network's upcoming On-demand Rollup Hub. In the near future, you'll be able to easily launch, operate, and close your own app-specific Layer 2 at a low cost.",
     },
   ];
 
