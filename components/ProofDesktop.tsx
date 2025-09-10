@@ -254,7 +254,7 @@ const ProofDesktop = () => {
     <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
       {/* Space-themed header */}
       <div className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] p-4 border-b-2 border-[#4fc3f7]">
-        <h2 className="text-white text-3xl font-bold text-center" style={{fontFamily: '"Jersey 10"'}}>
+        <h2 className="text-white text-3xl text-center" style={{fontFamily: '"Jersey 10"'}}>
           ZK Proof Dashboard
         </h2>
       </div>

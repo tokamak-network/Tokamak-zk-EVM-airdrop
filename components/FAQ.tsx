@@ -224,7 +224,16 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Playground has initially verified the ZKP you generate. If you want more, you can verify your ZKP at the following link. In addition, you can check the status of your proof in the{" "}
+                  The Playground automatically generates and verifies the ZKP for your transaction. If you want additional verification using command line tools, you can use{" "}
+                  <code style={{ 
+                    backgroundColor: "#1e3a8a", 
+                    padding: "2px 4px", 
+                    borderRadius: "3px",
+                    fontFamily: "monospace"
+                  }}>
+                    npx tokamak-zk-evm verify
+                  </code>
+                  {" "}or check the detailed verification process in the{" "}
                   <a
                     href="https://github.com/tokamak-network/create-tokamak-zk-evm/blob/main/README.md#verify-a-proof"
                     target="_blank"
@@ -236,19 +245,19 @@ const FAQ = () => {
                       cursor: "pointer",
                     }}
                   >
-                    Proof section
+                    verification guide
                   </a>
                   .
                   <br />
                   <br />
-                  You can check the status of your proof [
+                  The proof will be reflected on the{" "}
                   <span
-                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => scrollToProof()}
                   >
-                    here
+                    ZK Proof Dashboard
                   </span>
-                  ].
+                  {" "}within a few days after completion.
                 </div>
               </div>
 
@@ -312,7 +321,7 @@ const FAQ = () => {
                   >
                     Tokamak Staking (TON/WTON) Contract
                   </a>
-                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. You can either interact directly with the smart contract or use community-hosted sites. For a step-by-step tutorial,{" "}
+                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. You can either interact directly with the smart contract or use community-hosted sites.{" "}
                   <a
                     href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
                     target="_blank"
@@ -326,7 +335,7 @@ const FAQ = () => {
                   >
                     Visit
                   </a>
-                  {" "}or check the{" "}
+                  {" "}for a step-by-step tutorial, or check the{" "}
                   <a
                     href="https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links"
                     target="_blank"
@@ -431,67 +440,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q6. Why is Windows showing a security warning?
-                </div>
-
-                {/* 답변 영역 */}
-                <div
-                  style={{
-                    display: "block",
-                    padding: "16px 24px",
-                    alignSelf: "stretch",
-                    background: "#1e3a8a",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Windows may show a security warning because the app is new and hasn't been widely downloaded yet. This is normal for newly released applications.
-                  <br />
-                  <br />
-                  <strong>To run the app safely:</strong>
-                  <br />
-                  1. Click on <strong>"More info"</strong> when you see the warning
-                  <br />
-                  2. Then click <strong>"Run anyway"</strong>
-                  <br />
-                  <br />
-                  The app is safe to use and comes directly from the official Tokamak Network team.
-                </div>
-              </div>
-
-              {/* Q7 박스 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "640px",
-                  border: "1px solid #4fc3f7",
-                  background: "#0a1930",
-                }}
-              >
-                {/* 질문 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    borderBottom: "1px solid var(--line, #00477A)",
-                    color: "#ffffff",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: 700,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Q7. What is Tokamak zkEVM and what is it for?
+                  Q6. What is Tokamak zkEVM and what is it for?
                 </div>
 
                 {/* 답변 영역 */}

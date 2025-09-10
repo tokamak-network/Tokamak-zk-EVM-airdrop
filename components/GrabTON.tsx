@@ -12,7 +12,7 @@ const GrabTON: React.FC = () => {
       <div className="absolute bottom-20 left-20 text-white text-xl animate-pulse" style={{animationDelay: '2s'}}>⚙</div>
       <div className="absolute bottom-10 right-10 text-white text-lg animate-pulse" style={{animationDelay: '0.5s'}}>✦</div>
       <div className="text-center flex flex-col items-center gap-y-[28px] z-10">
-        <div className="text-white text-6xl font-bold" style={{
+        <div className="text-white text-6xl" style={{
           fontFamily: '"Jersey 10"',
         }}>
           Do quests, show proof,

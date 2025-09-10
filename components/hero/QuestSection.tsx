@@ -368,13 +368,13 @@ const Quest = () => {
             <div style={contentStyle}>
               <div className="mb-4">
                 Complete all mandatory tasks (
-                <span style={{ fontWeight: "700" }}>
+                <span style={{ fontWeight: "500" }}>
                 ZKP submission, Social Media Activity
                 </span>
                 ) from the quest board to qualify for rewards.
               </div>
               <div className="mt-4">
-                <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Download Guide:</div>
+                <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Tool Download Guide:</div>
                 <div className="ml-4">
                   <div className="mb-3">
                     <span className="font-bold">macOS:</span> Download{" "}
@@ -383,7 +383,7 @@ const Quest = () => {
                       style={{ color: "#4fc3f7" }}
                       onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                     >
-                      Tokamak Playground for Mac
+                      Tokamak zk-EVM Playground for Mac
                     </span>
                     <br />
                     <span className="text-sm">Alternative:{" "}
@@ -397,13 +397,13 @@ const Quest = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="font-bold">Windows/Linux:</span> Download{" "}
+                    <span className="font-bold">Windows:</span> Download{" "}
                     <span 
                       className="font-bold cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
                       onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                     >
-                      Tokamak Playground for Windows/Linux
+                      Tokamak zk-EVM Playground for Windows
                     </span>
                     <br />
                     <span className="text-sm">Alternative:{" "}
@@ -428,7 +428,7 @@ const Quest = () => {
               </div>
               <div className="mt-2" style={contentStyle}>
                 - Each selected participant can earn up to{" "}
-                <span style={{ fontWeight: "700" }}>150 TON.</span>
+                <span style={{ fontWeight: "500" }}>150 TON.</span>
               </div>
             </div>
           </TableRow>
@@ -440,33 +440,6 @@ const Quest = () => {
                 <div className="flex flex-col gap-[4px] letter-spacing-[-0.32px]">
                   <span style={lightStyle}>
                     - Receive the full reward amount. You can withdraw your rewards with {">"}25% APY after at least two weeks.
-                  </span>
-                  <span style={lightStyle}>
-                    For detailed withdrawal instructions, visit the{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        color: "#4fc3f7"
-                      }}
-                      onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
-                    >
-                      staking guide
-                    </span>
-                    {" "}or check{" "}
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        color: "#4fc3f7"
-                      }}
-                      onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
-                    >
-                      community sites
-                    </span>
-                    .
                   </span>
                 </div>
               </div>
@@ -594,7 +567,7 @@ const Quest = () => {
               Activity) from the quest board to qualify for rewards.
             </div>
             <div className="mt-4">
-              <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Download Guide:</div>
+              <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Tool Download Guide:</div>
               <div className="ml-2">
                 <div className="mb-3">
                   <span className="font-bold">macOS:</span>
@@ -604,7 +577,7 @@ const Quest = () => {
                     style={{ color: "#4fc3f7" }}
                     onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                   >
-                    Tokamak Playground for Mac
+                    Tokamak zk-EVM Playground for Mac
                   </span>
                   <br />
                   <span className="text-xs">Alternative:{" "}
@@ -618,14 +591,14 @@ const Quest = () => {
                   </span>
                 </div>
                 <div>
-                  <span className="font-bold">Windows/Linux:</span>
+                  <span className="font-bold">Windows:</span>
                   <br />
                   <span 
                     className="font-bold cursor-pointer underline text-sm"
                     style={{ color: "#4fc3f7" }}
                     onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                   >
-                    Tokamak Playground for Windows/Linux
+                    Tokamak zk-EVM Playground for Windows
                   </span>
                   <br />
                   <span className="text-xs">Alternative:{" "}
@@ -650,7 +623,7 @@ const Quest = () => {
             </div>
             <div className="mt-2" style={mobileContentStyle}>
               - Each selected participant can earn up to{" "}
-              <span style={{ fontWeight: "700" }}>150 TON.</span>
+              <span style={{ fontWeight: "500" }}>150 TON.</span>
             </div>
           </div>
         </MobileCard>
@@ -658,45 +631,18 @@ const Quest = () => {
         <MobileCard title="Reward Options">
           <div className="flex flex-col gap-[12px] w-full">
             <div className="flex flex-col gap-[6px]">
-              <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
+              <span style={{ ...mobileContentStyle, fontWeight: "500" }}>
                 1.Stake (Default Option)
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
                 <span style={mobileContentStyle}>
                   - Receive the full reward amount. You can withdraw your rewards with {">"}25% APY after at least two weeks.
                 </span>
-                <span style={mobileContentStyle}>
-                  For detailed withdrawal instructions, visit the{" "}
-                  <span
-                    style={{
-                      fontWeight: "700",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                      color: "#4fc3f7"
-                    }}
-                    onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
-                  >
-                    staking guide
-                  </span>
-                  {" "}or check{" "}
-                  <span
-                    style={{
-                      fontWeight: "700",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                      color: "#4fc3f7"
-                    }}
-                    onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
-                  >
-                    community sites
-                  </span>
-                  .
-                </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-[6px]">
-              <span style={{ ...mobileContentStyle, fontWeight: "700" }}>
+              <span style={{ ...mobileContentStyle, fontWeight: "500" }}>
                 2.Claim Now
               </span>
               <div className="flex flex-col gap-[2px] ml-[12px]">
@@ -935,11 +881,10 @@ const QuestBoard = () => {
                     listStyleType: "disc",
                   }}
                 >
-                  <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                  <li style={{ color: "#4fc3f7" }}>
                     <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
                     <span
                       style={{
-                        fontWeight: "700",
                         cursor: "pointer",
                         textDecoration: "underline",
                         color: "#ffffff"
@@ -951,7 +896,7 @@ const QuestBoard = () => {
                     <span style={{ color: "#ffffff" }}>(Twitter) - </span>
                     <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
-                  <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                  <li style={{ color: "#4fc3f7" }}>
                     <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
                     <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
@@ -1216,11 +1161,10 @@ const QuestBoard = () => {
                   listStyleType: "disc",
                 }}
               >
-                 <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                 <li style={{ color: "#4fc3f7" }}>
                    <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
                    <span
                      style={{
-                       fontWeight: "700",
                        cursor: "pointer",
                        textDecoration: "underline",
                        color: "#ffffff"
@@ -1232,7 +1176,7 @@ const QuestBoard = () => {
                    <span style={{ color: "#ffffff" }}>(Twitter) - </span>
                    <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
-                 <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
+                 <li style={{ color: "#4fc3f7" }}>
                    <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
                    <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
@@ -1514,13 +1458,61 @@ const Notes = () => {
             alignItems: "center",
             gap: "16px",
             alignSelf: "stretch",
+            borderBottom: "1px solid #4fc3f7",
           }}
         >
           <ArrowIcon />
           <div style={notesCellStyle}>
             <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Windows Users:</div>
             <div>
-              If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+              <div className="mb-3">
+                <strong>WSL Setup:</strong> If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+                <span
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "#4fc3f7"
+                  }}
+                  onClick={() => window.open("https://apps.microsoft.com/detail/9pdxgncfsczv?hl=neutral&gl=KR&ocid=pdpshare", "_blank")}
+                >
+                  Microsoft Store
+                </span>
+                {" "}or follow the{" "}
+                <span
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "#4fc3f7"
+                  }}
+                  onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/WSL_SETUP.md", "_blank")}
+                >
+                  setup guide
+                </span>
+                .
+              </div>
+              <div>
+                <strong>Security Warning:</strong> Windows may show a security warning because the app is new and hasn't been widely downloaded yet. This is normal for newly released applications. To run the app safely: Click on "More info" when you see the warning, then click "Run anyway". The app is safe to use and comes directly from the official Tokamak Network team.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            padding: "16px 24px",
+            alignItems: "center",
+            gap: "16px",
+            alignSelf: "stretch",
+          }}
+        >
+          <ArrowIcon />
+          <div style={notesCellStyle}>
+            <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Withdrawal Instructions:</div>
+            <div>
+              For detailed withdrawal instructions, visit the{" "}
               <span
                 style={{
                   fontWeight: "700",
@@ -1528,11 +1520,11 @@ const Notes = () => {
                   textDecoration: "underline",
                   color: "#4fc3f7"
                 }}
-                onClick={() => window.open("https://apps.microsoft.com/detail/9p9tqf7mrm4r", "_blank")}
+                onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
               >
-                Microsoft Store
+                staking guide
               </span>
-              {" "}or follow the{" "}
+              {" "}or check{" "}
               <span
                 style={{
                   fontWeight: "700",
@@ -1540,9 +1532,9 @@ const Notes = () => {
                   textDecoration: "underline",
                   color: "#4fc3f7"
                 }}
-                onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/tree/main/packages/playground-hub", "_blank")}
+                onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
               >
-                setup guide
+                community sites
               </span>
               .
             </div>
@@ -1643,11 +1635,49 @@ const Notes = () => {
           If your computer has lower specifications than those listed in the table above, processing may take longer (typically 5-10 minutes or more). This is completely normal and the playground will still work perfectly, just be patient! Close other resource-intensive applications during processing.
         </NotesMobileCard>
 
-        <NotesMobileCard isLastRow>
+        <NotesMobileCard>
           <div>
             <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Windows Users:</div>
             <div>
-              If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+              <div className="mb-3">
+                <strong>WSL Setup:</strong> If you don't have WSL (Windows Subsystem for Linux) installed, the app will guide you through the setup process. You can also install WSL manually from the{" "}
+                <span
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "#4fc3f7"
+                  }}
+                  onClick={() => window.open("https://apps.microsoft.com/detail/9pdxgncfsczv?hl=neutral&gl=KR&ocid=pdpshare", "_blank")}
+                >
+                  Microsoft Store
+                </span>
+                {" "}or follow the{" "}
+                <span
+                  style={{
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "#4fc3f7"
+                  }}
+                  onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/blob/main/packages/playground-hub/WSL_SETUP.md", "_blank")}
+                >
+                  setup guide
+                </span>
+                .
+              </div>
+              <div>
+                <strong>Security Warning:</strong> Windows may show a security warning because the app is new and hasn't been widely downloaded yet. This is normal for newly released applications. To run the app safely: Click on "More info" when you see the warning, then click "Run anyway". The app is safe to use and comes directly from the official Tokamak Network team.
+              </div>
+            </div>
+          </div>
+        </NotesMobileCard>
+
+        <NotesMobileCard isLastRow>
+          <div>
+            <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>Withdrawal Instructions:</div>
+            <div>
+              For detailed withdrawal instructions, visit the{" "}
               <span
                 style={{
                   fontWeight: "700",
@@ -1655,11 +1685,11 @@ const Notes = () => {
                   textDecoration: "underline",
                   color: "#4fc3f7"
                 }}
-                onClick={() => window.open("https://apps.microsoft.com/detail/9p9tqf7mrm4r", "_blank")}
+                onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md", "_blank")}
               >
-                Microsoft Store
+                staking guide
               </span>
-              {" "}or follow the{" "}
+              {" "}or check{" "}
               <span
                 style={{
                   fontWeight: "700",
@@ -1667,9 +1697,9 @@ const Notes = () => {
                   textDecoration: "underline",
                   color: "#4fc3f7"
                 }}
-                onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/tree/main/packages/playground-hub", "_blank")}
+                onClick={() => window.open("https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links", "_blank")}
               >
-                setup guide
+                community sites
               </span>
               .
             </div>
