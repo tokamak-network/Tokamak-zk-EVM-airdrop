@@ -386,15 +386,15 @@ const Quest = () => {
                       Tokamak zk-EVM Playground for Mac
                     </span>
                     <br />
-                    <span className="text-sm">Alternative:{" "}
-                      <span 
-                        className="cursor-pointer underline"
-                        style={{ color: "#4fc3f7" }}
-                        onClick={() => window.open("https://drive.google.com/file/d/1fCT5AAgkB8djF3TCw5a3wp784jOS1fMz/view", "_blank")}
-                      >
-                        Google Drive
-                      </span>
-                    </span>
+                <span className="text-sm">Alternative:{" "}
+                  <span
+                    className="cursor-pointer underline"
+                    style={{ color: "#4fc3f7" }}
+                    onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
+                  >
+                    Google Drive
+                  </span>
+                </span>
                   </div>
                   <div>
                     <span className="font-bold">Windows:</span> Download{" "}
@@ -406,15 +406,15 @@ const Quest = () => {
                       Tokamak zk-EVM Playground for Windows
                     </span>
                     <br />
-                    <span className="text-sm">Alternative:{" "}
-                      <span 
-                        className="cursor-pointer underline"
-                        style={{ color: "#4fc3f7" }}
-                        onClick={() => window.open("https://drive.google.com/file/d/1_c5GfsA6RQ1s9pFNn5P4MnZM84Hbt5hR/view", "_blank")}
-                      >
-                        Google Drive
-                      </span>
-                    </span>
+                <span className="text-sm">Alternative:{" "}
+                  <span
+                    className="cursor-pointer underline"
+                    style={{ color: "#4fc3f7" }}
+                    onClick={() => window.open("https://drive.google.com/file/d/15gOFH0_XZnOvFDSyBetKKu7Q65F6XEyD/view?usp=drive_link", "_blank")}
+                  >
+                    Google Drive
+                  </span>
+                </span>
                   </div>
                 </div>
               </div>
@@ -584,7 +584,7 @@ const Quest = () => {
                     <span 
                       className="cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://drive.google.com/file/d/1fCT5AAgkB8djF3TCw5a3wp784jOS1fMz/view", "_blank")}
+                      onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
                     >
                       Google Drive
                     </span>
@@ -605,7 +605,7 @@ const Quest = () => {
                     <span 
                       className="cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://drive.google.com/file/d/1_c5GfsA6RQ1s9pFNn5P4MnZM84Hbt5hR/view", "_blank")}
+                      onClick={() => window.open("https://drive.google.com/file/d/15gOFH0_XZnOvFDSyBetKKu7Q65F6XEyD/view?usp=drive_link", "_blank")}
                     >
                       Google Drive
                     </span>

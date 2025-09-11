@@ -1,0 +1,30 @@
+{
+  "sessionId": "benchmark_1757555897817_ewfgehduk",
+  "timestamp": "2025-09-11T02:01:30.832Z",
+  "hardwareInfo": {
+    "cpu": {
+      "model": "Apple M1",
+      "cores": 8,
+      "threads": 8,
+      "architecture": "arm64"
+    },
+    "memory": {
+      "total": 8,
+      "available": 0
+    },
+    "os": {
+      "platform": "macOS",
+      "release": "macOS 15.5 24F74",
+      "version": "darwin 24.5.0 arm64"
+    },
+    "gpu": {
+      "name": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)",
+      "memory": 0,
+      "cudaSupported": false
+    }
+  },
+  "processes": {},
+  "metadata": {
+    "cudaEnabled": false
+  }
+}
