@@ -160,6 +160,10 @@ const Navigation = () => {
     );
   };
 
+  const handleAdminClick = () => {
+    window.location.href = "/admin";
+  };
+
   return (
     <>
       {/* Mobile Logo Section - NOT sticky */}
@@ -204,6 +208,12 @@ const Navigation = () => {
               onClick={() => scrollToSection("faq")}
             >
               FAQ
+            </span>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={handleAdminClick}
+            >
+              Admin
             </span>
           </div>
         </div>
@@ -253,7 +263,7 @@ const Navigation = () => {
             background: "#008BEE",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "20px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
@@ -277,7 +287,7 @@ const Navigation = () => {
             background: "#008BEE",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "20px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
@@ -301,16 +311,40 @@ const Navigation = () => {
             background: "#008BEE",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "20px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            letterSpacing: "-0.11px",
+            padding: "16px 0",
+            borderRight: "2px solid var(--line, #00477A)",
+          }}
+          onClick={() => scrollToSection("faq")}
+        >
+          FAQ
+        </div>
+        <div
+          className="flex cursor-pointer"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 0 0",
+            alignSelf: "stretch",
+            background: "#008BEE",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "20px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
             letterSpacing: "-0.11px",
             padding: "16px 0",
           }}
-          onClick={() => scrollToSection("faq")}
+          onClick={handleAdminClick}
         >
-          FAQ
+          Admin
         </div>
       </div>
     </>
