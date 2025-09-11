@@ -464,7 +464,7 @@ const Quest = () => {
                 <div>
                   Event Period:{" "}
                   <span style={{ fontWeight: "700" }}>
-                    Sep 9 (Tue) – Sep 12 (Fri), 12PM KST
+                    Sep 11 (Thu) – Sep 15 (Mon), 12PM KST
                   </span>
                 </div>
                 <div style={{ marginTop: "8px" }}>Reward Distribution: Sep 18 (Thu)</div>
@@ -661,7 +661,7 @@ const Quest = () => {
               Event Period:
               <br className="max-500:block hidden" />
               <span style={{ fontWeight: "700" }}>
-                Sep 8 (Mon) – Sep 12 (Fri), 12PM KST
+                Sep 11 (Thu) – Sep 15 (Mon), 12PM KST
               </span>
             </div>
             <div style={{ marginTop: "8px" }}>
