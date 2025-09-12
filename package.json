@@ -10,7 +10,9 @@
     "figma:sync": "node scripts/figma-to-tailwind.js $FIGMA_TOKEN $FIGMA_FILE_KEY",
     "figma:setup": "node scripts/setup-figma-sync.js",
     "figma:watch": "node scripts/figma-watch.js",
-    "setup:env": "node scripts/setup-env.js"
+    "setup:env": "node scripts/setup-env.js",
+    "validate:proof": "node scripts/validate-proof-cli.js",
+    "test:apis": "node scripts/test-all-apis.js"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
@@ -29,6 +31,7 @@
     "@types/react-dom": "^19.1.6",
     "autoprefixer": "^10.4.21",
     "chokidar": "^3.5.0",
+    "create-tokamak-zk-evm": "^1.0.11",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.5.6",

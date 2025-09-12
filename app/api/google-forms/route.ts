@@ -293,10 +293,32 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   
                   console.log('✅ Processed zip data successfully:', zipData);
                   
+                  // Validate the proof using the validation API
+                  let validationStatus = '0'; // Default to pending
+                  try {
+                    const validationResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/validate-proof`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        transactionHash: zipData.transactionHash,
+                        proofHash: zipData.hash,
+                        proofData: zipData.proofData?.proof
+                      })
+                    });
+                    
+                    if (validationResponse.ok) {
+                      const validation = await validationResponse.json();
+                      validationStatus = validation.result?.isValid ? '1' : '0';
+                      console.log('🔍 Proof validation result:', validation.result?.status);
+                    }
+                  } catch (validationError) {
+                    console.log('⚠️ Proof validation failed, keeping pending status:', validationError);
+                  }
+                  
                   // Use zip data to supplement form data
                   zipProcessedData = {
                     hash: zipData.hash || formTransactionHash, // Use zip hash or form tx hash
-                    status: '0', // Pending status initially
+                    status: validationStatus, // Use validation result
                     proveTime: zipData.proveTime || formProveTime,
                     transactionHash: zipData.transactionHash || formTransactionHash,
                   };
