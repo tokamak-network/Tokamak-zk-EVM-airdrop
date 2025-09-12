@@ -4,11 +4,13 @@ import React from "react";
 import { trimText, copyToClipboard } from "@/utils/text";
 import {
   ProofCardProps,
-  proofData,
+  // proofData,
   isEventLive,
   mockProofData,
+  getStatusDisplay,
 } from "@/data/proofData";
-import ComingSoonCard from "@/components/ComingSoonCard";
+import { useProofs } from "@/hooks/useProofs";
+// import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
 const CopyIcon = () => (
@@ -34,6 +36,7 @@ const CopyIcon = () => (
 const ProofCard: React.FC<ProofCardProps> = ({
   submitterAddress,
   hash,
+  proofHash,
   status,
   proveTime,
 }) => {
@@ -45,27 +48,37 @@ const ProofCard: React.FC<ProofCardProps> = ({
 
   const handleCopyHash = () => {
     copyToClipboard(hash, () => {
-      alert("Hash copied to clipboard!");
+      alert("Transaction Hash copied to clipboard!");
     });
+  };
+
+  const handleCopyProofHash = () => {
+    if (proofHash) {
+      copyToClipboard(proofHash, () => {
+        alert("Proof Hash copied to clipboard!");
+      });
+    }
   };
 
   // Use trimText function for display
   const displayAddress = trimText(submitterAddress);
   const displayHash = trimText(hash);
+  const displayProofHash = proofHash ? `${proofHash.slice(0, 20)}...${proofHash.slice(-8)}` : 'N/A';
   return (
     <div
       style={{
         display: "flex",
-        padding: "16px 20px",
+        padding: "12px 16px",
         flexDirection: "column",
         alignItems: "flex-start",
-        gap: "16px",
+        gap: "12px",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
+        position: "relative",
       }}
     >
-      {/* Top Row */}
+      {/* Top Row - 3 fields */}
       <div
         style={{
           display: "flex",
@@ -73,6 +86,57 @@ const ProofCard: React.FC<ProofCardProps> = ({
           width: "100%",
         }}
       >
+        {/* Proof Hash */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Proof Hash
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {displayProofHash}
+            </div>
+            {proofHash && (
+              <div
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  aspectRatio: "1/1",
+                  cursor: "pointer",
+                }}
+                onClick={handleCopyProofHash}
+              >
+                <CopyIcon />
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Submitter Address */}
         <div
           style={{
@@ -81,6 +145,8 @@ const ProofCard: React.FC<ProofCardProps> = ({
             justifyContent: "center",
             alignItems: "flex-start",
             gap: "8px",
+            marginLeft: "auto",
+            marginRight: "14px",
           }}
         >
           <div
@@ -119,45 +185,6 @@ const ProofCard: React.FC<ProofCardProps> = ({
             >
               <CopyIcon />
             </div>
-          </div>
-        </div>
-
-        {/* Prove Time */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            marginLeft: "auto",
-            marginRight: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Prove Time
-          </div>
-          <div
-            style={{
-              color: "#66EAFF",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "18px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-              textAlign: "left",
-            }}
-          >
-            {proveTime}
           </div>
         </div>
       </div>
@@ -219,7 +246,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
           </div>
         </div>
 
-        {/* Proof Status */}
+        {/* Status */}
         <div
           style={{
             display: "flex",
@@ -227,7 +254,6 @@ const ProofCard: React.FC<ProofCardProps> = ({
             justifyContent: "center",
             alignItems: "flex-start",
             gap: "8px",
-            marginLeft: "auto",
           }}
         >
           <div
@@ -240,7 +266,54 @@ const ProofCard: React.FC<ProofCardProps> = ({
               lineHeight: "normal",
             }}
           >
-            Proof Status
+            Status
+          </div>
+          <div
+            style={{
+              color: getStatusDisplay(status) === "Verified" ? "#10B981" : "#F59E0B",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+            }}
+          >
+            {getStatusDisplay(status)}
+          </div>
+        </div>
+      </div>
+
+      {/* Second Row - 2 fields */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "100%",
+        }}
+      >
+        {/* Prove Time */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            marginLeft: "auto",
+            marginRight: "14px",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Prove Time
           </div>
           <div
             style={{
@@ -253,15 +326,88 @@ const ProofCard: React.FC<ProofCardProps> = ({
               textAlign: "left",
             }}
           >
-            {status}
+            {proveTime}
+          </div>
+        </div>
+
+        {/* Submitter Address */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Submitter Address
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {displayAddress}
+            </div>
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+              onClick={handleCopyAddress}
+            >
+              <CopyIcon />
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };
 
 const ProofMobile = () => {
+  const { proofs, loading, error } = useProofs();
+  
+  // Debug logging
+  console.log('📱 ProofMobile render:', { 
+    loading, 
+    error, 
+    proofsCount: proofs.length, 
+    isEventLive,
+    proofs: proofs.slice(0, 1) // Log first proof for debugging
+  });
+  
+  // Convert real proofs to ProofCardProps format
+  const realProofs: ProofCardProps[] = proofs.map(proof => ({
+    submitterAddress: proof.submitterAddress,
+    hash: proof.hash,
+    proofHash: proof.proofData?.proofHash,
+    status: proof.status,
+    proveTime: proof.proveTime,
+    submissionTime: proof.submissionTime,
+    id: proof.id,
+    proofData: proof.proofData,
+  }));
+
   return (
     <div
       id="proof-mobile"
@@ -287,19 +433,38 @@ const ProofMobile = () => {
           width: "100%",
         }}
       >
-        {isEventLive ? (
-          proofData.map((proof, index) => (
-            <ProofCard
-              key={`proof-mobile-${index}`}
-              submitterAddress={proof.submitterAddress}
-              hash={proof.hash}
-              status={proof.status}
-              proveTime={proof.proveTime}
-            />
-          ))
-        ) : (
+        {loading && (
+          <div className="flex justify-center items-center h-32">
+            <div className="text-white text-lg">Loading proofs...</div>
+          </div>
+        )}
+        
+        {error && (
+          <div className="flex justify-center items-center h-32">
+            <div className="text-red-400 text-lg">Error: {error}</div>
+          </div>
+        )}
+        
+        {!loading && !error && isEventLive ? (
+          realProofs.length > 0 ? (
+            realProofs.map((proof, index) => (
+              <ProofCard
+                key={`real-proof-mobile-${proof.id || index}`}
+                submitterAddress={proof.submitterAddress}
+                hash={proof.hash}
+                proofHash={proof.proofHash}
+                status={proof.status}
+                proveTime={proof.proveTime}
+              />
+            ))
+          ) : (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-white text-lg">No proofs available</div>
+            </div>
+          )
+        ) : !loading && !error ? (
           <>
-            <ComingSoonCard />
+            {/* <ComingSoonCard /> */}
             {mockProofData.map((proof, index) => (
               <div
                 key={`mock-proof-mobile-${index}`}
@@ -335,7 +500,7 @@ const ProofMobile = () => {
               </div>
             ))}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );
