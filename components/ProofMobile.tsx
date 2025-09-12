@@ -4,12 +4,12 @@ import React from "react";
 import { trimText, copyToClipboard } from "@/utils/text";
 import {
   ProofCardProps,
-  proofData,
+  // proofData,
   isEventLive,
   mockProofData,
 } from "@/data/proofData";
 import { useProofs } from "@/hooks/useProofs";
-import ComingSoonCard from "@/components/ComingSoonCard";
+// import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
 const CopyIcon = () => (

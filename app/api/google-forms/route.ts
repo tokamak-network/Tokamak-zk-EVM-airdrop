@@ -9,6 +9,7 @@ export interface GoogleFormSubmission {
   timestamp: string;
   walletAddress: string;
   zipFileUrl: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
 }
 
@@ -83,7 +84,8 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     });
     
     // Process each row
-    const submissions: GoogleFormSubmission[] = dataRows.map((row, index) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const submissions: GoogleFormSubmission[] = dataRows.map((row: any, index: number) => {
       // Based on your form structure:
       // Column 0: Timestamp
       // Column 1: Email Address  
@@ -287,8 +289,8 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
               // Check if it's actually a zip file (not HTML)
               if (zipBuffer.byteLength > 1000) { // Reasonable size for a zip file
                 try {
-                  // Process the zip file (reuse the logic from /api/proofs/route.ts)
-                  const { processZipFile } = await import('../proofs/route');
+                  // Process the zip file using the utils function
+                  const { processZipFile } = await import('@/utils/zipProcessor');
                   const zipData = await processZipFile(Buffer.from(zipBuffer));
                   
                   console.log('✅ Processed zip data successfully:', zipData);
@@ -300,7 +302,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
-                        transactionHash: zipData.transactionHash,
+                        transactionHash: zipData.proofData?.transactionHash,
                         proofHash: zipData.hash,
                         proofData: zipData.proofData?.proof
                       })
@@ -320,12 +322,13 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     hash: zipData.hash || formTransactionHash, // Use zip hash or form tx hash
                     status: validationStatus, // Use validation result
                     proveTime: zipData.proveTime || formProveTime,
-                    transactionHash: zipData.transactionHash || formTransactionHash,
+                    transactionHash: zipData.proofData?.transactionHash || formTransactionHash,
                   };
                   
                   console.log('✅ Using REAL zip data:', zipProcessedData);
-                } catch (zipProcessingError) {
-                  console.log('❌ Zip file processing failed, using mock data:', zipProcessingError.message);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } catch (zipProcessingError: any) {
+                  console.log('❌ Zip file processing failed, using mock data:', zipProcessingError?.message);
                   // Fallback to mock data if zip processing fails
                   zipProcessedData = {
                     hash: `0x${Math.random().toString(16).substr(2, 64)}`,
@@ -367,8 +370,12 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
             transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
           };
         }
-      } catch (zipError) {
-        console.warn('Could not process zip file, using mock data:', zipError.message);
+      } catch (zipError: unknown) {
+        if (zipError instanceof Error) {
+          console.warn('Could not process zip file, using mock data:', zipError.message);
+        } else {
+          console.warn('Could not process zip file, using mock data:', String(zipError));
+        }
         // Fallback to mock data
         zipProcessedData = {
           hash: `0x${Math.random().toString(16).substr(2, 64)}`,

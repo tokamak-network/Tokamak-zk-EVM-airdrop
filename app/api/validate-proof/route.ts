@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 interface ProofValidationRequest {
   transactionHash: string;
   proofHash: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   proofData?: any;
 }
 
@@ -20,6 +21,7 @@ interface ProofValidationResult {
 }
 
 // Lightweight proof validation without heavy CLI dependencies
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function validateProofStructure(proofData: any): Promise<boolean> {
   try {
     // Basic structure validation for Tokamak ZK-EVM proofs
@@ -51,6 +53,7 @@ function validateProofHash(proofHash: string): boolean {
 }
 
 // Mock cryptographic verification (replace with actual implementation)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function performCryptographicVerification(proofData: any): Promise<boolean> {
   try {
     // In a real implementation, this would use the Tokamak ZK-EVM verification logic

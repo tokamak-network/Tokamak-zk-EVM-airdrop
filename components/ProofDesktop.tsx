@@ -10,7 +10,7 @@ import {
   mockProofData,
 } from "@/data/proofData";
 import { useProofs } from "@/hooks/useProofs";
-import ComingSoonCard from "@/components/ComingSoonCard";
+// import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
 const CopyIcon = () => (
