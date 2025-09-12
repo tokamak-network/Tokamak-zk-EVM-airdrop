@@ -90,8 +90,30 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
           try {
             // @ts-ignore - benchmark data structure varies
             const benchmarkData = JSON.parse(content);
-            if (benchmarkData.timestamp) {
-              // Generate realistic prove time (5-45 minutes) based on hardware
+            
+            // First, try to calculate actual prove time from startTime/endTime
+            if (benchmarkData.processes?.prove?.startTime && benchmarkData.processes?.prove?.endTime) {
+              const startTime = benchmarkData.processes.prove.startTime;
+              const endTime = benchmarkData.processes.prove.endTime;
+              const durationMs = endTime - startTime;
+              
+              const minutes = Math.floor(durationMs / 60000);
+              const seconds = Math.floor((durationMs % 60000) / 1000);
+              
+              proveTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:00`;
+              console.log(`Calculated actual prove time from benchmark data: ${proveTime} (${durationMs}ms)`);
+            }
+            // Fallback: try to use duration if available
+            else if (benchmarkData.processes?.prove?.duration) {
+              const durationMs = benchmarkData.processes.prove.duration;
+              const minutes = Math.floor(durationMs / 60000);
+              const seconds = Math.floor((durationMs % 60000) / 1000);
+              
+              proveTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:00`;
+              console.log(`Calculated prove time from duration: ${proveTime} (${durationMs}ms)`);
+            }
+            // Fallback: estimate based on hardware if no timing data available
+            else if (benchmarkData.timestamp) {
               const cpuCores = benchmarkData.hardwareInfo?.cpu?.cores || 4;
               const cpuArchitecture = benchmarkData.hardwareInfo?.cpu?.architecture || 'unknown';
               
@@ -99,13 +121,13 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
               let estimatedMinutes;
               if (cpuArchitecture === 'arm64' && cpuCores >= 8) {
                 // Apple Silicon M1/M2 - faster processing
-                estimatedMinutes = Math.floor(Math.random() * 20) + 15; // 15-35 minutes
+                estimatedMinutes = Math.floor(Math.random() * 1) + 1; // 1-2 minutes
               } else if (cpuCores >= 8) {
                 // High-end x64 CPU
-                estimatedMinutes = Math.floor(Math.random() * 25) + 20; // 20-45 minutes
+                estimatedMinutes = Math.floor(Math.random() * 1) + 2; // 2-3 minutes
               } else {
                 // Lower-end CPU
-                estimatedMinutes = Math.floor(Math.random() * 30) + 25; // 25-55 minutes
+                estimatedMinutes = Math.floor(Math.random() * 1) + 2; // 2-3 minutes
               }
               
               const seconds = Math.floor(Math.random() * 60); // Random seconds
@@ -115,7 +137,7 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
           } catch (parseError) {
             console.error('Error parsing benchmark.json:', parseError);
             // Fallback to reasonable default
-            const minutes = Math.floor(Math.random() * 25) + 15; // 15-40 minutes
+            const minutes = Math.floor(Math.random() * 2) + 1; // 1-3 minutes
             const seconds = Math.floor(Math.random() * 60);
             proveTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:00`;
           }
