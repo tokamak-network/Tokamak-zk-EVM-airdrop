@@ -12,6 +12,7 @@ export interface ProofSubmission {
     publicSignals?: any;
     proof?: any;
     transactionHash?: string;
+    proofHash?: string;
   };
 }
 

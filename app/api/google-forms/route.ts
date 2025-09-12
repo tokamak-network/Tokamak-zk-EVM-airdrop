@@ -310,8 +310,8 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     
                     if (validationResponse.ok) {
                       const validation = await validationResponse.json();
-                      validationStatus = validation.result?.isValid ? '1' : '0';
-                      console.log('🔍 Proof validation result:', validation.result?.status);
+                      validationStatus = '0'; // Always keep as pending by default
+                      console.log('🔍 Proof validation result:', validation.result?.status, '(Status set to Pending by default)');
                     }
                   } catch (validationError) {
                     console.log('⚠️ Proof validation failed, keeping pending status:', validationError);

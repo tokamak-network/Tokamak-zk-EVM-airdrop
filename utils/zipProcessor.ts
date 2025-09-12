@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import crypto from 'crypto';
 
 // Enhanced proof data interface
 export interface ProofSubmission {
@@ -13,7 +14,26 @@ export interface ProofSubmission {
     publicSignals?: any;
     proof?: any;
     transactionHash?: string;
+    proofHash?: string;
   };
+}
+
+// Compute proof hash from proof entries
+function computeProofHash(proofData: any): string {
+  try {
+    // Only hash the proof components
+    const proofHashInput = {
+      proof_entries_part1: proofData.proof_entries_part1,
+      proof_entries_part2: proofData.proof_entries_part2
+    };
+
+    // Convert to deterministic string and hash
+    const dataString = JSON.stringify(proofHashInput, Object.keys(proofHashInput).sort());
+    return '0x' + crypto.createHash('sha256').update(dataString).digest('hex');
+  } catch (error) {
+    console.error('Error computing proof hash:', error);
+    return '';
+  }
 }
 
 // Process zip file to extract proof data (wallet address comes from form)
@@ -51,11 +71,10 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
             const proofData = JSON.parse(content);
             console.log('Proof data structure:', Object.keys(proofData));
             
-            // Extract proof hash from proof data
-            if (proofData.proof_entries_part1 && Array.isArray(proofData.proof_entries_part1)) {
-              // Use the first entry as the proof hash
-              proofHash = proofData.proof_entries_part1[0];
-              console.log(`Found proof hash: ${proofHash}`);
+            // Compute proof hash from proof entries
+            if (proofData.proof_entries_part1 && proofData.proof_entries_part2) {
+              proofHash = computeProofHash(proofData);
+              console.log(`Computed proof hash: ${proofHash}`);
             }
             
             // Store the full proof data
@@ -163,6 +182,7 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
         publicSignals,
         proof,
         transactionHash,
+        proofHash,
       }
     };
     
