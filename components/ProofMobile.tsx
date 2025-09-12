@@ -265,6 +265,15 @@ const ProofCard: React.FC<ProofCardProps> = ({
 const ProofMobile = () => {
   const { proofs, loading, error } = useProofs();
   
+  // Debug logging
+  console.log('📱 ProofMobile render:', { 
+    loading, 
+    error, 
+    proofsCount: proofs.length, 
+    isEventLive,
+    proofs: proofs.slice(0, 1) // Log first proof for debugging
+  });
+  
   // Convert real proofs to ProofCardProps format
   const realProofs: ProofCardProps[] = proofs.map(proof => ({
     submitterAddress: proof.submitterAddress,
@@ -301,17 +310,35 @@ const ProofMobile = () => {
           width: "100%",
         }}
       >
-        {isEventLive ? (
-          proofData.map((proof, index) => (
-            <ProofCard
-              key={`proof-mobile-${index}`}
-              submitterAddress={proof.submitterAddress}
-              hash={proof.hash}
-              status={proof.status}
-              proveTime={proof.proveTime}
-            />
-          ))
-        ) : (
+        {loading && (
+          <div className="flex justify-center items-center h-32">
+            <div className="text-white text-lg">Loading proofs...</div>
+          </div>
+        )}
+        
+        {error && (
+          <div className="flex justify-center items-center h-32">
+            <div className="text-red-400 text-lg">Error: {error}</div>
+          </div>
+        )}
+        
+        {!loading && !error && isEventLive ? (
+          realProofs.length > 0 ? (
+            realProofs.map((proof, index) => (
+              <ProofCard
+                key={`real-proof-mobile-${proof.id || index}`}
+                submitterAddress={proof.submitterAddress}
+                hash={proof.hash}
+                status={proof.status}
+                proveTime={proof.proveTime}
+              />
+            ))
+          ) : (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-white text-lg">No proofs available</div>
+            </div>
+          )
+        ) : !loading && !error ? (
           <>
             {/* <ComingSoonCard /> */}
             {mockProofData.map((proof, index) => (
@@ -349,7 +376,7 @@ const ProofMobile = () => {
               </div>
             ))}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );
