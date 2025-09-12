@@ -253,6 +253,15 @@ const ProofCard: React.FC<ProofCardProps> = ({
 const ProofDesktop = () => {
   const { proofs, loading, error } = useProofs();
   
+  // Debug logging
+  console.log('🎯 ProofDesktop render:', { 
+    loading, 
+    error, 
+    proofsCount: proofs.length, 
+    isEventLive,
+    proofs: proofs.slice(0, 1) // Log first proof for debugging
+  });
+  
   // Convert real proofs to ProofCardProps format
   const realProofs: ProofCardProps[] = proofs.map(proof => ({
     submitterAddress: proof.submitterAddress,

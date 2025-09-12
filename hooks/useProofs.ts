@@ -29,20 +29,28 @@ export function useProofs(): UseProofsReturn {
 
   const fetchProofs = async () => {
     try {
+      console.log('🔄 Starting to fetch proofs...');
       setLoading(true);
       setError(null);
       
       const response = await fetch('/api/proofs');
+      console.log('📡 API response status:', response.status);
+      
       const data = await response.json();
+      console.log('📊 API response data:', data);
       
       if (data.success) {
+        console.log('✅ Setting proofs data:', data.data.length, 'items');
         setProofs(data.data);
       } else {
+        console.log('❌ API returned error:', data.error);
         setError(data.error || 'Failed to fetch proofs');
       }
     } catch (err) {
+      console.error('❌ Fetch error:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
+      console.log('🏁 Setting loading to false');
       setLoading(false);
     }
   };
