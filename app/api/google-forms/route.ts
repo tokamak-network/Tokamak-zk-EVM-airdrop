@@ -263,7 +263,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
             console.log('❌ Missing service account credentials, using mock data');
             zipProcessedData = {
               hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-              status: '1',
+              status: '0', // Pending status initially
               proveTime: formProveTime || '00:05:30',
               transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
             };
@@ -296,7 +296,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   // Use zip data to supplement form data
                   zipProcessedData = {
                     hash: zipData.hash || formTransactionHash, // Use zip hash or form tx hash
-                    status: zipData.status || '1', // Assume success if form was submitted
+                    status: '0', // Pending status initially
                     proveTime: zipData.proveTime || formProveTime,
                     transactionHash: zipData.transactionHash || formTransactionHash,
                   };
@@ -307,7 +307,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   // Fallback to mock data if zip processing fails
                   zipProcessedData = {
                     hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                    status: '1',
+                    status: '0', // Pending status initially
                     proveTime: formProveTime || '00:05:30',
                     transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
                   };
@@ -317,7 +317,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                 // Fallback to mock data
                 zipProcessedData = {
                   hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                  status: '1',
+                  status: '0', // Pending status initially
                   proveTime: formProveTime || '00:05:30',
                   transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
                 };
@@ -329,7 +329,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
               // Fallback to mock data
               zipProcessedData = {
                 hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                status: '1',
+                status: '0', // Pending status initially
                 proveTime: formProveTime || '00:05:30',
                 transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
               };
@@ -340,7 +340,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
           // Fallback to mock data
           zipProcessedData = {
             hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-            status: '1',
+            status: '0', // Pending status initially
             proveTime: formProveTime || '00:05:30',
             transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
           };
@@ -350,7 +350,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
         // Fallback to mock data
         zipProcessedData = {
           hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-          status: '1',
+          status: '0', // Pending status initially
           proveTime: formProveTime || '00:05:30',
           transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
         };

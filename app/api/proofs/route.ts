@@ -141,7 +141,7 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
       hash: proofHash,
       transactionHash,
       proveTime,
-      status: (proofHash || transactionHash) ? '1' : '0', // Success if we found any proof data
+      status: '0', // Always show pending status initially
       proofData: {
         publicSignals,
         proof,
