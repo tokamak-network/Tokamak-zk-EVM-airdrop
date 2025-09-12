@@ -9,6 +9,7 @@ import {
   isEventLive,
   mockProofData,
 } from "@/data/proofData";
+import { useProofs } from "@/hooks/useProofs";
 import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
@@ -250,6 +251,19 @@ const ProofCard: React.FC<ProofCardProps> = ({
 };
 
 const ProofDesktop = () => {
+  const { proofs, loading, error } = useProofs();
+  
+  // Convert real proofs to ProofCardProps format
+  const realProofs: ProofCardProps[] = proofs.map(proof => ({
+    submitterAddress: proof.submitterAddress,
+    hash: proof.hash,
+    status: proof.status,
+    proveTime: proof.proveTime,
+    submissionTime: proof.submissionTime,
+    id: proof.id,
+    proofData: proof.proofData,
+  }));
+
   return (
     <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
       {/* Space-themed header */}
@@ -282,19 +296,46 @@ const ProofDesktop = () => {
             flex: 1,
           }}
         >
-          {isEventLive ? (
-            proofData.map((proof, index) => (
-              <ProofCard
-                key={`proof-${index}`}
-                submitterAddress={proof.submitterAddress}
-                hash={proof.hash}
-                status={proof.status}
-                proveTime={proof.proveTime}
-              />
-            ))
+          {loading && (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-white text-lg">Loading proofs...</div>
+            </div>
+          )}
+          
+          {error && (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-red-400 text-lg">Error: {error}</div>
+            </div>
+          )}
+          
+          {!loading && !error && isEventLive ? (
+            realProofs.length > 0 ? (
+              realProofs.map((proof, index) => (
+                <ProofCard
+                  key={`real-proof-${proof.id || index}`}
+                  submitterAddress={proof.submitterAddress}
+                  hash={proof.hash}
+                  status={proof.status}
+                  proveTime={proof.proveTime}
+                  submissionTime={proof.submissionTime}
+                  id={proof.id}
+                  proofData={proof.proofData}
+                />
+              ))
+            ) : (
+              proofData.map((proof, index) => (
+                <ProofCard
+                  key={`proof-${index}`}
+                  submitterAddress={proof.submitterAddress}
+                  hash={proof.hash}
+                  status={proof.status}
+                  proveTime={proof.proveTime}
+                />
+              ))
+            )
           ) : (
             <>
-              <ComingSoonCard />
+              {/* <ComingSoonCard /> */}
               {mockProofData.map((proof, index) => (
                 <div
                   key={`mock-proof-${index}`}

@@ -9,9 +9,15 @@
     "lint": "next lint",
     "figma:sync": "node scripts/figma-to-tailwind.js $FIGMA_TOKEN $FIGMA_FILE_KEY",
     "figma:setup": "node scripts/setup-figma-sync.js",
-    "figma:watch": "node scripts/figma-watch.js"
+    "figma:watch": "node scripts/figma-watch.js",
+    "setup:env": "node scripts/setup-env.js"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "dotenv": "^17.2.2",
+    "form-data": "^4.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "jszip": "^3.10.1",
     "next": "^15.3.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

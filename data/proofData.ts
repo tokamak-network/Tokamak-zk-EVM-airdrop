@@ -4,10 +4,33 @@ export interface ProofCardProps {
   hash: string;
   status: string;
   proveTime: string;
+  submissionTime?: string;
+  id?: string;
+  proofData?: {
+    publicSignals?: any;
+    proof?: any;
+    transactionHash?: string;
+  };
+}
+
+// Enhanced proof submission interface for real data
+export interface ProofSubmission {
+  id: string;
+  submitterAddress: string;
+  hash: string;
+  status: string;
+  proveTime: string;
+  submissionTime: string;
+  zipFileUrl?: string;
+  proofData?: {
+    publicSignals?: any;
+    proof?: any;
+    transactionHash?: string;
+  };
 }
 
 // Event Status - Set to true when event starts
-export const isEventLive = false;
+export const isEventLive = true;
 
 // Mock Data for Coming Soon Display - Cards with overlay
 export const mockProofData: ProofCardProps[] = [

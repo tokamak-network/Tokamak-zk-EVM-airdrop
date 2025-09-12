@@ -8,6 +8,7 @@ import {
   isEventLive,
   mockProofData,
 } from "@/data/proofData";
+import { useProofs } from "@/hooks/useProofs";
 import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
@@ -262,6 +263,19 @@ const ProofCard: React.FC<ProofCardProps> = ({
 };
 
 const ProofMobile = () => {
+  const { proofs, loading, error } = useProofs();
+  
+  // Convert real proofs to ProofCardProps format
+  const realProofs: ProofCardProps[] = proofs.map(proof => ({
+    submitterAddress: proof.submitterAddress,
+    hash: proof.hash,
+    status: proof.status,
+    proveTime: proof.proveTime,
+    submissionTime: proof.submissionTime,
+    id: proof.id,
+    proofData: proof.proofData,
+  }));
+
   return (
     <div
       id="proof-mobile"
@@ -299,7 +313,7 @@ const ProofMobile = () => {
           ))
         ) : (
           <>
-            <ComingSoonCard />
+            {/* <ComingSoonCard /> */}
             {mockProofData.map((proof, index) => (
               <div
                 key={`mock-proof-mobile-${index}`}
