@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import PipeTopImage from "@/assets/FAQ/pipe-top.png";
-import ProofDashboardImage from "@/assets/FAQ/proof-dashboard.png";
+
 import { trimText, copyToClipboard } from "@/utils/text";
 import {
   ProofCardProps,
   proofData,
   isEventLive,
   mockProofData,
+  getStatusDisplay,
 } from "@/data/proofData";
-import ComingSoonCard from "@/components/ComingSoonCard";
+import { useProofs } from "@/hooks/useProofs";
+// import ComingSoonCard from "@/components/ComingSoonCard";
 
 // Copy Icon Component
 const CopyIcon = () => (
@@ -37,6 +37,7 @@ const CopyIcon = () => (
 const ProofCard: React.FC<ProofCardProps> = ({
   submitterAddress,
   hash,
+  proofHash,
   status,
   proveTime,
 }) => {
@@ -48,29 +49,39 @@ const ProofCard: React.FC<ProofCardProps> = ({
 
   const handleCopyHash = () => {
     copyToClipboard(hash, () => {
-      alert("Hash copied to clipboard!");
+      alert("Transaction Hash copied to clipboard!");
     });
+  };
+
+  const handleCopyProofHash = () => {
+    if (proofHash) {
+      copyToClipboard(proofHash, () => {
+        alert("Proof Hash copied to clipboard!");
+      });
+    }
   };
 
   // Use trimText function for display
   const displayAddress = trimText(submitterAddress);
   const displayHash = trimText(hash);
+  const displayProofHash = proofHash ? `${proofHash.slice(0, 20)}...${proofHash.slice(-8)}` : 'N/A';
   return (
     <div
       style={{
         display: "flex",
-        padding: "16px 24px",
+        padding: "12px 16px",
         flexDirection: "column",
         alignItems: "flex-start",
-        gap: "16px",
+        gap: "12px",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
+        position: "relative",
       }}
     >
-      {/* Top Row */}
-      <div style={{ display: "flex", gap: "24px", width: "100%" }}>
-        {/* Submitter Address */}
+      {/* Top Row - 3 fields */}
+      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
+        {/* Proof Hash */}
         <div
           style={{
             display: "flex",
@@ -91,7 +102,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
               lineHeight: "normal",
             }}
           >
-            Submitter Address
+            Proof Hash
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <div
@@ -104,22 +115,28 @@ const ProofCard: React.FC<ProofCardProps> = ({
                 lineHeight: "normal",
               }}
             >
-              {displayAddress}
+              {displayProofHash}
             </div>
-            <div
-              style={{
-                width: "22px",
-                height: "22px",
-                aspectRatio: "1/1",
-                cursor: "pointer",
-              }}
-              onClick={handleCopyAddress}
-            >
-              <CopyIcon />
-            </div>
+            {proofHash && (
+              <div
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  aspectRatio: "1/1",
+                  cursor: "pointer",
+                }}
+                onClick={handleCopyProofHash}
+              >
+                <CopyIcon />
+              </div>
+            )}
           </div>
         </div>
 
+      </div>
+
+      {/* Second Row - 2 fields */}
+      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
         {/* Transaction Hash */}
         <div
           style={{
@@ -169,10 +186,48 @@ const ProofCard: React.FC<ProofCardProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Status */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1 0 0",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Status
+          </div>
+          <div
+            style={{
+              color: getStatusDisplay(status) === "Verified" ? "#10B981" : 
+                     getStatusDisplay(status) === "Rejected" ? "#EF4444" : "#F59E0B",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+            }}
+          >
+            {getStatusDisplay(status)}
+          </div>
+        </div>
       </div>
 
-      {/* Bottom Row */}
-      <div style={{ display: "flex", gap: "24px", width: "100%" }}>
+      {/* Second Row - 2 fields */}
+      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
         {/* Prove Time */}
         <div
           style={{
@@ -210,7 +265,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
           </div>
         </div>
 
-        {/* Proof Status */}
+        {/* Submitter Address */}
         <div
           style={{
             display: "flex",
@@ -231,55 +286,83 @@ const ProofCard: React.FC<ProofCardProps> = ({
               lineHeight: "normal",
             }}
           >
-            Proof Status
+            Submitter Address
           </div>
-          <div
-            style={{
-              color: "#66EAFF",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "18px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-            }}
-          >
-            {status}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {displayAddress}
+            </div>
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+              onClick={handleCopyAddress}
+            >
+              <CopyIcon />
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };
 
 const ProofDesktop = () => {
+  const { proofs, loading, error } = useProofs();
+  
+  // Debug logging
+  console.log('🎯 ProofDesktop render:', { 
+    loading, 
+    error, 
+    proofsCount: proofs.length, 
+    isEventLive,
+    proofs: proofs.slice(0, 1) // Log first proof for debugging
+  });
+  
+  // Convert real proofs to ProofCardProps format
+  const realProofs: ProofCardProps[] = proofs.map(proof => ({
+    submitterAddress: proof.submitterAddress,
+    hash: proof.hash,
+    proofHash: proof.proofData?.proofHash,
+    status: proof.status,
+    proveTime: proof.proveTime,
+    submissionTime: proof.submissionTime,
+    id: proof.id,
+    proofData: proof.proofData,
+  }));
+
   return (
-    <div className="">
-      <div className="absolute top-[-154px] left-[146px]">
-        <Image className="" src={PipeTopImage} alt="piep_top" />
-      </div>
-      <div className="absolute top-[37px] left-[-30px]">
-        <Image
-          src={ProofDashboardImage}
-          alt="ProofDashboardImage"
-          className="w-[720px] h-[827px]"
-        />
+    <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
+      {/* Space-themed header */}
+      <div className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] p-4 border-b-2 border-[#4fc3f7]">
+        <h2 className="text-white text-3xl text-center" style={{fontFamily: '"Jersey 10"'}}>
+          ZK Proof Dashboard
+        </h2>
       </div>
 
       {/* Proof Cards Container */}
       <div
         style={{
-          position: "absolute",
-          top: "150px",
-          left: "38px",
           display: "flex",
-          width: "584px",
-          height: "598px",
-          padding: "0 24px 32px 24px",
-          marginTop: "32px",
+          width: "100%",
+          minHeight: "600px",
+          padding: "24px",
           flexDirection: "column",
           alignItems: "center",
-          gap: "32px",
-          flexShrink: 0,
+          gap: "16px",
           overflowY: "auto",
         }}
       >
@@ -293,19 +376,48 @@ const ProofDesktop = () => {
             flex: 1,
           }}
         >
-          {isEventLive ? (
-            proofData.map((proof, index) => (
-              <ProofCard
-                key={`proof-${index}`}
-                submitterAddress={proof.submitterAddress}
-                hash={proof.hash}
-                status={proof.status}
-                proveTime={proof.proveTime}
-              />
-            ))
+          {loading && (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-white text-lg">Loading proofs...</div>
+            </div>
+          )}
+          
+          {error && (
+            <div className="flex justify-center items-center h-32">
+              <div className="text-red-400 text-lg">Error: {error}</div>
+            </div>
+          )}
+          
+          {!loading && !error && isEventLive ? (
+            realProofs.length > 0 ? (
+              realProofs.map((proof, index) => (
+                <ProofCard
+                  key={`real-proof-${proof.id || index}`}
+                  submitterAddress={proof.submitterAddress}
+                  hash={proof.hash}
+                  proofHash={proof.proofHash}
+                  status={proof.status}
+                  proveTime={proof.proveTime}
+                  submissionTime={proof.submissionTime}
+                  id={proof.id}
+                  proofData={proof.proofData}
+                />
+              ))
+            ) : (
+              proofData.map((proof, index) => (
+                <ProofCard
+                  key={`proof-${index}`}
+                  submitterAddress={proof.submitterAddress}
+                  hash={proof.hash}
+                  proofHash={proof.proofHash}
+                  status={proof.status}
+                  proveTime={proof.proveTime}
+                />
+              ))
+            )
           ) : (
             <>
-              <ComingSoonCard />
+              {/* <ComingSoonCard /> */}
               {mockProofData.map((proof, index) => (
                 <div
                   key={`mock-proof-${index}`}

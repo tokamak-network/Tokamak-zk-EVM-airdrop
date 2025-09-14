@@ -35,6 +35,7 @@ const Footer: React.FC = () => {
           href="https://twitter.com/tokamak_network"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "20px",
@@ -73,6 +74,7 @@ const Footer: React.FC = () => {
           href="https://medium.com/tokamak-network"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "11.354px",
@@ -107,6 +109,7 @@ const Footer: React.FC = () => {
           href="https://github.com/tokamak-network"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "20px",
@@ -145,6 +148,7 @@ const Footer: React.FC = () => {
           href={LINKS.DISCORD}
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "20px",
@@ -168,6 +172,7 @@ const Footer: React.FC = () => {
 
         {/* YouTube 아이콘 */}
         <div
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "20px",
@@ -209,6 +214,7 @@ const Footer: React.FC = () => {
           href="https://t.me/tokamak_network"
           target="_blank"
           rel="noopener noreferrer"
+          className="transition-transform duration-200 hover:scale-110"
           style={{
             width: "20px",
             height: "20px",

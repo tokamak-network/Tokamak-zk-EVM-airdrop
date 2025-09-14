@@ -22,12 +22,16 @@ export const metadata: Metadata = {
     "Participate in the Tokamak ZK-EVM airdrop event and claim your tokens",
   keywords: ["Tokamak", "ZK-EVM", "Airdrop", "Blockchain", "Ethereum"],
   authors: [{ name: "Tokamak Network" }],
-  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -39,7 +43,7 @@ export default function RootLayout({
     <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
       <head></head>
       <body
-        className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gray-50 text-gray-900 antialiased`}
+        className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gradient-to-b from-[#0a1930] to-[#1a2347] text-white antialiased`}
       >
         <div className="min-h-screen">{children}</div>
       </body>

@@ -26,7 +26,7 @@ const FAQ = () => {
   };
 
   return (
-    <div className="w-full bg-[#CCEFFF]">
+    <div className="w-full bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
       {/* Mobile Layout - Proof 먼저 */}
       <div className="desktop:hidden w-full">
         <ProofMobile />
@@ -58,7 +58,7 @@ const FAQ = () => {
             }}
           >
             {/* FAQ 제목 */}
-            <h1 className="text-hero-title-70">FAQ</h1>
+            <h1 className="text-hero-title-70" style={{color: '#ffffff'}}>FAQ</h1>
 
             {/* FAQ 박스들 전체 컨테이너 */}
             <div
@@ -81,8 +81,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -94,7 +94,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -102,7 +102,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q1. Who can participate?
+                  Q1. What types of transactions can be converted to ZKP
                 </div>
 
                 {/* 답변 영역 */}
@@ -113,8 +113,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -122,9 +122,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Anyone with access to Playground Airdrop can participate
-                  freely. However, each wallet address can only submit once, so
-                  double-check before submitting!
+                  While Tokamak zk-EVM is theoretically compatible with any transaction that calls a smart contract, the airdrop limited the transaction types. This is due to a trade-off between compatibility and proof generation speed. Under the event configuration, we confirmed that the Playground is compatible with frequently used and simple transactions, such as USDC, USDT, and TON transfers. Transactions requiring high fees, such as TON's approve-and-call transactions or rollup transactions, may not be able to be converted to ZKP under the current configuration.
                 </div>
               </div>
 
@@ -135,8 +133,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -148,7 +146,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -167,8 +165,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -176,9 +174,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Yes. To qualify for rewards, you must complete all mandatory
-                  tasks:Feature Completion, Social Media Activity, and Quiz.
-                  Experience Feedback is optional but encouraged.
+                  Yes. To qualify for rewards, you must complete all mandatory tasks: ZKP submission and Social Media Activity. Experience Feedback is optional but encouraged.
                 </div>
               </div>
 
@@ -189,8 +185,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -202,7 +198,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -219,8 +215,8 @@ const FAQ = () => {
                     display: "block",
                     padding: "16px 24px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -228,20 +224,40 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  If the water tank shows 1 (True), it means your proof is
-                  valid.
+                  The Playground automatically generates and verifies the ZKP for your transaction. If you want additional verification using command line tools, you can use{" "}
+                  <code style={{ 
+                    backgroundColor: "#1e3a8a", 
+                    padding: "2px 4px", 
+                    borderRadius: "3px",
+                    fontFamily: "monospace"
+                  }}>
+                    npx tokamak-zk-evm verify
+                  </code>
+                  {" "}or check the detailed verification process in the{" "}
+                  <a
+                    href="https://github.com/tokamak-network/create-tokamak-zk-evm/blob/main/README.md#verify-a-proof"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    verification guide
+                  </a>
+                  .
                   <br />
                   <br />
-                  Once you send us the ZKP, we'll verify it on-chain for you.
-                  <br />
-                  You can check the status of your proof [
+                  The proof will be reflected on the{" "}
                   <span
-                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => scrollToProof()}
                   >
-                    here
+                    ZK Proof Dashboard
                   </span>
-                  ].
+                  {" "}within a few days after completion.
                 </div>
               </div>
 
@@ -252,8 +268,8 @@ const FAQ = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -265,7 +281,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -273,7 +289,102 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q4. What can I do in Playground?
+                  Q4. What is the difference between the two reward options?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "block",
+                    padding: "16px 24px",
+                    alignSelf: "stretch",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  <strong>1. Stake (Default Option):</strong> Your reward will lock it into{" "}
+                  <a
+                    href="https://etherscan.io/address/0x0b58ca72b12f01fc05f8f252e226f3e2089bd00e#writeProxyContract"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Tokamak Staking (TON/WTON) Contract
+                  </a>
+                  . Rewards keep accruing while staked. When you want funds back, You can withdraw your rewards with {">"}25% APY after at least two weeks. You can either interact directly with the smart contract or use community-hosted sites.{" "}
+                  <a
+                    href="https://github.com/tokamak-network/TokamakStaking/blob/main/docs/EN/unstake%2C%20restake%20and%20withdraw.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Visit
+                  </a>
+                  {" "}for a step-by-step tutorial, or check the{" "}
+                  <a
+                    href="https://github.com/tokamak-network/TokamakStaking?tab=readme-ov-file#community-hosted-links"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    community sites
+                  </a>
+                  .
+                  <br />
+                  <br />
+                  <strong>2. Claim Now:</strong> You take 50% immediately, with no waiting period. The trade-off is that you give up the other half and miss out on any extra yield from staking.
+                </div>
+              </div>
+
+              {/* Q5 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q5. What can I do in Playground?
                 </div>
 
                 {/* 답변 영역 */}
@@ -284,8 +395,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -301,15 +412,15 @@ const FAQ = () => {
                 </div>
               </div>
 
-              {/* Q5 박스 */}
+              {/* Q6 박스 */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
                   width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
                 }}
               >
                 {/* 질문 영역 */}
@@ -321,7 +432,7 @@ const FAQ = () => {
                     gap: "16px",
                     alignSelf: "stretch",
                     borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "20px",
                     fontStyle: "normal",
@@ -329,7 +440,7 @@ const FAQ = () => {
                     lineHeight: "normal",
                   }}
                 >
-                  Q5. What is Tokamak zkEVM and what is it for?
+                  Q6. What is Tokamak zkEVM and what is it for?
                 </div>
 
                 {/* 답변 영역 */}
@@ -340,8 +451,8 @@ const FAQ = () => {
                     alignItems: "center",
                     gap: "16px",
                     alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
                     fontFamily: "IBM Plex Mono",
                     fontSize: "16px",
                     fontStyle: "normal",
@@ -361,139 +472,13 @@ const FAQ = () => {
                 </div>
               </div>
 
-              {/* Q6 박스 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
-                }}
-              >
-                {/* 질문 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: 700,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Q6. Can I trust this app?
-                </div>
-
-                {/* 답변 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  You don't need to trust the app. If you're unsure, try
-                  participating in the event offline.
-                </div>
-              </div>
-
-              {/* Q7 박스 */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  width: "640px",
-                  border: "1px solid var(--line, #00477A)",
-                  background: "#FFF",
-                }}
-              >
-                {/* 질문 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    borderBottom: "1px solid var(--line, #00477A)",
-                    color: "var(--text, #002139)",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: 700,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Q7. Why the proof generation is too slow on my computer?
-                </div>
-
-                {/* 답변 영역 */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "16px 24px",
-                    alignItems: "center",
-                    gap: "16px",
-                    alignSelf: "stretch",
-                    background: "#ECF9FF",
-                    color: "var(--text, #002139)",
-                    fontFamily: "IBM Plex Mono",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  <span>
-                    Proof generation speed depends on your system’s hardware.
-                    Devices without a GPU may experience significantly slower
-                    performance.
-                  </span>
-                  <ul
-                    className="my-2"
-                    style={{
-                      paddingLeft: "16px",
-                      listStyleType: "disc",
-                    }}
-                  >
-                    <li>With GPU (7800X3D + RTX 4070Ti): about 10 minutes</li>
-                    <li>
-                      Without GPU: about 1 hour, including Docker image download
-                      and verification
-                    </li>
-                  </ul>
-                  <span>
-                    For faster processing, using an NVIDIA GPU supporting CUDA
-                    is highly recommended, along with a multicore CPU.
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Mobile Layout - FAQ 질문들 */}
-      <div className="desktop:hidden w-full bg-[#CCEFFF]">
+      <div className="desktop:hidden w-full bg-gradient-to-b from-[#0a1930] to-[#1a2347]">
         <FAQMobile />
       </div>
     </div>

@@ -30,7 +30,7 @@ body {
   }
 
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gradient-to-b from-[#0a1930] to-[#1a2347] text-white;
   }
 }
 
@@ -48,7 +48,7 @@ body {
   }
 
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-xl;
+    @apply bg-gradient-to-b from-[#0a1930] to-[#1a2347] rounded-xl shadow-lg border border-[#4fc3f7] p-6 transition-all duration-300 hover:shadow-xl;
   }
 
   .hero-gradient {
@@ -134,16 +134,17 @@ body {
     letter-spacing: 2px !important;
   }
 
-  .grid-background {
-    background-color: #ccefff;
-    background-image: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.5) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
-    background-size: 32px 32px; /* grid cell size */
-    background-position: 0 0;
+  .space-background {
+    background: linear-gradient(to bottom, #0a1930 0%, #1a2347 100%);
+  }
+
+  .cosmic-star {
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.2); }
   }
 
   .animate-scroll-left {
@@ -198,6 +199,54 @@ body {
   .text-hero-title-70 {
     font-size: 50px !important;
     letter-spacing: 4.5px !important;
+  }
+}
+
+/* Playground text responsive adjustments */
+.playground-text {
+  font-family: 'Jersey 10' !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: 156px !important;
+  line-height: 100% !important;
+  letter-spacing: 7% !important;
+  text-align: center !important;
+  background: #57D2FF !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: #57D2FF !important;
+  box-shadow: 0px 6px 0px 0px #0E3260 !important;
+  display: inline-block !important;
+}
+
+@media (max-width: 1024px) {
+  .playground-text {
+    font-size: 120px !important;
+    box-shadow: 0px 5px 0px 0px #0E3260 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .playground-text {
+    font-size: 80px !important;
+    box-shadow: 0px 4px 0px 0px #0E3260 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .playground-text {
+    font-size: 60px !important;
+    box-shadow: 0px 3px 0px 0px #0E3260 !important;
+    letter-spacing: 5% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .playground-text {
+    font-size: 48px !important;
+    box-shadow: 0px 3px 0px 0px #0E3260 !important;
+    letter-spacing: 4% !important;
   }
 }
 
