@@ -71,6 +71,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp']);
     const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash']);
     const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp']);
+    const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified']);
     const timestampIndex = 0; // Usually the first column is timestamp
     
     console.log('Found columns:', {
@@ -78,6 +79,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       zipFile: zipFileIndex,
       txHash: txHashIndex,
       proveTime: proveTimeIndex,
+      status: statusIndex,
       timestamp: timestampIndex
     });
     
@@ -102,6 +104,17 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       const rewardOption = row[6] || ''; // Reward option
       const timestamp = row[0] || new Date().toISOString();
       
+      // Process status column - validate and set default
+      let status = '0'; // Default to pending
+      if (statusIndex !== -1 && row[statusIndex]) {
+        const statusValue = row[statusIndex].toString().trim();
+        if (['0', '1', '2'].includes(statusValue)) {
+          status = statusValue;
+        } else {
+          console.warn(`Invalid status value "${statusValue}" for row ${index + 1}, defaulting to pending (0)`);
+        }
+      }
+      
       return {
         id: `response_${index + 1}`,
         timestamp,
@@ -110,6 +123,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
         additionalData: {
           formId: process.env.GOOGLE_FORMS_FORM_ID || '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
           responseId: `response_${index + 1}`,
+          status,
           twitterHandle,
           telegramHandle,
           rewardOption,
@@ -187,6 +201,7 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '1',
+        status: '1', // verified
         transactionHash: '0xabc123...',
         proveTime: '00:12:34'
       }
@@ -199,6 +214,7 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '2',
+        status: '0', // pending
         transactionHash: '0xdef456...',
         proveTime: '00:08:45'
       }
@@ -215,10 +231,11 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
     // Try to get additional data from form fields first
     const formProveTime = submission.additionalData?.proveTime || '00:00:00';
     const formTransactionHash = submission.additionalData?.transactionHash || '';
+    const formStatus = submission.additionalData?.status || '0'; // Use form status or default to pending
     
     let zipProcessedData = {
       hash: '',
-      status: '0',
+      status: formStatus,
       proveTime: formProveTime,
       transactionHash: formTransactionHash,
     };
