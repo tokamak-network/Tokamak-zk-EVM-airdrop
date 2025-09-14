@@ -3,19 +3,8 @@
     "app/api/validate-proof/route.ts": {
       "maxDuration": 30
     },
-    "app/api/google-forms/route.ts": {
-      "maxDuration": 60
-    },
     "app/api/proofs/route.ts": {
       "maxDuration": 30
-    }
-  },
-  "env": {
-    "NEXT_PUBLIC_BASE_URL": "https://your-domain.vercel.app"
-  },
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_BASE_URL": "https://your-domain.vercel.app"
     }
   }
 }

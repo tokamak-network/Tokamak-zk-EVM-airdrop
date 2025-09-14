@@ -4,16 +4,28 @@ import { processZipFile, ProofSubmission } from '@/utils/zipProcessor';
 // Fetch form submissions from Google Forms
 async function fetchFormSubmissions(): Promise<ProofSubmission[]> {
   try {
-    // Use the Google Forms integration
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/google-forms`);
-    const data = await response.json();
+    // Make HTTP request to the Google Forms API endpoint
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/google-forms`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     
-    if (data.success) {
-      return data.data;
-    } else {
-      console.error('Error from Google Forms API:', data.error);
+    if (!response.ok) {
+      console.error('Failed to fetch Google Forms submissions:', response.status, response.statusText);
       return [];
     }
+    
+    const result = await response.json();
+    
+    if (!result.success || !result.data || result.data.length === 0) {
+      console.log('No form submissions found, returning empty array');
+      return [];
+    }
+    
+    return result.data;
     
   } catch (error) {
     console.error('Error fetching form submissions:', error);
