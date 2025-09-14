@@ -36,11 +36,25 @@ export const isEventLive = true;
 
 // Status display function
 export const getStatusDisplay = (status: string): string => {
+  // Handle numeric statuses
   switch (status) {
     case '0':
       return 'Pending';
     case '1':
       return 'Verified';
+    case '2':
+      return 'Rejected';
+  }
+  
+  // Handle word statuses (from validation API or other sources)
+  switch (status.toLowerCase()) {
+    case 'pending':
+      return 'Pending';
+    case 'verified':
+      return 'Verified';
+    case 'rejected':
+    case 'failed':
+      return 'Rejected';
     default:
       return 'Pending';
   }

@@ -21,6 +21,12 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
     const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
     
+    console.log('🔍 Environment variables check:');
+    console.log('  - Spreadsheet ID:', spreadsheetId ? 'Present' : 'Missing');
+    console.log('  - Service Account Email:', serviceAccountEmail ? 'Present' : 'Missing');
+    console.log('  - Private Key:', privateKey ? 'Present' : 'Missing');
+    console.log('  - API Key:', apiKey ? 'Present' : 'Missing');
+    
     if (!spreadsheetId) {
       console.warn('Google Sheets not configured, using mock data');
       return getMockSubmissions();
@@ -31,11 +37,19 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     // Try service account authentication first (more secure)
     if (serviceAccountEmail && privateKey) {
       try {
+        console.log('🔑 Attempting service account authentication...');
+        console.log('📧 Service Account Email:', serviceAccountEmail);
+        console.log('🔑 Private Key present:', !!privateKey);
         accessToken = await generateServiceAccountToken(serviceAccountEmail, privateKey);
-        console.log('Using service account authentication');
-      } catch (error) {
-        console.warn('Service account authentication failed, trying API key:', error);
+        console.log('✅ Service account authentication successful, access token length:', accessToken.length);
+      } catch (error: unknown) {
+        console.error('❌ Service account authentication failed:', error instanceof Error ? error.message : String(error));
+        console.warn('🔄 Falling back to API key authentication');
       }
+    } else {
+      console.log('⚠️ Service account not configured, using API key');
+      console.log('📧 Service Account Email present:', !!serviceAccountEmail);
+      console.log('🔑 Private Key present:', !!privateKey);
     }
     
     // Fallback to API key if service account fails
@@ -48,13 +62,19 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       ? `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A:Z?access_token=${accessToken}`
       : `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A:Z?key=${apiKey}`;
     
+    console.log('🔍 Making request to Google Sheets API...');
     const response = await fetch(url);
     
+    console.log('📡 Google Sheets API response status:', response.status);
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ Google Sheets API error:', response.status, response.statusText);
+      console.error('❌ Error response body:', errorText);
       throw new Error(`Google Sheets API error: ${response.statusText}`);
     }
     
     const data = await response.json();
+    console.log('✅ Google Sheets API response received successfully');
     const rows = data.values || [];
     
     if (rows.length < 2) {
@@ -69,18 +89,32 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     // Find column indices for important fields
     const walletAddressIndex = findColumnIndex(headers, ['wallet', 'address', 'ethereum', 'eth', 'rewards']);
     const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp']);
-    const emailIndex = findColumnIndex(headers, ['email', 'mail']);
     const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash']);
     const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp']);
+    const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified', 'approval', 'result', 'check', 'review']);
     const timestampIndex = 0; // Usually the first column is timestamp
     
-    console.log('Found columns:', {
+    console.log('🔍 Column detection results:', {
       walletAddress: walletAddressIndex,
       zipFile: zipFileIndex,
-      email: emailIndex,
       txHash: txHashIndex,
       proveTime: proveTimeIndex,
+      status: statusIndex,
       timestamp: timestampIndex
+    });
+    
+    console.log('🔍 All headers found:', headers);
+    console.log('🔍 Status column search keywords: ["status", "state", "verification", "verified", "approval", "result", "check", "review"]');
+    
+    // Debug: Check if ANY column contains status-like keywords
+    console.log('🔍 Checking all columns for status-like content:');
+    headers.forEach((header: string, index: number) => {
+      const lowerHeader = header.toLowerCase();
+      if (lowerHeader.includes('status') || lowerHeader.includes('state') || lowerHeader.includes('verif') || lowerHeader.includes('approv') || lowerHeader.includes('result') || lowerHeader.includes('check') || lowerHeader.includes('review')) {
+        console.log(`  ✅ Column ${index}: "${header}" - MATCHES status keywords`);
+      } else {
+        console.log(`  ❌ Column ${index}: "${header}" - no match`);
+      }
     });
     
     // Process each row
@@ -99,11 +133,19 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       
       const walletAddress = row[2] || ''; // Ethereum wallet address column
       const zipFileUrl = row[3] || ''; // Upload ZKP files column
-      const email = row[1] || ''; // Email Address column
       const twitterHandle = row[4] || ''; // X (Twitter) handle
       const telegramHandle = row[5] || ''; // Telegram Handle
       const rewardOption = row[6] || ''; // Reward option
       const timestamp = row[0] || new Date().toISOString();
+      
+      // Process status column - simply return whatever value is there
+      let status = '0'; // Default to pending
+      if (statusIndex !== -1 && row[statusIndex] !== undefined && row[statusIndex] !== null && row[statusIndex] !== '') {
+        status = row[statusIndex].toString().trim();
+        console.log(`🔍 Row ${index + 1} - Status value: "${status}"`);
+      } else {
+        console.log(`🔍 Row ${index + 1} - No status column found or empty value, using default: ${status}`);
+      }
       
       return {
         id: `response_${index + 1}`,
@@ -113,7 +155,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
         additionalData: {
           formId: process.env.GOOGLE_FORMS_FORM_ID || '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
           responseId: `response_${index + 1}`,
-          email,
+          status,
           twitterHandle,
           telegramHandle,
           rewardOption,
@@ -125,8 +167,10 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     console.log(`Processed ${submissions.length} form submissions from Google Sheets`);
     return submissions;
     
-  } catch (error) {
-    console.error('Error fetching Google Form submissions:', error);
+  } catch (error: unknown) {
+    console.error('❌ Error fetching Google Form submissions:', error);
+    console.error('❌ Error details:', error instanceof Error ? error.message : String(error));
+    console.error('❌ Falling back to mock data');
     return getMockSubmissions();
   }
 }
@@ -143,9 +187,12 @@ async function generateServiceAccountToken(email: string, privateKey: string): P
     iat: now
   };
   
+  console.log('🔑 Generating JWT token for service account:', email);
   const token = jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+  console.log('✅ JWT token generated successfully');
   
   // Exchange JWT for access token
+  console.log('🔄 Exchanging JWT for access token...');
   const response = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
     headers: {
@@ -157,26 +204,35 @@ async function generateServiceAccountToken(email: string, privateKey: string): P
     })
   });
   
+  console.log('📡 Token exchange response status:', response.status);
   if (!response.ok) {
-    throw new Error(`Failed to get access token: ${response.statusText}`);
+    const errorText = await response.text();
+    console.error('❌ Token exchange failed:', response.status, errorText);
+    throw new Error(`Failed to get access token: ${response.statusText} - ${errorText}`);
   }
   
   const data = await response.json();
   if (!data.access_token) {
+    console.error('❌ No access token in response:', data);
     throw new Error('No access token in response');
   }
   
+  console.log('✅ Access token obtained successfully');
   return data.access_token;
 }
 
 // Helper function to find column index by keywords
 function findColumnIndex(headers: string[], keywords: string[]): number {
+  console.log(`🔍 Searching for columns with keywords: [${keywords.join(', ')}]`);
   for (let i = 0; i < headers.length; i++) {
     const header = headers[i].toLowerCase();
+    console.log(`🔍 Checking header[${i}]: "${headers[i]}" -> "${header}"`);
     if (keywords.some(keyword => header.includes(keyword))) {
+      console.log(`✅ Found match at index ${i}: "${headers[i]}" contains one of [${keywords.join(', ')}]`);
       return i;
     }
   }
+  console.log(`❌ No match found for keywords: [${keywords.join(', ')}]`);
   return -1;
 }
 
@@ -191,7 +247,7 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '1',
-        email: 'user1@example.com',
+        status: '1', // verified
         transactionHash: '0xabc123...',
         proveTime: '00:12:34'
       }
@@ -204,7 +260,7 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '2',
-        email: 'user2@example.com',
+        status: '0', // pending
         transactionHash: '0xdef456...',
         proveTime: '00:08:45'
       }
@@ -221,10 +277,13 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
     // Try to get additional data from form fields first
     const formProveTime = submission.additionalData?.proveTime || '00:00:00';
     const formTransactionHash = submission.additionalData?.transactionHash || '';
+    const formStatus = submission.additionalData?.status || '0'; // Use form status or default to pending
+    
+    console.log(`🔍 Processing submission ${submission.id} - Form status: "${formStatus}"`);
     
     let zipProcessedData = {
       hash: '',
-      status: '0',
+      status: formStatus,
       proveTime: formProveTime,
       transactionHash: formTransactionHash,
     };
@@ -265,7 +324,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
             console.log('❌ Missing service account credentials, using mock data');
             zipProcessedData = {
               hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-              status: '0', // Pending status initially
+              status: formStatus, // Use form status from Google Sheets
               proveTime: formProveTime || '00:05:30',
               transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
             };
@@ -296,7 +355,6 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   console.log('✅ Processed zip data successfully:', zipData);
                   
                   // Validate the proof using the validation API
-                  let validationStatus = '0'; // Default to pending
                   try {
                     const validationResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/validate-proof`, {
                       method: 'POST',
@@ -310,17 +368,16 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     
                     if (validationResponse.ok) {
                       const validation = await validationResponse.json();
-                      validationStatus = '0'; // Always keep as pending by default
-                      console.log('🔍 Proof validation result:', validation.result?.status, '(Status set to Pending by default)');
+                      console.log('🔍 Proof validation result:', validation.result?.status, '(Using form status from Google Sheets)');
                     }
                   } catch (validationError) {
-                    console.log('⚠️ Proof validation failed, keeping pending status:', validationError);
+                    console.log('⚠️ Proof validation failed, using form status:', validationError);
                   }
                   
-                  // Use zip data to supplement form data
+                  // Use zip data to supplement form data, but preserve the form status from Google Sheets
                   zipProcessedData = {
                     hash: zipData.hash || formTransactionHash, // Use zip hash or form tx hash
-                    status: validationStatus, // Use validation result
+                    status: formStatus, // Use form status from Google Sheets, not validation result
                     proveTime: zipData.proveTime || formProveTime,
                     transactionHash: zipData.proofData?.transactionHash || formTransactionHash,
                   };
@@ -332,7 +389,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   // Fallback to mock data if zip processing fails
                   zipProcessedData = {
                     hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                    status: '0', // Pending status initially
+                    status: formStatus, // Use form status from Google Sheets
                     proveTime: formProveTime || '00:05:30',
                     transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
                   };
@@ -342,7 +399,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                 // Fallback to mock data
                 zipProcessedData = {
                   hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                  status: '0', // Pending status initially
+                  status: formStatus, // Use form status from Google Sheets
                   proveTime: formProveTime || '00:05:30',
                   transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
                 };
@@ -354,7 +411,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
               // Fallback to mock data
               zipProcessedData = {
                 hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                status: '0', // Pending status initially
+                status: formStatus, // Use form status from Google Sheets
                 proveTime: formProveTime || '00:05:30',
                 transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
               };
@@ -365,7 +422,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
           // Fallback to mock data
           zipProcessedData = {
             hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-            status: '0', // Pending status initially
+            status: formStatus, // Use form status from Google Sheets
             proveTime: formProveTime || '00:05:30',
             transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
           };
@@ -379,25 +436,27 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
         // Fallback to mock data
         zipProcessedData = {
           hash: `0x${Math.random().toString(16).substr(2, 64)}`,
-          status: '0', // Pending status initially
+          status: formStatus, // Use form status from Google Sheets
           proveTime: formProveTime || '00:05:30',
           transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
         };
       }
     }
     
+    const finalStatus = zipProcessedData.status;
+    console.log(`✅ Final status for submission ${submission.id}: "${finalStatus}"`);
+    
     return {
       id: submission.id,
       submitterAddress: walletAddress, // Always use form wallet address
       hash: zipProcessedData.transactionHash, // Display transaction hash in main hash field
-      status: zipProcessedData.status,
+      status: finalStatus,
       proveTime: zipProcessedData.proveTime,
       submissionTime: submission.timestamp,
       zipFileUrl: submission.zipFileUrl,
       proofData: {
         transactionHash: zipProcessedData.transactionHash,
         proofHash: zipProcessedData.hash, // Store proof hash separately
-        email: submission.additionalData?.email,
         formId: submission.additionalData?.formId,
       }
     };
