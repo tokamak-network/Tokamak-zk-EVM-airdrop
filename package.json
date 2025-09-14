@@ -11,6 +11,7 @@
     "figma:setup": "node scripts/setup-figma-sync.js",
     "figma:watch": "node scripts/figma-watch.js",
     "setup:env": "node scripts/setup-env.js",
+    "validate:env": "node scripts/validate-env.js",
     "validate:proof": "node scripts/validate-proof-cli.js",
     "test:apis": "node scripts/test-all-apis.js"
   },

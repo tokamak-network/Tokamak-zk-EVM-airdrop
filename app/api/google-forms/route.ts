@@ -24,8 +24,18 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     console.log('🔍 Environment variables check:');
     console.log('  - Spreadsheet ID:', spreadsheetId ? 'Present' : 'Missing');
     console.log('  - Service Account Email:', serviceAccountEmail ? 'Present' : 'Missing');
-    console.log('  - Private Key:', privateKey ? 'Present' : 'Missing');
+    console.log('  - Private Key:', privateKey ? `Present (${privateKey.length} chars)` : 'Missing');
     console.log('  - API Key:', apiKey ? 'Present' : 'Missing');
+    
+    // Enhanced validation for private key format
+    if (privateKey) {
+      console.log('🔍 Private Key format validation:');
+      console.log('  - Contains PEM header:', privateKey.includes('-----BEGIN PRIVATE KEY-----'));
+      console.log('  - Contains PEM footer:', privateKey.includes('-----END PRIVATE KEY-----'));
+      console.log('  - Contains escaped newlines:', privateKey.includes('\\n'));
+      console.log('  - Contains actual newlines:', privateKey.includes('\n'));
+      console.log('  - First 50 chars:', privateKey.substring(0, 50));
+    }
     
     if (!spreadsheetId) {
       console.warn('Google Sheets not configured, using mock data');
@@ -188,8 +198,38 @@ async function generateServiceAccountToken(email: string, privateKey: string): P
   };
   
   console.log('🔑 Generating JWT token for service account:', email);
-  const token = jwt.sign(payload, privateKey, { algorithm: 'RS256' });
-  console.log('✅ JWT token generated successfully');
+  
+  // Fix private key formatting for Vercel environment
+  let formattedPrivateKey = privateKey;
+  
+  // Handle different private key formats
+  if (privateKey.includes('\\n')) {
+    // Replace escaped newlines with actual newlines
+    formattedPrivateKey = privateKey.replace(/\\n/g, '\n');
+    console.log('🔧 Converted escaped newlines to actual newlines');
+  }
+  
+  // Ensure proper PEM format
+  if (!formattedPrivateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+    console.error('❌ Private key does not appear to be in PEM format');
+    throw new Error('Private key must be in PEM format starting with -----BEGIN PRIVATE KEY-----');
+  }
+  
+  // Validate private key format
+  const keyLines = formattedPrivateKey.split('\n');
+  console.log('🔍 Private key validation:');
+  console.log('  - Total lines:', keyLines.length);
+  console.log('  - First line:', keyLines[0]);
+  console.log('  - Last line:', keyLines[keyLines.length - 1]);
+  
+  let token: string;
+  try {
+    token = jwt.sign(payload, formattedPrivateKey, { algorithm: 'RS256' });
+    console.log('✅ JWT token generated successfully');
+  } catch (jwtError) {
+    console.error('❌ JWT signing failed:', jwtError);
+    throw new Error(`JWT signing failed: ${jwtError instanceof Error ? jwtError.message : String(jwtError)}`);
+  }
   
   // Exchange JWT for access token
   console.log('🔄 Exchanging JWT for access token...');
