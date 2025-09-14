@@ -69,7 +69,6 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     // Find column indices for important fields
     const walletAddressIndex = findColumnIndex(headers, ['wallet', 'address', 'ethereum', 'eth', 'rewards']);
     const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp']);
-    const emailIndex = findColumnIndex(headers, ['email', 'mail']);
     const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash']);
     const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp']);
     const timestampIndex = 0; // Usually the first column is timestamp
@@ -77,7 +76,6 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     console.log('Found columns:', {
       walletAddress: walletAddressIndex,
       zipFile: zipFileIndex,
-      email: emailIndex,
       txHash: txHashIndex,
       proveTime: proveTimeIndex,
       timestamp: timestampIndex
@@ -99,7 +97,6 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       
       const walletAddress = row[2] || ''; // Ethereum wallet address column
       const zipFileUrl = row[3] || ''; // Upload ZKP files column
-      const email = row[1] || ''; // Email Address column
       const twitterHandle = row[4] || ''; // X (Twitter) handle
       const telegramHandle = row[5] || ''; // Telegram Handle
       const rewardOption = row[6] || ''; // Reward option
@@ -113,7 +110,6 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
         additionalData: {
           formId: process.env.GOOGLE_FORMS_FORM_ID || '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
           responseId: `response_${index + 1}`,
-          email,
           twitterHandle,
           telegramHandle,
           rewardOption,
@@ -191,7 +187,6 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '1',
-        email: 'user1@example.com',
         transactionHash: '0xabc123...',
         proveTime: '00:12:34'
       }
@@ -204,7 +199,6 @@ function getMockSubmissions(): GoogleFormSubmission[] {
       additionalData: {
         formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
         responseId: '2',
-        email: 'user2@example.com',
         transactionHash: '0xdef456...',
         proveTime: '00:08:45'
       }
@@ -397,7 +391,6 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
       proofData: {
         transactionHash: zipProcessedData.transactionHash,
         proofHash: zipProcessedData.hash, // Store proof hash separately
-        email: submission.additionalData?.email,
         formId: submission.additionalData?.formId,
       }
     };
