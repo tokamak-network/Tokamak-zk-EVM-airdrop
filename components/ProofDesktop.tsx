@@ -333,19 +333,16 @@ const ProofDesktop = () => {
   });
   
   // Convert real proofs to ProofCardProps format
-  const realProofs: ProofCardProps[] = proofs.map(proof => {
-    console.log('🔍 Processing proof status:', proof.status, 'type:', typeof proof.status);
-    return {
-      submitterAddress: proof.submitterAddress,
-      hash: proof.hash,
-      proofHash: proof.proofData?.proofHash,
-      status: proof.status,
-      proveTime: proof.proveTime,
-      submissionTime: proof.submissionTime,
-      id: proof.id,
-      proofData: proof.proofData,
-    };
-  });
+  const realProofs: ProofCardProps[] = proofs.map(proof => ({
+    submitterAddress: proof.submitterAddress,
+    hash: proof.hash,
+    proofHash: proof.proofData?.proofHash,
+    status: proof.status,
+    proveTime: proof.proveTime,
+    submissionTime: proof.submissionTime,
+    id: proof.id,
+    proofData: proof.proofData,
+  }));
 
   return (
     <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
