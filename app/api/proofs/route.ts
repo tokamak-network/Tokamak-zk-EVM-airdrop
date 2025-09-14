@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { processZipFile, ProofSubmission } from '@/utils/zipProcessor';
 
-// Fetch form submissions from Google Forms
+// Import the Google Forms logic directly instead of making HTTP requests
 async function fetchFormSubmissions(): Promise<ProofSubmission[]> {
   try {
-    // Use the Google Forms integration
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/google-forms`);
-    const data = await response.json();
+    // Import and call the Google Forms function directly
+    const { fetchGoogleFormSubmissions, processFormSubmission } = await import('@/app/api/google-forms/route');
     
-    if (data.success) {
-      return data.data;
-    } else {
-      console.error('Error from Google Forms API:', data.error);
-      return [];
-    }
+    // Get the raw submissions from Google Sheets
+    const submissions = await fetchGoogleFormSubmissions();
+    
+    // Process them into the expected format
+    const processedProofs = await Promise.all(
+      submissions.map(submission => processFormSubmission(submission))
+    );
+    
+    return processedProofs;
     
   } catch (error) {
     console.error('Error fetching form submissions:', error);
