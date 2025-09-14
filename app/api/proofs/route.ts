@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { processZipFile, ProofSubmission } from '@/utils/zipProcessor';
+import { fetchGoogleFormSubmissions, processFormSubmission } from '@/utils/googleForms';
 
-// Import the Google Forms logic directly instead of making HTTP requests
+// Fetch form submissions using shared utilities
 async function fetchFormSubmissions(): Promise<ProofSubmission[]> {
   try {
-    // Import and call the Google Forms function directly
-    const { fetchGoogleFormSubmissions, processFormSubmission } = await import('@/app/api/google-forms/route');
-    
     // Get the raw submissions from Google Sheets
     const submissions = await fetchGoogleFormSubmissions();
     
