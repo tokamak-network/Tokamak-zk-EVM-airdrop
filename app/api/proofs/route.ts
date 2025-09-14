@@ -4,42 +4,28 @@ import { processZipFile, ProofSubmission } from '@/utils/zipProcessor';
 // Fetch form submissions from Google Forms
 async function fetchFormSubmissions(): Promise<ProofSubmission[]> {
   try {
-    // Import the Google Forms function directly instead of making an HTTP request
-    const { fetchGoogleFormSubmissions, processFormSubmission } = await import('../google-forms/route');
+    // Make HTTP request to the Google Forms API endpoint
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/google-forms`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     
-    // Get the raw submissions from Google Forms
-    const submissions = await fetchGoogleFormSubmissions();
+    if (!response.ok) {
+      console.error('Failed to fetch Google Forms submissions:', response.status, response.statusText);
+      return [];
+    }
     
-    if (!submissions || submissions.length === 0) {
+    const result = await response.json();
+    
+    if (!result.success || !result.data || result.data.length === 0) {
       console.log('No form submissions found, returning empty array');
       return [];
     }
     
-    // Process each submission to extract proof data
-    const processedProofs = await Promise.all(
-      submissions.map(async (submission) => {
-        try {
-          return await processFormSubmission(submission);
-        } catch (submissionError) {
-          console.error(`Error processing submission ${submission.id}:`, submissionError);
-          // Return a fallback submission for this specific item
-          return {
-            id: submission.id,
-            submitterAddress: submission.walletAddress || '',
-            hash: '',
-            status: '0',
-            proveTime: '00:00:00',
-            submissionTime: submission.timestamp,
-            zipFileUrl: submission.zipFileUrl,
-            proofData: {
-              transactionHash: '',
-            }
-          };
-        }
-      })
-    );
-    
-    return processedProofs;
+    return result.data;
     
   } catch (error) {
     console.error('Error fetching form submissions:', error);

@@ -14,7 +14,7 @@ export interface GoogleFormSubmission {
 }
 
 // Fetch form submissions from Google Sheets (connected to Google Form)
-export async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
+async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
   try {
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
     const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
@@ -269,7 +269,7 @@ function getMockSubmissions(): GoogleFormSubmission[] {
 }
 
 // Process Google Form submission and extract proof data
-export async function processFormSubmission(submission: GoogleFormSubmission) {
+async function processFormSubmission(submission: GoogleFormSubmission) {
   try {
     // Use wallet address from form data (primary source)
     const walletAddress = submission.walletAddress;
