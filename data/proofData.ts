@@ -36,6 +36,7 @@ export const isEventLive = true;
 
 // Status display function
 export const getStatusDisplay = (status: string): string => {
+  console.log('🔍 getStatusDisplay called with status:', status, 'type:', typeof status);
   switch (status) {
     case '0':
       return 'Pending';
@@ -44,6 +45,7 @@ export const getStatusDisplay = (status: string): string => {
     case '2':
       return 'Rejected';
     default:
+      console.warn('⚠️ Unknown status value:', status);
       return 'Pending';
   }
 };
