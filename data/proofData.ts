@@ -41,6 +41,8 @@ export const getStatusDisplay = (status: string): string => {
       return 'Pending';
     case '1':
       return 'Verified';
+    case '2':
+      return 'Rejected';
     default:
       return 'Pending';
   }

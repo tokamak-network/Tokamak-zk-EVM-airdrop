@@ -212,7 +212,8 @@ const ProofCard: React.FC<ProofCardProps> = ({
           </div>
           <div
             style={{
-              color: getStatusDisplay(status) === "Verified" ? "#10B981" : "#F59E0B",
+              color: getStatusDisplay(status) === "Verified" ? "#10B981" : 
+                     getStatusDisplay(status) === "Rejected" ? "#EF4444" : "#F59E0B",
               fontFamily: "IBM Plex Mono",
               fontSize: "16px",
               fontStyle: "normal",
