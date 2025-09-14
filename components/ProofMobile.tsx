@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { trimText, copyToClipboard } from "@/utils/text";
+import { trimText, copyToClipboard, formatProvingTime } from "@/utils/text";
 import {
   ProofCardProps,
   // proofData,
@@ -39,6 +39,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
   proofHash,
   status,
   proveTime,
+  hardwareInfo,
 }) => {
   const handleCopyAddress = () => {
     copyToClipboard(submitterAddress, () => {
@@ -63,7 +64,16 @@ const ProofCard: React.FC<ProofCardProps> = ({
   // Use trimText function for display
   const displayAddress = trimText(submitterAddress);
   const displayHash = trimText(hash);
-  const displayProofHash = proofHash ? `${proofHash.slice(0, 20)}...${proofHash.slice(-8)}` : 'N/A';
+  const displayProofHash = proofHash ? trimText(proofHash) : 'N/A';
+  const formattedProveTime = formatProvingTime(proveTime);
+  const displayHardwareInfo = hardwareInfo || 'N/A';
+  const getShortHardwareInfo = (info: string) => {
+    if (!info || info === 'N/A') return 'N/A';
+    // Extract just the chip name (e.g., "Apple M1 Max" from "Apple M1 Max, 10 cores, 32GB RAM, macOS")
+    const chipMatch = info.match(/^([^,]+)/);
+    return chipMatch ? chipMatch[1].trim() : info;
+  };
+  const shortHardwareInfo = getShortHardwareInfo(displayHardwareInfo);
   return (
     <div
       style={{
@@ -78,7 +88,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
         position: "relative",
       }}
     >
-      {/* Top Row - 3 fields */}
+      {/* Top Row - Submitter Address and Status */}
       <div
         style={{
           display: "flex",
@@ -86,57 +96,6 @@ const ProofCard: React.FC<ProofCardProps> = ({
           width: "100%",
         }}
       >
-        {/* Proof Hash */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Proof Hash
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div
-              style={{
-                color: "#FFF",
-                fontFamily: "IBM Plex Mono",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "normal",
-              }}
-            >
-              {displayProofHash}
-            </div>
-            {proofHash && (
-              <div
-                style={{
-                  width: "22px",
-                  height: "22px",
-                  aspectRatio: "1/1",
-                  cursor: "pointer",
-                }}
-                onClick={handleCopyProofHash}
-              >
-                <CopyIcon />
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Submitter Address */}
         <div
           style={{
@@ -327,7 +286,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
               textAlign: "left",
             }}
           >
-            {proveTime}
+            {formattedProveTime}
           </div>
         </div>
 
@@ -381,6 +340,110 @@ const ProofCard: React.FC<ProofCardProps> = ({
         </div>
       </div>
 
+      {/* Additional Row - Proof Hash and Hardware Info */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "100%",
+          marginTop: "16px",
+        }}
+      >
+        {/* Proof Hash */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1",
+            marginRight: "16px",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Proof Hash
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div
+              style={{
+                color: "#FFF",
+                fontFamily: "IBM Plex Mono",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "normal",
+              }}
+            >
+              {displayProofHash}
+            </div>
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+              onClick={handleCopyProofHash}
+            >
+              <CopyIcon />
+            </div>
+          </div>
+        </div>
+
+        {/* Hardware Info */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Hardware Info
+          </div>
+          <div
+            style={{
+              color: "#FFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",
+              cursor: "help",
+            }}
+            title={displayHardwareInfo}
+          >
+            {shortHardwareInfo}
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
@@ -406,6 +469,7 @@ const ProofMobile = () => {
     proveTime: proof.proveTime,
     submissionTime: proof.submissionTime,
     id: proof.id,
+    hardwareInfo: proof.hardwareInfo,
     proofData: proof.proofData,
   }));
 
@@ -432,6 +496,11 @@ const ProofMobile = () => {
           flexDirection: "column",
           gap: "12px",
           width: "100%",
+          height: "calc(100vh - 40px)",
+          overflowY: "auto",
+          padding: "16px 4px",
+          paddingBottom: "40px",
+          marginBottom: "32px",
         }}
       >
         {loading && (
@@ -456,6 +525,7 @@ const ProofMobile = () => {
                 proofHash={proof.proofHash}
                 status={proof.status}
                 proveTime={proof.proveTime}
+                hardwareInfo={proof.hardwareInfo}
               />
             ))
           ) : (
@@ -482,6 +552,7 @@ const ProofMobile = () => {
                     hash={proof.hash}
                     status={proof.status}
                     proveTime={proof.proveTime}
+                    hardwareInfo={proof.hardwareInfo}
                   />
                 </div>
                 {/* Overlay */}

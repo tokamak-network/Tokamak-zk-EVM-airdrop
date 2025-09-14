@@ -7,6 +7,7 @@ export interface ProofCardProps {
   proveTime: string;
   submissionTime?: string;
   id?: string;
+  hardwareInfo?: string;
   proofData?: {
     publicSignals?: any;
     proof?: any;
@@ -23,6 +24,7 @@ export interface ProofSubmission {
   proveTime: string;
   submissionTime: string;
   zipFileUrl?: string;
+  hardwareInfo?: string;
   proofData?: {
     publicSignals?: any;
     proof?: any;

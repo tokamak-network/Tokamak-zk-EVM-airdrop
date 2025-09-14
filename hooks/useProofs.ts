@@ -8,6 +8,7 @@ export interface ProofSubmission {
   proveTime: string;
   submissionTime: string;
   zipFileUrl?: string;
+  hardwareInfo?: string;
   proofData?: {
     publicSignals?: any;
     proof?: any;

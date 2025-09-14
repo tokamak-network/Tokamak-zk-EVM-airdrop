@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { trimText, copyToClipboard } from "@/utils/text";
+import { trimText, copyToClipboard, formatProvingTime } from "@/utils/text";
 import {
   ProofCardProps,
   proofData,
@@ -40,6 +40,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
   proofHash,
   status,
   proveTime,
+  hardwareInfo,
 }) => {
   const handleCopyAddress = () => {
     copyToClipboard(submitterAddress, () => {
@@ -64,7 +65,16 @@ const ProofCard: React.FC<ProofCardProps> = ({
   // Use trimText function for display
   const displayAddress = trimText(submitterAddress);
   const displayHash = trimText(hash);
-  const displayProofHash = proofHash ? `${proofHash.slice(0, 20)}...${proofHash.slice(-8)}` : 'N/A';
+  const displayProofHash = proofHash ? trimText(proofHash) : 'N/A';
+  const formattedProveTime = formatProvingTime(proveTime);
+  const displayHardwareInfo = hardwareInfo || 'N/A';
+  const getShortHardwareInfo = (info: string) => {
+    if (!info || info === 'N/A') return 'N/A';
+    // Extract just the chip name (e.g., "Apple M1 Max" from "Apple M1 Max, 10 cores, 32GB RAM, macOS")
+    const chipMatch = info.match(/^([^,]+)/);
+    return chipMatch ? chipMatch[1].trim() : info;
+  };
+  const shortHardwareInfo = getShortHardwareInfo(displayHardwareInfo);
   return (
     <div
       style={{
@@ -79,7 +89,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
         position: "relative",
       }}
     >
-      {/* Top Row - 3 fields */}
+      {/* Row 1 - Proof Hash and Status */}
       <div style={{ display: "flex", gap: "16px", width: "100%" }}>
         {/* Proof Hash */}
         <div
@@ -117,25 +127,68 @@ const ProofCard: React.FC<ProofCardProps> = ({
             >
               {displayProofHash}
             </div>
-            {proofHash && (
-              <div
-                style={{
-                  width: "22px",
-                  height: "22px",
-                  aspectRatio: "1/1",
-                  cursor: "pointer",
-                }}
-                onClick={handleCopyProofHash}
-              >
-                <CopyIcon />
-              </div>
-            )}
+            <div
+              style={{
+                width: "22px",
+                height: "22px",
+                aspectRatio: "1/1",
+                cursor: "pointer",
+              }}
+              onClick={handleCopyProofHash}
+            >
+              <CopyIcon />
+            </div>
+          </div>
+        </div>
+
+        {/* Status */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1 0 0",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Status
+          </div>
+          <div
+            style={{
+              display: "inline-flex",
+              padding: "4px 8px",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              borderRadius: "4px",
+              border: status === "1" ? "1px solid #66EAFF" : "1px solid #F5A623",
+              background: status === "1" ? "#66EAFF" : "#F5A623",
+              color: "#000",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "normal",
+            }}
+          >
+            {getStatusDisplay(status)}
           </div>
         </div>
 
       </div>
 
-      {/* Second Row - 2 fields */}
+      {/* Row 2 - Transaction Hash and Submitter Address */}
       <div style={{ display: "flex", gap: "16px", width: "100%" }}>
         {/* Transaction Hash */}
         <div
@@ -184,84 +237,6 @@ const ProofCard: React.FC<ProofCardProps> = ({
             >
               <CopyIcon />
             </div>
-          </div>
-        </div>
-
-        {/* Status */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            flex: "1 0 0",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Status
-          </div>
-          <div
-            style={{
-              color: getStatusDisplay(status) === "Verified" ? "#10B981" : 
-                     getStatusDisplay(status) === "Rejected" ? "#EF4444" : "#F59E0B",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-            }}
-          >
-            {getStatusDisplay(status)}
-          </div>
-        </div>
-      </div>
-
-      {/* Second Row - 2 fields */}
-      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
-        {/* Prove Time */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            flex: "1 0 0",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Prove Time
-          </div>
-          <div
-            style={{
-              color: "#66EAFF",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "18px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-            }}
-          >
-            {proveTime}
           </div>
         </div>
 
@@ -314,6 +289,90 @@ const ProofCard: React.FC<ProofCardProps> = ({
             </div>
           </div>
         </div>
+
+      </div>
+
+      {/* Row 3 - Prove Time and Hardware Info */}
+      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
+        {/* Prove Time */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1 0 0",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Prove Time
+          </div>
+          <div
+            style={{
+              color: "#66EAFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "18px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+            }}
+          >
+            {formattedProveTime}
+          </div>
+        </div>
+
+        {/* Hardware Info */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: "8px",
+            flex: "1 0 0",
+          }}
+        >
+          <div
+            style={{
+              color: "#619EC9",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 300,
+              lineHeight: "normal",
+            }}
+          >
+            Hardware Info
+          </div>
+          <div
+            style={{
+              color: "#FFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",
+              cursor: "help",
+            }}
+            title={displayHardwareInfo}
+          >
+            {shortHardwareInfo}
+          </div>
+        </div>
       </div>
 
     </div>
@@ -341,6 +400,7 @@ const ProofDesktop = () => {
     proveTime: proof.proveTime,
     submissionTime: proof.submissionTime,
     id: proof.id,
+    hardwareInfo: proof.hardwareInfo,
     proofData: proof.proofData,
   }));
 
@@ -358,8 +418,9 @@ const ProofDesktop = () => {
         style={{
           display: "flex",
           width: "100%",
-          minHeight: "600px",
+          height: "105vh",
           padding: "24px",
+          paddingBottom: "40px",
           flexDirection: "column",
           alignItems: "center",
           gap: "16px",
@@ -400,6 +461,7 @@ const ProofDesktop = () => {
                   proveTime={proof.proveTime}
                   submissionTime={proof.submissionTime}
                   id={proof.id}
+                  hardwareInfo={proof.hardwareInfo}
                   proofData={proof.proofData}
                 />
               ))
@@ -412,6 +474,7 @@ const ProofDesktop = () => {
                   proofHash={proof.proofHash}
                   status={proof.status}
                   proveTime={proof.proveTime}
+                  hardwareInfo={proof.hardwareInfo}
                 />
               ))
             )

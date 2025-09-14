@@ -10,6 +10,7 @@ export interface ProofSubmission {
   proveTime: string;
   submissionTime: string;
   zipFileUrl?: string;
+  hardwareInfo?: string;
   proofData?: {
     publicSignals?: any;
     proof?: any;
@@ -46,6 +47,7 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
     let proofHash = '';
     let transactionHash = '';
     let proveTime = '00:00:00';
+    let hardwareInfo = 'N/A';
     let publicSignals = null;
     let proof = null;
     
@@ -85,11 +87,28 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
           }
         }
         
-        // Handle benchmark.json file for timing info
+        // Handle benchmark.json file for timing info and hardware data
         else if (fileName.includes('benchmark.json')) {
           try {
             // @ts-ignore - benchmark data structure varies
             const benchmarkData = JSON.parse(content);
+            
+            // Extract hardware info
+            if (benchmarkData.hardwareInfo) {
+              const cpu = benchmarkData.hardwareInfo.cpu;
+              const memory = benchmarkData.hardwareInfo.memory;
+              const os = benchmarkData.hardwareInfo.os;
+              
+              // Format hardware info string
+              const cpuInfo = cpu?.model || 'Unknown CPU';
+              const coresInfo = cpu?.cores ? `${cpu.cores} cores` : '';
+              const memoryInfo = memory?.total ? `${memory.total}GB RAM` : '';
+              const osInfo = os?.platform || 'Unknown OS';
+              
+              // Create concise hardware info string
+              hardwareInfo = `${cpuInfo}${coresInfo ? `, ${coresInfo}` : ''}${memoryInfo ? `, ${memoryInfo}` : ''}, ${osInfo}`;
+              console.log(`Extracted hardware info: ${hardwareInfo}`);
+            }
             
             // First, try to calculate actual prove time from startTime/endTime
             if (benchmarkData.processes?.prove?.startTime && benchmarkData.processes?.prove?.endTime) {
@@ -133,6 +152,11 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
               const seconds = Math.floor(Math.random() * 60); // Random seconds
               proveTime = `${estimatedMinutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:00`;
               console.log(`Estimated prove time based on ${cpuArchitecture} ${cpuCores}-core CPU: ${proveTime}`);
+            }
+            
+            // Store hardware info for later use
+            if (hardwareInfo !== 'N/A') {
+              // We'll return this in the result
             }
           } catch (parseError) {
             console.error('Error parsing benchmark.json:', parseError);
@@ -193,12 +217,14 @@ export async function processZipFile(zipBuffer: Buffer): Promise<Partial<ProofSu
       proofHash,
       transactionHash,
       proveTime,
+      hardwareInfo,
       hasProof: !!proof
     });
     
     return {
       hash: proofHash,
       proveTime,
+      hardwareInfo,
       status: '0', // Always show pending status initially
       proofData: {
         publicSignals,
