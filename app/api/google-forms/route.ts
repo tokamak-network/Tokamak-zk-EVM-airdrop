@@ -326,6 +326,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
       status: formStatus,
       proveTime: formProveTime,
       transactionHash: formTransactionHash,
+      hardwareInfo: 'N/A',
     };
     
     // Try to process zip file for additional proof data (if available)
@@ -367,6 +368,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
               status: formStatus, // Use form status from Google Sheets
               proveTime: formProveTime || '00:05:30',
               transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+              hardwareInfo: 'Mock Hardware Info',
             };
           } else {
             const accessToken = await generateServiceAccountToken(serviceAccountEmail, privateKey);
@@ -420,6 +422,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     status: formStatus, // Use form status from Google Sheets, not validation result
                     proveTime: zipData.proveTime || formProveTime,
                     transactionHash: zipData.proofData?.transactionHash || formTransactionHash,
+                    hardwareInfo: zipData.hardwareInfo || 'N/A',
                   };
                   
                   console.log('✅ Using REAL zip data:', zipProcessedData);
@@ -432,6 +435,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     status: formStatus, // Use form status from Google Sheets
                     proveTime: formProveTime || '00:05:30',
                     transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+                    hardwareInfo: 'Mock Hardware Info',
                   };
                 }
               } else {
@@ -442,6 +446,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                   status: formStatus, // Use form status from Google Sheets
                   proveTime: formProveTime || '00:05:30',
                   transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+                  hardwareInfo: 'Mock Hardware Info',
                 };
               }
             } else {
@@ -454,6 +459,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                 status: formStatus, // Use form status from Google Sheets
                 proveTime: formProveTime || '00:05:30',
                 transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+                hardwareInfo: 'Mock Hardware Info',
               };
             }
           }
@@ -465,6 +471,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
             status: formStatus, // Use form status from Google Sheets
             proveTime: formProveTime || '00:05:30',
             transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+            hardwareInfo: 'Mock Hardware Info',
           };
         }
       } catch (zipError: unknown) {
@@ -479,6 +486,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
           status: formStatus, // Use form status from Google Sheets
           proveTime: formProveTime || '00:05:30',
           transactionHash: formTransactionHash || `0x${Math.random().toString(16).substr(2, 64)}`,
+          hardwareInfo: 'Mock Hardware Info',
         };
       }
     }
@@ -494,6 +502,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
       proveTime: zipProcessedData.proveTime,
       submissionTime: submission.timestamp,
       zipFileUrl: submission.zipFileUrl,
+      hardwareInfo: zipProcessedData.hardwareInfo,
       proofData: {
         transactionHash: zipProcessedData.transactionHash,
         proofHash: zipProcessedData.hash, // Store proof hash separately

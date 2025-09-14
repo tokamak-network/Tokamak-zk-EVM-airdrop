@@ -22,6 +22,38 @@ export const trimText = (
 };
 
 /**
+ * Format proving time from MM:SS:00 to "xx mins and xx secs"
+ * @param {string} timeString - Time in MM:SS:00 format (where first part is minutes, second is seconds)
+ * @returns {string} Formatted time string
+ */
+export const formatProvingTime = (timeString: string): string => {
+  if (!timeString || timeString === '00:00:00') {
+    return 'N/A';
+  }
+
+  // Handle different time formats
+  const timeParts = timeString.split(':');
+  
+  if (timeParts.length === 3) {
+    // MM:SS:00 format (minutes:seconds:ignored)
+    const minutes = parseInt(timeParts[0]);
+    const seconds = parseInt(timeParts[1]);
+    // Third part is ignored (always 00)
+    
+    if (minutes === 0) {
+      return `${seconds} secs`;
+    } else if (seconds === 0) {
+      return `${minutes} mins`;
+    } else {
+      return `${minutes} mins and ${seconds} secs`;
+    }
+  }
+  
+  // If format is unexpected, return as-is
+  return timeString;
+};
+
+/**
  * Copy text to clipboard
  * @param {string} text - Text to copy
  * @param {() => void} onSuccess - Callback function on successful copy
