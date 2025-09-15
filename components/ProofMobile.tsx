@@ -78,351 +78,39 @@ const ProofCard: React.FC<ProofCardProps> = ({
     <div
       style={{
         display: "flex",
-        padding: "12px 16px",
+        padding: "16px",
         flexDirection: "column",
         alignItems: "flex-start",
-        gap: "12px",
+        gap: "16px",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
         position: "relative",
       }}
     >
-      {/* Top Row - Submitter Address and Status */}
+      {/* Row 1 - Submitter Address */}
       <div
         style={{
           display: "flex",
-          alignItems: "flex-start",
+          flexDirection: "column",
+          gap: "8px",
           width: "100%",
         }}
       >
-        {/* Submitter Address */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            marginLeft: "auto",
-            marginRight: "14px",
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
           }}
         >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Submitter Address
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div
-              style={{
-                color: "#FFF",
-                fontFamily: "IBM Plex Mono",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "normal",
-              }}
-            >
-              {displayAddress}
-            </div>
-            <div
-              style={{
-                width: "22px",
-                height: "22px",
-                aspectRatio: "1/1",
-                cursor: "pointer",
-              }}
-              onClick={handleCopyAddress}
-            >
-              <CopyIcon />
-            </div>
-          </div>
+          Submitter Address
         </div>
-      </div>
-
-      {/* Bottom Row */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "100%",
-        }}
-      >
-        {/* Transaction Hash */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Transaction Hash
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div
-              style={{
-                color: "#FFF",
-                fontFamily: "IBM Plex Mono",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "normal",
-              }}
-            >
-              {displayHash}
-            </div>
-            <div
-              style={{
-                width: "22px",
-                height: "22px",
-                aspectRatio: "1/1",
-                cursor: "pointer",
-              }}
-              onClick={handleCopyHash}
-            >
-              <CopyIcon />
-            </div>
-          </div>
-        </div>
-
-        {/* Status */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Status
-          </div>
-          <div
-            style={{
-              color: getStatusDisplay(status) === "Verified" ? "#10B981" : 
-                     getStatusDisplay(status) === "Rejected" ? "#EF4444" : "#F59E0B",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-            }}
-          >
-            {getStatusDisplay(status)}
-          </div>
-        </div>
-      </div>
-
-      {/* Second Row - 2 fields */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "100%",
-        }}
-      >
-        {/* Prove Time */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            marginLeft: "auto",
-            marginRight: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Prove Time
-          </div>
-          <div
-            style={{
-              color: "#66EAFF",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "18px",
-              fontStyle: "normal",
-              fontWeight: 500,
-              lineHeight: "normal",
-              textAlign: "left",
-            }}
-          >
-            {formattedProveTime}
-          </div>
-        </div>
-
-        {/* Submitter Address */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Submitter Address
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div
-              style={{
-                color: "#FFF",
-                fontFamily: "IBM Plex Mono",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "normal",
-              }}
-            >
-              {displayAddress}
-            </div>
-            <div
-              style={{
-                width: "22px",
-                height: "22px",
-                aspectRatio: "1/1",
-                cursor: "pointer",
-              }}
-              onClick={handleCopyAddress}
-            >
-              <CopyIcon />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Additional Row - Proof Hash and Hardware Info */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "100%",
-          marginTop: "16px",
-        }}
-      >
-        {/* Proof Hash */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            flex: "1",
-            marginRight: "16px",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Proof Hash
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div
-              style={{
-                color: "#FFF",
-                fontFamily: "IBM Plex Mono",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "normal",
-              }}
-            >
-              {displayProofHash}
-            </div>
-            <div
-              style={{
-                width: "22px",
-                height: "22px",
-                aspectRatio: "1/1",
-                cursor: "pointer",
-              }}
-              onClick={handleCopyProofHash}
-            >
-              <CopyIcon />
-            </div>
-          </div>
-        </div>
-
-        {/* Hardware Info */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            gap: "8px",
-            flex: "1",
-          }}
-        >
-          <div
-            style={{
-              color: "#619EC9",
-              fontFamily: "IBM Plex Mono",
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: 300,
-              lineHeight: "normal",
-            }}
-          >
-            Hardware Info
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%" }}>
           <div
             style={{
               color: "#FFF",
@@ -431,16 +119,243 @@ const ProofCard: React.FC<ProofCardProps> = ({
               fontStyle: "normal",
               fontWeight: 500,
               lineHeight: "normal",
+              flex: 1,
               overflow: "hidden",
               textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              maxWidth: "100%",
-              cursor: "help",
             }}
-            title={displayHardwareInfo}
           >
-            {shortHardwareInfo}
+            {displayAddress}
           </div>
+          <div
+            style={{
+              width: "20px",
+              height: "20px",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+            onClick={handleCopyAddress}
+          >
+            <CopyIcon />
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2 - Transaction Hash */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
+          }}
+        >
+          Transaction Hash
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%" }}>
+          <div
+            style={{
+              color: "#FFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+              flex: 1,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {displayHash}
+          </div>
+          <div
+            style={{
+              width: "20px",
+              height: "20px",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+            onClick={handleCopyHash}
+          >
+            <CopyIcon />
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3 - Proof Hash */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
+          }}
+        >
+          Proof Hash
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%" }}>
+          <div
+            style={{
+              color: "#FFF",
+              fontFamily: "IBM Plex Mono",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "normal",
+              flex: 1,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {displayProofHash}
+          </div>
+          <div
+            style={{
+              width: "20px",
+              height: "20px",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+            onClick={handleCopyProofHash}
+          >
+            <CopyIcon />
+          </div>
+        </div>
+      </div>
+
+      {/* Row 4 - Status */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
+          }}
+        >
+          Status
+        </div>
+        <div
+          style={{
+            color: getStatusDisplay(status) === "Verified" ? "#10B981" : 
+                   getStatusDisplay(status) === "Rejected" ? "#EF4444" : "#F59E0B",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "14px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+          }}
+        >
+          {getStatusDisplay(status)}
+        </div>
+      </div>
+
+      {/* Row 5 - Prove Time */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
+          }}
+        >
+          Prove Time
+        </div>
+        <div
+          style={{
+            color: "#66EAFF",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+          }}
+        >
+          {formattedProveTime}
+        </div>
+      </div>
+
+      {/* Row 6 - Hardware Info */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            color: "#619EC9",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "normal",
+            textTransform: "uppercase",
+          }}
+        >
+          Hardware Info
+        </div>
+        <div
+          style={{
+            color: "#FFF",
+            fontFamily: "IBM Plex Mono",
+            fontSize: "14px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: "100%",
+            cursor: "help",
+          }}
+          title={displayHardwareInfo}
+        >
+          {shortHardwareInfo}
         </div>
       </div>
 
@@ -496,11 +411,13 @@ const ProofMobile = () => {
           flexDirection: "column",
           gap: "12px",
           width: "100%",
-          height: "calc(100vh - 40px)",
+          height: "600px", // Fixed height like FAQ
           overflowY: "auto",
+          overflowX: "hidden",
           padding: "16px 4px",
           paddingBottom: "40px",
           marginBottom: "32px",
+          flexShrink: 0,
         }}
       >
         {loading && (
