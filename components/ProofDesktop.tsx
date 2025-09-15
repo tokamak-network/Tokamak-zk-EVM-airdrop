@@ -418,7 +418,7 @@ const ProofDesktop = () => {
         style={{
           display: "flex",
           width: "100%",
-          height: "105vh",
+          height: "calc(100vh)", // Adjust height to be viewport height minus header
           padding: "24px",
           paddingBottom: "40px",
           flexDirection: "column",
