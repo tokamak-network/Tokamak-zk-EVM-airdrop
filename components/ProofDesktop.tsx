@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { trimText, copyToClipboard, formatProvingTime } from "@/utils/text";
 import {
@@ -34,13 +34,18 @@ const CopyIcon = () => (
 
 // Proof Card Component (Desktop Version)
 
-const ProofCard: React.FC<ProofCardProps> = ({
+interface ExtendedProofCardProps extends ProofCardProps {
+  isMobile?: boolean;
+}
+
+const ProofCard: React.FC<ExtendedProofCardProps> = ({
   submitterAddress,
   hash,
   proofHash,
   status,
   proveTime,
   hardwareInfo,
+  isMobile = false,
 }) => {
   const handleCopyAddress = () => {
     copyToClipboard(submitterAddress, () => {
@@ -79,10 +84,10 @@ const ProofCard: React.FC<ProofCardProps> = ({
     <div
       style={{
         display: "flex",
-        padding: "12px 16px",
+        padding: isMobile ? "8px 12px" : "12px 16px",
         flexDirection: "column",
         alignItems: "flex-start",
-        gap: "12px",
+        gap: isMobile ? "8px" : "12px",
         alignSelf: "stretch",
         border: "1px solid #619EC9",
         background: "#00223B",
@@ -90,7 +95,7 @@ const ProofCard: React.FC<ProofCardProps> = ({
       }}
     >
       {/* Row 1 - Proof Hash and Status */}
-      <div style={{ display: "flex", gap: "16px", width: "100%" }}>
+      <div style={{ display: "flex", gap: isMobile ? "8px" : "16px", width: "100%" }}>
         {/* Proof Hash */}
         <div
           style={{
@@ -381,6 +386,23 @@ const ProofCard: React.FC<ProofCardProps> = ({
 
 const ProofDesktop = () => {
   const { proofs, loading, error } = useProofs();
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Handle responsive design
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   // Debug logging
   console.log('🎯 ProofDesktop render:', { 
@@ -388,6 +410,7 @@ const ProofDesktop = () => {
     error, 
     proofsCount: proofs.length, 
     isEventLive,
+    isMobile,
     proofs: proofs.slice(0, 1) // Log first proof for debugging
   });
   
@@ -407,23 +430,23 @@ const ProofDesktop = () => {
   return (
     <div className="relative w-full max-w-[720px] mx-auto bg-gradient-to-b from-[#0a1930] to-[#1a2347] border-2 border-[#4fc3f7]">
       {/* Space-themed header */}
-      <div className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] p-4 border-b-2 border-[#4fc3f7]">
-        <h2 className="text-white text-3xl text-center" style={{fontFamily: '"Jersey 10"'}}>
+      <div className="bg-gradient-to-r from-[#1e3a8a] to-[#3730a3] p-3 sm:p-4 border-b-2 border-[#4fc3f7]">
+        <h2 className="text-white text-2xl sm:text-3xl text-center" style={{fontFamily: '"Jersey 10"'}}>
           ZK Proof Dashboard
         </h2>
       </div>
 
       {/* Proof Cards Container */}
       <div
+        className="w-full"
         style={{
           display: "flex",
-          width: "100%",
-          height: "850px", // Fixed height like FAQ
-          padding: "24px",
-          paddingBottom: "40px",
+          height: isMobile ? "500px" : "850px", // Responsive height
+          padding: isMobile ? "12px" : "24px", // Responsive padding
+          paddingBottom: isMobile ? "20px" : "40px",
           flexDirection: "column",
           alignItems: "center",
-          gap: "16px",
+          gap: isMobile ? "8px" : "16px", // Responsive gap
           overflowY: "auto",
           overflowX: "hidden",
           flexShrink: 0,
@@ -465,6 +488,7 @@ const ProofDesktop = () => {
                   id={proof.id}
                   hardwareInfo={proof.hardwareInfo}
                   proofData={proof.proofData}
+                  isMobile={isMobile}
                 />
               ))
             ) : (
@@ -477,6 +501,7 @@ const ProofDesktop = () => {
                   status={proof.status}
                   proveTime={proof.proveTime}
                   hardwareInfo={proof.hardwareInfo}
+                  isMobile={isMobile}
                 />
               ))
             )
@@ -499,6 +524,7 @@ const ProofDesktop = () => {
                       hash={proof.hash}
                       status={proof.status}
                       proveTime={proof.proveTime}
+                      isMobile={isMobile}
                     />
                   </div>
                   {/* Overlay */}
