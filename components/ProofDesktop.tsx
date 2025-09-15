@@ -418,13 +418,15 @@ const ProofDesktop = () => {
         style={{
           display: "flex",
           width: "100%",
-          height: "calc(100vh)", // Adjust height to be viewport height minus header
+          height: "850px", // Fixed height like FAQ
           padding: "24px",
           paddingBottom: "40px",
           flexDirection: "column",
           alignItems: "center",
           gap: "16px",
           overflowY: "auto",
+          overflowX: "hidden",
+          flexShrink: 0,
         }}
       >
         {/* Proof Cards */}
