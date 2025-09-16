@@ -410,7 +410,7 @@ const Quest = () => {
                   <span
                     className="cursor-pointer underline"
                     style={{ color: "#4fc3f7" }}
-                    onClick={() => window.open("https://drive.google.com/file/d/15gOFH0_XZnOvFDSyBetKKu7Q65F6XEyD/view?usp=drive_link", "_blank")}
+                    onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
                   >
                     Google Drive
                   </span>
@@ -605,7 +605,7 @@ const Quest = () => {
                     <span 
                       className="cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://drive.google.com/file/d/15gOFH0_XZnOvFDSyBetKKu7Q65F6XEyD/view?usp=drive_link", "_blank")}
+                      onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
                     >
                       Google Drive
                     </span>
