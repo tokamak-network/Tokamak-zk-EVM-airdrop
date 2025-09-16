@@ -661,13 +661,13 @@ const Quest = () => {
               Event Period:
               <br className="max-500:block hidden" />
               <span style={{ fontWeight: "700" }}>
-                Sep 11 (Thu) – Sep 15 (Mon), 12PM KST
+                Sep 16 (Mon) – Sep 30 (Mon), 12AM-11:59PM KST
               </span>
             </div>
             <div style={{ marginTop: "8px" }}>
               <span style={{ fontWeight: "700" }}>Reward Distribution:</span>
               <br className="max-500:block hidden" />
-              Sep 18 (Thu)
+              Oct 3 (Thu)
             </div>
           </div>
         </MobileCard>
