@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import VideoSection from "@/components/VideoSection";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import GrabTON from "@/components/GrabTON";
@@ -12,6 +13,7 @@ export default function Home() {
       <Header />
       <main className="min-h-screen bg-gradient-to-b from-[#0a1930] to-[#1a2347] overflow-x-hidden relative">
         <Hero />
+        <VideoSection />
         <FAQ />
         <div className="hidden desktop:block">
           <GrabTON />

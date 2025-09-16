@@ -38,8 +38,8 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     }
     
     if (!spreadsheetId) {
-      console.warn('Google Sheets not configured, using mock data');
-      return getMockSubmissions();
+      console.warn('Google Sheets not configured, returning empty array');
+      return [];
     }
     
     let accessToken = '';
@@ -89,7 +89,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     
     if (rows.length < 2) {
       console.log('No form responses found in Google Sheets');
-      return getMockSubmissions();
+      return [];
     }
     
     // First row contains headers
@@ -180,8 +180,8 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
   } catch (error: unknown) {
     console.error('❌ Error fetching Google Form submissions:', error);
     console.error('❌ Error details:', error instanceof Error ? error.message : String(error));
-    console.error('❌ Falling back to mock data');
-    return getMockSubmissions();
+    console.error('❌ Returning empty array due to error');
+    return [];
   }
 }
 
@@ -276,37 +276,7 @@ function findColumnIndex(headers: string[], keywords: string[]): number {
   return -1;
 }
 
-// Mock data fallback
-function getMockSubmissions(): GoogleFormSubmission[] {
-  return [
-    {
-      id: '1',
-      timestamp: new Date().toISOString(),
-      walletAddress: '0x1234567890abcdef1234567890abcdef12345678',
-      zipFileUrl: 'https://example.com/proof1.zip',
-      additionalData: {
-        formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
-        responseId: '1',
-        status: '1', // verified
-        transactionHash: '0xabc123...',
-        proveTime: '00:12:34'
-      }
-    },
-    {
-      id: '2',
-      timestamp: new Date(Date.now() - 3600000).toISOString(),
-      walletAddress: '0x9876543210fedcba9876543210fedcba98765432',
-      zipFileUrl: 'https://example.com/proof2.zip',
-      additionalData: {
-        formId: '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
-        responseId: '2',
-        status: '0', // pending
-        transactionHash: '0xdef456...',
-        proveTime: '00:08:45'
-      }
-    }
-  ];
-}
+// Note: Mock data function removed - now returns empty array when no real data available
 
 // Process Google Form submission and extract proof data
 async function processFormSubmission(submission: GoogleFormSubmission) {

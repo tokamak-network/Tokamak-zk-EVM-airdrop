@@ -101,6 +101,13 @@ const Navigation = () => {
             </span>
             <span
               style={{ cursor: "pointer" }}
+              onClick={() => scrollToSection("how-it-works")}
+              className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
+            >
+              Demo
+            </span>
+            <span
+              style={{ cursor: "pointer" }}
               onClick={() => scrollToSection("proof-dashboard")}
               className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
@@ -162,7 +169,7 @@ const Navigation = () => {
             background: "linear-gradient(to right, #1e3a8a, #3730a3)",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "18px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
@@ -186,7 +193,31 @@ const Navigation = () => {
             background: "linear-gradient(to right, #1e3a8a, #3730a3)",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "18px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "normal",
+            letterSpacing: "-0.11px",
+            padding: "16px 0",
+            borderRight: "2px solid #4fc3f7",
+          }}
+          onClick={() => scrollToSection("how-it-works")}
+        >
+          Demo
+        </div>
+        <div
+          className="flex cursor-pointer"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flex: "1 0 0",
+            alignSelf: "stretch",
+            background: "linear-gradient(to right, #1e3a8a, #3730a3)",
+            color: "#FFF",
+            fontFamily: '"IBM Plex Mono"',
+            fontSize: "18px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",
@@ -210,7 +241,7 @@ const Navigation = () => {
             background: "linear-gradient(to right, #1e3a8a, #3730a3)",
             color: "#FFF",
             fontFamily: '"IBM Plex Mono"',
-            fontSize: "22px",
+            fontSize: "18px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "normal",

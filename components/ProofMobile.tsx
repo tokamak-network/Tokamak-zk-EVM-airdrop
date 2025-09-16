@@ -4,7 +4,6 @@ import React from "react";
 import { trimText, copyToClipboard, formatProvingTime } from "@/utils/text";
 import {
   ProofCardProps,
-  // proofData,
   isEventLive,
   mockProofData,
   getStatusDisplay,
@@ -371,7 +370,7 @@ const ProofMobile = () => {
     loading, 
     error, 
     proofsCount: proofs.length, 
-    isEventLive,
+    isEventLive: isEventLive(),
     proofs: proofs.slice(0, 1) // Log first proof for debugging
   });
   
@@ -432,7 +431,7 @@ const ProofMobile = () => {
           </div>
         )}
         
-        {!loading && !error && isEventLive ? (
+        {!loading && !error && isEventLive() ? (
           realProofs.length > 0 ? (
             realProofs.map((proof, index) => (
               <ProofCard
@@ -446,8 +445,38 @@ const ProofMobile = () => {
               />
             ))
           ) : (
-            <div className="flex justify-center items-center h-32">
-              <div className="text-white text-lg">No proofs available</div>
+            // Show empty state message (since ProofMobile doesn't use proofData fallback)
+            <div className="flex flex-col items-center justify-center h-64 text-center px-4">
+              <div className="mb-4">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#619EC9"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="mx-auto"
+                >
+                  <path d="M9 12l2 2 4-4"/>
+                  <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1"/>
+                  <path d="M3 12v6c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-6"/>
+                </svg>
+              </div>
+              <h3 
+                className="text-white text-lg mb-2"
+                style={{ fontFamily: "IBM Plex Mono", fontWeight: 600 }}
+              >
+                No Proof Submissions Yet
+              </h3>
+              <p 
+                className="text-[#619EC9] text-xs leading-relaxed"
+                style={{ fontFamily: "IBM Plex Mono" }}
+              >
+                Proof submissions will appear here once users start submitting their ZK proofs. 
+                Be the first to submit!
+              </p>
             </div>
           )
         ) : !loading && !error ? (

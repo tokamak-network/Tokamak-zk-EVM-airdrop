@@ -139,7 +139,7 @@ const Overview = () => {
               letterSpacing: '2px',
             }}
           >
-            Event: 2025.09.11 ~ 09.15
+            Event: 2025.09.16 ~ 09.30
           </div>
           <div 
             className="text-white text-lg max-w-2xl"
