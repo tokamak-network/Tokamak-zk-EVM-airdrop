@@ -33,8 +33,15 @@ export interface ProofSubmission {
   };
 }
 
-// Event Status - Set to true when event starts
-export const isEventLive = true;
+// Event Status - Date-based logic for event period
+export const EVENT_START_DATE = new Date('2025-09-16T00:00:00+09:00'); // September 16, 2025 12:00 AM KST
+export const EVENT_END_DATE = new Date('2025-09-30T23:59:59+09:00');   // September 30, 2025 11:59 PM KST
+
+// Function to check if event is currently live
+export const isEventLive = (): boolean => {
+  const now = new Date();
+  return now >= EVENT_START_DATE && now <= EVENT_END_DATE;
+};
 
 // Status display function
 export const getStatusDisplay = (status: string): string => {
