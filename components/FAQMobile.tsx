@@ -184,7 +184,22 @@ const FAQMobile = () => {
       question: "Q3. How do I know if my proof is valid?",
       answer: (
         <>
-          The Playground automatically generates and verifies the ZKP for your transaction. If you want additional verification using command line tools, you can use{" "}
+          The Playground automatically generates and verifies the ZKP for your transaction. You can also{" "}
+          <a
+            href="/proof-hash"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            compute the proof hash
+          </a>
+          {" "}of your proof.json file for verification purposes.
+          <br />
+          <br />
+          If you want additional verification using command line tools, you can use{" "}
           <code style={{ 
             backgroundColor: "#1e3a8a", 
             padding: "2px 4px", 
