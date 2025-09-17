@@ -20,7 +20,7 @@ export interface ProofSubmission {
 }
 
 // Compute proof hash from proof entries
-function computeProofHash(proofData: any): string {
+export function computeProofHash(proofData: any): string {
   try {
     // Only hash the proof components
     const proofHashInput = {
