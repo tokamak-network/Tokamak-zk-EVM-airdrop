@@ -135,33 +135,32 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     });
     
     // Helper function to check if a row is empty or contains only empty values
-    const isEmptyRow = (row: any[]): boolean => {
+    const isEmptyRow = (row: (string | number | null | undefined)[]): boolean => {
       return !row || row.length === 0 || row.every(cell => 
         cell === undefined || cell === null || String(cell).trim() === ''
       );
     };
 
     // Helper function to validate required fields are present
-    const isValidRow = (row: any[]): boolean => {
+    const isValidRow = (row: (string | number | null | undefined)[]): boolean => {
       // Always use fixed column positions for validation to ensure we get the right fields
       const walletAddress = row[2]; // Column 2: "Ethereum wallet address to get rewards"
       const zipFileUrl = row[3]; // Column 3: "Upload your generated ZKP files"
       const timestamp = row[0]; // Column 0: "Timestamp"
       
       // Check that required fields are not empty
-      const hasWalletAddress = walletAddress && String(walletAddress).trim() !== '';
-      const hasZipFile = zipFileUrl && String(zipFileUrl).trim() !== '';
-      const hasTimestamp = timestamp && String(timestamp).trim() !== '';
+      const hasWalletAddress = Boolean(walletAddress && String(walletAddress).trim() !== '');
+      const hasZipFile = Boolean(zipFileUrl && String(zipFileUrl).trim() !== '');
+      const hasTimestamp = Boolean(timestamp && String(timestamp).trim() !== '');
       
       return hasWalletAddress && hasZipFile && hasTimestamp;
     };
 
 
     // Process each row with filtering
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const submissions: GoogleFormSubmission[] = dataRows
-      .map((row: any, index: number) => ({ row, originalIndex: index }))
-      .filter(({ row, originalIndex }: { row: any; originalIndex: number }) => {
+      .map((row: (string | number | null | undefined)[], index: number) => ({ row, originalIndex: index }))
+      .filter(({ row, originalIndex }: { row: (string | number | null | undefined)[]; originalIndex: number }) => {
         // Skip completely empty rows
         if (isEmptyRow(row)) {
           console.log(`🚫 Skipping row ${originalIndex + 1}: Empty row`);
@@ -177,23 +176,23 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
         console.log(`✅ Processing row ${originalIndex + 1}: Valid data found`);
         return true;
       })
-      .map(({ row, originalIndex }: { row: any; originalIndex: number }) => {
+      .map(({ row, originalIndex }: { row: (string | number | null | undefined)[]; originalIndex: number }) => {
         // Always use fixed column positions to maintain consistency with original structure
-        const walletAddress = row[2] || ''; // Column 2: "Ethereum wallet address to get rewards"
-        const zipFileUrl = row[3] || ''; // Column 3: "Upload your generated ZKP files"
-        const timestamp = row[0] || new Date().toISOString(); // Column 0: "Timestamp"
+        const walletAddress = String(row[2] || ''); // Column 2: "Ethereum wallet address to get rewards"
+        const zipFileUrl = String(row[3] || ''); // Column 3: "Upload your generated ZKP files"
+        const timestamp = String(row[0] || new Date().toISOString()); // Column 0: "Timestamp"
         
         // Optional fields - use header mapping if available, otherwise try fixed positions
-        const emailAddress = (emailIndex !== -1 ? row[emailIndex] : row[1]) || ''; // Email
-        const twitterHandle = (twitterIndex !== -1 ? row[twitterIndex] : row[4]) || ''; // X (Twitter) handle
-        const telegramHandle = (telegramIndex !== -1 ? row[telegramIndex] : row[5]) || ''; // Telegram Handle
-        const rewardOption = row[6] || ''; // Reward option (fixed position for now)
-        const feedback = row[7] || ''; // Feedback or suggestions (fixed position for now)
-        const agreement = row[8] || ''; // Reward Eligibility Agreement (fixed position for now)
+        const emailAddress = String((emailIndex !== -1 ? row[emailIndex] : row[1]) || ''); // Email
+        const twitterHandle = String((twitterIndex !== -1 ? row[twitterIndex] : row[4]) || ''); // X (Twitter) handle
+        const telegramHandle = String((telegramIndex !== -1 ? row[telegramIndex] : row[5]) || ''); // Telegram Handle
+        const rewardOption = String(row[6] || ''); // Reward option (fixed position for now)
+        const feedback = String(row[7] || ''); // Feedback or suggestions (fixed position for now)
+        const agreement = String(row[8] || ''); // Reward Eligibility Agreement (fixed position for now)
         
         // Get additional data if we have those column indices
-        const txHash = txHashIndex !== -1 ? row[txHashIndex] : '';
-        const proveTime = proveTimeIndex !== -1 ? row[proveTimeIndex] : '';
+        const txHash = String((txHashIndex !== -1 ? row[txHashIndex] : '') || '');
+        const proveTime = String((proveTimeIndex !== -1 ? row[proveTimeIndex] : '') || '');
         
         // Process status column - use header mapping if available
         let status = '0'; // Default to pending

@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 
 interface ProofTestFormProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-  onProofSubmitted?: (proof: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onProofSubmitted?: (_proof: any) => void;
 }
 
 const ProofTestForm: React.FC<ProofTestFormProps> = ({ 
