@@ -96,12 +96,15 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     const headers = rows[0];
     const dataRows = rows.slice(1);
     
-    // Find column indices for important fields
-    const walletAddressIndex = findColumnIndex(headers, ['wallet', 'address', 'ethereum', 'eth', 'rewards']);
-    const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp']);
-    const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash']);
-    const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp']);
-    const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified', 'approval', 'result', 'check', 'review']);
+    // Find column indices for important fields with improved keyword matching
+    const walletAddressIndex = findColumnIndex(headers, ['wallet', 'address', 'ethereum', 'eth', 'rewards', 'recipient']);
+    const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp', 'generated', 'attach']);
+    const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash', 'block']);
+    const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp', 'speed', 'performance']);
+    const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified', 'approval', 'result', 'check', 'review', 'confirm']);
+    const emailIndex = findColumnIndex(headers, ['email', 'mail', 'address@', '@']);
+    const twitterIndex = findColumnIndex(headers, ['twitter', 'x ', '(twitter)', 'handle', 'social']);
+    const telegramIndex = findColumnIndex(headers, ['telegram', 'tg', 'chat']);
     const timestampIndex = 0; // Usually the first column is timestamp
     
     console.log('🔍 Column detection results:', {
@@ -110,6 +113,9 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       txHash: txHashIndex,
       proveTime: proveTimeIndex,
       status: statusIndex,
+      email: emailIndex,
+      twitter: twitterIndex,
+      telegram: telegramIndex,
       timestamp: timestampIndex
     });
     
@@ -127,54 +133,107 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       }
     });
     
-    // Process each row
+    // Helper function to check if a row is empty or contains only empty values
+    const isEmptyRow = (row: any[]): boolean => {
+      return !row || row.length === 0 || row.every(cell => 
+        cell === undefined || cell === null || String(cell).trim() === ''
+      );
+    };
+
+    // Helper function to validate required fields are present
+    const isValidRow = (row: any[]): boolean => {
+      // Get values using header-based mapping for required fields
+      const walletAddress = walletAddressIndex !== -1 ? row[walletAddressIndex] : row[2]; // Fallback to column 2
+      const zipFileUrl = zipFileIndex !== -1 ? row[zipFileIndex] : row[3]; // Fallback to column 3
+      const timestamp = row[timestampIndex] || row[0]; // Timestamp is usually first column
+      
+      // Check that required fields are not empty
+      const hasWalletAddress = walletAddress && String(walletAddress).trim() !== '';
+      const hasZipFile = zipFileUrl && String(zipFileUrl).trim() !== '';
+      const hasTimestamp = timestamp && String(timestamp).trim() !== '';
+      
+      return hasWalletAddress && hasZipFile && hasTimestamp;
+    };
+
+    // Process each row with filtering
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const submissions: GoogleFormSubmission[] = dataRows.map((row: any, index: number) => {
-      // Based on your form structure:
-      // Column 0: Timestamp
-      // Column 1: Email Address  
-      // Column 2: Ethereum wallet address to get rewards
-      // Column 3: Upload your generated ZKP files
-      // Column 4: X (Twitter) handle
-      // Column 5: Telegram Handle (Optional)
-      // Column 6: Select your preferred reward option
-      // Column 7: Feedback or suggestions
-      // Column 8: Reward Eligibility Agreement
-      
-      const walletAddress = row[2] || ''; // Ethereum wallet address column
-      const zipFileUrl = row[3] || ''; // Upload ZKP files column
-      const twitterHandle = row[4] || ''; // X (Twitter) handle
-      const telegramHandle = row[5] || ''; // Telegram Handle
-      const rewardOption = row[6] || ''; // Reward option
-      const timestamp = row[0] || new Date().toISOString();
-      
-      // Process status column - simply return whatever value is there
-      let status = '0'; // Default to pending
-      if (statusIndex !== -1 && row[statusIndex] !== undefined && row[statusIndex] !== null && row[statusIndex] !== '') {
-        status = row[statusIndex].toString().trim();
-        console.log(`🔍 Row ${index + 1} - Status value: "${status}"`);
-      } else {
-        console.log(`🔍 Row ${index + 1} - No status column found or empty value, using default: ${status}`);
-      }
-      
-      return {
-        id: `response_${index + 1}`,
-        timestamp,
-        walletAddress: walletAddress || `0x${Math.random().toString(16).substr(2, 40)}`,
-        zipFileUrl: zipFileUrl || `https://example.com/proof${index + 1}.zip`,
-        additionalData: {
-          formId: process.env.GOOGLE_FORMS_FORM_ID || '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
-          responseId: `response_${index + 1}`,
-          status,
-          twitterHandle,
-          telegramHandle,
-          rewardOption,
-          rowIndex: index + 1
+    const submissions: GoogleFormSubmission[] = dataRows
+      .map((row: any, index: number) => ({ row, originalIndex: index }))
+      .filter(({ row, originalIndex }: { row: any; originalIndex: number }) => {
+        // Skip completely empty rows
+        if (isEmptyRow(row)) {
+          console.log(`🚫 Skipping row ${originalIndex + 1}: Empty row`);
+          return false;
         }
-      };
-    });
+        
+        // Skip rows with missing required fields
+        if (!isValidRow(row)) {
+          console.log(`🚫 Skipping row ${originalIndex + 1}: Missing required fields (wallet address, zip file, or timestamp)`);
+          return false;
+        }
+        
+        console.log(`✅ Processing row ${originalIndex + 1}: Valid data found`);
+        return true;
+      })
+      .map(({ row, originalIndex }: { row: any; originalIndex: number }) => {
+        // Use header-based mapping with fallbacks to fixed positions
+        const walletAddress = (walletAddressIndex !== -1 ? row[walletAddressIndex] : row[2]) || '';
+        const zipFileUrl = (zipFileIndex !== -1 ? row[zipFileIndex] : row[3]) || '';
+        const timestamp = row[timestampIndex] || row[0] || new Date().toISOString();
+        
+        // Optional fields - use header mapping if available, otherwise try fixed positions
+        const emailAddress = (emailIndex !== -1 ? row[emailIndex] : row[1]) || ''; // Email
+        const twitterHandle = (twitterIndex !== -1 ? row[twitterIndex] : row[4]) || ''; // X (Twitter) handle
+        const telegramHandle = (telegramIndex !== -1 ? row[telegramIndex] : row[5]) || ''; // Telegram Handle
+        const rewardOption = row[6] || ''; // Reward option (fixed position for now)
+        const feedback = row[7] || ''; // Feedback or suggestions (fixed position for now)
+        const agreement = row[8] || ''; // Reward Eligibility Agreement (fixed position for now)
+        
+        // Get additional data if we have those column indices
+        const txHash = txHashIndex !== -1 ? row[txHashIndex] : '';
+        const proveTime = proveTimeIndex !== -1 ? row[proveTimeIndex] : '';
+        
+        // Process status column - use header mapping if available
+        let status = '0'; // Default to pending
+        if (statusIndex !== -1 && row[statusIndex] !== undefined && row[statusIndex] !== null && row[statusIndex] !== '') {
+          status = row[statusIndex].toString().trim();
+          console.log(`🔍 Row ${originalIndex + 1} - Status value: "${status}"`);
+        } else {
+          console.log(`🔍 Row ${originalIndex + 1} - No status column found or empty value, using default: ${status}`);
+        }
+        
+        return {
+          id: `response_${originalIndex + 1}`,
+          timestamp,
+          walletAddress: walletAddress.trim(),
+          zipFileUrl: zipFileUrl.trim(),
+          additionalData: {
+            formId: process.env.GOOGLE_FORMS_FORM_ID || '1FAIpQLScCb2ntheg6SP7Eu8XLTRtJhm78hDVJkO5p_aT3o5rrgYFlaQ',
+            responseId: `response_${originalIndex + 1}`,
+            status,
+            emailAddress: emailAddress.trim(),
+            twitterHandle: twitterHandle.trim(),
+            telegramHandle: telegramHandle.trim(),
+            rewardOption: rewardOption.trim(),
+            feedback: feedback.trim(),
+            agreement: agreement.trim(),
+            transactionHash: txHash.trim(),
+            proveTime: proveTime.trim(),
+            rowIndex: originalIndex + 1
+          }
+        };
+      });
     
-    console.log(`Processed ${submissions.length} form submissions from Google Sheets`);
+    const totalRows = dataRows.length;
+    const validRows = submissions.length;
+    const skippedRows = totalRows - validRows;
+    
+    console.log(`📊 Processing Summary:`);
+    console.log(`  - Total rows in sheet: ${totalRows}`);
+    console.log(`  - Valid submissions processed: ${validRows}`);
+    console.log(`  - Empty/invalid rows skipped: ${skippedRows}`);
+    console.log(`  - Success rate: ${totalRows > 0 ? Math.round((validRows / totalRows) * 100) : 0}%`);
+    
     return submissions;
     
   } catch (error: unknown) {
@@ -261,17 +320,42 @@ async function generateServiceAccountToken(email: string, privateKey: string): P
   return data.access_token;
 }
 
-// Helper function to find column index by keywords
+// Helper function to find column index by keywords with improved matching
 function findColumnIndex(headers: string[], keywords: string[]): number {
   console.log(`🔍 Searching for columns with keywords: [${keywords.join(', ')}]`);
+  
+  // First pass: exact keyword matches
   for (let i = 0; i < headers.length; i++) {
-    const header = headers[i].toLowerCase();
+    const header = headers[i].toLowerCase().trim();
     console.log(`🔍 Checking header[${i}]: "${headers[i]}" -> "${header}"`);
-    if (keywords.some(keyword => header.includes(keyword))) {
-      console.log(`✅ Found match at index ${i}: "${headers[i]}" contains one of [${keywords.join(', ')}]`);
-      return i;
+    
+    for (const keyword of keywords) {
+      const keywordLower = keyword.toLowerCase();
+      
+      // Check for exact matches or close matches
+      if (header === keywordLower || 
+          header.includes(keywordLower) || 
+          keywordLower.includes(header)) {
+        console.log(`✅ Found match at index ${i}: "${headers[i]}" matches keyword "${keyword}"`);
+        return i;
+      }
     }
   }
+  
+  // Second pass: more flexible matching (word boundaries)
+  for (let i = 0; i < headers.length; i++) {
+    const header = headers[i].toLowerCase().trim();
+    const headerWords = header.split(/[\s\-_.,()]+/).filter(word => word.length > 0);
+    
+    for (const keyword of keywords) {
+      const keywordLower = keyword.toLowerCase();
+      if (headerWords.some(word => word === keywordLower || word.includes(keywordLower))) {
+        console.log(`✅ Found flexible match at index ${i}: "${headers[i]}" word matches keyword "${keyword}"`);
+        return i;
+      }
+    }
+  }
+  
   console.log(`❌ No match found for keywords: [${keywords.join(', ')}]`);
   return -1;
 }
