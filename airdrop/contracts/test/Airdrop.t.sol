@@ -125,8 +125,8 @@ contract AirdropTest is Test {
         proofHashes[1] = dummyProofHash;
 
         uint256[] memory amounts = new uint256[](2);
-        amounts[0] = 100 * 10 ** 27;
-        amounts[1] = 100 * 10 ** 27;
+        amounts[0] = 150 * 10 ** 27;
+        amounts[1] = 150 * 10 ** 27;
 
         bool[] memory stakes = new bool[](2);
         stakes[0] = true;
@@ -144,7 +144,7 @@ contract AirdropTest is Test {
         assertFalse(hasBeenRewarded);
         assertTrue(isValidProof);
         assertTrue(stake);
-        assertEq(amountGranted, 100 * 10 ** 27);
+        assertEq(amountGranted, 150 * 10 ** 27);
 
         assertEq(airdrop.getEligibleUsersCount(), 2);
         assertEq(airdrop.getEligibleUserByIndex(0), alice);
@@ -176,8 +176,8 @@ contract AirdropTest is Test {
         proofHashes[1] = dummyProofHash;
 
         uint256[] memory amounts = new uint256[](2);
-        amounts[0] = 100 * 10 ** 27;
-        amounts[1] = 100 * 10 ** 27;
+        amounts[0] = 150 * 10 ** 27;
+        amounts[1] = 150 * 10 ** 27;
 
         bool[] memory stakes = new bool[](2);
         stakes[0] = true;
@@ -195,7 +195,7 @@ contract AirdropTest is Test {
         assertFalse(hasBeenRewarded);
         assertFalse(isValidProof);
         assertTrue(stake);
-        assertEq(amountGranted, 100 * 10 ** 27);
+        assertEq(amountGranted, 150 * 10 ** 27);
 
         assertEq(airdrop.getEligibleUsersCount(), 2);
         assertEq(airdrop.getEligibleUserByIndex(0), alice);
@@ -218,7 +218,7 @@ contract AirdropTest is Test {
             proofHashes[i] = dummyProofHash;
             stakes[i] = false;
 
-            amounts[i] = 100 * 10 ** 27;
+            amounts[i] = 150 * 10 ** 27;
         }
 
         vm.expectRevert("maximum number of participants exceeded");

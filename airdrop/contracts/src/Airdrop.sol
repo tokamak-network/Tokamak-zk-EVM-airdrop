@@ -67,7 +67,7 @@ contract Airdrop is Ownable, ReentrancyGuard {
         wton = IERC20(_wton);
         verifier = IVerifier(_verifier);
         depositManagerProxy = IDepositManager(_depositManagerProxy);
-        wton.approve(_depositManagerProxy, 3000 * 10 ** 27);
+        wton.approve(_depositManagerProxy, 4500 * 10 ** 27);
         layer2 = _layer2;
         airdropCompleted = false;
         smax = 512;
@@ -98,7 +98,7 @@ contract Airdrop is Ownable, ReentrancyGuard {
             require(eligibleUsers.length <= MAXIMUM_PARTICIPANTS, "Maximum participants reached");
             require(users[i] != address(0), "Invalid user address");
             require(snsIds[i] != bytes32(0), "Invalid SNS ID");
-            require(amountsGranted[i] <= 100 * 10 ** 27, "max granted amount per user exceeded");
+            require(amountsGranted[i] <= 150 * 10 ** 27, "max granted amount per user exceeded");
 
             // Check if user is already in the list
             require(eligibleUser[users[i]].snsId == bytes32(0), "User already exists");
@@ -236,7 +236,7 @@ contract Airdrop is Ownable, ReentrancyGuard {
             require(!eligibleUser[users[i]].hasBeenRewarded, "User already rewarded");
 
             // Check new amount doesn't exceed maximum
-            require(amountsGranted[i] <= 100 * 10 ** 27, "max granted amount per user reached");
+            require(amountsGranted[i] <= 150 * 10 ** 27, "max granted amount per user reached");
 
             // Update the granted amount
             eligibleUser[users[i]].amountGranted = amountsGranted[i];
