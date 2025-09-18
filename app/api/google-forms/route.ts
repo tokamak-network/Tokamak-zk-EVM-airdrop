@@ -97,12 +97,13 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     const dataRows = rows.slice(1);
     
     // Find column indices for important fields with improved keyword matching
-    const walletAddressIndex = findColumnIndex(headers, ['wallet', 'address', 'ethereum', 'eth', 'rewards', 'recipient']);
+    // Note: More specific keywords first to avoid mismatches
+    const walletAddressIndex = findColumnIndex(headers, ['ethereum wallet', 'wallet address', 'wallet', 'ethereum', 'eth address', 'crypto address', 'rewards']);
+    const emailIndex = findColumnIndex(headers, ['email', 'mail', 'email address', '@']);
     const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp', 'generated', 'attach']);
     const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash', 'block']);
     const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp', 'speed', 'performance']);
     const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified', 'approval', 'result', 'check', 'review', 'confirm']);
-    const emailIndex = findColumnIndex(headers, ['email', 'mail', 'address@', '@']);
     const twitterIndex = findColumnIndex(headers, ['twitter', 'x ', '(twitter)', 'handle', 'social']);
     const telegramIndex = findColumnIndex(headers, ['telegram', 'tg', 'chat']);
     const timestampIndex = 0; // Usually the first column is timestamp
@@ -142,10 +143,10 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
 
     // Helper function to validate required fields are present
     const isValidRow = (row: any[]): boolean => {
-      // Get values using header-based mapping for required fields
-      const walletAddress = walletAddressIndex !== -1 ? row[walletAddressIndex] : row[2]; // Fallback to column 2
-      const zipFileUrl = zipFileIndex !== -1 ? row[zipFileIndex] : row[3]; // Fallback to column 3
-      const timestamp = row[timestampIndex] || row[0]; // Timestamp is usually first column
+      // Always use fixed column positions for validation to ensure we get the right fields
+      const walletAddress = row[2]; // Column 2: "Ethereum wallet address to get rewards"
+      const zipFileUrl = row[3]; // Column 3: "Upload your generated ZKP files"
+      const timestamp = row[0]; // Column 0: "Timestamp"
       
       // Check that required fields are not empty
       const hasWalletAddress = walletAddress && String(walletAddress).trim() !== '';
@@ -154,6 +155,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
       
       return hasWalletAddress && hasZipFile && hasTimestamp;
     };
+
 
     // Process each row with filtering
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -176,10 +178,10 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
         return true;
       })
       .map(({ row, originalIndex }: { row: any; originalIndex: number }) => {
-        // Use header-based mapping with fallbacks to fixed positions
-        const walletAddress = (walletAddressIndex !== -1 ? row[walletAddressIndex] : row[2]) || '';
-        const zipFileUrl = (zipFileIndex !== -1 ? row[zipFileIndex] : row[3]) || '';
-        const timestamp = row[timestampIndex] || row[0] || new Date().toISOString();
+        // Always use fixed column positions to maintain consistency with original structure
+        const walletAddress = row[2] || ''; // Column 2: "Ethereum wallet address to get rewards"
+        const zipFileUrl = row[3] || ''; // Column 3: "Upload your generated ZKP files"
+        const timestamp = row[0] || new Date().toISOString(); // Column 0: "Timestamp"
         
         // Optional fields - use header mapping if available, otherwise try fixed positions
         const emailAddress = (emailIndex !== -1 ? row[emailIndex] : row[1]) || ''; // Email
@@ -318,6 +320,39 @@ async function generateServiceAccountToken(email: string, privateKey: string): P
   
   console.log('✅ Access token obtained successfully');
   return data.access_token;
+}
+
+// Helper function to shorten hardware info
+function shortenHardwareInfo(hardwareInfo: string): string {
+  if (!hardwareInfo || hardwareInfo === 'N/A') return hardwareInfo;
+  
+  // Extract key parts: CPU, cores, RAM, OS
+  const parts = [];
+  
+  // Extract CPU info (first part before comma)
+  const cpuMatch = hardwareInfo.match(/^([^,]+)/);
+  if (cpuMatch) {
+    const cpu = cpuMatch[1].trim();
+    // Simplify CPU name
+    if (cpu.includes('Intel')) parts.push('Intel');
+    else if (cpu.includes('AMD')) parts.push('AMD');
+    else parts.push(cpu.substring(0, 20) + '...');
+  }
+  
+  // Extract cores
+  const coresMatch = hardwareInfo.match(/(\d+)\s*cores?/i);
+  if (coresMatch) parts.push(`${coresMatch[1]}C`);
+  
+  // Extract RAM
+  const ramMatch = hardwareInfo.match(/(\d+)GB\s*RAM/i);
+  if (ramMatch) parts.push(`${ramMatch[1]}GB`);
+  
+  // Extract OS
+  if (hardwareInfo.includes('Windows')) parts.push('Win');
+  else if (hardwareInfo.includes('Linux')) parts.push('Linux');
+  else if (hardwareInfo.includes('Mac')) parts.push('Mac');
+  
+  return parts.length > 0 ? parts.join(', ') : hardwareInfo.substring(0, 30) + '...';
 }
 
 // Helper function to find column index by keywords with improved matching
@@ -476,7 +511,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
                     status: formStatus, // Use form status from Google Sheets, not validation result
                     proveTime: zipData.proveTime || formProveTime,
                     transactionHash: zipData.proofData?.transactionHash || formTransactionHash,
-                    hardwareInfo: zipData.hardwareInfo || 'N/A',
+                    hardwareInfo: shortenHardwareInfo(zipData.hardwareInfo || 'N/A'),
                   };
                   
                   console.log('✅ Using REAL zip data:', zipProcessedData);
@@ -556,7 +591,7 @@ async function processFormSubmission(submission: GoogleFormSubmission) {
       proveTime: zipProcessedData.proveTime,
       submissionTime: submission.timestamp,
       zipFileUrl: submission.zipFileUrl,
-      hardwareInfo: zipProcessedData.hardwareInfo,
+      hardwareInfo: shortenHardwareInfo(zipProcessedData.hardwareInfo),
       proofData: {
         transactionHash: zipProcessedData.transactionHash,
         proofHash: zipProcessedData.hash, // Store proof hash separately
