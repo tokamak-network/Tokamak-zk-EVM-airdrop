@@ -4,4 +4,5 @@ export const LINKS = {
   DISCORD: "https://discord.gg/BgtSfggv",
   SUBMIT_PROOF:
     "https://forms.gle/BocX6o4GZRcmr3fF7",
+  X_ANNOUNCEMENT: "https://x.com/tokamak_network/status/1968136880236662937?s=46",
 };

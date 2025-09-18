@@ -897,7 +897,18 @@ const QuestBoard = () => {
                     <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
                   <li style={{ color: "#4fc3f7" }}>
-                    <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
+                    <span style={{ color: "#ffffff" }}>Repost our{" "}</span>
+                    <span
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        color: "#ffffff"
+                      }}
+                      onClick={() => window.open(LINKS.X_ANNOUNCEMENT, "_blank")}
+                    >
+                      event announcement
+                    </span>{" "}
+                    <span style={{ color: "#ffffff" }}>- </span>
                     <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
                 </ul>
@@ -1177,7 +1188,18 @@ const QuestBoard = () => {
                    <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
                  <li style={{ color: "#4fc3f7" }}>
-                   <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
+                   <span style={{ color: "#ffffff" }}>Repost our{" "}</span>
+                   <span
+                     style={{
+                       cursor: "pointer",
+                       textDecoration: "underline",
+                       color: "#ffffff"
+                     }}
+                     onClick={() => window.open(LINKS.X_ANNOUNCEMENT, "_blank")}
+                   >
+                     event announcement
+                   </span>{" "}
+                   <span style={{ color: "#ffffff" }}>- </span>
                    <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
               </ul>
