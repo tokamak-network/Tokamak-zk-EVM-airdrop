@@ -808,10 +808,6 @@ const QuestBoard = () => {
                     <span style={{ color: "#ffffff" }}>(Twitter) - </span>
                     <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
                   </li>
-                  <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
-                    <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
-                    <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
-                  </li>
                 </ul>
               </div>
             }
@@ -1087,10 +1083,6 @@ const QuestBoard = () => {
                      X
                    </span>{" "}
                    <span style={{ color: "#ffffff" }}>(Twitter) - </span>
-                   <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
-                 </li>
-                 <li style={{ fontWeight: "700", color: "#4fc3f7" }}>
-                   <span style={{ color: "#ffffff" }}>Repost our event announcement - </span>
                    <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
                  </li>
               </ul>

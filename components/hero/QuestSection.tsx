@@ -873,43 +873,48 @@ const QuestBoard = () => {
             title="Social Media Activity*"
             content={
               <div style={{ ...contentStyle, letterSpacing: "-0.7px" }}>
-                <div>Complete required social media tasks: </div>
-                <ul
-                  className="ml-2"
-                  style={{
-                    paddingLeft: "16px",
-                    listStyleType: "disc",
-                  }}
-                >
-                  <li style={{ color: "#4fc3f7" }}>
-                    <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
+                <div style={{ marginBottom: "8px" }}>
+                  Follow or subscribe to <strong>ONE</strong> of our official channels and "Like" the event announcement:
+                </div>
+                <ul style={{ paddingLeft: "16px", listStyleType: "disc", margin: "0" }}>
+                  <li style={{ marginBottom: "4px" }}>
                     <span
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
-                        color: "#ffffff"
+                        color: "#4fc3f7",
+                        fontWeight: "500"
                       }}
                       onClick={() => window.open(LINKS.X)}
                     >
-                      X
-                    </span>{" "}
-                    <span style={{ color: "#ffffff" }}>(Twitter) - </span>
-                    <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
+                      X (Twitter)
+                    </span>
                   </li>
-                  <li style={{ color: "#4fc3f7" }}>
-                    <span style={{ color: "#ffffff" }}>Repost our{" "}</span>
+                  <li style={{ marginBottom: "4px" }}>
                     <span
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
-                        color: "#ffffff"
+                        color: "#4fc3f7",
+                        fontWeight: "500"
                       }}
-                      onClick={() => window.open(LINKS.X_ANNOUNCEMENT, "_blank")}
+                      onClick={() => window.open(LINKS.MEDIUM)}
                     >
-                      event announcement
-                    </span>{" "}
-                    <span style={{ color: "#ffffff" }}>- </span>
-                    <span style={{ color: "#4fc3f7", fontSize: "14px" }}>REQUIRED</span>
+                      Medium
+                    </span>
+                  </li>
+                  <li style={{ marginBottom: "4px" }}>
+                    <span
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        color: "#4fc3f7",
+                        fontWeight: "500"
+                      }}
+                      onClick={() => window.open(LINKS.YOUTUBE)}
+                    >
+                      YouTube
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -1164,44 +1169,49 @@ const QuestBoard = () => {
           title="Social Media Activity*"
           content={
             <div>
-              <div>Complete required social media tasks:</div>
-              <ul
-                className="mt-2 ml-4"
-                style={{
-                  paddingLeft: "16px",
-                  listStyleType: "disc",
-                }}
-              >
-                 <li style={{ color: "#4fc3f7" }}>
-                   <span style={{ color: "#ffffff" }}>Follow Tokamak Network on{" "}</span>
-                   <span
-                     style={{
-                       cursor: "pointer",
-                       textDecoration: "underline",
-                       color: "#ffffff"
-                     }}
-                     onClick={() => window.open(LINKS.X)}
-                   >
-                     X
-                   </span>{" "}
-                   <span style={{ color: "#ffffff" }}>(Twitter) - </span>
-                   <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
-                 </li>
-                 <li style={{ color: "#4fc3f7" }}>
-                   <span style={{ color: "#ffffff" }}>Repost our{" "}</span>
-                   <span
-                     style={{
-                       cursor: "pointer",
-                       textDecoration: "underline",
-                       color: "#ffffff"
-                     }}
-                     onClick={() => window.open(LINKS.X_ANNOUNCEMENT, "_blank")}
-                   >
-                     event announcement
-                   </span>{" "}
-                   <span style={{ color: "#ffffff" }}>- </span>
-                   <span style={{ color: "#4fc3f7", fontSize: "12px" }}>REQUIRED</span>
-                 </li>
+              <div style={{ marginBottom: "6px", fontSize: "14px" }}>
+                Follow or subscribe to <strong>ONE</strong> of our official channels and "Like" the event announcement:
+              </div>
+              <ul style={{ paddingLeft: "16px", listStyleType: "disc", margin: "0", fontSize: "13px" }}>
+                <li style={{ marginBottom: "3px" }}>
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#4fc3f7",
+                      fontWeight: "500"
+                    }}
+                    onClick={() => window.open(LINKS.X)}
+                  >
+                    X (Twitter)
+                  </span>
+                </li>
+                <li style={{ marginBottom: "3px" }}>
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#4fc3f7",
+                      fontWeight: "500"
+                    }}
+                    onClick={() => window.open(LINKS.MEDIUM)}
+                  >
+                    Medium
+                  </span>
+                </li>
+                <li style={{ marginBottom: "3px" }}>
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      color: "#4fc3f7",
+                      fontWeight: "500"
+                    }}
+                    onClick={() => window.open(LINKS.YOUTUBE)}
+                  >
+                    YouTube
+                  </span>
+                </li>
               </ul>
             </div>
           }

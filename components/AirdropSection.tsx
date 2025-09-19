@@ -91,7 +91,7 @@ const AirdropSection: React.FC = () => {
 
           <AirdropCard
             title="커뮤니티 보상"
-            description="소셜 활동으로 토큰 받기"
+            description="공식 채널 팔로우 (X, Medium, YouTube) 및 이벤트 공지 좋아요 누르기"
             amount={2000}
             isEligible={true}
             onClaim={() => handleClaim("community-rewards")}

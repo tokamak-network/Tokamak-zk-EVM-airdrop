@@ -1,5 +1,6 @@
 export const LINKS = {
-  X: "https://x.com/tokamak_network",
+  X: "https://x.com/Tokamak_Network",
+  MEDIUM: "https://medium.com/tokamak-network",
   YOUTUBE: "https://www.youtube.com/@TokamakZKPWorld",
   DISCORD: "https://discord.gg/BgtSfggv",
   SUBMIT_PROOF:
