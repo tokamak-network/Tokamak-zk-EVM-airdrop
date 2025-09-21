@@ -824,7 +824,7 @@ const QuestBoard = () => {
             content={
               <div className="flex flex-col h-[102px] justify-between">
                 <span style={contentStyle}>
-                  Generate a zero-knowledge proof (ZKP) from an Ethereum transaction and submit it through the Playground.
+                  Generate a zero-knowledge proof (ZKP) from an Ethereum transfer transaction and submit it through the Playground.
                 </span>
                 <div className="relative">
                   <Image
@@ -883,7 +883,8 @@ const QuestBoard = () => {
                         cursor: "pointer",
                         textDecoration: "underline",
                         color: "#4fc3f7",
-                        fontWeight: "500"
+                        fontWeight: "600",
+                        fontSize: "16px"
                       }}
                       onClick={() => window.open(LINKS.X)}
                     >
@@ -896,7 +897,8 @@ const QuestBoard = () => {
                         cursor: "pointer",
                         textDecoration: "underline",
                         color: "#4fc3f7",
-                        fontWeight: "500"
+                        fontWeight: "600",
+                        fontSize: "16px"
                       }}
                       onClick={() => window.open(LINKS.MEDIUM)}
                     >
@@ -909,7 +911,8 @@ const QuestBoard = () => {
                         cursor: "pointer",
                         textDecoration: "underline",
                         color: "#4fc3f7",
-                        fontWeight: "500"
+                        fontWeight: "600",
+                        fontSize: "16px"
                       }}
                       onClick={() => window.open(LINKS.YOUTUBE)}
                     >
@@ -1140,7 +1143,7 @@ const QuestBoard = () => {
           content={
             <div className="flex flex-col gap-2">
               <div>
-                Generate a zero-knowledge proof (ZKP) from an Ethereum transaction and submit it through the Playground.
+                Generate a zero-knowledge proof (ZKP) from an Ethereum transfer transaction and submit it through the Playground.
               </div>
               <div className="flex items-start gap-2">
                 <Image
@@ -1172,14 +1175,15 @@ const QuestBoard = () => {
               <div style={{ marginBottom: "6px", fontSize: "14px" }}>
                 Follow or subscribe to <strong>ONE</strong> of our official channels and "Like" the event announcement:
               </div>
-              <ul style={{ paddingLeft: "16px", listStyleType: "disc", margin: "0", fontSize: "13px" }}>
+              <ul style={{ paddingLeft: "16px", listStyleType: "disc", margin: "0" }}>
                 <li style={{ marginBottom: "3px" }}>
                   <span
                     style={{
                       cursor: "pointer",
                       textDecoration: "underline",
                       color: "#4fc3f7",
-                      fontWeight: "500"
+                      fontWeight: "600",
+                      fontSize: "15px"
                     }}
                     onClick={() => window.open(LINKS.X)}
                   >
@@ -1192,7 +1196,8 @@ const QuestBoard = () => {
                       cursor: "pointer",
                       textDecoration: "underline",
                       color: "#4fc3f7",
-                      fontWeight: "500"
+                      fontWeight: "600",
+                      fontSize: "15px"
                     }}
                     onClick={() => window.open(LINKS.MEDIUM)}
                   >
@@ -1205,7 +1210,8 @@ const QuestBoard = () => {
                       cursor: "pointer",
                       textDecoration: "underline",
                       color: "#4fc3f7",
-                      fontWeight: "500"
+                      fontWeight: "600",
+                      fontSize: "15px"
                     }}
                     onClick={() => window.open(LINKS.YOUTUBE)}
                   >
