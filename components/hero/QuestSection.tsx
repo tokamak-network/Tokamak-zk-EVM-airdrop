@@ -418,6 +418,22 @@ const Quest = () => {
                   </div>
                 </div>
               </div>
+              <div className="mt-4">
+                <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Developers:</div>
+                <div className="ml-4">
+                  <div className="mb-2">
+                    Prefer building from source? Follow our{" "}
+                    <span 
+                      className="font-bold cursor-pointer underline"
+                      style={{ color: "#4fc3f7" }}
+                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM/blob/main/docs/Airdrop2025.md", "_blank")}
+                    >
+                      Trustless Participation Guide
+                    </span>
+                    .
+                  </div>
+                </div>
+              </div>
             </div>
           </TableRow>
 
@@ -610,6 +626,22 @@ const Quest = () => {
                       GitHub
                     </span>
                   </span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="font-bold mb-2" style={{ color: "#4fc3f7" }}>For Developers:</div>
+              <div className="ml-2">
+                <div className="mb-2 text-sm">
+                  Prefer building from source? Follow our{" "}
+                  <span 
+                    className="font-bold cursor-pointer underline"
+                    style={{ color: "#4fc3f7" }}
+                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM/blob/main/docs/Airdrop2025.md", "_blank")}
+                  >
+                    Trustless Participation Guide
+                  </span>
+                  .
                 </div>
               </div>
             </div>
