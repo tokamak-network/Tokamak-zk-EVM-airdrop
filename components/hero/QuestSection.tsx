@@ -381,7 +381,7 @@ const Quest = () => {
                     <span 
                       className="font-bold cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
+                      onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
                     >
                       Tokamak zk-EVM Playground for Mac
                     </span>
@@ -390,9 +390,9 @@ const Quest = () => {
                   <span
                     className="cursor-pointer underline"
                     style={{ color: "#4fc3f7" }}
-                    onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
+                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                   >
-                    Google Drive
+                    GitHub
                   </span>
                 </span>
                   </div>
@@ -401,7 +401,7 @@ const Quest = () => {
                     <span 
                       className="font-bold cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
+                      onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
                     >
                       Tokamak zk-EVM Playground for Windows
                     </span>
@@ -410,9 +410,9 @@ const Quest = () => {
                   <span
                     className="cursor-pointer underline"
                     style={{ color: "#4fc3f7" }}
-                    onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
+                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                   >
-                    Google Drive
+                    GitHub
                   </span>
                 </span>
                   </div>
@@ -575,7 +575,7 @@ const Quest = () => {
                   <span 
                     className="font-bold cursor-pointer underline text-sm"
                     style={{ color: "#4fc3f7" }}
-                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
+                    onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
                   >
                     Tokamak zk-EVM Playground for Mac
                   </span>
@@ -584,9 +584,9 @@ const Quest = () => {
                     <span 
                       className="cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://drive.google.com/file/d/1KgsDsg8t4GGdLlEBGtp1F-Q6xTBALIsU/view?usp=drive_link", "_blank")}
+                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-1.0.0-arm64.dmg", "_blank")}
                     >
-                      Google Drive
+                      GitHub
                     </span>
                   </span>
                 </div>
@@ -596,7 +596,7 @@ const Quest = () => {
                   <span 
                     className="font-bold cursor-pointer underline text-sm"
                     style={{ color: "#4fc3f7" }}
-                    onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
+                    onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
                   >
                     Tokamak zk-EVM Playground for Windows
                   </span>
@@ -605,9 +605,9 @@ const Quest = () => {
                     <span 
                       className="cursor-pointer underline"
                       style={{ color: "#4fc3f7" }}
-                      onClick={() => window.open("https://drive.google.com/file/d/1bsf-NwlmusGdDFKXIbShqM4lIXKRBato/view?usp=drive_link", "_blank")}
+                      onClick={() => window.open("https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/download/1.0.0/Tokamak-zk-EVM-playground-win32-x64.7z", "_blank")}
                     >
-                      Google Drive
+                      GitHub
                     </span>
                   </span>
                 </div>
