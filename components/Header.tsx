@@ -5,11 +5,13 @@ import LogoImage from "@/assets/header/logo.svg";
 import Image from "next/image";
 import { isPlaygroundAppSource } from "@/utils/url";
 import { LINKS } from "@/constants";
+import SocialVerificationModal from "./SocialVerificationModal";
 
 
 
 const Navigation = () => {
   const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
+  const [showSocialModal, setShowSocialModal] = useState(false);
 
   useEffect(() => {
     setIsFromPlaygroundApp(isPlaygroundAppSource());
@@ -55,13 +57,19 @@ const Navigation = () => {
 
   const handleButtonClick = () => {
     if (isFromPlaygroundApp) {
-      window.open(LINKS.SUBMIT_PROOF, "_blank");
+      // Show social verification modal first
+      setShowSocialModal(true);
     } else {
       window.open(
         "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
         "_blank"
       );
     }
+  };
+
+  const handleSocialVerificationConfirm = () => {
+    // After social verification, proceed to submit proof
+    window.open(LINKS.SUBMIT_PROOF, "_blank");
   };
 
   return (
@@ -253,6 +261,13 @@ const Navigation = () => {
           FAQ
         </div>
       </div>
+
+      {/* Social Verification Modal */}
+      <SocialVerificationModal
+        isOpen={showSocialModal}
+        onClose={() => setShowSocialModal(false)}
+        onConfirm={handleSocialVerificationConfirm}
+      />
     </>
   );
 };

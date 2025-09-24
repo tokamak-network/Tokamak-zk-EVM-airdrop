@@ -103,7 +103,7 @@ async function fetchGoogleFormSubmissions(): Promise<GoogleFormSubmission[]> {
     const zipFileIndex = findColumnIndex(headers, ['file', 'zip', 'upload', 'proof', 'zkp', 'generated', 'attach']);
     const txHashIndex = findColumnIndex(headers, ['transaction', 'hash', 'tx', 'txhash', 'block']);
     const proveTimeIndex = findColumnIndex(headers, ['time', 'duration', 'prove', 'timestamp', 'speed', 'performance']);
-    const statusIndex = findColumnIndex(headers, ['status', 'state', 'verification', 'verified', 'approval', 'result', 'check', 'review', 'confirm']);
+    const statusIndex = findColumnIndex(headers, ['status', 'Status']);
     const twitterIndex = findColumnIndex(headers, ['twitter', 'x ', '(twitter)', 'handle', 'social']);
     const telegramIndex = findColumnIndex(headers, ['telegram', 'tg', 'chat']);
     const timestampIndex = 0; // Usually the first column is timestamp

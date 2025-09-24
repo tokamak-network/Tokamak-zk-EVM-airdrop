@@ -176,8 +176,12 @@ const ProofCard: React.FC<ExtendedProofCardProps> = ({
               alignItems: "center",
               gap: "10px",
               borderRadius: "4px",
-              border: status === "1" ? "1px solid #66EAFF" : "1px solid #F5A623",
-              background: status === "1" ? "#66EAFF" : "#F5A623",
+              border: status === "1" ? "1px solid #66EAFF" : 
+                     status === "2" ? "1px solid #EF4444" :
+                     status === "3" ? "1px solid #8B5CF6" : "1px solid #F5A623",
+              background: status === "1" ? "#66EAFF" : 
+                         status === "2" ? "#EF4444" :
+                         status === "3" ? "#8B5CF6" : "#F5A623",
               color: "#000",
               fontFamily: "IBM Plex Mono",
               fontSize: "14px",
