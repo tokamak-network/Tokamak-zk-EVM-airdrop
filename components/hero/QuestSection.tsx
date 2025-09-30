@@ -481,10 +481,10 @@ const Quest = () => {
                 <div>
                   Event Period:{" "}
                   <span style={{ fontWeight: "700" }}>
-                    Sep 16 (Mon) – Sep 30 (Mon), 12AM-11:59PM KST
+                    Sep 16 (Mon) – Oct 2 (Wed), 12AM-11:59PM KST
                   </span>
                 </div>
-                <div style={{ marginTop: "8px" }}>Reward Distribution: Oct 3 (Thu)</div>
+                <div style={{ marginTop: "8px" }}>Reward Announcement: Oct 8 (Tue)</div>
               </div>
             </div>
           </TableRow>
@@ -694,13 +694,13 @@ const Quest = () => {
               Event Period:
               <br className="max-500:block hidden" />
               <span style={{ fontWeight: "700" }}>
-                Sep 16 (Mon) – Sep 30 (Mon), 12AM-11:59PM KST
+                Sep 16 (Mon) – Oct 2 (Wed), 12AM-11:59PM KST
               </span>
             </div>
             <div style={{ marginTop: "8px" }}>
-              <span style={{ fontWeight: "700" }}>Reward Distribution:</span>
+              <span style={{ fontWeight: "700" }}>Reward Announcement:</span>
               <br className="max-500:block hidden" />
-              Oct 3 (Thu)
+              Oct 8 (Tue)
             </div>
           </div>
         </MobileCard>
