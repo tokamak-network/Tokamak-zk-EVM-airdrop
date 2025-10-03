@@ -7,8 +7,6 @@ import { isPlaygroundAppSource } from "@/utils/url";
 import { LINKS } from "@/constants";
 import SocialVerificationModal from "./SocialVerificationModal";
 
-
-
 const Navigation = () => {
   const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
   const [showSocialModal, setShowSocialModal] = useState(false);
@@ -132,7 +130,7 @@ const Navigation = () => {
         </div>
 
         {/* Conditional Button */}
-        <button
+        {/* <button
           onClick={handleButtonClick}
           style={{
             display: "flex",
@@ -154,7 +152,7 @@ const Navigation = () => {
           className="hover:shadow-lg hover:shadow-[#4fc3f7]/50 transition-all duration-300"
         >
           {isFromPlaygroundApp ? "Submit Proof" : "Start Now"}
-        </button>
+        </button> */}
       </div>
 
       {/* Mobile Navigation - sticky */}
