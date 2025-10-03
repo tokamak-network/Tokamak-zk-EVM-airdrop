@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import Buttons from "./Buttons";
+// import Buttons from "./Buttons";
 import { HeroCaoursel } from "./HeroCaoursel";
 
-import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
-import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
+// import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
+// import CTA_2_MOBILE from "@/assets/hero/buttons/CTA-2-mobile.svg";
 import ExclamationMark from "@/assets/hero/quest/exclamation.svg";
 import PlusIcon from "@/assets/hero/quest/plus.svg";
 import EqualIcon from "@/assets/hero/quest/equal.svg";
 import { LINKS } from "@/constants";
-import SocialVerificationModal from "../SocialVerificationModal";
+// import SocialVerificationModal from "../SocialVerificationModal";
 
 // 공통 스타일 정의
 const titleStyle = {
@@ -895,48 +895,48 @@ const Quest = () => {
 };
 
 // Submit Proof Button 컴포넌트 - Always shows Submit Proof
-const SubmitProofButton = () => {
-  const [showSocialModal, setShowSocialModal] = useState(false);
+// const SubmitProofButton = () => {
+//   const [showSocialModal, setShowSocialModal] = useState(false);
 
-  const handleSubmitProofClick = () => {
-    setShowSocialModal(true);
-  };
+//   const handleSubmitProofClick = () => {
+//     setShowSocialModal(true);
+//   };
 
-  const handleSocialVerificationConfirm = () => {
-    window.open(LINKS.SUBMIT_PROOF, "_blank");
-  };
+//   const handleSocialVerificationConfirm = () => {
+//     window.open(LINKS.SUBMIT_PROOF, "_blank");
+//   };
 
-  return (
-    <div className="flex items-center justify-center">
-      {/* 데스크탑용 CTA_2 (1360px 이상에서 표시) */}
-      <Image
-        src={CTA_2}
-        alt="Submit Proof"
-        style={{ cursor: "pointer" }}
-        draggable={false}
-        className="hidden desktop:block transition-transform duration-200 hover:scale-125"
-        onClick={handleSubmitProofClick}
-      />
+//   return (
+//     <div className="flex items-center justify-center">
+//       {/* 데스크탑용 CTA_2 (1360px 이상에서 표시) */}
+//       <Image
+//         src={CTA_2}
+//         alt="Submit Proof"
+//         style={{ cursor: "pointer" }}
+//         draggable={false}
+//         className="hidden desktop:block transition-transform duration-200 hover:scale-125"
+//         onClick={handleSubmitProofClick}
+//       />
 
-      {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
-      <Image
-        src={CTA_2_MOBILE}
-        alt="Submit Proof"
-        style={{ cursor: "pointer" }}
-        draggable={false}
-        className="block desktop:hidden transition-transform duration-200 hover:scale-125"
-        onClick={handleSubmitProofClick}
-      />
+//       {/* 모바일용 CTA_2_MOBILE (1359px 이하에서 표시) */}
+//       <Image
+//         src={CTA_2_MOBILE}
+//         alt="Submit Proof"
+//         style={{ cursor: "pointer" }}
+//         draggable={false}
+//         className="block desktop:hidden transition-transform duration-200 hover:scale-125"
+//         onClick={handleSubmitProofClick}
+//       />
 
-      {/* Social Verification Modal */}
-      <SocialVerificationModal
-        isOpen={showSocialModal}
-        onClose={() => setShowSocialModal(false)}
-        onConfirm={handleSocialVerificationConfirm}
-      />
-    </div>
-  );
-};
+//       {/* Social Verification Modal */}
+//       <SocialVerificationModal
+//         isOpen={showSocialModal}
+//         onClose={() => setShowSocialModal(false)}
+//         onConfirm={handleSocialVerificationConfirm}
+//       />
+//     </div>
+//   );
+// };
 
 const QuestBoard = () => {
   return (

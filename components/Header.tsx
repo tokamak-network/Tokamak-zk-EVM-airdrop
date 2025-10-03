@@ -8,7 +8,7 @@ import { LINKS } from "@/constants";
 import SocialVerificationModal from "./SocialVerificationModal";
 
 const Navigation = () => {
-  const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
+  const [, setIsFromPlaygroundApp] = useState(false);
   const [showSocialModal, setShowSocialModal] = useState(false);
 
   useEffect(() => {
@@ -53,17 +53,17 @@ const Navigation = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    if (isFromPlaygroundApp) {
-      // Show social verification modal first
-      setShowSocialModal(true);
-    } else {
-      window.open(
-        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
-        "_blank"
-      );
-    }
-  };
+  // const handleButtonClick = () => {
+  //   if (isFromPlaygroundApp) {
+  //     // Show social verification modal first
+  //     setShowSocialModal(true);
+  //   } else {
+  //     window.open(
+  //       "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
+  //       "_blank"
+  //     );
+  //   }
+  // };
 
   const handleSocialVerificationConfirm = () => {
     // After social verification, proceed to submit proof

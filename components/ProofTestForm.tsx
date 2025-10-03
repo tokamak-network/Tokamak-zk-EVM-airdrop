@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 interface ProofTestFormProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onProofSubmitted?: (_proof: any) => void;
+  onProofSubmitted?: () => void;
 }
 
 const ProofTestForm: React.FC<ProofTestFormProps> = ({
@@ -13,7 +13,7 @@ const ProofTestForm: React.FC<ProofTestFormProps> = ({
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [walletAddress, setWalletAddress] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>(null);
 

@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import QuestSection from "./hero/QuestSection";
-import CTA_1 from "@/assets/hero/buttons/CTA.svg";
-import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
-import CTA_4 from "@/assets/hero/buttons/CTA-4.svg";
+// import CTA_1 from "@/assets/hero/buttons/CTA.svg";
+// import CTA_2 from "@/assets/hero/buttons/CTA-2.svg";
+// import CTA_4 from "@/assets/hero/buttons/CTA-4.svg";
 import { isPlaygroundAppSource } from "@/utils/url";
-import { LINKS } from "@/constants";
+// import { LINKS } from "@/constants";
 
 // Star Component for cosmic background
 const Star = ({
@@ -48,22 +48,22 @@ const Gear = ({
 );
 
 const Overview = () => {
-  const [isFromPlaygroundApp, setIsFromPlaygroundApp] = useState(false);
+  const [, setIsFromPlaygroundApp] = useState(false);
 
   useEffect(() => {
     setIsFromPlaygroundApp(isPlaygroundAppSource());
   }, []);
 
-  const handleButtonClick = () => {
-    if (isFromPlaygroundApp) {
-      window.open(LINKS.SUBMIT_PROOF, "_blank");
-    } else {
-      window.open(
-        "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
-        "_blank"
-      );
-    }
-  };
+  // const handleButtonClick = () => {
+  //   if (isFromPlaygroundApp) {
+  //     window.open(LINKS.SUBMIT_PROOF, "_blank");
+  //   } else {
+  //     window.open(
+  //       "https://github.com/tokamak-network/Tokamak-zk-EVM-playgrounds/releases/tag/1.0.0",
+  //       "_blank"
+  //     );
+  //   }
+  // };
 
   return (
     <div
