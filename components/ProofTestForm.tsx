@@ -42,7 +42,7 @@ const ProofTestForm: React.FC<ProofTestFormProps> = ({
 
       if (data.success) {
         setResult(data.data);
-        onProofSubmitted?.(data.data);
+        // onProofSubmitted?.(data.data);
       } else {
         setResult({ error: data.error });
       }
