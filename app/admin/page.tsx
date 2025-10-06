@@ -47,7 +47,7 @@ interface ProcessedUserData {
 }
 
 // Contract constants
-const AIRDROP_CONTRACT_ADDRESS = "0x7eeF9b56387f27655f316B119B14113aA4eB3b90";
+const AIRDROP_CONTRACT_ADDRESS = "0xcA0e8E30a8f9D83Aa1035A7d0bCa56216a5368f5";
 
 // Airdrop contract ABI in JSON format
 const AIRDROP_ABI = [
@@ -247,8 +247,8 @@ const AdminPage: React.FC = () => {
           throw new Error(`Invalid preprocess_entries_part2 length in ${jsonFileName}: expected 4, got ${userData.preprocess_entries_part2.length}`);
         }
         
-        if (userData.public_inputs.length < 127) {
-          throw new Error(`Invalid public_inputs length in ${jsonFileName}: expected at least 127, got ${userData.public_inputs.length}`);
+        if (userData.public_inputs.length < 63) {
+          throw new Error(`Invalid public_inputs length in ${jsonFileName}: expected at least 63, got ${userData.public_inputs.length}`);
         }
         
         // Helper function to ensure hex format
@@ -827,7 +827,7 @@ Gas Used: ${receipt.gasUsed.toString()}`;
                         lineHeight: "24px",
                       }}
                     >
-                      Upload a ZIP file containing the winners list. The file should include winner addresses or related data.
+                      Upload a ZIP file containing the winners list.
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
