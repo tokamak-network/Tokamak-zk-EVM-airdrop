@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { staticAirdropProofs } from '@/data/staticProofData';
 
 export interface ProofSubmission {
   id: string;
@@ -31,25 +32,18 @@ export function useProofs(): UseProofsReturn {
 
   const fetchProofs = async () => {
     try {
-      console.log('🔄 Starting to fetch proofs...');
+      console.log('🔄 Loading static airdrop proof data...');
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/proofs');
-      console.log('📡 API response status:', response.status);
+      // Simulate a small delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      const data = await response.json();
-      console.log('📊 API response data:', data);
+      console.log('✅ Setting static proofs data:', staticAirdropProofs.length, 'items');
+      setProofs(staticAirdropProofs);
       
-      if (data.success) {
-        console.log('✅ Setting proofs data:', data.data.length, 'items');
-        setProofs(data.data);
-      } else {
-        console.log('❌ API returned error:', data.error);
-        setError(data.error || 'Failed to fetch proofs');
-      }
     } catch (err) {
-      console.error('❌ Fetch error:', err);
+      console.error('❌ Error loading static data:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       console.log('🏁 Setting loading to false');
@@ -60,10 +54,7 @@ export function useProofs(): UseProofsReturn {
   useEffect(() => {
     fetchProofs();
     
-    // Auto-refresh disabled to prevent loading indicators every 30 seconds
-    // Users can manually refresh if needed, or we can add a less intrusive update method
-    // const interval = setInterval(fetchProofs, 30000);
-    // return () => clearInterval(interval);
+    // No auto-refresh needed for static data
   }, []);
 
   return {

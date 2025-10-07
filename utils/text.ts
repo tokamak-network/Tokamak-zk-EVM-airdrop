@@ -22,35 +22,41 @@ export const trimText = (
 };
 
 /**
- * Format proving time from MM:SS:00 to "xx mins and xx secs"
- * @param {string} timeString - Time in MM:SS:00 format (where first part is minutes, second is seconds)
- * @returns {string} Formatted time string
+ * Format proving time from seconds (as string or number) to readable format
+ * @param {string | number} timeInput - Time in seconds (e.g., "455.535819" or 455.535819)
+ * @returns {string} Formatted time string (e.g., "7 mins 35 secs" or "1 hr 10 mins")
  */
-export const formatProvingTime = (timeString: string): string => {
-  if (!timeString || timeString === '00:00:00') {
+export const formatProvingTime = (timeInput: string | number): string => {
+  if (!timeInput || timeInput === '0' || timeInput === 0) {
+    return '0 secs';
+  }
+
+  // Convert to number and round to nearest second
+  const totalSeconds = Math.round(typeof timeInput === 'string' ? parseFloat(timeInput) : timeInput);
+  
+  if (isNaN(totalSeconds) || totalSeconds < 0) {
     return 'N/A';
   }
 
-  // Handle different time formats
-  const timeParts = timeString.split(':');
-  
-  if (timeParts.length === 3) {
-    // MM:SS:00 format (minutes:seconds:ignored)
-    const minutes = parseInt(timeParts[0]);
-    const seconds = parseInt(timeParts[1]);
-    // Third part is ignored (always 00)
-    
-    if (minutes === 0) {
-      return `${seconds} secs`;
-    } else if (seconds === 0) {
-      return `${minutes} mins`;
-    } else {
-      return `${minutes} mins and ${seconds} secs`;
+  // Calculate hours, minutes, and seconds
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  // Format based on duration
+  if (hours > 0) {
+    if (minutes > 0) {
+      return `${hours} hr ${minutes} mins`;
     }
+    return `${hours} hr`;
+  } else if (minutes > 0) {
+    if (seconds > 0) {
+      return `${minutes} mins ${seconds} secs`;
+    }
+    return `${minutes} mins`;
+  } else {
+    return `${seconds} secs`;
   }
-  
-  // If format is unexpected, return as-is
-  return timeString;
 };
 
 /**

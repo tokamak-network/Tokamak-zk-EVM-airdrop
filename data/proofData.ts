@@ -34,8 +34,8 @@ export interface ProofSubmission {
 }
 
 // Event Status - Date-based logic for event period
-export const EVENT_START_DATE = new Date('2025-09-16T00:00:00+09:00'); // September 16, 2025 12:00 AM KST
-export const EVENT_END_DATE = new Date('2025-10-02T23:59:59+09:00');   // October 2, 2025 11:59 PM KST
+export const EVENT_START_DATE = new Date('2024-09-16T00:00:00+09:00'); // September 16, 2024 12:00 AM KST
+export const EVENT_END_DATE = new Date('2026-10-02T23:59:59+09:00');   // October 2, 2026 11:59 PM KST
 
 // Function to check if event is currently live
 export const isEventLive = (): boolean => {
