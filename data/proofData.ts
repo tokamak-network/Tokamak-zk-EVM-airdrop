@@ -55,6 +55,8 @@ export const getStatusDisplay = (status: string): string => {
       return 'Rejected';
     case '3':
       return 'SNS Quest Required';
+    case '4':
+      return 'Rewarded';
   }
   
   // Handle word statuses (from validation API or other sources)
@@ -70,6 +72,8 @@ export const getStatusDisplay = (status: string): string => {
     case 'sns unidentified':
     case 'sns quest unmet':
       return 'SNS Quest Required';
+    case 'rewarded':
+      return 'Rewarded';
     default:
       return 'Pending';
   }

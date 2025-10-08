@@ -1,16 +1,16 @@
 // Static Proof Data for Airdrop Event Dashboard
 // This file contains hardcoded data from the verified airdrop submissions
-// Status: "1" = Verified/Accepted, "2" = Rejected
+// Status: "1" = Verified/Accepted, "2" = Rejected, "4" = Rewarded
 
 import { ProofSubmission } from './proofData';
 
 export const staticAirdropProofs: ProofSubmission[] = [
-  // ACCEPTED SUBMISSIONS (19)
+  // REWARDED SUBMISSIONS (19)
   {
     id: "1",
     submitterAddress: "0xE62651Dfa091FC2E1dFC858Ea71ae8622aeD7146",
     hash: "0x97a4fa5d29152c275fde0d4fafb34cadf70121d03ea98fe1eb1901cfbebce714",
-    status: "1", // Accepted
+    status: "4", // Rewarded
     proveTime: "455.535819", // seconds
     submissionTime: "2025-09-20T14:42:27Z",
     hardwareInfo: "11th Gen Intel Core i7-1195G7",
@@ -23,7 +23,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "2",
     submitterAddress: "0x79dEe95fdd025E1fc9b0D1883d42b6e49939EAEE",
     hash: "0xfefef6ad2c4fe797f7ba664c52fd244b10d48da4f23dfd28ff3e30fc31c321ad",
-    status: "1",
+    status: "4",
     proveTime: "1021.493471",
     submissionTime: "2025-09-22T14:42:27Z",
     hardwareInfo: "Intel Core i7-4600U",
@@ -36,7 +36,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "3",
     submitterAddress: "0x13213c3CEf1b386Be2a6F2E3f51BddD5565ddef6",
     hash: "0x73c060c5b6267b4d77c8a958eb11e4ea47114fe71beec3c1d2eb336f4ab411d2",
-    status: "1",
+    status: "4",
     proveTime: "418.900602",
     submissionTime: "2025-09-23T14:42:27Z",
     hardwareInfo: "Intel Core i7-8650U",
@@ -49,7 +49,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "4",
     submitterAddress: "0x72f65B94129aE07FE69Ec64D54B36BEeFD91f7c7",
     hash: "0x973dea6fd83c58d5f460fb942e06822818203ce4744f1e119005f92395cddf4b",
-    status: "1",
+    status: "4",
     proveTime: "951.317232",
     submissionTime: "2025-09-24T14:42:27Z",
     hardwareInfo: "Intel Core i9-9880H",
@@ -62,7 +62,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "5",
     submitterAddress: "0x29f26577501063E995486A23470DF3A7A4eD20A9",
     hash: "0x4386bf26221c63197cee72ed10292a4adedc88ef633edc838b9e58063c57b5d9",
-    status: "1",
+    status: "4",
     proveTime: "980.081543",
     submissionTime: "2025-09-25T14:42:27Z",
     hardwareInfo: "Intel Core i5-8350U",
@@ -75,7 +75,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "6",
     submitterAddress: "0xc58A03dA7b625ecb2F5dFa351F9Df18e1caA4576",
     hash: "0x7ea151e11638de5ba82f3cf2ec8dae6bb7211b4ac1255bf96d22759a11766fe9",
-    status: "1",
+    status: "4",
     proveTime: "401.167415",
     submissionTime: "2025-09-27T14:42:27Z",
     hardwareInfo: "Intel Core i5-8400",
@@ -88,7 +88,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "7",
     submitterAddress: "0x4F3b6d77D6544aB8c2D3417d6744213E5cb3A835",
     hash: "0xd6ca7b34dcb021cfa772e272d1316c780fa75a0fc3324ec92ddf6a55dd9a227a",
-    status: "1",
+    status: "4",
     proveTime: "200.633361",
     submissionTime: "2025-09-28T14:42:27Z",
     hardwareInfo: "Apple M2 Pro",
@@ -101,7 +101,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "8",
     submitterAddress: "0x6bB4353b050CF2D36461ae2dfA9e4a78C098F736",
     hash: "0x3b8c38f1e41f31966d344a5efa3fa95d5df931bbf5bd0de1bf3384cdc1a95e52",
-    status: "1",
+    status: "4",
     proveTime: "131.142787", // BEST REVIEWER - Fastest time!
     submissionTime: "2025-09-29T14:42:27Z",
     hardwareInfo: "AMD Ryzen 9 5950X",
@@ -114,7 +114,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "9",
     submitterAddress: "0xd4D301251EA9e776eECBeD2e005B1Cd90B343CC8",
     hash: "0x75f9613801431fb1b4945a3055582616bc71a19cc4ff98f0b34ca78b3d24e26a",
-    status: "1",
+    status: "4",
     proveTime: "1576.226264",
     submissionTime: "2025-09-30T14:42:27Z",
     hardwareInfo: "Intel Core i7-8665U",
@@ -127,7 +127,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "10",
     submitterAddress: "0x34514537F00460f571A07470C1Bc884894d029b1",
     hash: "0x454149e256102c18ac7229f9d3bc060d9e234a29a3a326fc7387f63ff0474014",
-    status: "1",
+    status: "4",
     proveTime: "600.26054",
     submissionTime: "2025-10-01T14:42:27Z",
     hardwareInfo: "11th Gen Intel Core i3-1115G4",
@@ -140,7 +140,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "11",
     submitterAddress: "0x3F59C6e71B6Cc7Fd2F9a26d2f87597901c2D8357",
     hash: "0x8ca46dbf95cfbe45a97f9078b85bafd21f13dae69fe78e173e4657477ae00e9a",
-    status: "1",
+    status: "4",
     proveTime: "834.347059",
     submissionTime: "2025-10-04T14:42:27Z",
     hardwareInfo: "Intel Core i7-4600M",
@@ -153,7 +153,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "12",
     submitterAddress: "0x58E66ABF7B8d74fB557E9965a42BE6822c93946A",
     hash: "0x389e27c8654ef9764a8cc861cfa00a3bba2a5b35f0fadeac61b2ed182c07da3a",
-    status: "1",
+    status: "4",
     proveTime: "590.483749",
     submissionTime: "2025-10-05T14:42:27Z",
     hardwareInfo: "Intel Iris Pro Graphics 5200",
@@ -166,7 +166,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "13",
     submitterAddress: "0x10BD35F4B8259c198afd821a332e9b9d6AF03b10",
     hash: "0x31807b41e3019a851ae12e7e058fcdeec2147c6214db698a35ff37c3e9866e93",
-    status: "1",
+    status: "4",
     proveTime: "678.433929",
     submissionTime: "2025-10-06T14:42:27Z",
     hardwareInfo: "Intel Core i5-8350U",
@@ -179,7 +179,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "14",
     submitterAddress: "0x5EF7b0611cb0f0CCE2f2d229c48b55d70FCd311c",
     hash: "0x31807b41e3019a851ae12e7e058fcdeec2147c6214db698a35ff37c3e9866e93",
-    status: "1",
+    status: "4",
     proveTime: "680.003654",
     submissionTime: "2025-10-07T14:42:27Z",
     hardwareInfo: "Intel Core i5-7300U",
@@ -192,7 +192,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "15",
     submitterAddress: "0xaBFd0EC03a316B41B8c52C7E0459930829270052",
     hash: "0x389e27c8654ef9764a8cc861cfa00a3bba2a5b35f0fadeac61b2ed182c07da3a",
-    status: "1",
+    status: "4",
     proveTime: "291.333576",
     submissionTime: "2025-10-10T14:42:27Z",
     hardwareInfo: "Intel Core i5-8600",
@@ -205,7 +205,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "16",
     submitterAddress: "0x7093Ff671F901aF2656187952A20810de92814d9",
     hash: "0x389e27c8654ef9764a8cc861cfa00a3bba2a5b35f0fadeac61b2ed182c07da3a",
-    status: "1",
+    status: "4",
     proveTime: "697.927566",
     submissionTime: "2025-10-11T14:42:27Z",
     hardwareInfo: "Intel Core i7-6600U",
@@ -218,7 +218,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "17",
     submitterAddress: "0x079d261454c3dc8797c4f4494165e7bff8d7be8c",
     hash: "0x616fc212c8989af790f5272e40a37b66fb7d637a16c6a50ba31fde4481de4ae3",
-    status: "1",
+    status: "4",
     proveTime: "436.458549",
     submissionTime: "2025-10-12T14:42:27Z",
     hardwareInfo: "Intel Core i5-7400",
@@ -231,7 +231,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "18",
     submitterAddress: "0x018561D7160611451aF411BdAf2D3744f81e6dF2",
     hash: "0xf88fa3084ff7b3074a0c44670a125c73ec31e663bd2dee60da8f9c652c304159",
-    status: "1",
+    status: "4",
     proveTime: "342.112094",
     submissionTime: "2025-10-13T14:42:27Z",
     hardwareInfo: "Intel Core i5-8600K",
@@ -244,7 +244,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
     id: "19",
     submitterAddress: "0xb6461ff49E73EbacE086C00D449C41b0110A5D32",
     hash: "0xd10d3d9f83544b91c936fb1caa376717f36b28379bd5dbf449cac42982219e57",
-    status: "1",
+    status: "4",
     proveTime: "4227.568098", // Slowest time
     submissionTime: "2025-10-14T14:42:27Z",
     hardwareInfo: "Intel Core i5-4310M",
@@ -390,7 +390,7 @@ export const staticAirdropProofs: ProofSubmission[] = [
 // Summary statistics
 export const airdropStats = {
   totalSubmissions: 29,
-  acceptedSubmissions: 19,
+  rewardedSubmissions: 19,
   rejectedSubmissions: 10,
   completionRate: "65.5%",
   totalRewards: "3,100 TON",
