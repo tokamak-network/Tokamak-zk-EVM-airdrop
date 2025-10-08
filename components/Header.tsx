@@ -70,9 +70,6 @@ const Navigation = () => {
     window.open(LINKS.SUBMIT_PROOF, "_blank");
   };
 
-  const handleAdminClick = () => {
-    window.location.href = "/admin";
-  };
 
   return (
     <>
@@ -129,12 +126,6 @@ const Navigation = () => {
               className="hover:text-[#4fc3f7] hover:scale-110 transition-all duration-300"
             >
               FAQ
-            </span>
-            <span
-              style={{ cursor: "pointer" }}
-              onClick={handleAdminClick}
-            >
-              Admin
             </span>
           </div>
         </div>
@@ -268,29 +259,6 @@ const Navigation = () => {
           onClick={() => scrollToSection("faq")}
         >
           FAQ
-        </div>
-        <div
-          className="flex cursor-pointer"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "8px",
-            flex: "1 0 0",
-            alignSelf: "stretch",
-            background: "#008BEE",
-            color: "#FFF",
-            fontFamily: '"IBM Plex Mono"',
-            fontSize: "20px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "normal",
-            letterSpacing: "-0.11px",
-            padding: "16px 0",
-          }}
-          onClick={handleAdminClick}
-        >
-          Admin
         </div>
       </div>
 
