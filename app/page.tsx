@@ -5,6 +5,7 @@ import VideoSection from "@/components/VideoSection";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import GrabTON from "@/components/GrabTON";
+import TransactionResults from "@/components/TransactionResults";
 
 //test commit2
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="min-h-screen bg-gradient-to-b from-[#0a1930] to-[#1a2347] overflow-x-hidden relative">
         <Hero />
         <VideoSection />
+        <TransactionResults />
         <FAQ />
         <div className="hidden desktop:block">
           <GrabTON />
