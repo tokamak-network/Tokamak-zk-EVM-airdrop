@@ -487,6 +487,132 @@ const FAQ = () => {
                 </div>
               </div>
 
+              {/* Q7 박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "640px",
+                  border: "1px solid #4fc3f7",
+                  background: "#0a1930",
+                }}
+              >
+                {/* 질문 영역 */}
+                <div
+                  style={{
+                    display: "flex",
+                    padding: "16px 24px",
+                    alignItems: "center",
+                    gap: "16px",
+                    alignSelf: "stretch",
+                    borderBottom: "1px solid var(--line, #00477A)",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "20px",
+                    fontStyle: "normal",
+                    fontWeight: 700,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Q7. How do I convert WTON to TON?
+                </div>
+
+                {/* 답변 영역 */}
+                <div
+                  style={{
+                    display: "block",
+                    padding: "16px 24px",
+                    alignSelf: "stretch",
+                    background: "#1e3a8a",
+                    color: "#ffffff",
+                    fontFamily: "IBM Plex Mono",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  You can easily convert between TON and WTON via Etherscan. Here's how:
+                  <br />
+                  <br />
+                  <strong>WTON → TON:</strong>
+                  <br />
+                  1. Visit{" "}
+                  <a
+                    href="https://etherscan.io/address/0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2#writeContract#F7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    swapToTON on Etherscan
+                  </a>
+                  <br />
+                  2. Enter the amount to swap (WTON has 27 decimals)
+                  <br />
+                  Example: 1000000000000000000000000000 = 1 WTON
+                  <br />
+                  <br />
+                  <strong>TON → WTON:</strong>
+                  <br />
+                  1. Visit{" "}
+                  <a
+                    href="https://etherscan.io/address/0x2be5e8c109e2197D077D13A82dAead6a9b3433C5#writeContract#F1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Approve
+                  </a>
+                  {" "}and set spender to 0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2
+                  <br />
+                  2. Visit{" "}
+                  <a
+                    href="https://etherscan.io/address/0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2#writeContract#F6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    swapFromTON
+                  </a>
+                  {" "}and enter amount (TON has 18 decimals)
+                  <br />
+                  Example: 1000000000000000000 = 1 TON
+                  <br />
+                  <br />
+                  For detailed instructions, visit the{" "}
+                  <a
+                    href="https://docs.tokamak.network/home/information/ton-wton"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontWeight: "700",
+                      color: "#4fc3f7",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    official guide
+                  </a>
+                  .
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

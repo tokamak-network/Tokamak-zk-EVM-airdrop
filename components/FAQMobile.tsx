@@ -299,6 +299,90 @@ const FAQMobile = () => {
       answer:
         "Tokamak zk-EVM allows Ethereum transactions to be fully replaced with ZKPs, making it easy for anyone to use without requiring special hardware to generate proofs.\n\nIt's also one of the core technologies for Tokamak Network's upcoming On-demand Rollup Hub. In the near future, you'll be able to easily launch, operate, and close your own app-specific Layer 2 at a low cost.",
     },
+    {
+      question: "Q7. How do I convert WTON to TON?",
+      answer: (
+        <>
+          You can easily convert between TON and WTON via Etherscan. Here's how:
+          <br />
+          <br />
+          <strong>WTON → TON:</strong>
+          <br />
+          1. Visit{" "}
+          <a
+            href="https://etherscan.io/address/0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2#writeContract#F7"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            swapToTON on Etherscan
+          </a>
+          <br />
+          2. Enter the amount to swap (WTON has 27 decimals)
+          <br />
+          Example: 1000000000000000000000000000 = 1 WTON
+          <br />
+          <br />
+          <strong>TON → WTON:</strong>
+          <br />
+          1. Visit{" "}
+          <a
+            href="https://etherscan.io/address/0x2be5e8c109e2197D077D13A82dAead6a9b3433C5#writeContract#F1"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            Approve
+          </a>
+          {" "}and set spender to 0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2
+          <br />
+          2. Visit{" "}
+          <a
+            href="https://etherscan.io/address/0xc4A11aaf6ea915Ed7Ac194161d2fC9384F15bff2#writeContract#F6"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            swapFromTON
+          </a>
+          {" "}and enter amount (TON has 18 decimals)
+          <br />
+          Example: 1000000000000000000 = 1 TON
+          <br />
+          <br />
+          For detailed instructions, visit the{" "}
+          <a
+            href="https://docs.tokamak.network/home/information/ton-wton"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontWeight: "700",
+              color: "#4fc3f7",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            official guide
+          </a>
+          .
+        </>
+      ),
+    },
   ];
 
   const toggleItem = (index: number) => {
