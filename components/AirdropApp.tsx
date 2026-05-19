@@ -182,8 +182,8 @@ export function AirdropApp({
           </div>
           <h1>TON AIRDROP ON TONNEL</h1>
           <p>
-            Submit a valid private-state transaction from a Tonnel participant
-            account to receive TON rewards.
+            Make a valid private-state transfer on Tonnel, submit the
+            transaction hash, and earn 25 TON.
           </p>
         </div>
         <dl className="eventStats">

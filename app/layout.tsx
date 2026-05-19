@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "TON AIRDROP ON TONNEL",
   description:
-    "Submit a valid private-state transaction from a Tonnel participant account to receive TON rewards.",
+    "Make a valid private-state transfer on Tonnel, submit the transaction hash, and earn 25 TON.",
 };
 
 export default function RootLayout({
