@@ -199,18 +199,18 @@ export function AirdropApp({
           <h2 id="how-to-participate">How To Participate</h2>
           <ol>
             <li>
-              Ask your LLM to install the latest version of the NPM package{" "}
+              Ask your AI agents to install the latest version of the NPM package{" "}
               <code>@tokamak-private-dapps/private-state-cli</code>.
             </li>
             <li>
-              Ask your LLM to join the channel <code>{channel}</code>.
+              Ask your AI agents to join the channel <code>{channel}</code>.
             </li>
             <li>
-              Ask your LLM to create one private-state transfer notes
+              Ask your AI agents to create one private-state transfer notes
               transaction in Tonnel.
             </li>
-            <li>Ask your LLM to provide the transaction hash.</li>
-            <li>Ask your LLM to submit the transaction hash with this form.</li>
+            <li>Ask your AI agents to provide the transaction hash.</li>
+            <li>Ask your AI agents to submit the transaction hash with this form.</li>
           </ol>
           <p className="warning">
             Never submit an EOA private key, seed phrase, or RPC secret to this

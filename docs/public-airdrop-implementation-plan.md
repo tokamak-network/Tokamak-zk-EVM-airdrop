@@ -148,11 +148,11 @@ The public page uses one column with four sections in this exact order:
 Explain:
 
 - Event reward and rule.
-- Ask your LLM to install the latest version of the NPM package `@tokamak-private-dapps/private-state-cli`.
-- Ask your LLM to join the channel `the-great-first-channel`.
-- Ask your LLM to create one private-state `transfer notes` transaction in Tonnel.
-- Ask your LLM to provide the transaction hash.
-- Ask your LLM to submit the transaction hash with this form.
+- Ask your AI agents to install the latest version of the NPM package `@tokamak-private-dapps/private-state-cli`.
+- Ask your AI agents to join the channel `the-great-first-channel`.
+- Ask your AI agents to create one private-state `transfer notes` transaction in Tonnel.
+- Ask your AI agents to provide the transaction hash.
+- Ask your AI agents to submit the transaction hash with this form.
 - That private keys must not be submitted to the website.
 - That the transaction submitter must be a channel participant.
 - That valid submissions are unlimited, but duplicate resolved L2 addresses or duplicate transaction hashes are not valid.
