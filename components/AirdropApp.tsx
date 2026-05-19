@@ -21,7 +21,6 @@ type AirdropAppProps = {
   remainingBudgetTon: number;
   rewardTon: number;
   totalBudgetTon: number;
-  initialPanel?: "submit" | "status";
 };
 
 type ApiResult = {
@@ -41,13 +40,12 @@ export function AirdropApp({
   remainingBudgetTon,
   rewardTon,
   totalBudgetTon,
-  initialPanel = "submit",
 }: AirdropAppProps) {
-  const [activePanel, setActivePanel] = useState(initialPanel);
   const [qualifyingTxHash, setQualifyingTxHash] = useState("");
   const [statusQuery, setStatusQuery] = useState("");
   const [application, setApplication] = useState<Application | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLookingUp, setIsLookingUp] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -85,7 +83,8 @@ Use the transaction hash printed by wallet transfer-notes.`;
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
-    setMessage(null);
+    setSubmitMessage(null);
+    setStatusMessage(null);
     setApplication(null);
 
     try {
@@ -104,9 +103,11 @@ Use the transaction hash printed by wallet transfer-notes.`;
 
       setApplication(result.application);
       setStatusQuery(result.application.id);
-      setMessage("Application submitted.");
+      setSubmitMessage("Application submitted.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Submission failed.");
+      setSubmitMessage(
+        error instanceof Error ? error.message : "Submission failed.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +116,8 @@ Use the transaction hash printed by wallet transfer-notes.`;
   async function lookupStatus(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLookingUp(true);
-    setMessage(null);
+    setStatusMessage(null);
+    setSubmitMessage(null);
     setApplication(null);
 
     try {
@@ -130,7 +132,7 @@ Use the transaction hash printed by wallet transfer-notes.`;
 
       setApplication(result.application);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Lookup failed.");
+      setStatusMessage(error instanceof Error ? error.message : "Lookup failed.");
     } finally {
       setIsLookingUp(false);
     }
@@ -197,8 +199,8 @@ Use the transaction hash printed by wallet transfer-notes.`;
       </section>
 
       <section className="workArea" aria-label="Airdrop application">
-        <div className="instructions">
-          <h2>Before submitting</h2>
+        <section className="contentSection" aria-labelledby="how-to-participate">
+          <h2 id="how-to-participate">How To Participate</h2>
           <ol>
             <li>Install the latest Tokamak private-state CLI package.</li>
             <li>
@@ -212,69 +214,70 @@ Use the transaction hash printed by wallet transfer-notes.`;
             Never submit an EOA private key, seed phrase, or RPC secret to this
             site.
           </p>
-        </div>
+        </section>
 
-        <div className="panel">
-          <div className="tabs" role="tablist" aria-label="Airdrop forms">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activePanel === "submit"}
-              className={activePanel === "submit" ? "active" : ""}
-              onClick={() => setActivePanel("submit")}
-            >
-              Submit
+        <section className="contentSection" aria-labelledby="submit">
+          <h2 id="submit">Submit</h2>
+          <form onSubmit={submitApplication} className="formStack">
+            <label>
+              Qualifying transaction hash
+              <input
+                value={qualifyingTxHash}
+                onChange={(event) => setQualifyingTxHash(event.target.value)}
+                placeholder="Transfer notes transaction hash"
+                autoComplete="off"
+                required
+              />
+            </label>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit application"}
             </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activePanel === "status"}
-              className={activePanel === "status" ? "active" : ""}
-              onClick={() => setActivePanel("status")}
-            >
-              Status
+          </form>
+          {submitMessage ? <p className="message">{submitMessage}</p> : null}
+        </section>
+
+        <section className="contentSection" aria-labelledby="status">
+          <h2 id="status">Status</h2>
+          <form onSubmit={lookupStatus} className="formStack">
+            <label>
+              Application ID, transaction hash, or resolved address
+              <input
+                value={statusQuery}
+                onChange={(event) => setStatusQuery(event.target.value)}
+                placeholder="Application ID, address, or tx hash"
+                autoComplete="off"
+                required
+              />
+            </label>
+            <button type="submit" disabled={isLookingUp}>
+              {isLookingUp ? "Checking..." : "Check status"}
             </button>
-          </div>
-
-          {activePanel === "submit" ? (
-            <form onSubmit={submitApplication} className="formStack">
-              <label>
-                Qualifying transaction hash
-                <input
-                  value={qualifyingTxHash}
-                  onChange={(event) =>
-                    setQualifyingTxHash(event.target.value)
-                  }
-                  placeholder="Transfer notes transaction hash"
-                  autoComplete="off"
-                  required
-                />
-              </label>
-              <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit application"}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={lookupStatus} className="formStack">
-              <label>
-                Application ID, transaction hash, or resolved address
-                <input
-                  value={statusQuery}
-                  onChange={(event) => setStatusQuery(event.target.value)}
-                  placeholder="Application ID, address, or tx hash"
-                  autoComplete="off"
-                  required
-                />
-              </label>
-              <button type="submit" disabled={isLookingUp}>
-                {isLookingUp ? "Checking..." : "Check status"}
-              </button>
-            </form>
-          )}
-
-          {message ? <p className="message">{message}</p> : null}
+          </form>
+          {statusMessage ? <p className="message">{statusMessage}</p> : null}
           {application ? <StatusResult application={application} /> : null}
-        </div>
+        </section>
+
+        <section className="contentSection" aria-labelledby="winner-criteria">
+          <h2 id="winner-criteria">Winner Criteria</h2>
+          <ul className="criteriaList">
+            <li>
+              The submitted transaction must be a valid private-state transfer
+              notes transaction in Tonnel.
+            </li>
+            <li>
+              The L1 address that submitted the transaction must be a Tonnel
+              channel participant at the transaction block.
+            </li>
+            <li>
+              The reward is sent to the L2 address registered by that L1 address
+              for the matching participation epoch.
+            </li>
+            <li>
+              A resolved L2 address and a qualifying transaction hash can each
+              receive at most one reward.
+            </li>
+          </ul>
+        </section>
       </section>
 
       <footer className="siteFooter">

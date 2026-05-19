@@ -17,7 +17,6 @@ export default function StatusPage() {
       remainingBudgetTon={remainingBudgetTon}
       rewardTon={config.rewardTon}
       totalBudgetTon={config.totalBudgetTon}
-      initialPanel="status"
     />
   );
 }

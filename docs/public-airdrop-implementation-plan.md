@@ -136,7 +136,14 @@ Idempotency is required. A retry must not create a second payout for the same re
 
 ## Public UI
 
-### Guide Page
+The public page uses one column with four sections in this exact order:
+
+1. `How To Participate`
+2. `Submit`
+3. `Status`
+4. `Winner Criteria`
+
+### How To Participate
 
 Explain:
 
@@ -149,7 +156,7 @@ Explain:
 - That the transaction submitter must be a channel participant.
 - That valid submissions are unlimited, but duplicate resolved L2 addresses or duplicate transaction hashes are not valid.
 
-### Submission Form
+### Submit
 
 Fields:
 
@@ -157,7 +164,7 @@ Fields:
 
 The form should be plain and direct. Client-side validation can help, but the server is authoritative.
 
-### Status Page
+### Status
 
 Allow lookup by transaction hash, resolved address, or application ID and show:
 
@@ -165,6 +172,15 @@ Allow lookup by transaction hash, resolved address, or application ID and show:
 - Rejection or failure reason, if any.
 - Resolved L1 submitter and reward L2 address after verification.
 - Payout transaction hash, if status is `Transferred`.
+
+### Winner Criteria
+
+Explain:
+
+- The submitted transaction must be a valid private-state `transfer notes` transaction in Tonnel.
+- The transaction submitter must be a Tonnel channel participant at the transaction block.
+- The reward goes to the L2 address registered by that L1 address for the matching participation epoch.
+- A resolved L2 address and a qualifying transaction hash can each receive at most one reward.
 
 ## Operator Tools
 
