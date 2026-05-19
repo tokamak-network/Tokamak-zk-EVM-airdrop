@@ -29,6 +29,7 @@ Do not build generalized campaign management, KYC, social verification, manual a
 - Reward: `25 TON`.
 - Claim limit: one successful payout per L2 account.
 - Duplicate prevention: the same L2 address or the same qualifying transaction hash must not receive multiple payouts.
+- Submission status labels: `Pending`, `Transferred`, `Duplication`, `Failed`.
 - No KYC.
 - Multiple L2 accounts controlled by the same person are allowed.
 
@@ -41,7 +42,7 @@ Components:
 - Public pages: event guide, submission form, status lookup.
 - API routes: create submission, get status.
 - Database: one primary table for submissions.
-- Worker script or protected API route: verify pending submissions and pay approved submissions.
+- Worker script or protected API route: verify `Pending` submissions and transfer eligible rewards.
 
 The worker can be run manually at first. A scheduler can be added later only if manual operation becomes inconvenient.
 
@@ -54,17 +55,19 @@ Fields:
 - `id`: internal UUID.
 - `l2_address`: submitted recipient L2 account.
 - `qualifying_tx_hash`: submitted `transfer notes` transaction hash.
-- `status`: `submitted`, `verifying`, `rejected`, `approved`, `paying`, `paid`, `failed`.
-- `reason`: rejection or failure reason.
-- `payout_tx_hash`: reward transaction hash, if paid.
+- `status`: `Pending`, `Transferred`, `Duplication`, `Failed`.
+- `reason`: failure reason for `Duplication` or `Failed`.
+- `payout_tx_hash`: reward transaction hash for `Transferred`.
 - `created_at`, `updated_at`.
 
-Required constraints:
+Status meanings:
 
-- Unique `l2_address`.
-- Unique `qualifying_tx_hash`.
+- `Pending`: default status for a newly submitted application. It also covers applications waiting for verification or payout.
+- `Transferred`: reward transfer succeeded.
+- `Duplication`: application failed because the L2 address or qualifying transaction hash was already submitted.
+- `Failed`: application failed for any non-duplication reason.
 
-These constraints are enough for the first version because the event rule allows duplicate humans but not duplicate L2 accounts or duplicate qualifying transactions.
+Duplicate detection must prevent multiple payouts for the same L2 address or qualifying transaction hash. Duplicate submissions are still stored, but their status is `Duplication` and they are never eligible for payout.
 
 ## Submission Flow
 
@@ -73,8 +76,9 @@ These constraints are enough for the first version because the event rule allows
    - L2 address.
    - Qualifying `transfer notes` transaction hash.
 3. Server validates basic formats.
-4. Server stores the application with status `submitted`.
-5. If the L2 address or transaction hash already exists, the server returns the existing status instead of creating another claim.
+4. Server checks whether the L2 address or transaction hash was already submitted.
+5. Server stores the application with default status `Pending` if it is not duplicated.
+6. Server stores the application with status `Duplication` if it is duplicated.
 
 The website must never ask users to submit private keys.
 
@@ -82,12 +86,13 @@ The website must never ask users to submit private keys.
 
 The verifier checks only the facts needed for eligibility:
 
-1. Load `submitted` applications.
+1. Load `Pending` applications.
 2. Fetch the submitted private-state transaction from the authoritative source.
 3. Confirm it is a `transfer notes` transaction.
 4. Confirm it belongs to `the-great-first-channel`.
 5. Confirm the submitted L2 address is the account that satisfies the event rule.
-6. Mark the application `approved` or `rejected`.
+6. Keep valid applications as `Pending` and pass them to the payout step.
+7. Mark invalid applications as `Failed`.
 
 The exact verification method must be confirmed before implementation:
 
@@ -97,12 +102,11 @@ The exact verification method must be confirmed before implementation:
 
 ## Payout Flow
 
-1. Load `approved` applications.
+1. Handle `Pending` applications that passed verification.
 2. Before sending, recheck that the L2 address has not already been paid.
-3. Mark the row `paying`.
-4. Send `25 TON` as a private-state `transfer notes` reward to the submitted L2 address.
-5. Store `payout_tx_hash` and mark the row `paid`.
-6. If payout fails, mark `failed` with the reason so the operator can retry.
+3. Send `25 TON` as a private-state `transfer notes` reward to the submitted L2 address.
+4. Store `payout_tx_hash` and mark the row `Transferred`.
+5. If payout fails, mark `Failed` with the reason so the operator can inspect it.
 
 Idempotency is required. A retry must not create a second payout for the same L2 address.
 
@@ -136,7 +140,7 @@ Allow lookup by L2 address or application ID and show:
 
 - Current status.
 - Rejection or failure reason, if any.
-- Payout transaction hash, if paid.
+- Payout transaction hash, if status is `Transferred`.
 
 ## Operator Tools
 
@@ -155,9 +159,10 @@ These are not optional because they prevent loss of funds:
 - Never store participant private keys.
 - Keep payout credentials only in server-side secrets.
 - Do not expose payout credentials to browser code.
-- Use database uniqueness for L2 address and qualifying transaction hash.
+- Use duplicate checks and payout idempotency for L2 address and qualifying transaction hash.
 - Do not pay unless verification passed.
 - Do not pay if `payout_tx_hash` already exists for the L2 address.
+- Do not pay `Duplication` or `Failed` applications.
 - Keep a total budget limit in configuration or environment variables.
 - Add a simple payout pause flag.
 
@@ -209,9 +214,10 @@ Implementation should not start until these are answered:
 
 - Users can read instructions, submit a claim, and check status.
 - The server stores each claim.
-- Duplicate L2 addresses cannot create multiple payouts.
-- Duplicate qualifying transactions cannot create multiple payouts.
-- Invalid transactions are rejected.
+- New applications default to `Pending`.
+- Successful payouts are labeled `Transferred`.
+- Duplicate L2 addresses or duplicate qualifying transactions are labeled `Duplication` and cannot create multiple payouts.
+- Invalid transactions or other non-duplicate errors are labeled `Failed`.
 - Valid first claims can receive exactly `25 TON`.
 - Payout retry does not double-pay.
 - The implementation avoids unnecessary admin, campaign, and audit systems.
