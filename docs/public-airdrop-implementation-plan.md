@@ -8,7 +8,7 @@ Tonnel is the public brand name for `the-great-first-channel`, one of the Tokama
 
 The event rewards `25 TON` per valid submission when the operator worker verifies one valid Tokamak private-state `transfer notes` transaction generated in `the-great-first-channel` by an L1 address that was participating in the channel at the transaction block. KYC is not required. Participants submit only the qualifying transaction hash. The operator worker resolves the L1 transaction submitter, finds the L2 address registered by that L1 address for the channel participation epoch containing the transaction, and sends the reward to that resolved L2 address. Duplicate resolved L2 addresses or duplicate qualifying transaction hashes are not valid submissions.
 
-This document is the pre-implementation plan. It intentionally avoids a large admin system, complex event configuration, or extra audit tables unless they become necessary.
+This document is the implementation plan and status tracker. It intentionally avoids a large admin system, complex event configuration, or extra audit tables unless they become necessary.
 
 ## Scope
 
@@ -23,6 +23,33 @@ Build only what is needed for the first public event:
 - A minimal operator-only way to inspect records and rerun failed local worker jobs.
 
 Do not build an always-on server backend worker, generalized campaign management, KYC, social verification, manual approval workflows, or a full admin dashboard in the first version.
+
+## Implementation Status
+
+### Already Implemented
+
+The repository already has these first-version web application pieces:
+
+- Public Tonnel airdrop page with hero content, event summary, participation guide, submission form, status section, winner criteria, and footer documentation copy.
+- Transaction-hash submission flow. Participants no longer submit an L2 address.
+- Application API for creating submissions, listing public applications, and checking individual status.
+- Duplicate transaction-hash handling at submission time. Duplicate transaction hashes are stored with status `Duplication`.
+- SQLite-backed `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
+- Public Status table with pagination and at most 10 rows per page.
+- Basic operator API routes and a command-template worker skeleton.
+
+The current web application is usable for collecting submissions and showing public status, but it is not yet ready for production payouts.
+
+### Remaining Work
+
+The following pieces are still required before the public event can be operated safely:
+
+- Replace the command-template worker skeleton with the planned local macOS worker.
+- Add the `event_state` table and make it the public budget source.
+- Change Remaining budget rendering so it reads `event_state.remaining_budget_ton` instead of calculating from `Transferred` rows.
+- Add latest-CLI setup, RPC verification, participation lookup, adaptive note selection, CLI payout, and reward-wallet budget sync.
+- Add macOS `launchd` install and uninstall scripts for twice-daily worker execution.
+- Add worker tests or dry-run checks for duplicate submission, invalid transaction, valid verification, payout retry, unsupported note selection, insufficient notes, and budget sync.
 
 ## Event Rules
 
@@ -55,9 +82,9 @@ The public app and local worker must point at the same database. If the public a
 
 ## Minimal Data Model
 
-Start with two tables: `applications` and `event_state`.
+Use two tables: `applications` and `event_state`.
 
-`applications` fields:
+`applications` is already implemented as the primary submission table. The final local-worker version should contain these fields:
 
 - `id`: internal UUID.
 - `qualifying_tx_hash`: submitted `transfer notes` transaction hash.
@@ -67,10 +94,10 @@ Start with two tables: `applications` and `event_state`.
 - `reason`: failure reason for `Duplication` or `Failed`.
 - `payout_tx_hash`: reward transaction hash for `Transferred`.
 - `verified_at`: timestamp when RPC verification succeeded.
-- `transferred_at`: timestamp when CLI payout succeeded.
+- `transferred_at`: timestamp when CLI payout succeeded. This field is still pending if the implementation keeps the current schema.
 - `created_at`, `updated_at`.
 
-`event_state` fields:
+`event_state` is not implemented yet. It should contain these fields:
 
 - `id`: fixed singleton key, for example `tonnel-airdrop`.
 - `remaining_budget_ton`: remaining reward notes measured from the reward wallet by `private-state-cli wallet get-notes`.
@@ -366,7 +393,7 @@ Controls that would change the rule and require explicit approval:
 - Manual approval.
 - Social account verification.
 
-## Implementation Steps
+## Remaining Implementation Steps
 
 1. Add `event_state` migration and data access functions.
 2. Change public budget rendering to read `event_state.remaining_budget_ton`.
