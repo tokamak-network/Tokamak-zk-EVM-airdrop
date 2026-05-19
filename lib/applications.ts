@@ -12,6 +12,7 @@ export type Application = {
   reason: string | null;
   payoutTxHash: string | null;
   verifiedAt: string | null;
+  transferredAt: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -26,6 +27,7 @@ type ApplicationRow = {
   reason: string | null;
   payout_tx_hash: string | null;
   verified_at: string | null;
+  transferred_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -196,6 +198,7 @@ export function markTransferred(id: string, payoutTxHash: string): void {
   updateApplication(id, {
     status: "Transferred",
     payout_tx_hash: payoutTxHash,
+    transferred_at: new Date().toISOString(),
     reason: null,
   });
 }
@@ -237,6 +240,7 @@ function updateApplication(
     reason: string | null;
     payout_tx_hash: string;
     verified_at: string;
+    transferred_at: string;
     resolved_l1_address: string;
     resolved_l2_address: string;
   }>,
@@ -301,6 +305,7 @@ function mapApplication(row: ApplicationRow): Application {
     reason: row.reason,
     payoutTxHash: row.payout_tx_hash,
     verifiedAt: row.verified_at,
+    transferredAt: row.transferred_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

@@ -1,5 +1,3 @@
-import { getConfig } from "@/lib/config";
-import { runJsonCommand } from "@/lib/commands";
 import {
   countTransferredApplications,
   getPendingForVerification,
@@ -10,21 +8,21 @@ import {
   markTransferred,
   markVerified,
 } from "@/lib/applications";
-
-type VerificationOutput = {
-  valid: boolean;
-  reason?: string;
-  l1Submitter?: string;
-  l1Address?: string;
-  resolvedL1Address?: string;
-  l2Address?: string;
-  resolvedL2Address?: string;
-};
-
-type PayoutOutput = {
-  txHash?: string;
-  payoutTxHash?: string;
-};
+import { getConfig } from "@/lib/config";
+import { markWorkerRun, upsertBudgetSync } from "@/lib/event-state";
+import {
+  getRewardWalletL2Address,
+  getWalletNotes,
+  preparePrivateStateCli,
+  resolveRewardWalletName,
+  transferNotes,
+} from "@/lib/private-state-cli";
+import {
+  parseUnusedRewardNotes,
+  selectRewardNotes,
+  sumRewardNotes,
+} from "@/lib/reward-notes";
+import { verifySubmittedTransaction } from "@/lib/rpc-verifier";
 
 export type WorkerSummary = {
   verified: number;
@@ -32,6 +30,7 @@ export type WorkerSummary = {
   duplicated: number;
   failed: number;
   skippedPayouts: number;
+  remainingBudgetTon: number | null;
 };
 
 export async function runAirdropWorker(): Promise<WorkerSummary> {
@@ -41,46 +40,50 @@ export async function runAirdropWorker(): Promise<WorkerSummary> {
     duplicated: 0,
     failed: 0,
     skippedPayouts: 0,
+    remainingBudgetTon: null,
   };
 
-  await verifyPendingApplications(summary);
-  await payoutVerifiedApplications(summary);
+  try {
+    await runWorkerSteps(summary);
+    markWorkerRun(null);
+    return summary;
+  } catch (error) {
+    markWorkerRun(getErrorMessage(error));
+    throw error;
+  }
+}
 
-  return summary;
+async function runWorkerSteps(summary: WorkerSummary): Promise<void> {
+  const config = getConfig();
+
+  await preparePrivateStateCli(config);
+  await verifyPendingApplications(summary);
+
+  const rewardWallet = await resolveRewardWalletName(config);
+  await syncBudget(summary, rewardWallet);
+  await payoutVerifiedApplications(summary, rewardWallet);
+  await syncBudget(summary, rewardWallet);
 }
 
 async function verifyPendingApplications(summary: WorkerSummary): Promise<void> {
   const config = getConfig();
 
-  if (!config.verifyCommand) {
-    throw new Error("PRIVATE_STATE_VERIFY_COMMAND is not configured.");
-  }
-
   for (const application of getPendingForVerification()) {
     try {
-      const result = await runJsonCommand<VerificationOutput>(
-        config.verifyCommand,
-        {
-          channel: config.channel,
-          txHash: application.qualifyingTxHash,
-        },
+      const result = await verifySubmittedTransaction(
+        config,
+        application.qualifyingTxHash,
       );
 
       if (result.valid) {
-        const resolvedL1Address =
-          result.resolvedL1Address ?? result.l1Submitter ?? result.l1Address;
-        const resolvedL2Address = result.resolvedL2Address ?? result.l2Address;
-
-        if (!resolvedL1Address || !resolvedL2Address) {
-          throw new Error(
-            "Verification command must return resolvedL1Address and resolvedL2Address.",
-          );
-        }
-
-        markVerified(application.id, resolvedL1Address, resolvedL2Address);
+        markVerified(
+          application.id,
+          result.resolvedL1Address,
+          result.resolvedL2Address,
+        );
         summary.verified += 1;
       } else {
-        markFailed(application.id, result.reason ?? "Verification failed.");
+        markFailed(application.id, result.reason);
         summary.failed += 1;
       }
     } catch (error) {
@@ -90,16 +93,15 @@ async function verifyPendingApplications(summary: WorkerSummary): Promise<void> 
   }
 }
 
-async function payoutVerifiedApplications(summary: WorkerSummary): Promise<void> {
+async function payoutVerifiedApplications(
+  summary: WorkerSummary,
+  rewardWallet: string,
+): Promise<void> {
   const config = getConfig();
 
   if (config.payoutsPaused) {
     summary.skippedPayouts += getVerifiedPendingForPayout().length;
     return;
-  }
-
-  if (!config.payoutCommand) {
-    throw new Error("PRIVATE_STATE_PAYOUT_COMMAND is not configured.");
   }
 
   for (const application of getVerifiedPendingForPayout()) {
@@ -118,30 +120,36 @@ async function payoutVerifiedApplications(summary: WorkerSummary): Promise<void>
       continue;
     }
 
-    const paidTon = countTransferredApplications() * config.rewardTon;
-
-    if (paidTon + config.rewardTon > config.totalBudgetTon) {
-      markFailed(application.id, "Airdrop budget exhausted.");
-      summary.failed += 1;
-      continue;
-    }
-
     try {
-      const result = await runJsonCommand<PayoutOutput>(config.payoutCommand, {
-        amountTon: config.rewardTon,
-        channel: config.channel,
-        l1Address: application.resolvedL1Address ?? "",
-        l2Address: application.resolvedL2Address,
-        txHash: application.qualifyingTxHash,
-      });
-      const payoutTxHash = result.txHash ?? result.payoutTxHash;
+      const notesOutput = await getWalletNotes(config, rewardWallet);
+      const notes = parseUnusedRewardNotes(notesOutput);
 
-      if (!payoutTxHash) {
-        throw new Error("Payout command did not return txHash.");
+      if (sumRewardNotes(notes) < config.rewardTon) {
+        markFailed(application.id, "Reward wallet has less than 25 TON in unused notes.");
+        summary.failed += 1;
+        continue;
       }
+
+      const rewardWalletL2Address = needsChangeAddress(notes, config.rewardTon)
+        ? await getRewardWalletL2Address(config, rewardWallet)
+        : application.resolvedL2Address;
+      const selection = selectRewardNotes(
+        notes,
+        config.rewardTon,
+        application.resolvedL2Address,
+        rewardWalletL2Address,
+      );
+      const payoutTxHash = await transferNotes(
+        config,
+        rewardWallet,
+        selection.noteIds,
+        selection.recipients,
+        selection.amounts,
+      );
 
       markTransferred(application.id, payoutTxHash);
       summary.transferred += 1;
+      await syncBudget(summary, rewardWallet);
     } catch (error) {
       markFailed(application.id, getErrorMessage(error));
       summary.failed += 1;
@@ -149,6 +157,41 @@ async function payoutVerifiedApplications(summary: WorkerSummary): Promise<void>
   }
 }
 
+async function syncBudget(
+  summary: WorkerSummary,
+  rewardWallet: string,
+): Promise<void> {
+  const config = getConfig();
+  const notesOutput = await getWalletNotes(config, rewardWallet);
+  const notes = parseUnusedRewardNotes(notesOutput);
+  const remainingBudgetTon = sumRewardNotes(notes);
+  const transferredCount = countTransferredApplications();
+  const expectedSpentTon = transferredCount * config.rewardTon;
+
+  upsertBudgetSync({
+    remainingBudgetTon,
+    rewardWalletUnusedNoteCount: notes.length,
+    transferredCount,
+    expectedSpentTon,
+    budgetDiscrepancyTon: null,
+  });
+
+  summary.remainingBudgetTon = remainingBudgetTon;
+}
+
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Unknown error.";
+}
+
+function needsChangeAddress(
+  notes: Array<{ valueTon: number }>,
+  rewardTon: number,
+): boolean {
+  const hasExact = notes.some((note) => note.valueTon === rewardTon);
+
+  if (hasExact) {
+    return false;
+  }
+
+  return notes.some((note) => note.valueTon > rewardTon);
 }

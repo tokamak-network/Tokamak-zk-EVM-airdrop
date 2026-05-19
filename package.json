@@ -8,9 +8,12 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "worker": "tsx scripts/worker.ts",
-    "db:init": "tsx scripts/init-db.ts"
+    "db:init": "tsx scripts/init-db.ts",
+    "worker:install-launchd": "bash scripts/install-launch-agent.sh",
+    "worker:uninstall-launchd": "bash scripts/uninstall-launch-agent.sh"
   },
   "dependencies": {
+    "ethers": "^6.16.0",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"

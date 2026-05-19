@@ -35,21 +35,23 @@ The repository already has these first-version web application pieces:
 - Application API for creating submissions, listing public applications, and checking individual status.
 - Duplicate transaction-hash handling at submission time. Duplicate transaction hashes are stored with status `Duplication`.
 - SQLite-backed `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
+- `event_state` table for reward-wallet budget sync and worker status.
 - Public Status table with pagination and at most 10 rows per page.
-- Basic operator API routes and a command-template worker skeleton.
+- Local macOS worker entrypoint for latest CLI setup, RPC verification, note selection, payout, and reward-wallet budget sync.
+- macOS `launchd` install and uninstall scripts for twice-daily execution at 09:00 and 21:00 local time.
+- Public server payout execution disabled. Payout execution is local-only through `npm run worker`.
 
-The current web application is usable for collecting submissions and showing public status, but it is not yet ready for production payouts.
+The current web application is usable for collecting submissions and showing public status. Production payout operation still requires real operator configuration and live mainnet dry-run validation before funds are used.
 
 ### Remaining Work
 
 The following pieces are still required before the public event can be operated safely:
 
-- Replace the command-template worker skeleton with the planned local macOS worker.
-- Add the `event_state` table and make it the public budget source.
-- Change Remaining budget rendering so it reads `event_state.remaining_budget_ton` instead of calculating from `Transferred` rows.
-- Add latest-CLI setup, RPC verification, participation lookup, adaptive note selection, CLI payout, and reward-wallet budget sync.
-- Add macOS `launchd` install and uninstall scripts for twice-daily worker execution.
-- Add worker tests or dry-run checks for duplicate submission, invalid transaction, valid verification, payout retry, unsupported note selection, insufficient notes, and budget sync.
+- Configure the production database path shared by the deployed public app and the operator MacBook worker.
+- Configure `AIRDROP_RPC_URL` and, when needed, provider scan limits.
+- Confirm the reward wallet name, or rely on the implemented deterministic derivation from `account2` and `the-great-first-channel`.
+- Run live dry-run validation for duplicate submission, invalid transaction, valid verification, payout retry, unsupported note selection, insufficient notes, and budget sync.
+- Add a `2->2` note-selection path later if the CLI adds support for it.
 
 ## Event Rules
 
@@ -94,10 +96,10 @@ Use two tables: `applications` and `event_state`.
 - `reason`: failure reason for `Duplication` or `Failed`.
 - `payout_tx_hash`: reward transaction hash for `Transferred`.
 - `verified_at`: timestamp when RPC verification succeeded.
-- `transferred_at`: timestamp when CLI payout succeeded. This field is still pending if the implementation keeps the current schema.
+- `transferred_at`: timestamp when CLI payout succeeded.
 - `created_at`, `updated_at`.
 
-`event_state` is not implemented yet. It should contain these fields:
+`event_state` is implemented as the budget and worker-state table. It contains these fields:
 
 - `id`: fixed singleton key, for example `tonnel-airdrop`.
 - `remaining_budget_ton`: remaining reward notes measured from the reward wallet by `private-state-cli wallet get-notes`.
@@ -393,48 +395,15 @@ Controls that would change the rule and require explicit approval:
 - Manual approval.
 - Social account verification.
 
-## Remaining Implementation Steps
+## Remaining Production Checklist
 
-1. Add `event_state` migration and data access functions.
-2. Change public budget rendering to read `event_state.remaining_budget_ton`.
-3. Add local worker configuration for `mainnet`, `the-great-first-channel`, `account2`, `~/user-secrets/account2.key`, reward wallet, RPC URL, and DB path.
-4. Add CLI setup helpers:
-   - update global CLI to latest;
-   - run `private-state-cli install`;
-   - run `private-state-cli set rpc`;
-   - import `account2` when missing.
-5. Add RPC verification helpers:
-   - load ABI and deployment artifacts from `~/tokamak-private-channels/dapps/private-state/chain-id-1`;
-   - fetch submitted transaction and receipt;
-   - decode `executeChannelTransaction`;
-   - confirm transfer-notes function metadata;
-   - reconstruct channel participation epochs from registration and exit logs;
-   - resolve the matching L2 address.
-6. Add reward note sync:
-   - run `wallet get-notes --json`;
-   - parse unused notes and note balance;
-   - update `event_state`.
-7. Add adaptive reward note selection:
-   - exact `25 TON` note first;
-   - smallest single larger note with change second;
-   - exact two-note sum third;
-   - unsupported selections fail explicitly.
-8. Add payout execution with `wallet transfer-notes --acknowledge-action-impact --tx-submitter account2 --json`.
-9. Add idempotency checks immediately before payout.
-10. Add local worker summary logging.
-11. Add macOS `launchd` install and uninstall scripts.
-12. Test duplicate submission, invalid transaction, valid transaction, payout success, payout retry, insufficient notes, and budget sync.
-13. Commit all repository changes.
-
-## Decisions Required Before Coding
-
-Implementation should not start until these are answered:
+Implementation is now present. Production operation should not start until these are completed:
 
 - How will the operator MacBook worker access the same production database used by the public application?
-- What is the exact reward wallet name, or should the implementation derive it from `account2` and `the-great-first-channel`?
-- Where should worker logs be written on the operator MacBook?
-- What two local times should `launchd` use for the twice-daily worker runs?
-- Should the worker mark payout failures as `Failed` immediately, or leave them `Pending` with a retry reason when the failure is operational, such as temporary RPC outage or stale CLI workspace?
+- Confirm whether the derived reward wallet name is correct, or set `AIRDROP_REWARD_WALLET` explicitly.
+- Confirm `logs/worker.stdout.log` and `logs/worker.stderr.log` are acceptable local log paths.
+- Confirm 09:00 and 21:00 local macOS time are acceptable for the twice-daily worker runs.
+- Decide whether operational payout failures should remain `Failed`, as implemented, or whether a later retry-specific status should be added.
 - Should a `2->2` note-selection path be added later if the CLI adds support for it?
 
 ## Acceptance Criteria

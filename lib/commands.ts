@@ -26,6 +26,42 @@ export async function runJsonCommand<T>(
   return JSON.parse(output) as T;
 }
 
+export type CommandRunOptions = {
+  env?: NodeJS.ProcessEnv;
+  timeoutMs?: number;
+};
+
+export async function runCommand(
+  command: string,
+  args: string[],
+  options: CommandRunOptions = {},
+): Promise<string> {
+  const { stdout } = await execFileAsync(command, args, {
+    env: options.env,
+    timeout: options.timeoutMs ?? 120_000,
+    maxBuffer: 20 * 1024 * 1024,
+  });
+
+  return stdout.trim();
+}
+
+export async function runCliJson<T>(
+  args: string[],
+  options: CommandRunOptions = {},
+): Promise<T> {
+  const stdout = await runCommand(
+    "private-state-cli",
+    [...args, "--json"],
+    options,
+  );
+
+  if (!stdout) {
+    throw new Error(`private-state-cli ${args.join(" ")} returned empty stdout.`);
+  }
+
+  return JSON.parse(stdout) as T;
+}
+
 function applyTemplate(value: string, context: CommandContext): string {
   return value.replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key: string) => {
     const replacement = context[key];

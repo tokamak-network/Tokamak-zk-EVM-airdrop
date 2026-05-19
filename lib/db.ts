@@ -31,6 +31,7 @@ export function migrate(db = getDb()): void {
       reason TEXT,
       payout_tx_hash TEXT,
       verified_at TEXT,
+      transferred_at TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
@@ -47,6 +48,7 @@ export function migrate(db = getDb()): void {
 
   addColumnIfMissing(db, "applications", "resolved_l1_address", "TEXT");
   addColumnIfMissing(db, "applications", "resolved_l2_address", "TEXT");
+  addColumnIfMissing(db, "applications", "transferred_at", "TEXT");
 
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address
@@ -54,6 +56,20 @@ export function migrate(db = getDb()): void {
 
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l2_address
       ON applications (resolved_l2_address);
+
+    CREATE TABLE IF NOT EXISTS event_state (
+      id TEXT PRIMARY KEY,
+      remaining_budget_ton REAL,
+      reward_wallet_unused_note_count INTEGER NOT NULL DEFAULT 0,
+      reward_wallet_unused_note_balance_ton REAL,
+      transferred_count INTEGER NOT NULL DEFAULT 0,
+      expected_spent_ton REAL NOT NULL DEFAULT 0,
+      budget_discrepancy_ton REAL,
+      last_budget_sync_at TEXT,
+      last_worker_run_at TEXT,
+      last_worker_error TEXT,
+      updated_at TEXT NOT NULL
+    );
   `);
 }
 

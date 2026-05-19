@@ -12,6 +12,7 @@ type Application = {
   status: ApplicationStatus;
   reason: string | null;
   payoutTxHash: string | null;
+  transferredAt: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -20,7 +21,7 @@ type AirdropAppProps = {
   channel: string;
   initialApplications: Application[];
   initialApplicationTotal: number;
-  remainingBudgetTon: number;
+  remainingBudgetTon: number | null;
   rewardTon: number;
   totalBudgetTon: number;
 };
@@ -206,7 +207,11 @@ export function AirdropApp({
           <div>
             <dt>Remaining</dt>
             <dd>
-              <span className="metricValue">{remainingBudgetTon} TON</span>
+              <span className="metricValue">
+                {remainingBudgetTon === null
+                  ? "Sync pending"
+                  : `${remainingBudgetTon} TON`}
+              </span>
             </dd>
           </div>
         </dl>
