@@ -125,15 +125,22 @@ private-state-cli address`;
         <dl className="eventStats">
           <div>
             <dt>Reward</dt>
-            <dd>{rewardTon} TON per valid submission</dd>
+            <dd>
+              <span className="metricValue">{rewardTon} TON</span>
+              <span className="metricNote">per valid submission</span>
+            </dd>
           </div>
           <div>
             <dt>Budget cap</dt>
-            <dd>{totalBudgetTon} TON</dd>
+            <dd>
+              <span className="metricValue">{totalBudgetTon} TON</span>
+            </dd>
           </div>
           <div>
             <dt>Remaining</dt>
-            <dd>{remainingBudgetTon} TON</dd>
+            <dd>
+              <span className="metricValue">{remainingBudgetTon} TON</span>
+            </dd>
           </div>
         </dl>
       </section>
