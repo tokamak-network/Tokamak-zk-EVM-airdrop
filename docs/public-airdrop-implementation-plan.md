@@ -180,7 +180,8 @@ Explain:
 - Submit the transaction hash from a real private-state `transfer notes` transaction made in Tonnel.
 - The Ethereum wallet address that sent that transaction must have been joined to Tonnel when the transaction happened.
 - The reward goes to the Tonnel channel address (L2 address) that was registered to that Ethereum wallet address at that time.
-- Each Tonnel channel address and each transaction hash can be used for only one reward.
+- A Tonnel channel address can receive only one reward. A transaction hash can also be used only once.
+- A second transaction from the same Tonnel channel address will not receive another reward. The same transaction hash will not receive another reward, even if it is submitted with a different Tonnel channel address.
 
 ## Operator Tools
 

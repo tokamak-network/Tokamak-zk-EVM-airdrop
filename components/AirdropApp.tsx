@@ -273,8 +273,14 @@ Use the transaction hash printed by wallet transfer-notes.`;
               that was registered to that Ethereum wallet address at that time.
             </li>
             <li>
-              Each Tonnel channel address and each transaction hash can be used
-              for only one reward.
+              A Tonnel channel address can receive only one reward. A
+              transaction hash can also be used only once.
+            </li>
+            <li>
+              A second transaction from the same Tonnel channel address will not
+              receive another reward. The same transaction hash will not receive
+              another reward, even if it is submitted with a different Tonnel
+              channel address.
             </li>
           </ul>
         </section>
