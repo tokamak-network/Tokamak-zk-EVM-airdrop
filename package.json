@@ -1,43 +1,28 @@
 {
-  "name": "tokamak-zk-evm-airdrop",
+  "name": "tokamak-private-state-airdrop",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "figma:sync": "node scripts/figma-to-tailwind.js $FIGMA_TOKEN $FIGMA_FILE_KEY",
-    "figma:setup": "node scripts/setup-figma-sync.js",
-    "figma:watch": "node scripts/figma-watch.js",
-    "setup:env": "node scripts/setup-env.js",
-    "validate:env": "node scripts/validate-env.js",
-    "validate:proof": "node scripts/validate-proof-cli.js",
-    "test:apis": "node scripts/test-all-apis.js"
+    "typecheck": "tsc --noEmit",
+    "worker": "tsx scripts/worker.ts",
+    "db:init": "tsx scripts/init-db.ts"
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^9.0.10",
-    "dotenv": "^17.2.2",
-    "ethers": "^6.15.0",
-    "form-data": "^4.0.4",
-    "jsonwebtoken": "^9.0.2",
-    "jszip": "^3.10.1",
-    "next": "^15.3.5",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "typescript": "^5.8.3"
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@types/jszip": "^3.4.1",
-    "@types/node": "^24.0.10",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "autoprefixer": "^10.4.21",
-    "chokidar": "^3.5.0",
-    "create-tokamak-zk-evm": "^1.0.11",
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "postcss": "8.5.10"
   }
 }

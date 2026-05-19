@@ -1,52 +1,19 @@
-import React from "react";
 import type { Metadata } from "next";
-import { IBM_Plex_Mono } from "next/font/google";
-import { Jersey_10 } from "next/font/google";
 import "./globals.css";
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-  variable: "--font-ibm-plex-mono",
-});
-
-const jersey10 = Jersey_10({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-jersey-10",
-});
-
 export const metadata: Metadata = {
-  title: "Tokamak ZK-EVM Airdrop",
-  description:
-    "Participate in the Tokamak ZK-EVM airdrop event and claim your tokens",
-  keywords: ["Tokamak", "ZK-EVM", "Airdrop", "Blockchain", "Ethereum"],
-  authors: [{ name: "Tokamak Network" }],
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
+  title: "Tokamak Private-State Airdrop",
+  description: "Submit a qualifying private-state transfer and track payout status.",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
-      <head></head>
-      <body
-        className={`${ibmPlexMono.variable} ${jersey10.variable} bg-gradient-to-b from-[#0a1930] to-[#1a2347] text-white antialiased`}
-      >
-        <div className="min-h-screen">{children}</div>
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }

@@ -3,7 +3,7 @@ import { getConfig } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default function StatusPage() {
   const config = getConfig();
 
   return (
@@ -11,6 +11,7 @@ export default function HomePage() {
       channel={config.channel}
       rewardTon={config.rewardTon}
       totalBudgetTon={config.totalBudgetTon}
+      initialPanel="status"
     />
   );
 }
