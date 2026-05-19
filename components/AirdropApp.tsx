@@ -238,9 +238,9 @@ private-state-cli address`;
 
       <footer className="siteFooter">
         <p>
-          Tonnel is the public name for <code>{channel}</code>, one of the
-          Tokamak Private App Channels and a dedicated channel for the
-          private-state DApp.
+          <span className="footerBrand">Tonnel</span> is the public name for{" "}
+          <code>{channel}</code>, one of the Tokamak Private App Channels and a
+          dedicated channel for the private-state DApp.
         </p>
         <p>
           The private-state DApp is one of the dApps that can run on Tokamak
