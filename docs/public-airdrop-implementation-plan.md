@@ -1,302 +1,217 @@
 # Public Airdrop Implementation Plan
 
-## Purpose
+## Goal
 
-This document defines the implementation plan for rebuilding this repository as a public Tokamak private-state airdrop application.
+Rebuild this repository as a simple public airdrop application for the Tokamak private-state DApp.
 
-The new event rewards a participant with `25 TON` after the participant submits an L2 account and a valid `transfer notes` transaction generated in `the-great-first-channel`. KYC is not part of the event. Rewards are limited to one payment per L2 account, but the event intentionally allows the same person to create additional L2 accounts and receive additional rewards if each account submits a distinct valid transaction.
+The event rewards `25 TON` to each submitted L2 account when the server verifies one valid `transfer notes` transaction generated in `the-great-first-channel`. KYC is not required. The same person may claim multiple times by creating multiple L2 accounts, but each L2 account can be paid only once.
 
-This plan is intentionally written before implementation. Existing repository content is considered archived elsewhere and can be removed during the rebuild only after the implementation scope is confirmed.
+This document is the pre-implementation plan. It intentionally avoids a large admin system, complex event configuration, or extra audit tables unless they become necessary.
 
-## Requirements Coverage Check
+## Scope
 
-The plan covers the requested product requirements:
+Build only what is needed for the first public event:
 
-- A public guide page for the new airdrop event.
-- A participant submission form.
-- Server-side persistence of submitted applications.
-- Server-side verification of L2 account validity, `transfer notes` transaction authenticity, channel membership context, and duplicate claims.
-- Automated `25 TON` private-state reward transfer to eligible L2 accounts.
-- Public or admin-readable submission and payout status views.
-- A rebuild path that starts from a cleaned repository.
+- A public instruction page.
+- A submission form for L2 address and qualifying transaction hash.
+- A server API that saves submissions.
+- A verification job that checks the submitted transaction.
+- A payout job that sends `25 TON` after verification.
+- A status page that shows submission and payout state.
+- A minimal operator-only way to inspect records and rerun failed jobs.
 
-The plan also records the decisions that must be confirmed before implementation because they affect security, treasury custody, and abuse handling.
+Do not build generalized campaign management, KYC, social verification, manual approval workflows, or a full admin dashboard in the first version.
 
-## Explicit Event Rules
+## Event Rules
 
 - Channel: `the-great-first-channel`.
-- Qualifying action: one valid `transfer notes` transaction generated in the channel.
-- Reward amount: `25 TON` per approved L2 account.
-- Claim limit: one reward per L2 account.
-- Identity policy: no KYC.
-- Sybil policy: multiple accounts controlled by the same person are allowed if each L2 account has its own qualifying transaction.
-- Submission policy: duplicate submissions for the same L2 account or same qualifying transaction must not create additional payouts.
+- Qualifying action: one valid `transfer notes` transaction in that channel.
+- Reward: `25 TON`.
+- Claim limit: one successful payout per L2 account.
+- Duplicate prevention: the same L2 address or the same qualifying transaction hash must not receive multiple payouts.
+- No KYC.
+- Multiple L2 accounts controlled by the same person are allowed.
 
-## Proposed Architecture
+## Simple Architecture
 
-Use a small full-stack web application with four main parts:
+Use a single Next.js app unless implementation later proves that another stack is clearly simpler.
 
-- Public web UI: event guide, participation instructions, submission form, and status lookup.
-- Admin/status UI: review queue, verification state, payout state, failure reasons, and aggregate reward statistics.
-- API server: receives applications, validates input, stores records, exposes status, and schedules verification/payout work.
-- Background worker: verifies private-state data, deduplicates claims, and submits reward `transfer notes` transactions.
+Components:
 
-The default implementation should remain a Next.js application unless the repository reset reveals a better established stack. Next.js App Router can serve the public UI, API routes, and admin views from a single deployable service. The payout worker should be implemented as an explicit server-side job rather than hidden inside a user-facing request path.
+- Public pages: event guide, submission form, status lookup.
+- API routes: create submission, get status.
+- Database: one primary table for submissions.
+- Worker script or protected API route: verify pending submissions and pay approved submissions.
 
-## Data Model
+The worker can be run manually at first. A scheduler can be added later only if manual operation becomes inconvenient.
 
-Minimum tables:
+## Minimal Data Model
 
-### `applications`
+Start with one table: `applications`.
+
+Fields:
 
 - `id`: internal UUID.
 - `l2_address`: submitted recipient L2 account.
-- `qualifying_tx_hash`: submitted `transfer notes` transaction identifier.
-- `channel_name`: expected to be `the-great-first-channel`.
-- `status`: `submitted`, `verifying`, `approved`, `rejected`, `paying`, `paid`, `payout_failed`.
-- `rejection_reason`: normalized reason for rejected submissions.
-- `payout_failure_reason`: last payout error, if any.
-- `payout_tx_hash`: reward `transfer notes` transaction identifier.
+- `qualifying_tx_hash`: submitted `transfer notes` transaction hash.
+- `status`: `submitted`, `verifying`, `rejected`, `approved`, `paying`, `paid`, `failed`.
+- `reason`: rejection or failure reason.
+- `payout_tx_hash`: reward transaction hash, if paid.
 - `created_at`, `updated_at`.
 
-Constraints:
+Required constraints:
 
-- Unique `l2_address` for paid or payable applications.
-- Unique `qualifying_tx_hash` for paid or payable applications.
-- Case-normalized or canonicalized L2 address storage, depending on the private-state address format.
+- Unique `l2_address`.
+- Unique `qualifying_tx_hash`.
 
-### `verification_attempts`
+These constraints are enough for the first version because the event rule allows duplicate humans but not duplicate L2 accounts or duplicate qualifying transactions.
 
-- `id`.
-- `application_id`.
-- `status`.
-- `details`.
-- `created_at`.
+## Submission Flow
 
-This keeps an audit trail when verification fails because of RPC errors, indexer lag, malformed submissions, or invalid transactions.
+1. User reads the guide.
+2. User submits:
+   - L2 address.
+   - Qualifying `transfer notes` transaction hash.
+3. Server validates basic formats.
+4. Server stores the application with status `submitted`.
+5. If the L2 address or transaction hash already exists, the server returns the existing status instead of creating another claim.
 
-### `payout_attempts`
-
-- `id`.
-- `application_id`.
-- `status`.
-- `reward_amount`.
-- `payout_tx_hash`.
-- `error_message`.
-- `created_at`.
-
-This prevents silent double payments and supports retry decisions.
-
-### `event_config`
-
-- `channel_name`.
-- `reward_amount`.
-- `max_total_budget`.
-- `starts_at`, `ends_at`.
-- `submissions_enabled`.
-- `payouts_enabled`.
-
-The initial implementation can store this in environment variables if the event parameters are fixed, but a table is safer if admins need to pause payouts without redeploying.
+The website must never ask users to submit private keys.
 
 ## Verification Flow
 
-1. Receive a submission with L2 address and qualifying transaction reference.
-2. Normalize and validate the address and transaction reference format.
-3. Check duplicate L2 address and duplicate qualifying transaction constraints.
-4. Fetch the qualifying transaction from the private-state source of truth.
-5. Verify that the transaction is a `transfer notes` transaction.
-6. Verify that the transaction belongs to `the-great-first-channel`.
-7. Verify that the submitted L2 address is the sender or otherwise satisfies the intended participant relationship.
-8. Mark the application `approved` only after every deterministic check passes.
-9. Mark invalid submissions `rejected` with a stable reason.
-10. Mark inconclusive checks as retryable verification failures instead of rejecting immediately.
+The verifier checks only the facts needed for eligibility:
 
-The exact data source for steps 4-7 must be confirmed. Preferred order:
+1. Load `submitted` applications.
+2. Fetch the submitted private-state transaction from the authoritative source.
+3. Confirm it is a `transfer notes` transaction.
+4. Confirm it belongs to `the-great-first-channel`.
+5. Confirm the submitted L2 address is the account that satisfies the event rule.
+6. Mark the application `approved` or `rejected`.
 
-- Official `@tokamak-private-dapps/private-state-cli` library or exported SDK APIs, if programmatic APIs exist.
-- A maintained private-state indexer or RPC API, if available.
-- A controlled CLI wrapper as a last resort, with strict timeout, output parsing, and version pinning.
+The exact verification method must be confirmed before implementation:
+
+- Preferred: programmatic API from `@tokamak-private-dapps/private-state-cli`, if available.
+- Acceptable: a stable private-state RPC or indexer.
+- Last resort: call the CLI from the server with a pinned version and strict timeout.
 
 ## Payout Flow
 
-1. Select approved applications that have no successful payout.
-2. Recheck duplicate constraints immediately before payment.
-3. Confirm `payouts_enabled` and remaining budget.
-4. Use a server-held funded payout account to create a `25 TON` `transfer notes` reward to the submitted L2 account.
-5. Store the payout transaction hash before or atomically with marking the application as `paid`.
-6. Treat unknown transaction submission results as pending or retryable, not as safe-to-repeat, until chain/private-state status is resolved.
-7. Expose payout status in the participant/admin views.
+1. Load `approved` applications.
+2. Before sending, recheck that the L2 address has not already been paid.
+3. Mark the row `paying`.
+4. Send `25 TON` as a private-state `transfer notes` reward to the submitted L2 address.
+5. Store `payout_tx_hash` and mark the row `paid`.
+6. If payout fails, mark `failed` with the reason so the operator can retry.
 
-Payment idempotency is mandatory. A retry must never create a second reward for the same L2 address.
+Idempotency is required. A retry must not create a second payout for the same L2 address.
 
-## Public Pages
+## Public UI
 
-### Event Guide
+### Guide Page
 
-Content should explain:
+Explain:
 
-- What the event rewards.
-- Required package: `@tokamak-private-dapps/private-state-cli`.
+- Event reward and rule.
 - Required channel: `the-great-first-channel`.
+- Required package: `@tokamak-private-dapps/private-state-cli`.
 - How to generate a qualifying `transfer notes` transaction.
-- How to find the participant's L2 address and qualifying transaction reference.
-- Reward amount and one-payment-per-L2-account rule.
-- No-KYC policy and the explicit allowance of multiple L2 accounts.
-- Required participant materials: EOA private key, RPC URL, channel fee, and local CLI environment.
-
-All user-facing instructions should avoid asking users to paste private keys into the website. Private keys should only be used locally with their own LLM or terminal environment.
+- How to find the L2 address and transaction hash.
+- That private keys must not be submitted to the website.
+- That one L2 account can receive only one reward.
+- That multiple L2 accounts are allowed.
 
 ### Submission Form
 
 Fields:
 
 - L2 address.
-- Qualifying `transfer notes` transaction hash or reference.
-- Optional contact handle for support.
-- Required acknowledgment that no private key should be submitted.
+- Qualifying transaction hash.
 
-The form should provide immediate client-side format feedback, but server-side validation is authoritative.
+The form should be plain and direct. Client-side validation can help, but the server is authoritative.
 
-### Status View
+### Status Page
 
-Participants should be able to query by L2 address or application ID and see:
+Allow lookup by L2 address or application ID and show:
 
-- Submitted.
-- Verifying.
-- Approved.
-- Rejected with reason.
-- Paying.
-- Paid with payout transaction hash.
-- Payout failed or pending retry.
+- Current status.
+- Rejection or failure reason, if any.
+- Payout transaction hash, if paid.
 
-## Admin Views
+## Operator Tools
 
-Admin pages should include:
+Keep this minimal:
 
-- Submission table with filters by status.
-- Application detail with verification attempts and payout attempts.
-- Manual retry controls for verification and payout.
-- Global event controls for pausing submissions and pausing payouts.
-- Aggregate counters: submitted, approved, rejected, paid, failed, total TON paid, remaining budget.
+- A script or protected route to run verification.
+- A script or protected route to run payouts.
+- A basic record list, or a documented database query, for checking status.
 
-Admin authentication must be implemented before any write-capable admin controls are exposed.
+Do not build a large admin dashboard unless the first version proves it is needed.
 
-## Security and Operational Requirements
+## Required Safety Checks
+
+These are not optional because they prevent loss of funds:
 
 - Never store participant private keys.
-- Store payout private keys only in server-side secrets or a managed key service.
+- Keep payout credentials only in server-side secrets.
 - Do not expose payout credentials to browser code.
-- Add rate limits to submission and status endpoints.
-- Add structured logs for verification and payout jobs.
-- Add idempotency for every payout operation.
-- Keep `submissions_enabled` and `payouts_enabled` as separate controls.
-- Treat CLI or RPC timeouts as retryable infrastructure failures.
-- Pin the private-state CLI or SDK version for reproducible verification.
-- Use a database transaction for state changes that affect payout eligibility.
-- Keep all code comments and documentation in English.
+- Use database uniqueness for L2 address and qualifying transaction hash.
+- Do not pay unless verification passed.
+- Do not pay if `payout_tx_hash` already exists for the L2 address.
+- Keep a total budget limit in configuration or environment variables.
+- Add a simple payout pause flag.
 
-## Abuse and Product Risks
+## Known Risk
 
-The requested no-KYC and multi-account policy means the event can be drained by one actor who automates L2 account creation and qualifying transfers. This is allowed by the stated rule, but the UI and admin dashboard should make the policy visible and should expose budget exhaustion clearly.
+The event rule allows one person to drain the budget by creating many L2 accounts and qualifying transactions. This is not a bug in the implementation; it is part of the requested rule.
 
-Recommended controls that do not contradict the stated rule:
+Controls that do not change the rule:
 
-- Total event budget cap.
-- Event start and end timestamps.
-- Payout pause switch.
-- Per-IP submission rate limits.
-- Queue-based payout throughput limits.
-- Public remaining budget display.
+- Total budget cap.
+- Payout pause flag.
+- Basic request rate limiting.
 
-Controls that would change the stated rule and require explicit approval before implementation:
+Controls that would change the rule and require explicit approval:
 
 - One reward per EOA.
-- One reward per IP, device, social account, or contact handle.
-- KYC or sanctions screening.
-- Manual approval gates.
-- Minimum account age or minimum transfer amount.
+- One reward per IP.
+- KYC.
+- Manual approval.
+- Social account verification.
 
-## Repository Rebuild Plan
+## Implementation Steps
 
-1. Confirm the implementation decisions listed below.
-2. Remove archived application code from the working branch while keeping repository metadata and any explicitly retained files.
-3. Scaffold the selected web stack.
-4. Add database schema and migrations.
-5. Implement event configuration and environment validation.
-6. Implement participant submission APIs and persistence.
-7. Implement verification service with deterministic tests.
-8. Implement payout service with idempotency tests and dry-run mode.
-9. Implement public guide, form, and status pages.
-10. Implement authenticated admin dashboard.
-11. Add operational scripts for worker execution, retries, and event pause/resume.
-12. Run lint, typecheck, unit tests, and a local end-to-end submission flow.
-13. Commit all repository changes after verification.
+1. Confirm the unresolved decisions below.
+2. Reset the repository contents for the new app.
+3. Scaffold the simple Next.js app.
+4. Add the database and `applications` table.
+5. Build the guide, form, status page, and API routes.
+6. Implement the verifier.
+7. Implement the payout job with idempotency.
+8. Add minimal operator commands.
+9. Test duplicate submission, invalid transaction, valid transaction, payout success, and payout retry.
+10. Commit all repository changes.
 
-## Implementation Phases
-
-### Phase 1: Foundation
-
-- Reset the app structure.
-- Choose and configure the database.
-- Add environment validation.
-- Add shared event constants and types.
-- Add basic UI shell.
-
-### Phase 2: Submissions
-
-- Build public form.
-- Implement application create API.
-- Implement duplicate detection.
-- Add status lookup API and page.
-
-### Phase 3: Verification
-
-- Integrate with the confirmed private-state data source.
-- Verify transaction type, channel, participant address, and duplicate constraints.
-- Persist verification attempts.
-- Add tests for valid, invalid, duplicate, and retryable cases.
-
-### Phase 4: Payouts
-
-- Integrate the funded payout account.
-- Implement idempotent payout worker.
-- Persist payout attempts.
-- Add dry-run mode.
-- Add tests for retry, duplicate prevention, and budget exhaustion.
-
-### Phase 5: Admin and Operations
-
-- Add admin authentication.
-- Add dashboard views.
-- Add retry and pause controls.
-- Add deployment documentation.
-- Run end-to-end verification before launch.
-
-## Decisions Required Before Implementation
+## Decisions Required Before Coding
 
 Implementation should not start until these are answered:
 
-- What database should be used for production: Postgres, SQLite for a single host, or another managed database?
-- Where will the app be deployed?
-- What is the authoritative API or CLI command for verifying private-state `transfer notes` transactions?
-- What exact transaction field proves membership in `the-great-first-channel`?
-- Is the submitted L2 address required to be the transfer sender, the transfer recipient, or simply an account that generated the transaction?
-- What is the total reward budget?
-- Should applications remain visible publicly, or should public status require an application ID to avoid easy scraping?
-- What authentication method should protect admin pages?
-- Should payouts run automatically on approval, on a schedule, or by manual admin trigger?
-- What funded account will perform reward transfers, and how will its secret be managed?
+- What database should be used?
+- Where will the app run?
+- What exact API or CLI command verifies a private-state `transfer notes` transaction?
+- What exact transaction field proves `the-great-first-channel` membership?
+- Does the submitted L2 address need to be the sender of the qualifying transfer?
+- What is the total TON budget?
+- Should payout run manually first, or should it be scheduled from day one?
+- What funded account will send rewards, and how will its secret be provided to the server?
 
 ## Acceptance Criteria
 
-The implementation is complete only when:
-
-- A participant can read instructions, submit an L2 address and qualifying transaction, and view status.
-- The server persists every submission.
-- Invalid or duplicate submissions cannot trigger payouts.
-- A valid first submission for an L2 account can receive exactly `25 TON`.
-- Payout retries are idempotent.
-- Admins can inspect submissions, verification attempts, and payout attempts.
-- Submissions and payouts can be paused independently.
-- Tests cover duplicate prevention, verification outcomes, and payout retry behavior.
-- The final commit includes all repository changes present at completion.
+- Users can read instructions, submit a claim, and check status.
+- The server stores each claim.
+- Duplicate L2 addresses cannot create multiple payouts.
+- Duplicate qualifying transactions cannot create multiple payouts.
+- Invalid transactions are rejected.
+- Valid first claims can receive exactly `25 TON`.
+- Payout retry does not double-pay.
+- The implementation avoids unnecessary admin, campaign, and audit systems.
