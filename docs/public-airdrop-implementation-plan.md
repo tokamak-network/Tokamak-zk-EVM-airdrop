@@ -6,7 +6,7 @@ Rebuild this repository as a simple public airdrop application for Tonnel.
 
 Tonnel is the public brand name for `the-great-first-channel`, one of the Tokamak Private App Channels. Tokamak private-state is the dApp running in that channel.
 
-The event rewards `25 TON` to each submitted L2 account when the server verifies one valid Tokamak private-state `transfer notes` transaction generated in `the-great-first-channel`. KYC is not required. The same person may claim multiple times by creating multiple L2 accounts, but each L2 account can be paid only once.
+The event rewards `25 TON` per valid submission when the server verifies one valid Tokamak private-state `transfer notes` transaction generated in `the-great-first-channel`. KYC is not required. The same person may claim multiple times by creating multiple valid submissions. Duplicate L2 addresses or duplicate qualifying transaction hashes are not valid submissions.
 
 This document is the pre-implementation plan. It intentionally avoids a large admin system, complex event configuration, or extra audit tables unless they become necessary.
 
@@ -18,7 +18,7 @@ Build only what is needed for the first public event:
 - A submission form for L2 address and qualifying transaction hash.
 - A server API that saves submissions.
 - A verification job that checks the submitted transaction.
-- A payout job that sends `25 TON` after verification.
+- A payout job that sends `25 TON` per valid submission after verification.
 - A status page that shows submission and payout state.
 - A minimal operator-only way to inspect records and rerun failed jobs.
 
@@ -29,8 +29,9 @@ Do not build generalized campaign management, KYC, social verification, manual a
 - Public channel brand: `Tonnel`.
 - Underlying channel: `the-great-first-channel`.
 - Qualifying action: one valid `transfer notes` transaction in that channel.
-- Reward: `25 TON`.
-- Claim limit: one successful payout per L2 account.
+- Reward: `25 TON` per valid submission.
+- Budget: `5000 TON`.
+- Claim limit: unlimited valid submissions.
 - Duplicate prevention: the same L2 address or the same qualifying transaction hash must not receive multiple payouts.
 - Submission status labels: `Pending`, `Transferred`, `Duplication`, `Failed`.
 - No KYC.
@@ -125,7 +126,7 @@ Explain:
 - How to generate a qualifying `transfer notes` transaction.
 - How to find the L2 address and transaction hash.
 - That private keys must not be submitted to the website.
-- That one L2 account can receive only one reward.
+- That valid submissions are unlimited, but duplicate L2 addresses or duplicate transaction hashes are not valid.
 - That multiple L2 accounts are allowed.
 
 ### Submission Form
@@ -221,6 +222,6 @@ Implementation should not start until these are answered:
 - Successful payouts are labeled `Transferred`.
 - Duplicate L2 addresses or duplicate qualifying transactions are labeled `Duplication` and cannot create multiple payouts.
 - Invalid transactions or other non-duplicate errors are labeled `Failed`.
-- Valid first claims can receive exactly `25 TON`.
+- Valid submissions can receive exactly `25 TON`.
 - Payout retry does not double-pay.
 - The implementation avoids unnecessary admin, campaign, and audit systems.

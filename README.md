@@ -2,7 +2,7 @@
 
 Minimal public airdrop app for Tonnel. Tonnel is the public brand name for `the-great-first-channel`, one of the Tokamak Private App Channels. Tokamak private-state is the dApp running in that channel.
 
-The app collects L2 account submissions, verifies a qualifying Tokamak private-state `transfer notes` transaction in `the-great-first-channel`, and sends a `25 TON` reward once per L2 account.
+The app collects L2 account submissions, verifies a qualifying Tokamak private-state `transfer notes` transaction in `the-great-first-channel`, and sends `25 TON` per valid submission.
 
 ## Status Labels
 
@@ -27,7 +27,7 @@ The verifier and payout worker call explicit command templates so the app does n
 AIRDROP_DB_PATH=./data/airdrop.sqlite
 AIRDROP_CHANNEL=the-great-first-channel
 AIRDROP_REWARD_TON=25
-AIRDROP_TOTAL_BUDGET_TON=1200
+AIRDROP_TOTAL_BUDGET_TON=5000
 OPERATOR_TOKEN=change-me
 
 PRIVATE_STATE_VERIFY_COMMAND=private-state-cli

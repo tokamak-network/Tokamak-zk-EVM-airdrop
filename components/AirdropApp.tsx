@@ -123,7 +123,7 @@ private-state-cli address`;
         <dl className="eventStats">
           <div>
             <dt>Reward</dt>
-            <dd>{rewardTon} TON</dd>
+            <dd>{rewardTon} TON per valid submission</dd>
           </div>
           <div>
             <dt>Budget cap</dt>
@@ -131,7 +131,7 @@ private-state-cli address`;
           </div>
           <div>
             <dt>Limit</dt>
-            <dd>Once per L2 account</dd>
+            <dd>Unlimited</dd>
           </div>
         </dl>
       </section>

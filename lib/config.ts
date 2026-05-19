@@ -20,7 +20,7 @@ export function getConfig(): AppConfig {
   return {
     channel: process.env.AIRDROP_CHANNEL ?? "the-great-first-channel",
     rewardTon: readNumberEnv("AIRDROP_REWARD_TON", 25),
-    totalBudgetTon: readNumberEnv("AIRDROP_TOTAL_BUDGET_TON", 1200),
+    totalBudgetTon: readNumberEnv("AIRDROP_TOTAL_BUDGET_TON", 5000),
     dbPath: readDbPath(),
     payoutsPaused: process.env.AIRDROP_PAYOUTS_PAUSED === "true",
     operatorToken: process.env.OPERATOR_TOKEN,
