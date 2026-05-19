@@ -6,8 +6,9 @@ type ApplicationStatus = "Pending" | "Transferred" | "Duplication" | "Failed";
 
 type Application = {
   id: string;
-  l2Address: string;
   qualifyingTxHash: string;
+  resolvedL1Address: string | null;
+  resolvedL2Address: string | null;
   status: ApplicationStatus;
   reason: string | null;
   payoutTxHash: string | null;
@@ -43,7 +44,6 @@ export function AirdropApp({
   initialPanel = "submit",
 }: AirdropAppProps) {
   const [activePanel, setActivePanel] = useState(initialPanel);
-  const [l2Address, setL2Address] = useState("");
   const [qualifyingTxHash, setQualifyingTxHash] = useState("");
   const [statusQuery, setStatusQuery] = useState("");
   const [application, setApplication] = useState<Application | null>(null);
@@ -52,9 +52,9 @@ export function AirdropApp({
   const [isLookingUp, setIsLookingUp] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  const commandSnippet = `private-state-cli join ${channel}
-private-state-cli transfer-notes --channel ${channel}
-private-state-cli address`;
+  const commandSnippet = `private-state-cli channel join --channel-name ${channel}
+private-state-cli wallet transfer-notes --wallet <WALLET> --network mainnet --note-ids <NOTE_IDS> --recipients <RECIPIENTS> --amounts <AMOUNTS>
+Use the transaction hash printed by wallet transfer-notes.`;
 
   useEffect(() => {
     let frameId = 0;
@@ -94,7 +94,7 @@ private-state-cli address`;
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ l2Address, qualifyingTxHash }),
+        body: JSON.stringify({ qualifyingTxHash }),
       });
       const result = (await response.json()) as ApiResult;
 
@@ -169,8 +169,8 @@ private-state-cli address`;
           </div>
           <h1>TON AIRDROP ON TONNEL</h1>
           <p>
-            Submit an L2 account and a valid private-state transaction in the
-            Tonnel channel to receive TON rewards.
+            Submit a valid private-state transaction from a Tonnel participant
+            account to receive TON rewards.
           </p>
         </div>
         <dl className="eventStats">
@@ -205,7 +205,7 @@ private-state-cli address`;
               Join Tonnel, the public name for <code>{channel}</code>.
             </li>
             <li>Create one transfer notes transaction in Tonnel.</li>
-            <li>Submit only your L2 address and transaction hash here.</li>
+            <li>Submit only the transaction hash here.</li>
           </ol>
           <pre>{commandSnippet}</pre>
           <p className="warning">
@@ -239,16 +239,6 @@ private-state-cli address`;
           {activePanel === "submit" ? (
             <form onSubmit={submitApplication} className="formStack">
               <label>
-                L2 address
-                <input
-                  value={l2Address}
-                  onChange={(event) => setL2Address(event.target.value)}
-                  placeholder="L2 address"
-                  autoComplete="off"
-                  required
-                />
-              </label>
-              <label>
                 Qualifying transaction hash
                 <input
                   value={qualifyingTxHash}
@@ -267,11 +257,11 @@ private-state-cli address`;
           ) : (
             <form onSubmit={lookupStatus} className="formStack">
               <label>
-                Application ID, L2 address, or transaction hash
+                Application ID, transaction hash, or resolved address
                 <input
                   value={statusQuery}
                   onChange={(event) => setStatusQuery(event.target.value)}
-                  placeholder="Application ID, L2 address, or tx hash"
+                  placeholder="Application ID, address, or tx hash"
                   autoComplete="off"
                   required
                 />
@@ -330,8 +320,12 @@ function StatusResult({ application }: { application: Application }) {
           <dd>{application.id}</dd>
         </div>
         <div>
-          <dt>L2 address</dt>
-          <dd>{application.l2Address}</dd>
+          <dt>Resolved L1 submitter</dt>
+          <dd>{application.resolvedL1Address ?? "Pending verification"}</dd>
+        </div>
+        <div>
+          <dt>Reward L2 address</dt>
+          <dd>{application.resolvedL2Address ?? "Pending verification"}</dd>
         </div>
         <div>
           <dt>Qualifying transaction</dt>

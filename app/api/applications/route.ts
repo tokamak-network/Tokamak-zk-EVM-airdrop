@@ -8,7 +8,6 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const application = createApplication({
-      l2Address: String(body.l2Address ?? ""),
       qualifyingTxHash: String(body.qualifyingTxHash ?? ""),
     });
 

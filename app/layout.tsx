@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "TON AIRDROP ON TONNEL",
   description:
-    "Submit an L2 account and a valid private-state transaction in the Tonnel channel to receive TON rewards.",
+    "Submit a valid private-state transaction from a Tonnel participant account to receive TON rewards.",
 };
 
 export default function RootLayout({

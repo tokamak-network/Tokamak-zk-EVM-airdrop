@@ -5,8 +5,9 @@ import type { ApplicationStatus } from "@/lib/status";
 
 export type Application = {
   id: string;
-  l2Address: string;
   qualifyingTxHash: string;
+  resolvedL1Address: string | null;
+  resolvedL2Address: string | null;
   status: ApplicationStatus;
   reason: string | null;
   payoutTxHash: string | null;
@@ -17,8 +18,10 @@ export type Application = {
 
 type ApplicationRow = {
   id: string;
-  l2_address: string;
   qualifying_tx_hash: string;
+  l2_address: string | null;
+  resolved_l1_address: string | null;
+  resolved_l2_address: string | null;
   status: ApplicationStatus;
   reason: string | null;
   payout_tx_hash: string | null;
@@ -28,21 +31,19 @@ type ApplicationRow = {
 };
 
 export type CreateApplicationInput = {
-  l2Address: string;
   qualifyingTxHash: string;
 };
 
 export function createApplication(input: CreateApplicationInput): Application {
-  const l2Address = normalizeInput(input.l2Address);
   const qualifyingTxHash = normalizeInput(input.qualifyingTxHash);
-  assertSubmissionInput(l2Address, qualifyingTxHash);
+  assertSubmissionInput(qualifyingTxHash);
 
   const db = getDb();
-  const duplicate = findDuplicate(l2Address, qualifyingTxHash);
+  const duplicate = findDuplicateTransaction(qualifyingTxHash);
   const now = new Date().toISOString();
   const id = randomUUID();
   const status: ApplicationStatus = duplicate ? "Duplication" : "Pending";
-  const reason = duplicate ? getDuplicateReason(duplicate, l2Address, qualifyingTxHash) : null;
+  const reason = duplicate ? "Duplicate transaction hash." : null;
 
   db.prepare(`
     INSERT INTO applications (
@@ -55,7 +56,7 @@ export function createApplication(input: CreateApplicationInput): Application {
       updated_at
     )
     VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(id, l2Address, qualifyingTxHash, status, reason, now, now);
+  `).run(id, "", qualifyingTxHash, status, reason, now, now);
 
   const application = getApplicationById(id);
 
@@ -92,8 +93,10 @@ export function findApplication(query: string): Application | null {
   const row = getDb()
     .prepare(`
       SELECT * FROM applications
-      WHERE l2_address = ?
-        OR qualifying_tx_hash = ?
+      WHERE qualifying_tx_hash = ?
+        OR resolved_l1_address = ?
+        OR resolved_l2_address = ?
+        OR l2_address = ?
       ORDER BY
         CASE status
           WHEN 'Transferred' THEN 1
@@ -104,7 +107,12 @@ export function findApplication(query: string): Application | null {
         created_at DESC
       LIMIT 1
     `)
-    .get(normalizedQuery, normalizedQuery) as ApplicationRow | undefined;
+    .get(
+      normalizedQuery,
+      normalizedQuery,
+      normalizedQuery,
+      normalizedQuery,
+    ) as ApplicationRow | undefined;
 
   return row ? mapApplication(row) : null;
 }
@@ -146,8 +154,14 @@ export function getVerifiedPendingForPayout(limit = 25): Application[] {
   return rows.map(mapApplication);
 }
 
-export function markVerified(id: string): void {
+export function markVerified(
+  id: string,
+  resolvedL1Address: string,
+  resolvedL2Address: string,
+): void {
   updateApplication(id, {
+    resolved_l1_address: normalizeInput(resolvedL1Address),
+    resolved_l2_address: normalizeInput(resolvedL2Address),
     verified_at: new Date().toISOString(),
     reason: null,
   });
@@ -176,15 +190,23 @@ export function markTransferred(id: string, payoutTxHash: string): void {
 }
 
 export function hasTransferredDuplicate(application: Application): boolean {
+  if (!application.resolvedL2Address) {
+    return false;
+  }
+
   const row = getDb()
     .prepare(`
       SELECT id FROM applications
       WHERE id != ?
         AND status = 'Transferred'
-        AND (l2_address = ? OR qualifying_tx_hash = ?)
+        AND (resolved_l2_address = ? OR qualifying_tx_hash = ?)
       LIMIT 1
     `)
-    .get(application.id, application.l2Address, application.qualifyingTxHash);
+    .get(
+      application.id,
+      application.resolvedL2Address,
+      application.qualifyingTxHash,
+    );
 
   return Boolean(row);
 }
@@ -204,6 +226,8 @@ function updateApplication(
     reason: string | null;
     payout_tx_hash: string;
     verified_at: string;
+    resolved_l1_address: string;
+    resolved_l2_address: string;
   }>,
 ): void {
   const entries = Object.entries(values).filter(
@@ -227,51 +251,20 @@ function updateApplication(
     .run(...sqlValues, new Date().toISOString(), id);
 }
 
-function findDuplicate(
-  l2Address: string,
-  qualifyingTxHash: string,
-): Application | null {
+function findDuplicateTransaction(qualifyingTxHash: string): Application | null {
   const row = getDb()
     .prepare(`
       SELECT * FROM applications
-      WHERE l2_address = ?
-        OR qualifying_tx_hash = ?
+      WHERE qualifying_tx_hash = ?
       ORDER BY created_at ASC
       LIMIT 1
     `)
-    .get(l2Address, qualifyingTxHash) as ApplicationRow | undefined;
+    .get(qualifyingTxHash) as ApplicationRow | undefined;
 
   return row ? mapApplication(row) : null;
 }
 
-function getDuplicateReason(
-  duplicate: Application,
-  l2Address: string,
-  qualifyingTxHash: string,
-): string {
-  if (
-    duplicate.l2Address === l2Address &&
-    duplicate.qualifyingTxHash === qualifyingTxHash
-  ) {
-    return "Duplicate L2 address and transaction hash.";
-  }
-
-  if (duplicate.l2Address === l2Address) {
-    return "Duplicate L2 address.";
-  }
-
-  if (duplicate.qualifyingTxHash === qualifyingTxHash) {
-    return "Duplicate transaction hash.";
-  }
-
-  return "Duplicate application.";
-}
-
-function assertSubmissionInput(l2Address: string, qualifyingTxHash: string): void {
-  if (!isSafeSubmittedValue(l2Address)) {
-    throw new Error("L2 address is required and must not contain whitespace.");
-  }
-
+function assertSubmissionInput(qualifyingTxHash: string): void {
   if (!isSafeSubmittedValue(qualifyingTxHash)) {
     throw new Error(
       "Qualifying transaction hash is required and must not contain whitespace.",
@@ -290,8 +283,9 @@ function normalizeInput(value: string): string {
 function mapApplication(row: ApplicationRow): Application {
   return {
     id: row.id,
-    l2Address: row.l2_address,
     qualifyingTxHash: row.qualifying_tx_hash,
+    resolvedL1Address: row.resolved_l1_address,
+    resolvedL2Address: row.resolved_l2_address,
     status: row.status,
     reason: row.reason,
     payoutTxHash: row.payout_tx_hash,

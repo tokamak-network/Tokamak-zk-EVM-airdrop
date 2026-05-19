@@ -14,6 +14,11 @@ import {
 type VerificationOutput = {
   valid: boolean;
   reason?: string;
+  l1Submitter?: string;
+  l1Address?: string;
+  resolvedL1Address?: string;
+  l2Address?: string;
+  resolvedL2Address?: string;
 };
 
 type PayoutOutput = {
@@ -57,13 +62,22 @@ async function verifyPendingApplications(summary: WorkerSummary): Promise<void> 
         config.verifyCommand,
         {
           channel: config.channel,
-          l2Address: application.l2Address,
           txHash: application.qualifyingTxHash,
         },
       );
 
       if (result.valid) {
-        markVerified(application.id);
+        const resolvedL1Address =
+          result.resolvedL1Address ?? result.l1Submitter ?? result.l1Address;
+        const resolvedL2Address = result.resolvedL2Address ?? result.l2Address;
+
+        if (!resolvedL1Address || !resolvedL2Address) {
+          throw new Error(
+            "Verification command must return resolvedL1Address and resolvedL2Address.",
+          );
+        }
+
+        markVerified(application.id, resolvedL1Address, resolvedL2Address);
         summary.verified += 1;
       } else {
         markFailed(application.id, result.reason ?? "Verification failed.");
@@ -92,9 +106,15 @@ async function payoutVerifiedApplications(summary: WorkerSummary): Promise<void>
     if (hasTransferredDuplicate(application)) {
       markDuplication(
         application.id,
-        "A transferred application already exists for this L2 address or transaction hash.",
+        "A transferred application already exists for this resolved L2 address or transaction hash.",
       );
       summary.duplicated += 1;
+      continue;
+    }
+
+    if (!application.resolvedL2Address) {
+      markFailed(application.id, "Verified application is missing a resolved L2 address.");
+      summary.failed += 1;
       continue;
     }
 
@@ -110,7 +130,8 @@ async function payoutVerifiedApplications(summary: WorkerSummary): Promise<void>
       const result = await runJsonCommand<PayoutOutput>(config.payoutCommand, {
         amountTon: config.rewardTon,
         channel: config.channel,
-        l2Address: application.l2Address,
+        l1Address: application.resolvedL1Address ?? "",
+        l2Address: application.resolvedL2Address,
         txHash: application.qualifyingTxHash,
       });
       const payoutTxHash = result.txHash ?? result.payoutTxHash;
