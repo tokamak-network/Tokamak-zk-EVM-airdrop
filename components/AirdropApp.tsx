@@ -50,10 +50,6 @@ export function AirdropApp({
   const [isLookingUp, setIsLookingUp] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  const commandSnippet = `private-state-cli channel join --channel-name ${channel}
-private-state-cli wallet transfer-notes --wallet <WALLET> --network mainnet --note-ids <NOTE_IDS> --recipients <RECIPIENTS> --amounts <AMOUNTS>
-Use the transaction hash printed by wallet transfer-notes.`;
-
   useEffect(() => {
     let frameId = 0;
 
@@ -202,14 +198,20 @@ Use the transaction hash printed by wallet transfer-notes.`;
         <section className="contentSection" aria-labelledby="how-to-participate">
           <h2 id="how-to-participate">How To Participate</h2>
           <ol>
-            <li>Install the latest Tokamak private-state CLI package.</li>
             <li>
-              Join Tonnel, the public name for <code>{channel}</code>.
+              Ask your LLM to install the latest version of the NPM package{" "}
+              <code>@tokamak-private-dapps/private-state-cli</code>.
             </li>
-            <li>Create one transfer notes transaction in Tonnel.</li>
-            <li>Submit only the transaction hash here.</li>
+            <li>
+              Ask your LLM to join the channel <code>{channel}</code>.
+            </li>
+            <li>
+              Ask your LLM to create one private-state transfer notes
+              transaction in Tonnel.
+            </li>
+            <li>Ask your LLM to provide the transaction hash.</li>
+            <li>Ask your LLM to submit the transaction hash with this form.</li>
           </ol>
-          <pre>{commandSnippet}</pre>
           <p className="warning">
             Never submit an EOA private key, seed phrase, or RPC secret to this
             site.
