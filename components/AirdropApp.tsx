@@ -178,12 +178,15 @@ export function AirdropApp({
       <section className="heroBand">
         <div className="heroContent">
           <div className="brandLine">
-            <span>Tonnel</span>
+            <span className="accentText">Tonnel</span>
           </div>
-          <h1>TON AIRDROP ON TONNEL</h1>
+          <h1>
+            TON AIRDROP ON <span className="accentText">TONNEL</span>
+          </h1>
           <p>
-            Make a valid private-state transfer on Tonnel, submit the
-            transaction hash, and earn 25 TON.
+            Make a valid private-state transfer on{" "}
+            <span className="accentText">Tonnel</span>, submit the transaction
+            hash, and earn 25 TON.
           </p>
         </div>
         <dl className="eventStats">
@@ -276,25 +279,31 @@ export function AirdropApp({
           <ul className="criteriaList">
             <li>
               Submit the transaction hash from a real private-state transfer
-              notes transaction made in Tonnel.
+              notes transaction made in{" "}
+              <span className="accentText">Tonnel</span>.
             </li>
             <li>
               The Ethereum wallet address that sent that transaction must have
-              been joined to Tonnel when the transaction happened.
+              been joined to <span className="accentText">Tonnel</span> when
+              the transaction happened.
             </li>
             <li>
-              We send the reward to the Tonnel channel address (L2 address)
-              that was registered to that Ethereum wallet address at that time.
+              We send the reward to the{" "}
+              <span className="accentText">Tonnel</span> channel address (L2
+              address) that was registered to that Ethereum wallet address at
+              that time.
             </li>
             <li>
-              A Tonnel channel address can receive only one reward. A
-              transaction hash can also be used only once.
+              A <span className="accentText">Tonnel</span> channel address can
+              receive only one reward. A transaction hash can also be used only
+              once.
             </li>
             <li>
-              A second transaction from the same Tonnel channel address will not
-              receive another reward. The same transaction hash will not receive
-              another reward, even if it is submitted with a different Tonnel
-              channel address.
+              A second transaction from the same{" "}
+              <span className="accentText">Tonnel</span> channel address will
+              not receive another reward. The same transaction hash will not
+              receive another reward, even if it is submitted with a different{" "}
+              <span className="accentText">Tonnel</span> channel address.
             </li>
           </ul>
         </section>
@@ -309,8 +318,9 @@ export function AirdropApp({
         <p>
           The private-state DApp is one of the dApps that can run on Tokamak
           Private App Channels; it turns TON into proof-backed confidential
-          notes inside Tonnel, enabling channel-local transfers without exposing
-          note ownership or transfer meaning in public contract state.
+          notes inside <span className="accentText">Tonnel</span>, enabling
+          channel-local transfers without exposing note ownership or transfer
+          meaning in public contract state.
         </p>
         <p>
           To learn more, read{" "}
@@ -339,7 +349,9 @@ function StatusTable({ applications }: { applications: Application[] }) {
         <thead>
           <tr>
             <th>Transaction hash</th>
-            <th>Tonnel channel address</th>
+            <th>
+              <span className="accentText">Tonnel</span> channel address
+            </th>
             <th>Status</th>
             <th>Submitted time</th>
             <th>Payout</th>
