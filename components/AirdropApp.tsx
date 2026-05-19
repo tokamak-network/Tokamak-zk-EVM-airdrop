@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 type ApplicationStatus = "Pending" | "Transferred" | "Duplication" | "Failed";
 
@@ -50,10 +50,37 @@ export function AirdropApp({
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLookingUp, setIsLookingUp] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   const commandSnippet = `private-state-cli join ${channel}
 private-state-cli transfer-notes --channel ${channel}
 private-state-cli address`;
+
+  useEffect(() => {
+    let frameId = 0;
+
+    function syncScroll() {
+      frameId = 0;
+      setScrollY(window.scrollY);
+    }
+
+    function handleScroll() {
+      if (frameId === 0) {
+        frameId = window.requestAnimationFrame(syncScroll);
+      }
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, []);
 
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -111,6 +138,30 @@ private-state-cli address`;
 
   return (
     <main className="appShell">
+      <div className="cosmicScene" aria-hidden="true">
+        <div
+          className="cosmicLayer farLayer"
+          style={{ transform: `translate3d(0, ${scrollY * -0.06}px, 0)` }}
+        />
+        <div
+          className="cosmicLayer midLayer"
+          style={{ transform: `translate3d(0, ${scrollY * -0.16}px, 0)` }}
+        >
+          <span className="planet planetMint" />
+          <span className="planet planetPink" />
+          <span className="comet" />
+        </div>
+        <div
+          className="cosmicLayer nearLayer"
+          style={{ transform: `translate3d(0, ${scrollY * -0.34}px, 0)` }}
+        >
+          <span className="rocket" />
+          <span className="tonCoin coinOne">TON</span>
+          <span className="tonCoin coinTwo">TON</span>
+          <span className="satellite" />
+        </div>
+      </div>
+
       <section className="heroBand">
         <div className="heroContent">
           <div className="brandLine">

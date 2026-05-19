@@ -8,6 +8,8 @@
   --surface-strong: rgba(4, 13, 30, 0.94);
   --accent: #39ffb6;
   --accent-strong: #7bf3ff;
+  --neon-pink: #ff4f8b;
+  --neon-gold: #ffcf5f;
   --warning: #ffcf5f;
   --danger: #ff4f8b;
   --pending: #ffe66d;
@@ -54,6 +56,211 @@ dd {
 
 .appShell {
   min-height: 100vh;
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.cosmicScene {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(123, 243, 255, 0.2), transparent 22%),
+    radial-gradient(circle at 74% 10%, rgba(255, 79, 139, 0.16), transparent 24%),
+    radial-gradient(circle at 45% 82%, rgba(57, 255, 182, 0.12), transparent 26%),
+    linear-gradient(180deg, #061226 0%, #081632 46%, #030918 100%);
+}
+
+.cosmicLayer {
+  position: absolute;
+  inset: -16vh -10vw;
+  will-change: transform;
+}
+
+.farLayer {
+  background:
+    url("/private-state-grid.svg") center top / cover no-repeat,
+    radial-gradient(circle at 50% 50%, rgba(123, 243, 255, 0.06), transparent 42%);
+  opacity: 0.9;
+}
+
+.midLayer {
+  z-index: 1;
+}
+
+.nearLayer {
+  z-index: 2;
+}
+
+.planet,
+.comet,
+.rocket,
+.satellite,
+.tonCoin {
+  position: absolute;
+  display: block;
+}
+
+.planetMint {
+  left: 66vw;
+  top: 18vh;
+  width: 150px;
+  height: 150px;
+  border: 3px solid rgba(123, 243, 255, 0.6);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, #f3fbff 0 8%, transparent 9%),
+    radial-gradient(circle at 60% 68%, rgba(3, 16, 31, 0.36) 0 14%, transparent 15%),
+    linear-gradient(135deg, #39ffb6, #1398ff 72%);
+  box-shadow:
+    0 0 36px rgba(57, 255, 182, 0.26),
+    inset -18px -20px 0 rgba(3, 16, 31, 0.18);
+}
+
+.planetMint::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 58px;
+  width: 218px;
+  height: 38px;
+  border: 4px solid rgba(255, 230, 109, 0.74);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-radius: 50%;
+  transform: rotate(-14deg);
+}
+
+.planetPink {
+  left: 8vw;
+  top: 70vh;
+  width: 86px;
+  height: 86px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #ff4f8b, #ffcf5f);
+  box-shadow: 0 0 30px rgba(255, 79, 139, 0.28);
+  transform: rotate(18deg);
+}
+
+.comet {
+  left: 18vw;
+  top: 25vh;
+  width: 148px;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #7bf3ff 55%, #ffffff);
+  box-shadow: 0 0 22px rgba(123, 243, 255, 0.34);
+  transform: rotate(-24deg);
+}
+
+.comet::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: -7px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 24px #7bf3ff;
+}
+
+.rocket {
+  right: 10vw;
+  top: 78vh;
+  width: 86px;
+  height: 38px;
+  border: 3px solid #7bf3ff;
+  border-radius: 50% 60% 60% 50%;
+  background: linear-gradient(135deg, #f3fbff 0 48%, #39ffb6 49% 100%);
+  box-shadow: 0 0 24px rgba(123, 243, 255, 0.3);
+  transform: rotate(-18deg);
+}
+
+.rocket::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 11px;
+  border-top: 8px solid transparent;
+  border-right: 30px solid #ffcf5f;
+  border-bottom: 8px solid transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 207, 95, 0.7));
+}
+
+.rocket::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid #03101f;
+  border-radius: 50%;
+  background: #7bf3ff;
+}
+
+.tonCoin {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border: 3px solid #ffcf5f;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, #fff3b8, #ffcf5f 58%, #ff9f43);
+  color: #03101f;
+  font-size: 0.86rem;
+  font-weight: 900;
+  box-shadow: 0 0 28px rgba(255, 207, 95, 0.3);
+}
+
+.coinOne {
+  left: 52vw;
+  top: 16vh;
+  transform: rotate(-12deg);
+}
+
+.coinTwo {
+  left: 36vw;
+  top: 82vh;
+  width: 48px;
+  height: 48px;
+  font-size: 0.72rem;
+  transform: rotate(16deg);
+}
+
+.satellite {
+  left: 78vw;
+  top: 54vh;
+  width: 64px;
+  height: 32px;
+  border: 3px solid #7bf3ff;
+  border-radius: 8px;
+  background: rgba(4, 13, 30, 0.92);
+  box-shadow: 0 0 18px rgba(123, 243, 255, 0.24);
+  transform: rotate(17deg);
+}
+
+.satellite::before,
+.satellite::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  width: 36px;
+  height: 20px;
+  border: 2px solid #39ffb6;
+  background: rgba(57, 255, 182, 0.16);
+}
+
+.satellite::before {
+  left: -42px;
+}
+
+.satellite::after {
+  right: -42px;
 }
 
 .heroBand {
@@ -62,11 +269,9 @@ dd {
   gap: clamp(24px, 4vw, 48px);
   padding: 56px clamp(20px, 5vw, 72px) 36px;
   background:
-    linear-gradient(115deg, rgba(6, 18, 38, 0.86), rgba(6, 18, 38, 0.52)),
-    url("/private-state-grid.svg");
-  background-position: center;
-  background-size: cover;
+    linear-gradient(115deg, rgba(6, 18, 38, 0.82), rgba(6, 18, 38, 0.38));
   border-bottom: 1px solid var(--line);
+  position: relative;
 }
 
 .heroContent {
@@ -108,12 +313,17 @@ h1 {
   gap: 1px;
   margin: 0;
   overflow: hidden;
-  border: 1px solid rgba(123, 243, 255, 0.32);
+  border: 1px solid transparent;
   border-radius: 14px;
-  background: rgba(123, 243, 255, 0.12);
+  background:
+    linear-gradient(rgba(3, 11, 26, 0.92), rgba(3, 11, 26, 0.92)) padding-box,
+    linear-gradient(135deg, var(--accent-strong), var(--neon-pink), var(--accent)) border-box;
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.32),
-    0 0 34px rgba(57, 255, 182, 0.14);
+    0 0 0 1px rgba(123, 243, 255, 0.18),
+    0 0 28px rgba(123, 243, 255, 0.22),
+    0 0 54px rgba(255, 79, 139, 0.16);
+  position: relative;
 }
 
 .eventStats div {
@@ -167,10 +377,33 @@ h1 {
 .instructions,
 .panel,
 .statusResult {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--surface);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, rgba(123, 243, 255, 0.84), rgba(255, 79, 139, 0.52), rgba(57, 255, 182, 0.72)) border-box;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.22),
+    0 0 18px rgba(123, 243, 255, 0.16),
+    0 0 34px rgba(57, 255, 182, 0.12);
+  position: relative;
+}
+
+.instructions::before,
+.panel::before,
+.statusResult::before,
+.eventStats::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(123, 243, 255, 0.46), transparent 34%),
+    radial-gradient(circle at 92% 100%, rgba(255, 79, 139, 0.34), transparent 38%);
+  filter: blur(12px);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .instructions {
