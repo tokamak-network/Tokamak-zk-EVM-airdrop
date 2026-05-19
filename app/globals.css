@@ -8,6 +8,7 @@
   --surface-strong: rgba(4, 13, 30, 0.94);
   --accent: #39ffb6;
   --accent-strong: #7bf3ff;
+  --tonnel-blue: #2f73df;
   --neon-pink: #ff4f8b;
   --neon-gold: #ffcf5f;
   --warning: #ffcf5f;
@@ -448,9 +449,9 @@ h1 {
 }
 
 .accentText {
-  color: var(--accent-strong);
+  color: var(--tonnel-blue);
   font-weight: 900;
-  text-shadow: 0 0 12px rgba(123, 243, 255, 0.28);
+  text-shadow: 0 0 14px rgba(47, 115, 223, 0.42);
 }
 
 .warning,
@@ -728,9 +729,9 @@ input:focus {
 }
 
 .footerBrand {
-  color: var(--accent-strong);
+  color: var(--tonnel-blue);
   font-weight: 900;
-  text-shadow: 0 0 12px rgba(123, 243, 255, 0.28);
+  text-shadow: 0 0 14px rgba(47, 115, 223, 0.42);
 }
 
 @media (max-width: 860px) {
