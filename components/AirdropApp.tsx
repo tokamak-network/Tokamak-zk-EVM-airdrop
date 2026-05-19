@@ -230,8 +230,10 @@ private-state-cli address`;
       <footer className="siteFooter">
         <p>
           Tonnel is the public name for <code>{channel}</code>, one of the
-          Tokamak Private App Channels. private-state is one of the dApps
-          running in this channel. To learn more, read{" "}
+          Tokamak Private App Channels. The private-state DApp turns TON into
+          proof-backed confidential notes inside Tonnel, enabling channel-local
+          transfers without exposing note ownership or transfer meaning in
+          public contract state. To learn more, read{" "}
           <a
             href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
             target="_blank"
