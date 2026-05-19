@@ -338,35 +338,45 @@ function StatusTable({ applications }: { applications: Application[] }) {
       <table className="statusTable">
         <thead>
           <tr>
-            <th>Status</th>
             <th>Transaction hash</th>
             <th>Tonnel channel address</th>
+            <th>Status</th>
+            <th>Created time</th>
             <th>Payout</th>
           </tr>
         </thead>
         <tbody>
           {applications.slice(0, 10).map((application) => (
             <tr key={application.id}>
-              <td>
-                <span
-                  className={`statusPill ${application.status}`}
-                  title={statusText[application.status]}
-                >
-                  {application.status}
-                </span>
-              </td>
               <td title={application.qualifyingTxHash}>
-                {shortenHash(application.qualifyingTxHash)}
+                <span className="hashCell">
+                  <span className="fileIcon" aria-hidden="true" />
+                  <span>{shortenHash(application.qualifyingTxHash)}</span>
+                </span>
               </td>
               <td title={application.resolvedL2Address ?? ""}>
                 {application.resolvedL2Address
                   ? shortenHash(application.resolvedL2Address)
                   : "Pending verification"}
               </td>
+              <td>
+                <span
+                  className={`statusPill ${application.status}`}
+                  title={statusText[application.status]}
+                >
+                  <span className="statusDot" aria-hidden="true" />
+                  {application.status}
+                </span>
+              </td>
+              <td>{formatCreatedAt(application.createdAt)}</td>
               <td title={application.payoutTxHash ?? ""}>
-                {application.payoutTxHash
-                  ? shortenHash(application.payoutTxHash)
-                  : "-"}
+                {application.payoutTxHash ? (
+                  <span className="receiptText">
+                    {shortenHash(application.payoutTxHash)}
+                  </span>
+                ) : (
+                  <span className="mutedDash">-</span>
+                )}
               </td>
             </tr>
           ))}
@@ -429,4 +439,15 @@ function shortenHash(value: string): string {
   }
 
   return `${value.slice(0, 10)}...${value.slice(-6)}`;
+}
+
+function formatCreatedAt(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    month: "short",
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+  }).format(new Date(value));
 }

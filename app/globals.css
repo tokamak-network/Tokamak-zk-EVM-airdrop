@@ -512,59 +512,78 @@ input:focus {
 .statusPill {
   display: inline-flex;
   align-items: center;
-  min-height: 30px;
+  gap: 8px;
+  min-height: 28px;
   border-radius: 999px;
-  padding: 5px 10px;
-  color: #03101f;
-  font-size: 0.8rem;
-  font-weight: 900;
+  padding: 4px 11px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .statusPill.Pending {
-  background: var(--pending);
+  background: rgba(255, 230, 109, 0.18);
+  color: #ffe66d;
 }
 
 .statusPill.Transferred {
-  background: var(--transferred);
+  background: rgba(57, 255, 182, 0.16);
+  color: #a7ffd9;
 }
 
 .statusPill.Duplication {
-  background: var(--duplication);
+  background: rgba(255, 159, 67, 0.18);
+  color: #ffd0a0;
 }
 
 .statusPill.Failed {
-  background: var(--failed);
+  background: rgba(255, 79, 139, 0.16);
+  color: #ffb3cc;
+}
+
+.statusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
 }
 
 .statusTableWrap {
   overflow-x: auto;
-  margin-top: 4px;
-  border: 1px solid var(--line);
+  margin-top: 10px;
+  border: 1px solid rgba(175, 218, 255, 0.16);
   border-radius: 8px;
-  background: var(--line);
+  background: rgba(246, 251, 255, 0.035);
 }
 
 .statusTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 760px;
+  min-width: 980px;
 }
 
 .statusTable th,
 .statusTable td {
-  padding: 13px 14px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(4, 13, 30, 0.78);
+  border-bottom: 1px solid rgba(175, 218, 255, 0.13);
+  border-right: 1px solid rgba(175, 218, 255, 0.08);
   text-align: left;
   vertical-align: middle;
   white-space: nowrap;
 }
 
+.statusTable th:last-child,
+.statusTable td:last-child {
+  border-right: 0;
+}
+
 .statusTable th {
-  color: var(--accent-strong);
-  font-size: 0.78rem;
-  font-weight: 900;
-  text-transform: uppercase;
+  padding: 16px 18px;
+  background: rgba(246, 251, 255, 0.045);
+  color: rgba(208, 226, 244, 0.72);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
 .statusTable tr:last-child td {
@@ -572,13 +591,67 @@ input:focus {
 }
 
 .statusTable td {
-  color: var(--muted);
+  height: 64px;
+  padding: 15px 18px;
+  color: rgba(226, 239, 252, 0.9);
   font-family:
     "SFMono-Regular",
     Consolas,
     "Liberation Mono",
   monospace;
-  font-size: 0.86rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.statusTable tbody tr {
+  background: rgba(4, 13, 30, 0.58);
+}
+
+.statusTable tbody tr:nth-child(even) {
+  background: rgba(8, 22, 47, 0.52);
+}
+
+.statusTable tbody tr:hover {
+  background: rgba(123, 243, 255, 0.08);
+}
+
+.hashCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileIcon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 22px;
+  border: 2px solid rgba(208, 226, 244, 0.58);
+  border-radius: 4px;
+}
+
+.fileIcon::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid rgba(208, 226, 244, 0.58);
+  border-left: 2px solid rgba(208, 226, 244, 0.58);
+  border-radius: 0 2px 0 2px;
+  background: rgba(7, 18, 38, 0.96);
+}
+
+.receiptText {
+  color: rgba(226, 239, 252, 0.92);
+  text-decoration: underline;
+  text-decoration-color: rgba(123, 243, 255, 0.38);
+  text-underline-offset: 4px;
+}
+
+.mutedDash {
+  color: rgba(166, 187, 207, 0.55);
 }
 
 .statusControls {

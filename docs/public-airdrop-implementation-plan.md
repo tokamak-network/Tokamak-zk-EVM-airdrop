@@ -171,9 +171,10 @@ Show all applications in a paginated table, with at most 10 rows per page.
 
 Columns:
 
-- Current status.
 - Qualifying transaction hash.
 - Tonnel channel address after verification.
+- Current status.
+- Created time.
 - Payout transaction hash, if status is `Transferred`.
 
 ### Winner Criteria
