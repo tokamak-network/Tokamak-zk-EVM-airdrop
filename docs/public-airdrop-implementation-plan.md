@@ -152,7 +152,7 @@ Explain:
 - Ask your AI agents to join the channel `the-great-first-channel`.
 - Ask your AI agents to create one private-state `transfer notes` transaction in Tonnel.
 - Ask your AI agents to provide the transaction hash.
-- Ask your AI agents to submit the transaction hash with this form.
+- Submit the transaction hash with this form.
 - That users must never share their EOA private key, seed phrase, or RPC secret with others including us.
 - That the transaction submitter must be a channel participant.
 - That valid submissions are unlimited, but duplicate resolved L2 addresses or duplicate transaction hashes are not valid.

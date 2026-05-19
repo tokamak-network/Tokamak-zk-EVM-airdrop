@@ -214,7 +214,7 @@ export function AirdropApp({
               transaction in <span className="accentText">Tonnel</span>.
             </li>
             <li>Ask your AI agents to provide the transaction hash.</li>
-            <li>Ask your AI agents to submit the transaction hash with this form.</li>
+            <li>Submit the transaction hash with this form.</li>
           </ol>
           <p className="warning">
             Never share your EOA private key, seed phrase, or RPC secret with
