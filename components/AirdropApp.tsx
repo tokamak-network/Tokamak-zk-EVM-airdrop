@@ -341,7 +341,7 @@ function StatusTable({ applications }: { applications: Application[] }) {
             <th>Transaction hash</th>
             <th>Tonnel channel address</th>
             <th>Status</th>
-            <th>Created time</th>
+            <th>Submitted time</th>
             <th>Payout</th>
           </tr>
         </thead>
@@ -442,12 +442,5 @@ function shortenHash(value: string): string {
 }
 
 function formatCreatedAt(value: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    month: "short",
-    timeZone: "Asia/Seoul",
-    year: "numeric",
-  }).format(new Date(value));
+  return `${new Date(value).toISOString().slice(0, 16).replace("T", " ")} UTC`;
 }

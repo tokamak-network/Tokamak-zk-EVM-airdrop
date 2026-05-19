@@ -174,7 +174,7 @@ Columns:
 - Qualifying transaction hash.
 - Tonnel channel address after verification.
 - Current status.
-- Created time.
+- Submitted time in UTC.
 - Payout transaction hash, if status is `Transferred`.
 
 ### Winner Criteria
