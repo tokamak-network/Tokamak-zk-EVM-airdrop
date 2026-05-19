@@ -177,10 +177,10 @@ Allow lookup by transaction hash, resolved address, or application ID and show:
 
 Explain:
 
-- The submitted transaction must be a valid private-state `transfer notes` transaction in Tonnel.
-- The Ethereum wallet address that submitted the transaction must be a Tonnel participant at the transaction block.
-- The reward goes to the Tonnel channel address (L2 address) registered by that Ethereum wallet address for the matching participation epoch.
-- A resolved Tonnel channel address and a qualifying transaction hash can each receive at most one reward.
+- Submit the transaction hash from a real private-state `transfer notes` transaction made in Tonnel.
+- The Ethereum wallet address that sent that transaction must have been joined to Tonnel when the transaction happened.
+- The reward goes to the Tonnel channel address (L2 address) that was registered to that Ethereum wallet address at that time.
+- Each Tonnel channel address and each transaction hash can be used for only one reward.
 
 ## Operator Tools
 

@@ -261,21 +261,20 @@ Use the transaction hash printed by wallet transfer-notes.`;
           <h2 id="winner-criteria">Winner Criteria</h2>
           <ul className="criteriaList">
             <li>
-              The submitted transaction must be a valid private-state transfer
-              notes transaction in Tonnel.
+              Submit the transaction hash from a real private-state transfer
+              notes transaction made in Tonnel.
             </li>
             <li>
-              The Ethereum wallet address that submitted the transaction must
-              be a Tonnel participant at the transaction block.
+              The Ethereum wallet address that sent that transaction must have
+              been joined to Tonnel when the transaction happened.
             </li>
             <li>
-              The reward is sent to the Tonnel channel address (L2 address)
-              registered by that Ethereum wallet address for the matching
-              participation epoch.
+              We send the reward to the Tonnel channel address (L2 address)
+              that was registered to that Ethereum wallet address at that time.
             </li>
             <li>
-              A resolved Tonnel channel address and a qualifying transaction
-              hash can each receive at most one reward.
+              Each Tonnel channel address and each transaction hash can be used
+              for only one reward.
             </li>
           </ul>
         </section>
