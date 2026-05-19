@@ -18,6 +18,8 @@ type Application = {
 
 type AirdropAppProps = {
   channel: string;
+  initialApplications: Application[];
+  initialApplicationTotal: number;
   remainingBudgetTon: number;
   rewardTon: number;
   totalBudgetTon: number;
@@ -25,8 +27,13 @@ type AirdropAppProps = {
 
 type ApiResult = {
   application?: Application | null;
+  applications?: Application[];
   error?: string;
+  page?: number;
+  total?: number;
 };
+
+const statusPageSize = 10;
 
 const statusText: Record<ApplicationStatus, string> = {
   Pending: "Waiting for verification or transfer",
@@ -37,17 +44,21 @@ const statusText: Record<ApplicationStatus, string> = {
 
 export function AirdropApp({
   channel,
+  initialApplications,
+  initialApplicationTotal,
   remainingBudgetTon,
   rewardTon,
   totalBudgetTon,
 }: AirdropAppProps) {
   const [qualifyingTxHash, setQualifyingTxHash] = useState("");
-  const [statusQuery, setStatusQuery] = useState("");
-  const [application, setApplication] = useState<Application | null>(null);
-  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [statusApplications, setStatusApplications] =
+    useState(initialApplications);
+  const [statusPage, setStatusPage] = useState(1);
+  const [statusTotal, setStatusTotal] = useState(initialApplicationTotal);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLookingUp, setIsLookingUp] = useState(false);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -76,12 +87,41 @@ export function AirdropApp({
     };
   }, []);
 
+  async function loadStatusPage(page: number) {
+    setIsLoadingStatus(true);
+    setStatusMessage(null);
+
+    try {
+      const response = await fetch(`/api/applications?page=${page}`);
+      const result = (await response.json()) as ApiResult;
+
+      if (
+        !response.ok ||
+        !Array.isArray(result.applications) ||
+        typeof result.page !== "number" ||
+        typeof result.total !== "number"
+      ) {
+        throw new Error(result.error ?? "Status table failed to load.");
+      }
+
+      setStatusApplications(result.applications);
+      setStatusPage(result.page);
+      setStatusTotal(result.total);
+    } catch (error) {
+      setStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Status table failed to load.",
+      );
+    } finally {
+      setIsLoadingStatus(false);
+    }
+  }
+
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage(null);
-    setStatusMessage(null);
-    setApplication(null);
 
     try {
       const response = await fetch("/api/applications", {
@@ -92,45 +132,20 @@ export function AirdropApp({
         body: JSON.stringify({ qualifyingTxHash }),
       });
       const result = (await response.json()) as ApiResult;
+      const application = result.application;
 
-      if (!response.ok || !result.application) {
+      if (!response.ok || !application) {
         throw new Error(result.error ?? "Submission failed.");
       }
 
-      setApplication(result.application);
-      setStatusQuery(result.application.id);
       setSubmitMessage("Application submitted.");
+      await loadStatusPage(1);
     } catch (error) {
       setSubmitMessage(
         error instanceof Error ? error.message : "Submission failed.",
       );
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  async function lookupStatus(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLookingUp(true);
-    setStatusMessage(null);
-    setSubmitMessage(null);
-    setApplication(null);
-
-    try {
-      const response = await fetch(
-        `/api/applications/status?query=${encodeURIComponent(statusQuery)}`,
-      );
-      const result = (await response.json()) as ApiResult;
-
-      if (!response.ok || !result.application) {
-        throw new Error(result.error ?? "Application not found.");
-      }
-
-      setApplication(result.application);
-    } catch (error) {
-      setStatusMessage(error instanceof Error ? error.message : "Lookup failed.");
-    } finally {
-      setIsLookingUp(false);
     }
   }
 
@@ -244,23 +259,16 @@ export function AirdropApp({
 
         <section className="contentSection" aria-labelledby="status">
           <h2 id="status">Status</h2>
-          <form onSubmit={lookupStatus} className="formStack">
-            <label>
-              Application ID, transaction hash, or resolved address
-              <input
-                value={statusQuery}
-                onChange={(event) => setStatusQuery(event.target.value)}
-                placeholder="Application ID, address, or tx hash"
-                autoComplete="off"
-                required
-              />
-            </label>
-            <button type="submit" disabled={isLookingUp}>
-              {isLookingUp ? "Checking..." : "Check status"}
-            </button>
-          </form>
+          <StatusTable applications={statusApplications} />
+          <StatusPagination
+            isLoading={isLoadingStatus}
+            onNext={() => void loadStatusPage(statusPage + 1)}
+            onPrevious={() => void loadStatusPage(statusPage - 1)}
+            page={statusPage}
+            pageSize={statusPageSize}
+            total={statusTotal}
+          />
           {statusMessage ? <p className="message">{statusMessage}</p> : null}
-          {application ? <StatusResult application={application} /> : null}
         </section>
 
         <section className="contentSection" aria-labelledby="winner-criteria">
@@ -320,45 +328,105 @@ export function AirdropApp({
   );
 }
 
-function StatusResult({ application }: { application: Application }) {
+function StatusTable({ applications }: { applications: Application[] }) {
+  if (applications.length === 0) {
+    return <p className="emptyState">No submissions yet.</p>;
+  }
+
   return (
-    <section className="statusResult" aria-label="Application status">
-      <div className="statusHeader">
-        <span className={`statusPill ${application.status}`}>
-          {application.status}
-        </span>
-        <p>{statusText[application.status]}</p>
-      </div>
-      <dl>
-        <div>
-          <dt>Application ID</dt>
-          <dd>{application.id}</dd>
-        </div>
-        <div>
-          <dt>Resolved L1 submitter</dt>
-          <dd>{application.resolvedL1Address ?? "Pending verification"}</dd>
-        </div>
-        <div>
-          <dt>Reward L2 address</dt>
-          <dd>{application.resolvedL2Address ?? "Pending verification"}</dd>
-        </div>
-        <div>
-          <dt>Qualifying transaction</dt>
-          <dd>{application.qualifyingTxHash}</dd>
-        </div>
-        {application.payoutTxHash ? (
-          <div>
-            <dt>Payout transaction</dt>
-            <dd>{application.payoutTxHash}</dd>
-          </div>
-        ) : null}
-        {application.reason ? (
-          <div>
-            <dt>Reason</dt>
-            <dd>{application.reason}</dd>
-          </div>
-        ) : null}
-      </dl>
-    </section>
+    <div className="statusTableWrap">
+      <table className="statusTable">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Transaction hash</th>
+            <th>Tonnel channel address</th>
+            <th>Payout</th>
+          </tr>
+        </thead>
+        <tbody>
+          {applications.slice(0, 10).map((application) => (
+            <tr key={application.id}>
+              <td>
+                <span
+                  className={`statusPill ${application.status}`}
+                  title={statusText[application.status]}
+                >
+                  {application.status}
+                </span>
+              </td>
+              <td title={application.qualifyingTxHash}>
+                {shortenHash(application.qualifyingTxHash)}
+              </td>
+              <td title={application.resolvedL2Address ?? ""}>
+                {application.resolvedL2Address
+                  ? shortenHash(application.resolvedL2Address)
+                  : "Pending verification"}
+              </td>
+              <td title={application.payoutTxHash ?? ""}>
+                {application.payoutTxHash
+                  ? shortenHash(application.payoutTxHash)
+                  : "-"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
+}
+
+function StatusPagination({
+  isLoading,
+  onNext,
+  onPrevious,
+  page,
+  pageSize,
+  total,
+}: {
+  isLoading: boolean;
+  onNext: () => void;
+  onPrevious: () => void;
+  page: number;
+  pageSize: number;
+  total: number;
+}) {
+  const totalPages = Math.max(Math.ceil(total / pageSize), 1);
+  const start = total === 0 ? 0 : (page - 1) * pageSize + 1;
+  const end = Math.min(page * pageSize, total);
+
+  return (
+    <div className="statusControls">
+      <p>
+        Showing {start}-{end} of {total}
+      </p>
+      <div>
+        <button
+          type="button"
+          disabled={isLoading || page <= 1}
+          onClick={onPrevious}
+        >
+          Previous
+        </button>
+        <span>
+          Page {page} / {totalPages}
+        </span>
+        <button
+          type="button"
+          disabled={isLoading || page >= totalPages}
+          onClick={onNext}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function shortenHash(value: string): string {
+  if (value.length <= 18) {
+    return value;
+  }
+
+  return `${value.slice(0, 10)}...${value.slice(-6)}`;
 }

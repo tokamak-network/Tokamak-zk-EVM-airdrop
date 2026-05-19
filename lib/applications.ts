@@ -117,13 +117,24 @@ export function findApplication(query: string): Application | null {
   return row ? mapApplication(row) : null;
 }
 
-export function listApplications(limit = 100): Application[] {
+export function listApplications(limit = 100, offset = 0): Application[] {
   const safeLimit = Math.min(Math.max(limit, 1), 500);
+  const safeOffset = Math.max(offset, 0);
   const rows = getDb()
-    .prepare("SELECT * FROM applications ORDER BY created_at DESC LIMIT ?")
-    .all(safeLimit) as ApplicationRow[];
+    .prepare(
+      "SELECT * FROM applications ORDER BY created_at DESC LIMIT ? OFFSET ?",
+    )
+    .all(safeLimit, safeOffset) as ApplicationRow[];
 
   return rows.map(mapApplication);
+}
+
+export function countApplications(): number {
+  const row = getDb()
+    .prepare("SELECT COUNT(*) as count FROM applications")
+    .get() as { count: number };
+
+  return row.count;
 }
 
 export function getPendingForVerification(limit = 25): Application[] {

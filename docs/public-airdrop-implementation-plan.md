@@ -43,8 +43,8 @@ Use a single Next.js app unless implementation later proves that another stack i
 
 Components:
 
-- Public pages: event guide, submission form, status lookup.
-- API routes: create submission, get status.
+- Public pages: event guide, submission form, status table.
+- API routes: create submission, list applications, get status.
 - Database: one primary table for submissions.
 - Worker script or protected API route: verify `Pending` submissions and transfer eligible rewards.
 
@@ -167,11 +167,13 @@ The form should be plain and direct. Client-side validation can help, but the se
 
 ### Status
 
-Allow lookup by transaction hash, resolved address, or application ID and show:
+Show all applications in a paginated table, with at most 10 rows per page.
+
+Columns:
 
 - Current status.
-- Rejection or failure reason, if any.
-- Resolved L1 submitter and reward L2 address after verification.
+- Qualifying transaction hash.
+- Tonnel channel address after verification.
 - Payout transaction hash, if status is `Transferred`.
 
 ### Winner Criteria

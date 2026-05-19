@@ -385,8 +385,7 @@ h1 {
   padding: 36px clamp(20px, 5vw, 72px) 42px;
 }
 
-.contentSection,
-.statusResult {
+.contentSection {
   border: 1px solid transparent;
   border-radius: 8px;
   background:
@@ -400,7 +399,6 @@ h1 {
 }
 
 .contentSection::before,
-.statusResult::before,
 .eventStats::before {
   content: "";
   position: absolute;
@@ -511,25 +509,6 @@ input:focus {
   margin-top: 18px;
 }
 
-.statusResult {
-  margin-top: 22px;
-  padding: 18px;
-}
-
-.statusHeader {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.statusHeader p {
-  margin: 0;
-  color: var(--muted);
-  font-weight: 700;
-}
-
 .statusPill {
   display: inline-flex;
   align-items: center;
@@ -557,33 +536,101 @@ input:focus {
   background: var(--failed);
 }
 
-.statusResult dl {
-  display: grid;
-  gap: 1px;
-  margin: 0;
-  overflow: hidden;
+.statusTableWrap {
+  overflow-x: auto;
+  margin-top: 4px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--line);
 }
 
-.statusResult dl div {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 12px;
-  padding: 12px;
-  background: rgba(4, 13, 30, 0.78);
+.statusTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
 }
 
-.statusResult dt {
+.statusTable th,
+.statusTable td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(4, 13, 30, 0.78);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.statusTable th {
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.statusTable tr:last-child td {
+  border-bottom: 0;
+}
+
+.statusTable td {
   color: var(--muted);
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+  monospace;
+  font-size: 0.86rem;
+}
+
+.statusControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.statusControls p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
-.statusResult dd {
-  min-width: 0;
+.statusControls div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusControls button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(4, 13, 30, 0.78);
+  color: var(--accent-strong);
+  cursor: pointer;
+  padding: 8px 12px;
+  font-weight: 900;
+}
+
+.statusControls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.statusControls span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.emptyState {
   margin: 0;
-  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.55;
 }
 
 .siteFooter {
@@ -635,9 +682,5 @@ input:focus {
 
   .workArea {
     padding-bottom: 40px;
-  }
-
-  .statusResult dl div {
-    grid-template-columns: 1fr;
   }
 }
