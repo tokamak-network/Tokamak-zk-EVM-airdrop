@@ -265,12 +265,12 @@ Use the transaction hash printed by wallet transfer-notes.`;
               notes transaction in Tonnel.
             </li>
             <li>
-              The L1 address that submitted the transaction must be a Tonnel
-              channel participant at the transaction block.
+              The Ethereum wallet address that submitted the transaction must
+              be a Tonnel channel participant at the transaction block.
             </li>
             <li>
-              The reward is sent to the L2 address registered by that L1 address
-              for the matching participation epoch.
+              The reward is sent to the L2 address registered by that Ethereum
+              wallet address for the matching participation epoch.
             </li>
             <li>
               A resolved L2 address and a qualifying transaction hash can each
