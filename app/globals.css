@@ -54,6 +54,14 @@ dd {
     monospace;
 }
 
+.shadedText {
+  border: 1px solid rgba(123, 243, 255, 0.22);
+  border-radius: 5px;
+  background: rgba(123, 243, 255, 0.12);
+  color: #d8fbff;
+  padding: 0.08em 0.34em;
+}
+
 .appShell {
   min-height: 100vh;
   isolation: isolate;
@@ -439,6 +447,12 @@ h1 {
 .criteriaList {
   display: grid;
   gap: 10px;
+}
+
+.accentText {
+  color: var(--accent-strong);
+  font-weight: 900;
+  text-shadow: 0 0 12px rgba(123, 243, 255, 0.28);
 }
 
 .warning,
