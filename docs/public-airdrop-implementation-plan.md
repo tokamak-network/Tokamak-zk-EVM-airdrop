@@ -148,10 +148,10 @@ The public page uses one column with four sections in this exact order:
 Explain:
 
 - Event reward and rule.
-- Ask your AI agents to install the latest version of the NPM package `@tokamak-private-dapps/private-state-cli`.
-- Ask your AI agents to join the channel `the-great-first-channel`.
-- Ask your AI agents to create one private-state `transfer notes` transaction in Tonnel.
-- Ask your AI agents to provide the transaction hash.
+- Ask your AI agents to install the latest version of `@tokamak-private-dapps/private-state-cli`.
+- Ask your AI agents to join `the-great-first-channel`.
+- Ask your AI agents to make one private-state `transfer notes` transaction on Tonnel.
+- Ask your AI agents for the transaction hash.
 - Submit the transaction hash with this form.
 - That users must never share their EOA private key, seed phrase, or RPC secret with others including us.
 - That the transaction submitter must be a channel participant.

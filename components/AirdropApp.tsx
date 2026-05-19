@@ -199,21 +199,21 @@ export function AirdropApp({
           <h2 id="how-to-participate">How To Participate</h2>
           <ol>
             <li>
-              Ask your AI agents to install the latest version of the NPM package{" "}
+              Ask your AI agents to install the latest version of{" "}
               <code className="shadedText">
                 @tokamak-private-dapps/private-state-cli
               </code>
               .
             </li>
             <li>
-              Ask your AI agents to join the channel{" "}
+              Ask your AI agents to join{" "}
               <code className="shadedText">{channel}</code>.
             </li>
             <li>
-              Ask your AI agents to create one private-state transfer notes
-              transaction in <span className="accentText">Tonnel</span>.
+              Ask your AI agents to make one private-state transfer notes
+              transaction on <span className="accentText">Tonnel</span>.
             </li>
-            <li>Ask your AI agents to provide the transaction hash.</li>
+            <li>Ask your AI agents for the transaction hash.</li>
             <li>Submit the transaction hash with this form.</li>
           </ol>
           <p className="warning">
