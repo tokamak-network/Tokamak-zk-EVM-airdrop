@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tonnel Airdrop",
+  title: "TON AIRDROP ON TONNEL",
   description:
-    "Submit a qualifying Tokamak private-state transfer and track payout status.",
+    "Submit an L2 account and a valid private-state transaction in the Tonnel channel to receive TON rewards.",
 };
 
 export default function RootLayout({

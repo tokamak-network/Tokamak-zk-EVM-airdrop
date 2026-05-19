@@ -114,13 +114,10 @@ private-state-cli address`;
           <div className="brandLine">
             <span>Tonnel</span>
           </div>
-          <h1>{rewardTon} TON for one qualifying transfer notes transaction</h1>
+          <h1>TON AIRDROP ON TONNEL</h1>
           <p>
-            Tonnel is the public name for <code>{channel}</code>, one of the
-            Tokamak Private App Channels. Submit an L2 account and a valid
-            Tokamak private-state transaction from this channel. New submissions
-            start as <strong>Pending</strong>; completed rewards are marked{" "}
-            <strong>Transferred</strong>.
+            Submit an L2 account and a valid private-state transaction in the
+            Tonnel channel to receive TON rewards.
           </p>
         </div>
         <dl className="eventStats">
@@ -229,6 +226,30 @@ private-state-cli address`;
           {application ? <StatusResult application={application} /> : null}
         </div>
       </section>
+
+      <footer className="siteFooter">
+        <p>
+          Tonnel is the public name for <code>{channel}</code>, one of the
+          Tokamak Private App Channels. private-state is one of the dApps
+          running in this channel. To learn more, read the{" "}
+          <a
+            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/whitepaper.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            whitepaper.md
+          </a>{" "}
+          and the{" "}
+          <a
+            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/dapps/private-state/index.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            index.md
+          </a>
+          .
+        </p>
+      </footer>
     </main>
   );
 }
