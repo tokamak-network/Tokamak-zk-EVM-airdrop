@@ -213,8 +213,8 @@ export function AirdropApp({
             <li>Ask your AI agents to submit the transaction hash with this form.</li>
           </ol>
           <p className="warning">
-            Never submit an EOA private key, seed phrase, or RPC secret to this
-            site.
+            Never share your EOA private key, seed phrase, or RPC secret with
+            others including us.
           </p>
         </section>
 
