@@ -2,9 +2,11 @@
 
 ## Goal
 
-Rebuild this repository as a simple public airdrop application for the Tokamak private-state DApp.
+Rebuild this repository as a simple public airdrop application for Tonnel.
 
-The event rewards `25 TON` to each submitted L2 account when the server verifies one valid `transfer notes` transaction generated in `the-great-first-channel`. KYC is not required. The same person may claim multiple times by creating multiple L2 accounts, but each L2 account can be paid only once.
+Tonnel is the public brand name for `the-great-first-channel`, one of the Tokamak Private App Channels. Tokamak private-state is the dApp running in that channel.
+
+The event rewards `25 TON` to each submitted L2 account when the server verifies one valid Tokamak private-state `transfer notes` transaction generated in `the-great-first-channel`. KYC is not required. The same person may claim multiple times by creating multiple L2 accounts, but each L2 account can be paid only once.
 
 This document is the pre-implementation plan. It intentionally avoids a large admin system, complex event configuration, or extra audit tables unless they become necessary.
 
@@ -24,7 +26,8 @@ Do not build generalized campaign management, KYC, social verification, manual a
 
 ## Event Rules
 
-- Channel: `the-great-first-channel`.
+- Public channel brand: `Tonnel`.
+- Underlying channel: `the-great-first-channel`.
 - Qualifying action: one valid `transfer notes` transaction in that channel.
 - Reward: `25 TON`.
 - Claim limit: one successful payout per L2 account.
@@ -117,7 +120,7 @@ Idempotency is required. A retry must not create a second payout for the same L2
 Explain:
 
 - Event reward and rule.
-- Required channel: `the-great-first-channel`.
+- Required channel: Tonnel, backed by `the-great-first-channel`.
 - Required package: `@tokamak-private-dapps/private-state-cli`.
 - How to generate a qualifying `transfer notes` transaction.
 - How to find the L2 address and transaction hash.

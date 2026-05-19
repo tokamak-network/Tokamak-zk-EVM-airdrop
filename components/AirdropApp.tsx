@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { FormEvent, useState } from "react";
 
 type ApplicationStatus = "Pending" | "Transferred" | "Duplication" | "Failed";
@@ -113,21 +112,14 @@ private-state-cli address`;
       <section className="heroBand">
         <div className="heroContent">
           <div className="brandLine">
-            <Image
-              src="/tokamak-mark.svg"
-              alt=""
-              className="brandMark"
-              width={28}
-              height={28}
-              priority
-            />
-            <span>Tokamak Private-State Airdrop</span>
+            <span>Tonnel</span>
           </div>
           <h1>{rewardTon} TON for one qualifying transfer notes transaction</h1>
           <p>
-            Submit an L2 account and a valid transaction from{" "}
-            <code>{channel}</code>. New submissions start as{" "}
-            <strong>Pending</strong>; completed rewards are marked{" "}
+            Tonnel is the public name for <code>{channel}</code>, one of the
+            Tokamak Private App Channels. Submit an L2 account and a valid
+            Tokamak private-state transaction from this channel. New submissions
+            start as <strong>Pending</strong>; completed rewards are marked{" "}
             <strong>Transferred</strong>.
           </p>
         </div>
@@ -151,11 +143,11 @@ private-state-cli address`;
         <div className="instructions">
           <h2>Before submitting</h2>
           <ol>
-            <li>Install the latest private-state CLI package.</li>
+            <li>Install the latest Tokamak private-state CLI package.</li>
             <li>
-              Join <code>{channel}</code>.
+              Join Tonnel, the public name for <code>{channel}</code>.
             </li>
-            <li>Create one transfer notes transaction in that channel.</li>
+            <li>Create one transfer notes transaction in Tonnel.</li>
             <li>Submit only your L2 address and transaction hash here.</li>
           </ol>
           <pre>{commandSnippet}</pre>

@@ -72,17 +72,11 @@ dd {
 .brandLine {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   margin-bottom: 26px;
   color: var(--muted);
   font-size: 0.92rem;
   font-weight: 700;
   text-transform: uppercase;
-}
-
-.brandMark {
-  height: 28px;
-  width: 28px;
 }
 
 h1 {
