@@ -232,7 +232,7 @@ export function AirdropApp({
             <li>Submit the transaction hash with this form.</li>
           </ol>
           <p className="warning">
-            Never share your EOA private key, seed phrase, or RPC secret with
+            Never share your Ethereum wallet private key or any secrets with
             others including us.
           </p>
         </section>
