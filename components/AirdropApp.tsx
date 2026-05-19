@@ -17,6 +17,7 @@ type Application = {
 
 type AirdropAppProps = {
   channel: string;
+  remainingBudgetTon: number;
   rewardTon: number;
   totalBudgetTon: number;
   initialPanel?: "submit" | "status";
@@ -36,6 +37,7 @@ const statusText: Record<ApplicationStatus, string> = {
 
 export function AirdropApp({
   channel,
+  remainingBudgetTon,
   rewardTon,
   totalBudgetTon,
   initialPanel = "submit",
@@ -130,8 +132,8 @@ private-state-cli address`;
             <dd>{totalBudgetTon} TON</dd>
           </div>
           <div>
-            <dt>Limit</dt>
-            <dd>Unlimited</dd>
+            <dt>Remaining</dt>
+            <dd>{remainingBudgetTon} TON</dd>
           </div>
         </dl>
       </section>
