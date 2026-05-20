@@ -13,6 +13,8 @@ The app collects qualifying transaction hashes, verifies that each Tokamak priva
 
 ## Setup
 
+Without `DATABASE_URL`, local development and tests use SQLite at `AIRDROP_DB_PATH`.
+
 ```bash
 npm install
 npm run db:init
@@ -42,6 +44,7 @@ The public app collects submissions. The payout worker is local-only and must be
 
 ```bash
 AIRDROP_DB_PATH=./data/airdrop.sqlite
+DATABASE_URL=postgres://...
 AIRDROP_NETWORK=mainnet
 AIRDROP_CHANNEL=the-great-first-channel
 AIRDROP_REWARD_TON=25
@@ -68,6 +71,8 @@ UPSTASH_REDIS_REST_TOKEN=...
 Do not store `~/user-secrets/account2.key` in this repository, the database, logs, or deployment environment.
 
 For local worker execution, put these values in `.env.local` on the operator MacBook. The worker loads `.env` and `.env.local` before reading configuration, which keeps `launchd` runs consistent with manual runs. If `AIRDROP_RPC_URL` is not set, the worker uses the private-state CLI RPC configuration at `~/tokamak-private-channels/workspace/mainnet/rpc-config.env`.
+
+For Vercel deployment, provision Neon Postgres and Upstash Redis from the Vercel Marketplace. Vercel must have `DATABASE_URL`, `UPSTASH_REDIS_REST_URL`, and `UPSTASH_REDIS_REST_TOKEN`. The MacBook worker must use the same `DATABASE_URL` as the deployed app.
 
 ## Submit Abuse Protection
 

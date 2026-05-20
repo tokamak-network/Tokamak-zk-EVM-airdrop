@@ -2,33 +2,138 @@ import fs from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
+import { neon } from "@neondatabase/serverless";
+
 import { getConfig } from "@/lib/config";
 
-let database: DatabaseSync | null = null;
+type SqlValue = string | number | null;
+type SqlClient = ReturnType<typeof neon>;
 
-export function getDb(): DatabaseSync {
-  if (!database) {
-    const { dbPath } = getConfig();
-    fs.mkdirSync(path.dirname(dbPath), { recursive: true });
-    database = new DatabaseSync(dbPath);
-    database.exec("PRAGMA journal_mode = WAL;");
-    database.exec("PRAGMA foreign_keys = ON;");
-    migrate(database);
-  }
+let sqliteDatabase: DatabaseSync | null = null;
+let sqlClient: SqlClient | null = null;
+let migrated = false;
 
-  return database;
+export function usingPostgres(): boolean {
+  return Boolean(process.env.DATABASE_URL);
 }
 
-export function closeDb(): void {
-  if (!database) {
+export async function dbGet<T extends Record<string, unknown>>(
+  sql: string,
+  params: SqlValue[] = [],
+): Promise<T | null> {
+  await ensureMigrated();
+
+  if (usingPostgres()) {
+    const rows = await runPostgres<T>(sql, params);
+
+    return rows[0] ?? null;
+  }
+
+  return getSqliteDb().prepare(sql).get(...params) as T | null;
+}
+
+export async function dbAll<T extends Record<string, unknown>>(
+  sql: string,
+  params: SqlValue[] = [],
+): Promise<T[]> {
+  await ensureMigrated();
+
+  if (usingPostgres()) {
+    return runPostgres<T>(sql, params);
+  }
+
+  return getSqliteDb().prepare(sql).all(...params) as T[];
+}
+
+export async function dbRun(
+  sql: string,
+  params: SqlValue[] = [],
+): Promise<void> {
+  await ensureMigrated();
+
+  if (usingPostgres()) {
+    await runPostgres(sql, params);
     return;
   }
 
-  database.close();
-  database = null;
+  getSqliteDb().prepare(sql).run(...params);
 }
 
-export function migrate(db = getDb()): void {
+export async function migrate(): Promise<void> {
+  if (usingPostgres()) {
+    await migratePostgres();
+  } else {
+    migrateSqlite(getSqliteDb());
+  }
+
+  migrated = true;
+}
+
+export function closeDb(): void {
+  if (sqliteDatabase) {
+    sqliteDatabase.close();
+    sqliteDatabase = null;
+  }
+
+  sqlClient = null;
+  migrated = false;
+}
+
+async function ensureMigrated(): Promise<void> {
+  if (migrated) {
+    return;
+  }
+
+  await migrate();
+}
+
+function getSqliteDb(): DatabaseSync {
+  if (process.env.VERCEL === "1") {
+    throw new Error("DATABASE_URL is required for Vercel deployments.");
+  }
+
+  if (!sqliteDatabase) {
+    const { dbPath } = getConfig();
+    fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+    sqliteDatabase = new DatabaseSync(dbPath);
+    sqliteDatabase.exec("PRAGMA journal_mode = WAL;");
+    sqliteDatabase.exec("PRAGMA foreign_keys = ON;");
+  }
+
+  return sqliteDatabase;
+}
+
+function getSqlClient(): SqlClient {
+  if (!sqlClient) {
+    if (!process.env.DATABASE_URL) {
+      throw new Error("DATABASE_URL is required for Postgres database access.");
+    }
+
+    sqlClient = neon(process.env.DATABASE_URL);
+  }
+
+  return sqlClient;
+}
+
+async function runPostgres<T extends Record<string, unknown>>(
+  sql: string,
+  params: SqlValue[] = [],
+): Promise<T[]> {
+  const postgresSql = toPostgresSql(sql);
+
+  return (await getSqlClient().query(postgresSql, params)) as T[];
+}
+
+function toPostgresSql(sql: string): string {
+  let index = 0;
+
+  return sql.replace(/\?/g, () => {
+    index += 1;
+    return `$${index}`;
+  });
+}
+
+function migrateSqlite(db: DatabaseSync): void {
   db.exec(`
     CREATE TABLE IF NOT EXISTS applications (
       id TEXT PRIMARY KEY,
@@ -85,6 +190,59 @@ export function migrate(db = getDb()): void {
     );
   `);
 }
+
+async function migratePostgres(): Promise<void> {
+  for (const statement of postgresMigrations) {
+    await runPostgres(statement);
+  }
+}
+
+const postgresMigrations = [
+  `
+    CREATE TABLE IF NOT EXISTS applications (
+      id TEXT PRIMARY KEY,
+      l2_address TEXT,
+      qualifying_tx_hash TEXT NOT NULL,
+      resolved_l1_address TEXT,
+      resolved_l2_address TEXT,
+      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Failed')),
+      reason TEXT,
+      payout_tx_hash TEXT,
+      verified_at TEXT,
+      transferred_at TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  `,
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l1_address TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
+  "CREATE INDEX IF NOT EXISTS idx_applications_l2_address ON applications (l2_address)",
+  "CREATE INDEX IF NOT EXISTS idx_applications_tx_hash ON applications (qualifying_tx_hash)",
+  `
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_active_tx_hash
+      ON applications (qualifying_tx_hash)
+      WHERE status != 'Duplication'
+  `,
+  "CREATE INDEX IF NOT EXISTS idx_applications_status ON applications (status)",
+  "CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address ON applications (resolved_l1_address)",
+  "CREATE INDEX IF NOT EXISTS idx_applications_resolved_l2_address ON applications (resolved_l2_address)",
+  `
+    CREATE TABLE IF NOT EXISTS event_state (
+      id TEXT PRIMARY KEY,
+      remaining_budget_ton DOUBLE PRECISION,
+      reward_wallet_unused_note_count INTEGER NOT NULL DEFAULT 0,
+      reward_wallet_unused_note_balance_ton DOUBLE PRECISION,
+      transferred_count INTEGER NOT NULL DEFAULT 0,
+      expected_spent_ton DOUBLE PRECISION NOT NULL DEFAULT 0,
+      budget_discrepancy_ton DOUBLE PRECISION,
+      last_budget_sync_at TEXT,
+      last_worker_run_at TEXT,
+      last_worker_error TEXT,
+      updated_at TEXT NOT NULL
+    )
+  `,
+];
 
 function addColumnIfMissing(
   db: DatabaseSync,

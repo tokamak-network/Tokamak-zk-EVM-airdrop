@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const query = url.searchParams.get("query") ?? "";
-  const application = findApplication(query);
+  const application = await findApplication(query);
 
   if (!application) {
     return NextResponse.json({ application: null }, { status: 404 });

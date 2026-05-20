@@ -76,10 +76,10 @@ export async function runAirdropWorker(
 
   try {
     await runWorkerSteps(summary, dependencies);
-    markWorkerRun(null);
+    await markWorkerRun(null);
     return summary;
   } catch (error) {
-    markWorkerRun(getErrorMessage(error));
+    await markWorkerRun(getErrorMessage(error));
     throw error;
   }
 }
@@ -105,7 +105,7 @@ async function verifyPendingApplications(
 ): Promise<void> {
   const config = dependencies.getConfig();
 
-  for (const application of getPendingForVerification()) {
+  for (const application of await getPendingForVerification()) {
     try {
       const result = await dependencies.verifySubmittedTransaction(
         config,
@@ -113,18 +113,18 @@ async function verifyPendingApplications(
       );
 
       if (result.valid) {
-        markVerified(
+        await markVerified(
           application.id,
           result.resolvedL1Address,
           result.resolvedL2Address,
         );
         summary.verified += 1;
       } else {
-        markFailed(application.id, result.reason);
+        await markFailed(application.id, result.reason);
         summary.failed += 1;
       }
     } catch (error) {
-      markFailed(application.id, getErrorMessage(error));
+      await markFailed(application.id, getErrorMessage(error));
       summary.failed += 1;
     }
   }
@@ -138,13 +138,13 @@ async function payoutVerifiedApplications(
   const config = dependencies.getConfig();
 
   if (config.payoutsPaused) {
-    summary.skippedPayouts += getVerifiedPendingForPayout().length;
+    summary.skippedPayouts += (await getVerifiedPendingForPayout()).length;
     return;
   }
 
-  for (const application of getVerifiedPendingForPayout()) {
-    if (hasTransferredDuplicate(application)) {
-      markDuplication(
+  for (const application of await getVerifiedPendingForPayout()) {
+    if (await hasTransferredDuplicate(application)) {
+      await markDuplication(
         application.id,
         "A transferred application already exists for this resolved L2 address or transaction hash.",
       );
@@ -153,7 +153,7 @@ async function payoutVerifiedApplications(
     }
 
     if (!application.resolvedL2Address) {
-      markFailed(application.id, "Verified application is missing a resolved L2 address.");
+      await markFailed(application.id, "Verified application is missing a resolved L2 address.");
       summary.failed += 1;
       continue;
     }
@@ -163,7 +163,7 @@ async function payoutVerifiedApplications(
       const notes = parseUnusedRewardNotes(notesOutput);
 
       if (sumRewardNotes(notes) < config.rewardTon) {
-        markFailed(application.id, "Reward wallet has less than 25 TON in unused notes.");
+        await markFailed(application.id, "Reward wallet has less than 25 TON in unused notes.");
         summary.failed += 1;
         continue;
       }
@@ -185,11 +185,11 @@ async function payoutVerifiedApplications(
         selection.amounts,
       );
 
-      markTransferred(application.id, payoutTxHash);
+      await markTransferred(application.id, payoutTxHash);
       summary.transferred += 1;
       await syncBudget(summary, rewardWallet, dependencies);
     } catch (error) {
-      markFailed(application.id, getErrorMessage(error));
+      await markFailed(application.id, getErrorMessage(error));
       summary.failed += 1;
     }
   }
@@ -204,10 +204,10 @@ async function syncBudget(
   const notesOutput = await dependencies.getWalletNotes(config, rewardWallet);
   const notes = parseUnusedRewardNotes(notesOutput);
   const remainingBudgetTon = sumRewardNotes(notes);
-  const transferredCount = countTransferredApplications();
+  const transferredCount = await countTransferredApplications();
   const expectedSpentTon = transferredCount * config.rewardTon;
 
-  upsertBudgetSync({
+  await upsertBudgetSync({
     remainingBudgetTon,
     rewardWalletUnusedNoteCount: notes.length,
     transferredCount,

@@ -8,15 +8,19 @@ import { getEventState } from "@/lib/event-state";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage() {
   const config = getConfig();
-  const eventState = getEventState();
+  const [eventState, applications, applicationTotal] = await Promise.all([
+    getEventState(),
+    listApplications(10),
+    countApplications(),
+  ]);
 
   return (
     <AirdropApp
       channel={config.channel}
-      initialApplications={listApplications(10)}
-      initialApplicationTotal={countApplications()}
+      initialApplications={applications}
+      initialApplicationTotal={applicationTotal}
       remainingBudgetTon={eventState?.remainingBudgetTon ?? null}
       rewardTon={config.rewardTon}
       totalBudgetTon={config.totalBudgetTon}

@@ -17,9 +17,9 @@ import { withTempDbAsync } from "./test-utils";
 test("runAirdropWorker skips payout transfer when payouts are paused", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"c".repeat(64)}`;
-    const created = createApplication({ qualifyingTxHash: txHash });
+    const created = await createApplication({ qualifyingTxHash: txHash });
 
-    markVerified(
+    await markVerified(
       created.application.id,
       "0x0000000000000000000000000000000000000011",
       "0x0000000000000000000000000000000000000022",
@@ -55,8 +55,8 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
     };
 
     const summary = await runAirdropWorker(dependencies);
-    const application = findApplication(txHash);
-    const eventState = getEventState();
+    const application = await findApplication(txHash);
+    const eventState = await getEventState();
 
     assert.equal(summary.skippedPayouts, 1);
     assert.equal(summary.transferred, 0);

@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-import { getDb } from "@/lib/db";
+import { dbAll, dbGet, dbRun } from "@/lib/db";
 import type { ApplicationStatus } from "@/lib/status";
 
 export type Application = {
@@ -41,14 +41,13 @@ export type CreateApplicationResult = {
   created: boolean;
 };
 
-export function createApplication(
+export async function createApplication(
   input: CreateApplicationInput,
-): CreateApplicationResult {
+): Promise<CreateApplicationResult> {
   const qualifyingTxHash = normalizeTxHash(input.qualifyingTxHash);
   assertSubmissionInput(qualifyingTxHash);
 
-  const db = getDb();
-  const duplicate = findDuplicateTransaction(qualifyingTxHash);
+  const duplicate = await findDuplicateTransaction(qualifyingTxHash);
 
   if (duplicate) {
     return {
@@ -61,20 +60,23 @@ export function createApplication(
   const id = randomUUID();
 
   try {
-    db.prepare(`
-      INSERT INTO applications (
-        id,
-        l2_address,
-        qualifying_tx_hash,
-        status,
-        reason,
-        created_at,
-        updated_at
-      )
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(id, "", qualifyingTxHash, "Pending", null, now, now);
+    await dbRun(
+      `
+        INSERT INTO applications (
+          id,
+          l2_address,
+          qualifying_tx_hash,
+          status,
+          reason,
+          created_at,
+          updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `,
+      [id, "", qualifyingTxHash, "Pending", null, now, now],
+    );
   } catch (error) {
-    const existing = findDuplicateTransaction(qualifyingTxHash);
+    const existing = await findDuplicateTransaction(qualifyingTxHash);
 
     if (existing) {
       return {
@@ -86,7 +88,7 @@ export function createApplication(
     throw error;
   }
 
-  const application = getApplicationById(id);
+  const application = await getApplicationById(id);
 
   if (!application) {
     throw new Error("Application was not persisted.");
@@ -98,31 +100,33 @@ export function createApplication(
   };
 }
 
-export function getApplicationById(id: string): Application | null {
-  const row = getDb()
-    .prepare("SELECT * FROM applications WHERE id = ?")
-    .get(id) as ApplicationRow | undefined;
+export async function getApplicationById(id: string): Promise<Application | null> {
+  const row = await dbGet<ApplicationRow>(
+    "SELECT * FROM applications WHERE id = ?",
+    [id],
+  );
 
   return row ? mapApplication(row) : null;
 }
 
-export function findApplication(query: string): Application | null {
+export async function findApplication(query: string): Promise<Application | null> {
   const normalizedQuery = normalizeInput(query);
 
   if (!normalizedQuery) {
     return null;
   }
 
-  const exactIdRow = getDb()
-    .prepare("SELECT * FROM applications WHERE id = ?")
-    .get(normalizedQuery) as ApplicationRow | undefined;
+  const exactIdRow = await dbGet<ApplicationRow>(
+    "SELECT * FROM applications WHERE id = ?",
+    [normalizedQuery],
+  );
 
   if (exactIdRow) {
     return mapApplication(exactIdRow);
   }
 
-  const row = getDb()
-    .prepare(`
+  const row = await dbGet<ApplicationRow>(
+    `
       SELECT * FROM applications
       WHERE qualifying_tx_hash = ?
         OR resolved_l1_address = ?
@@ -137,71 +141,87 @@ export function findApplication(query: string): Application | null {
         END,
         created_at DESC
       LIMIT 1
-    `)
-    .get(
-      normalizedQuery,
-      normalizedQuery,
-      normalizedQuery,
-      normalizedQuery,
-    ) as ApplicationRow | undefined;
+    `,
+    normalizedQuery.match(/^0x[a-fA-F0-9]{64}$/)
+      ? [
+          normalizeTxHash(normalizedQuery),
+          normalizedQuery,
+          normalizedQuery,
+          normalizedQuery,
+        ]
+      : [
+          normalizedQuery,
+          normalizedQuery,
+          normalizedQuery,
+          normalizedQuery,
+        ],
+  );
 
   return row ? mapApplication(row) : null;
 }
 
-export function listApplications(limit = 100, offset = 0): Application[] {
+export async function listApplications(
+  limit = 100,
+  offset = 0,
+): Promise<Application[]> {
   const safeLimit = Math.min(Math.max(limit, 1), 500);
   const safeOffset = Math.max(offset, 0);
-  const rows = getDb()
-    .prepare(
-      "SELECT * FROM applications ORDER BY created_at DESC LIMIT ? OFFSET ?",
-    )
-    .all(safeLimit, safeOffset) as ApplicationRow[];
+  const rows = await dbAll<ApplicationRow>(
+    "SELECT * FROM applications ORDER BY created_at DESC LIMIT ? OFFSET ?",
+    [safeLimit, safeOffset],
+  );
 
   return rows.map(mapApplication);
 }
 
-export function countApplications(): number {
-  const row = getDb()
-    .prepare("SELECT COUNT(*) as count FROM applications")
-    .get() as { count: number };
+export async function countApplications(): Promise<number> {
+  const row = await dbGet<{ count: number | string }>(
+    "SELECT COUNT(*) as count FROM applications",
+  );
 
-  return row.count;
+  return Number(row?.count ?? 0);
 }
 
-export function getPendingForVerification(limit = 25): Application[] {
-  const rows = getDb()
-    .prepare(`
+export async function getPendingForVerification(
+  limit = 25,
+): Promise<Application[]> {
+  const rows = await dbAll<ApplicationRow>(
+    `
       SELECT * FROM applications
       WHERE status = 'Pending'
         AND verified_at IS NULL
       ORDER BY created_at ASC
       LIMIT ?
-    `)
-    .all(limit) as ApplicationRow[];
+    `,
+    [limit],
+  );
 
   return rows.map(mapApplication);
 }
 
-export function getVerifiedPendingForPayout(limit = 25): Application[] {
-  const rows = getDb()
-    .prepare(`
+export async function getVerifiedPendingForPayout(
+  limit = 25,
+): Promise<Application[]> {
+  const rows = await dbAll<ApplicationRow>(
+    `
       SELECT * FROM applications
       WHERE status = 'Pending'
         AND verified_at IS NOT NULL
       ORDER BY verified_at ASC
       LIMIT ?
-    `)
-    .all(limit) as ApplicationRow[];
+    `,
+    [limit],
+  );
 
   return rows.map(mapApplication);
 }
 
-export function markVerified(
+export async function markVerified(
   id: string,
   resolvedL1Address: string,
   resolvedL2Address: string,
-): void {
-  updateApplication(id, {
+): Promise<void> {
+  await updateApplication(id, {
     resolved_l1_address: normalizeInput(resolvedL1Address),
     resolved_l2_address: normalizeInput(resolvedL2Address),
     verified_at: new Date().toISOString(),
@@ -209,22 +229,28 @@ export function markVerified(
   });
 }
 
-export function markDuplication(id: string, reason: string): void {
-  updateApplication(id, {
+export async function markDuplication(
+  id: string,
+  reason: string,
+): Promise<void> {
+  await updateApplication(id, {
     status: "Duplication",
     reason,
   });
 }
 
-export function markFailed(id: string, reason: string): void {
-  updateApplication(id, {
+export async function markFailed(id: string, reason: string): Promise<void> {
+  await updateApplication(id, {
     status: "Failed",
     reason,
   });
 }
 
-export function markTransferred(id: string, payoutTxHash: string): void {
-  updateApplication(id, {
+export async function markTransferred(
+  id: string,
+  payoutTxHash: string,
+): Promise<void> {
+  await updateApplication(id, {
     status: "Transferred",
     payout_tx_hash: payoutTxHash,
     transferred_at: new Date().toISOString(),
@@ -232,37 +258,40 @@ export function markTransferred(id: string, payoutTxHash: string): void {
   });
 }
 
-export function hasTransferredDuplicate(application: Application): boolean {
+export async function hasTransferredDuplicate(
+  application: Application,
+): Promise<boolean> {
   if (!application.resolvedL2Address) {
     return false;
   }
 
-  const row = getDb()
-    .prepare(`
+  const row = await dbGet<{ id: string }>(
+    `
       SELECT id FROM applications
       WHERE id != ?
         AND status = 'Transferred'
         AND (resolved_l2_address = ? OR qualifying_tx_hash = ?)
       LIMIT 1
-    `)
-    .get(
+    `,
+    [
       application.id,
       application.resolvedL2Address,
       application.qualifyingTxHash,
-    );
+    ],
+  );
 
   return Boolean(row);
 }
 
-export function countTransferredApplications(): number {
-  const row = getDb()
-    .prepare("SELECT COUNT(*) as count FROM applications WHERE status = 'Transferred'")
-    .get() as { count: number };
+export async function countTransferredApplications(): Promise<number> {
+  const row = await dbGet<{ count: number | string }>(
+    "SELECT COUNT(*) as count FROM applications WHERE status = 'Transferred'",
+  );
 
-  return row.count;
+  return Number(row?.count ?? 0);
 }
 
-function updateApplication(
+async function updateApplication(
   id: string,
   values: Partial<{
     status: ApplicationStatus;
@@ -273,7 +302,7 @@ function updateApplication(
     resolved_l1_address: string;
     resolved_l2_address: string;
   }>,
-): void {
+): Promise<void> {
   const entries = Object.entries(values).filter(
     (entry): entry is [string, string | null] => entry[1] !== undefined,
   );
@@ -285,25 +314,29 @@ function updateApplication(
   const sqlAssignments = entries.map(([key]) => `${key} = ?`).join(", ");
   const sqlValues = entries.map(([, value]) => value);
 
-  getDb()
-    .prepare(`
+  await dbRun(
+    `
       UPDATE applications
       SET ${sqlAssignments},
           updated_at = ?
       WHERE id = ?
-    `)
-    .run(...sqlValues, new Date().toISOString(), id);
+    `,
+    [...sqlValues, new Date().toISOString(), id],
+  );
 }
 
-function findDuplicateTransaction(qualifyingTxHash: string): Application | null {
-  const row = getDb()
-    .prepare(`
+async function findDuplicateTransaction(
+  qualifyingTxHash: string,
+): Promise<Application | null> {
+  const row = await dbGet<ApplicationRow>(
+    `
       SELECT * FROM applications
       WHERE qualifying_tx_hash = ?
       ORDER BY created_at ASC
       LIMIT 1
-    `)
-    .get(qualifyingTxHash) as ApplicationRow | undefined;
+    `,
+    [qualifyingTxHash],
+  );
 
   return row ? mapApplication(row) : null;
 }

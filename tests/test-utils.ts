@@ -8,9 +8,11 @@ export function withTempDb<T>(run: () => T): T {
   closeDb();
 
   const previousDbPath = process.env.AIRDROP_DB_PATH;
+  const previousDatabaseUrl = process.env.DATABASE_URL;
   const dir = mkdtempSync(path.join(tmpdir(), "tonnel-airdrop-test-"));
 
   process.env.AIRDROP_DB_PATH = path.join(dir, "airdrop.sqlite");
+  delete process.env.DATABASE_URL;
 
   try {
     return run();
@@ -23,6 +25,12 @@ export function withTempDb<T>(run: () => T): T {
       process.env.AIRDROP_DB_PATH = previousDbPath;
     }
 
+    if (previousDatabaseUrl === undefined) {
+      delete process.env.DATABASE_URL;
+    } else {
+      process.env.DATABASE_URL = previousDatabaseUrl;
+    }
+
     rmSync(dir, { recursive: true, force: true });
   }
 }
@@ -31,9 +39,11 @@ export async function withTempDbAsync<T>(run: () => Promise<T>): Promise<T> {
   closeDb();
 
   const previousDbPath = process.env.AIRDROP_DB_PATH;
+  const previousDatabaseUrl = process.env.DATABASE_URL;
   const dir = mkdtempSync(path.join(tmpdir(), "tonnel-airdrop-test-"));
 
   process.env.AIRDROP_DB_PATH = path.join(dir, "airdrop.sqlite");
+  delete process.env.DATABASE_URL;
 
   try {
     return await run();
@@ -44,6 +54,12 @@ export async function withTempDbAsync<T>(run: () => Promise<T>): Promise<T> {
       delete process.env.AIRDROP_DB_PATH;
     } else {
       process.env.AIRDROP_DB_PATH = previousDbPath;
+    }
+
+    if (previousDatabaseUrl === undefined) {
+      delete process.env.DATABASE_URL;
+    } else {
+      process.env.DATABASE_URL = previousDatabaseUrl;
     }
 
     rmSync(dir, { recursive: true, force: true });

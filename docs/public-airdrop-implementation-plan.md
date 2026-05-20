@@ -36,7 +36,8 @@ The repository already has these first-version web application pieces:
 - Strict transaction-hash validation. Invalid hashes are rejected before database writes.
 - IP-based submit rate limiting for Vercel/serverless deployment through Upstash Redis.
 - Duplicate transaction-hash handling at submission time. Existing transaction hashes return the existing application instead of creating another row.
-- SQLite-backed `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
+- Database layer that uses Neon Postgres through `DATABASE_URL` for Vercel and shared production worker access, with local SQLite fallback when `DATABASE_URL` is not set.
+- `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
 - `event_state` table for reward-wallet budget sync and worker status.
 - Public Status table with pagination and at most 10 rows per page.
 - Local macOS worker entrypoint for latest CLI setup, RPC verification, note selection, payout, and reward-wallet budget sync.
@@ -50,7 +51,7 @@ The current web application is usable for collecting submissions and showing pub
 
 The following pieces are still required before the public event can be operated safely:
 
-- Configure the production database path shared by the deployed public app and the operator MacBook worker.
+- Provision Neon Postgres in Vercel and configure the same `DATABASE_URL` for the deployed public app and the operator MacBook worker.
 - Confirm the private-state CLI RPC configuration at `~/tokamak-private-channels/workspace/mainnet/rpc-config.env`, or override it with `AIRDROP_RPC_URL`.
 - Confirm the reward wallet name, or rely on the implemented deterministic derivation from `account2` and `the-great-first-channel`.
 - Run live dry-run validation for valid mainnet verification, payout retry, unsupported note selection against live CLI output, insufficient notes, and budget sync.

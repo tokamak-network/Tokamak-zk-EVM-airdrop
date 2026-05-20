@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db";
+import { dbGet, dbRun } from "@/lib/db";
 
 export const EVENT_STATE_ID = "tonnel-airdrop";
 
@@ -19,10 +19,10 @@ export type EventState = {
 type EventStateRow = {
   id: string;
   remaining_budget_ton: number | null;
-  reward_wallet_unused_note_count: number;
+  reward_wallet_unused_note_count: number | string;
   reward_wallet_unused_note_balance_ton: number | null;
-  transferred_count: number;
-  expected_spent_ton: number;
+  transferred_count: number | string;
+  expected_spent_ton: number | string;
   budget_discrepancy_ton: number | null;
   last_budget_sync_at: string | null;
   last_worker_run_at: string | null;
@@ -38,19 +38,20 @@ export type BudgetSyncInput = {
   budgetDiscrepancyTon: number | null;
 };
 
-export function getEventState(): EventState | null {
-  const row = getDb()
-    .prepare("SELECT * FROM event_state WHERE id = ?")
-    .get(EVENT_STATE_ID) as EventStateRow | undefined;
+export async function getEventState(): Promise<EventState | null> {
+  const row = await dbGet<EventStateRow>(
+    "SELECT * FROM event_state WHERE id = ?",
+    [EVENT_STATE_ID],
+  );
 
   return row ? mapEventState(row) : null;
 }
 
-export function upsertBudgetSync(input: BudgetSyncInput): void {
+export async function upsertBudgetSync(input: BudgetSyncInput): Promise<void> {
   const now = new Date().toISOString();
 
-  getDb()
-    .prepare(`
+  await dbRun(
+    `
       INSERT INTO event_state (
         id,
         remaining_budget_ton,
@@ -72,8 +73,8 @@ export function upsertBudgetSync(input: BudgetSyncInput): void {
         budget_discrepancy_ton = excluded.budget_discrepancy_ton,
         last_budget_sync_at = excluded.last_budget_sync_at,
         updated_at = excluded.updated_at
-    `)
-    .run(
+    `,
+    [
       EVENT_STATE_ID,
       input.remainingBudgetTon,
       input.rewardWalletUnusedNoteCount,
@@ -83,14 +84,15 @@ export function upsertBudgetSync(input: BudgetSyncInput): void {
       input.budgetDiscrepancyTon,
       now,
       now,
-    );
+    ],
+  );
 }
 
-export function markWorkerRun(error: string | null): void {
+export async function markWorkerRun(error: string | null): Promise<void> {
   const now = new Date().toISOString();
 
-  getDb()
-    .prepare(`
+  await dbRun(
+    `
       INSERT INTO event_state (
         id,
         last_worker_run_at,
@@ -102,22 +104,29 @@ export function markWorkerRun(error: string | null): void {
         last_worker_run_at = excluded.last_worker_run_at,
         last_worker_error = excluded.last_worker_error,
         updated_at = excluded.updated_at
-    `)
-    .run(EVENT_STATE_ID, now, error, now);
+    `,
+    [EVENT_STATE_ID, now, error, now],
+  );
 }
 
 function mapEventState(row: EventStateRow): EventState {
   return {
     id: row.id,
-    remainingBudgetTon: row.remaining_budget_ton,
-    rewardWalletUnusedNoteCount: row.reward_wallet_unused_note_count,
-    rewardWalletUnusedNoteBalanceTon: row.reward_wallet_unused_note_balance_ton,
-    transferredCount: row.transferred_count,
-    expectedSpentTon: row.expected_spent_ton,
-    budgetDiscrepancyTon: row.budget_discrepancy_ton,
+    remainingBudgetTon: nullableNumber(row.remaining_budget_ton),
+    rewardWalletUnusedNoteCount: Number(row.reward_wallet_unused_note_count),
+    rewardWalletUnusedNoteBalanceTon: nullableNumber(
+      row.reward_wallet_unused_note_balance_ton,
+    ),
+    transferredCount: Number(row.transferred_count),
+    expectedSpentTon: Number(row.expected_spent_ton),
+    budgetDiscrepancyTon: nullableNumber(row.budget_discrepancy_ton),
     lastBudgetSyncAt: row.last_budget_sync_at,
     lastWorkerRunAt: row.last_worker_run_at,
     lastWorkerError: row.last_worker_error,
     updatedAt: row.updated_at,
   };
+}
+
+function nullableNumber(value: number | string | null): number | null {
+  return value === null ? null : Number(value);
 }

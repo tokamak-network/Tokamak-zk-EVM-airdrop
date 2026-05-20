@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const limit = Number(url.searchParams.get("limit") ?? "100");
 
     return NextResponse.json({
-      applications: listApplications(limit),
+      applications: await listApplications(limit),
     });
   } catch (error) {
     if (error instanceof OperatorAuthError) {

@@ -17,13 +17,13 @@ export async function GET(request: Request) {
     const page = Number.isFinite(requestedPage)
       ? Math.max(Math.trunc(requestedPage), 1)
       : 1;
-    const total = countApplications();
+    const total = await countApplications();
     const totalPages = Math.max(Math.ceil(total / publicPageSize), 1);
     const safePage = Math.min(page, totalPages);
     const offset = (safePage - 1) * publicPageSize;
 
     return NextResponse.json({
-      applications: listApplications(publicPageSize, offset),
+      applications: await listApplications(publicPageSize, offset),
       page: safePage,
       pageSize: publicPageSize,
       total,
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const result = createApplication({
+    const result = await createApplication({
       qualifyingTxHash: String(body.qualifyingTxHash ?? ""),
     });
 
