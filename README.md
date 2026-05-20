@@ -19,6 +19,22 @@ npm run db:init
 npm run dev
 ```
 
+## Tests
+
+Run automated tests that avoid real payouts, real CLI transfers, and live mainnet RPC:
+
+```bash
+npm test
+```
+
+Covered test areas:
+
+- Submit transaction-hash validation.
+- Duplicate transaction-hash no-new-row behavior.
+- Submit IP rate limiting.
+- Reward note parsing and selection.
+- Worker payout-paused path without calling `wallet transfer-notes`.
+
 ## Environment
 
 The public app collects submissions. The payout worker is local-only and must be run on the operator MacBook. It installs the latest private-state CLI before each run, verifies submitted transactions through Ethereum RPC, pays through `private-state-cli wallet transfer-notes`, and syncs remaining budget from `private-state-cli wallet get-notes`.

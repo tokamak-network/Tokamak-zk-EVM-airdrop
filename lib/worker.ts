@@ -8,7 +8,7 @@ import {
   markTransferred,
   markVerified,
 } from "@/lib/applications";
-import { getConfig } from "@/lib/config";
+import { type AppConfig, getConfig } from "@/lib/config";
 import { markWorkerRun, upsertBudgetSync } from "@/lib/event-state";
 import {
   getRewardWalletL2Address,
@@ -33,7 +33,38 @@ export type WorkerSummary = {
   remainingBudgetTon: number | null;
 };
 
-export async function runAirdropWorker(): Promise<WorkerSummary> {
+export type WorkerDependencies = {
+  getConfig: () => AppConfig;
+  preparePrivateStateCli: (config: AppConfig) => Promise<void>;
+  verifySubmittedTransaction: typeof verifySubmittedTransaction;
+  resolveRewardWalletName: (config: AppConfig) => Promise<string>;
+  getWalletNotes: (config: AppConfig, wallet: string) => Promise<unknown>;
+  getRewardWalletL2Address: (
+    config: AppConfig,
+    wallet: string,
+  ) => Promise<string>;
+  transferNotes: (
+    config: AppConfig,
+    wallet: string,
+    noteIds: string[],
+    recipients: string[],
+    amounts: string[],
+  ) => Promise<string>;
+};
+
+const defaultDependencies: WorkerDependencies = {
+  getConfig,
+  preparePrivateStateCli,
+  verifySubmittedTransaction,
+  resolveRewardWalletName,
+  getWalletNotes,
+  getRewardWalletL2Address,
+  transferNotes,
+};
+
+export async function runAirdropWorker(
+  dependencies: WorkerDependencies = defaultDependencies,
+): Promise<WorkerSummary> {
   const summary: WorkerSummary = {
     verified: 0,
     transferred: 0,
@@ -44,7 +75,7 @@ export async function runAirdropWorker(): Promise<WorkerSummary> {
   };
 
   try {
-    await runWorkerSteps(summary);
+    await runWorkerSteps(summary, dependencies);
     markWorkerRun(null);
     return summary;
   } catch (error) {
@@ -53,24 +84,30 @@ export async function runAirdropWorker(): Promise<WorkerSummary> {
   }
 }
 
-async function runWorkerSteps(summary: WorkerSummary): Promise<void> {
-  const config = getConfig();
+async function runWorkerSteps(
+  summary: WorkerSummary,
+  dependencies: WorkerDependencies,
+): Promise<void> {
+  const config = dependencies.getConfig();
 
-  await preparePrivateStateCli(config);
-  await verifyPendingApplications(summary);
+  await dependencies.preparePrivateStateCli(config);
+  await verifyPendingApplications(summary, dependencies);
 
-  const rewardWallet = await resolveRewardWalletName(config);
-  await syncBudget(summary, rewardWallet);
-  await payoutVerifiedApplications(summary, rewardWallet);
-  await syncBudget(summary, rewardWallet);
+  const rewardWallet = await dependencies.resolveRewardWalletName(config);
+  await syncBudget(summary, rewardWallet, dependencies);
+  await payoutVerifiedApplications(summary, rewardWallet, dependencies);
+  await syncBudget(summary, rewardWallet, dependencies);
 }
 
-async function verifyPendingApplications(summary: WorkerSummary): Promise<void> {
-  const config = getConfig();
+async function verifyPendingApplications(
+  summary: WorkerSummary,
+  dependencies: WorkerDependencies,
+): Promise<void> {
+  const config = dependencies.getConfig();
 
   for (const application of getPendingForVerification()) {
     try {
-      const result = await verifySubmittedTransaction(
+      const result = await dependencies.verifySubmittedTransaction(
         config,
         application.qualifyingTxHash,
       );
@@ -96,8 +133,9 @@ async function verifyPendingApplications(summary: WorkerSummary): Promise<void> 
 async function payoutVerifiedApplications(
   summary: WorkerSummary,
   rewardWallet: string,
+  dependencies: WorkerDependencies,
 ): Promise<void> {
-  const config = getConfig();
+  const config = dependencies.getConfig();
 
   if (config.payoutsPaused) {
     summary.skippedPayouts += getVerifiedPendingForPayout().length;
@@ -121,7 +159,7 @@ async function payoutVerifiedApplications(
     }
 
     try {
-      const notesOutput = await getWalletNotes(config, rewardWallet);
+      const notesOutput = await dependencies.getWalletNotes(config, rewardWallet);
       const notes = parseUnusedRewardNotes(notesOutput);
 
       if (sumRewardNotes(notes) < config.rewardTon) {
@@ -131,7 +169,7 @@ async function payoutVerifiedApplications(
       }
 
       const rewardWalletL2Address = needsChangeAddress(notes, config.rewardTon)
-        ? await getRewardWalletL2Address(config, rewardWallet)
+        ? await dependencies.getRewardWalletL2Address(config, rewardWallet)
         : application.resolvedL2Address;
       const selection = selectRewardNotes(
         notes,
@@ -139,7 +177,7 @@ async function payoutVerifiedApplications(
         application.resolvedL2Address,
         rewardWalletL2Address,
       );
-      const payoutTxHash = await transferNotes(
+      const payoutTxHash = await dependencies.transferNotes(
         config,
         rewardWallet,
         selection.noteIds,
@@ -149,7 +187,7 @@ async function payoutVerifiedApplications(
 
       markTransferred(application.id, payoutTxHash);
       summary.transferred += 1;
-      await syncBudget(summary, rewardWallet);
+      await syncBudget(summary, rewardWallet, dependencies);
     } catch (error) {
       markFailed(application.id, getErrorMessage(error));
       summary.failed += 1;
@@ -160,9 +198,10 @@ async function payoutVerifiedApplications(
 async function syncBudget(
   summary: WorkerSummary,
   rewardWallet: string,
+  dependencies: WorkerDependencies,
 ): Promise<void> {
-  const config = getConfig();
-  const notesOutput = await getWalletNotes(config, rewardWallet);
+  const config = dependencies.getConfig();
+  const notesOutput = await dependencies.getWalletNotes(config, rewardWallet);
   const notes = parseUnusedRewardNotes(notesOutput);
   const remainingBudgetTon = sumRewardNotes(notes);
   const transferredCount = countTransferredApplications();

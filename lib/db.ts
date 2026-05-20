@@ -19,6 +19,15 @@ export function getDb(): DatabaseSync {
   return database;
 }
 
+export function closeDb(): void {
+  if (!database) {
+    return;
+  }
+
+  database.close();
+  database = null;
+}
+
 export function migrate(db = getDb()): void {
   db.exec(`
     CREATE TABLE IF NOT EXISTS applications (

@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "node --import tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
     "worker": "tsx scripts/worker.ts",
     "db:init": "tsx scripts/init-db.ts",
