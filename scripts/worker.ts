@@ -7,6 +7,13 @@ main().catch((error: unknown) => {
 
 async function main() {
   loadLocalEnv();
+
+  if (!process.env.DATABASE_URL && process.env.AIRDROP_ALLOW_SQLITE_WORKER !== "true") {
+    throw new Error(
+      "DATABASE_URL is required for the local payout worker. Set AIRDROP_ALLOW_SQLITE_WORKER=true only for isolated local testing.",
+    );
+  }
+
   const { runAirdropWorker } = await import("@/lib/worker");
   const summary = await runAirdropWorker();
 

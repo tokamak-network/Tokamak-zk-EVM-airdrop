@@ -74,6 +74,8 @@ For local worker execution, put these values in `.env.local` on the operator Mac
 
 For Vercel deployment, provision Neon Postgres and Upstash Redis from the Vercel Marketplace. Vercel must have `DATABASE_URL`, `UPSTASH_REDIS_REST_URL`, and `UPSTASH_REDIS_REST_TOKEN`. The MacBook worker must use the same `DATABASE_URL` as the deployed app.
 
+The local payout worker refuses to run without `DATABASE_URL` by default, because falling back to SQLite would make it ignore production submissions. Set `AIRDROP_ALLOW_SQLITE_WORKER=true` only for isolated local testing.
+
 ## Submit Abuse Protection
 
 - The submit API accepts only `0x`-prefixed 32-byte Ethereum transaction hashes.
