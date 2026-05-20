@@ -49,6 +49,10 @@ export type VerificationReceipt = {
   status: number | null;
 };
 
+export type VerificationBlock = {
+  timestamp: number;
+};
+
 export type VerificationLog = {
   address?: string;
   topics: readonly string[];
@@ -61,6 +65,7 @@ export type VerificationLog = {
 export type VerificationProvider = {
   getTransaction(txHash: string): Promise<VerificationTransaction | null>;
   getTransactionReceipt(txHash: string): Promise<VerificationReceipt | null>;
+  getBlock(blockNumber: number): Promise<VerificationBlock | null>;
   getLogs(filter: {
     address: string;
     fromBlock: number;
@@ -77,6 +82,8 @@ export type VerifierDependencies = {
 
 const registeredEventName = "ChannelTokenVaultIdentityRegistered";
 const exitedEventName = "ChannelTokenVaultIdentityExited";
+const eligibleTransactionStartTimestamp =
+  Date.UTC(2026, 4, 19, 0, 0, 0) / 1000;
 
 export async function verifySubmittedTransaction(
   config: AppConfig,
@@ -147,6 +154,19 @@ export async function verifySubmittedTransaction(
 
   if (transaction.blockNumber === null) {
     return { valid: false, reason: "Transaction block number is missing." };
+  }
+
+  const block = await provider.getBlock(transaction.blockNumber);
+
+  if (!block) {
+    return { valid: false, reason: "Transaction block was not found by RPC." };
+  }
+
+  if (block.timestamp < eligibleTransactionStartTimestamp) {
+    return {
+      valid: false,
+      reason: "Transaction is outside the eligible event window.",
+    };
   }
 
   const resolvedL1Address = getAddress(transaction.from);

@@ -6,6 +6,7 @@ import { getAddress, Interface } from "ethers";
 import type { AppConfig } from "@/lib/config";
 import {
   verifySubmittedTransaction,
+  type VerificationBlock,
   type VerificationLog,
   type VerificationProvider,
   type VerificationReceipt,
@@ -20,6 +21,7 @@ const secondL2Address = getAddress("0x0000000000000000000000000000000000000003")
 const txHash = `0x${"1".repeat(64)}`;
 const transferSelector = "0x12345678";
 const mintSelector = "0x87654321";
+const eligibleStartTimestamp = Date.UTC(2026, 4, 19, 0, 0, 0) / 1000;
 
 const bridgeInterface = new Interface([
   "function executeChannelTransaction((bytes data) payload,(bytes4 functionSig) functionProof)",
@@ -72,6 +74,24 @@ test("verifySubmittedTransaction rejects failed receipts", async () => {
   );
 
   assertInvalidReason(result, "Transaction did not succeed.");
+});
+
+test("verifySubmittedTransaction rejects transferNotes txs before the eligible start date", async () => {
+  const result = await verifySubmittedTransaction(
+    createConfig(),
+    txHash,
+    {
+      provider: createProvider({
+        transaction: createTransaction({ data: encodeExecute(transferSelector) }),
+        block: { timestamp: eligibleStartTimestamp - 1 },
+        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
+      }),
+      channelManagerInterface: bridgeInterface,
+      transferSelectors: new Set([transferSelector]),
+    },
+  );
+
+  assertInvalidReason(result, "Transaction is outside the eligible event window.");
 });
 
 test("verifySubmittedTransaction rejects transactions sent to another contract", async () => {
@@ -201,6 +221,7 @@ function createConfig(): AppConfig {
 function createProvider(input: {
   transaction: VerificationTransaction | null;
   receipt?: VerificationReceipt | null;
+  block?: VerificationBlock | null;
   logs?: VerificationLog[];
 }): VerificationProvider {
   const logs = input.logs ?? [];
@@ -211,6 +232,11 @@ function createProvider(input: {
     },
     async getTransactionReceipt() {
       return input.receipt === undefined ? { status: 1 } : input.receipt;
+    },
+    async getBlock() {
+      return input.block === undefined
+        ? { timestamp: eligibleStartTimestamp }
+        : input.block;
     },
     async getLogs(filter) {
       return logs.filter((log) => {
