@@ -48,6 +48,9 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
       getRewardWalletL2Address: async () => {
         throw new Error("change address should not be resolved while payouts are paused");
       },
+      recoverRewardWalletWorkspace: async () => {
+        throw new Error("workspace recovery should not run while payouts are paused");
+      },
       transferNotes: async () => {
         transferCalled = true;
         throw new Error("transfer should not run while payouts are paused");
@@ -67,6 +70,52 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
     assert.equal(application?.payoutTxHash, null);
     assert.equal(eventState?.remainingBudgetTon, 50);
     assert.equal(eventState?.lastWorkerError, null);
+  });
+});
+
+test("runAirdropWorker recovers the reward wallet workspace before transfer", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"d".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    const calls: string[] = [];
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {
+        calls.push("prepare");
+      },
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {
+        calls.push("recover");
+      },
+      transferNotes: async () => {
+        calls.push("transfer");
+        return `0x${"e".repeat(64)}`;
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 1);
+    assert.equal(application?.status, "Transferred");
+    assert.deepEqual(calls, ["prepare", "recover", "transfer"]);
   });
 });
 

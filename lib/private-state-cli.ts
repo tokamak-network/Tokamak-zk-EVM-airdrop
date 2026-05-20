@@ -13,8 +13,13 @@ type TransferOutput = {
   transactionHash?: string;
   payoutTxHash?: string;
   receipt?: {
+    hash?: string;
     transactionHash?: string;
   };
+  outputNotes?: Array<{
+    sourceTxHash?: string;
+    createdAtTxHash?: string;
+  }>;
 };
 
 type WalletMetaOutput = Record<string, unknown>;
@@ -149,6 +154,26 @@ export async function getWalletNotes(
   ]);
 }
 
+export async function recoverRewardWalletWorkspace(
+  config: AppConfig,
+): Promise<void> {
+  await runCommand(
+    "private-state-cli",
+    [
+      "wallet",
+      "recover-workspace",
+      "--channel-name",
+      config.channel,
+      "--network",
+      config.network,
+      "--account",
+      config.rewardAccount,
+      "--from-genesis",
+    ],
+    { timeoutMs: 60 * 60_000 },
+  );
+}
+
 export async function transferNotes(
   config: AppConfig,
   wallet: string,
@@ -157,33 +182,94 @@ export async function transferNotes(
   amounts: string[],
 ): Promise<string> {
   const output = await runCliJson<TransferOutput>(
-    [
-      "wallet",
-      "transfer-notes",
-      "--wallet",
-      wallet,
-      "--network",
-      config.network,
-      "--note-ids",
-      noteIds.join(","),
-      "--recipients",
-      recipients.join(","),
-      "--amounts",
-      amounts.join(","),
-      "--acknowledge-action-impact",
-      "--tx-submitter",
-      config.rewardAccount,
-    ],
+    buildTransferNotesArgs(config, wallet, noteIds, recipients, amounts),
     { timeoutMs: 60 * 60_000 },
   );
-  const txHash =
-    output.txHash ?? output.transactionHash ?? output.payoutTxHash ?? output.receipt?.transactionHash;
+  const txHash = findTransactionHash(output);
 
   if (!txHash) {
     throw new Error("private-state-cli wallet transfer-notes did not return a transaction hash.");
   }
 
   return txHash;
+}
+
+export function findTransactionHash(value: unknown): string | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const record = value as Record<string, unknown>;
+  const directHash = findDirectTransactionHash(record);
+
+  if (directHash) {
+    return directHash;
+  }
+
+  for (const candidate of Object.values(record)) {
+    if (Array.isArray(candidate)) {
+      for (const item of candidate) {
+        const hash = findTransactionHash(item);
+
+        if (hash) {
+          return hash;
+        }
+      }
+    } else {
+      const hash = findTransactionHash(candidate);
+
+      if (hash) {
+        return hash;
+      }
+    }
+  }
+
+  return null;
+}
+
+export function buildTransferNotesArgs(
+  config: Pick<AppConfig, "network" | "rewardAccount">,
+  wallet: string,
+  noteIds: string[],
+  recipients: string[],
+  amounts: string[],
+): string[] {
+  return [
+    "wallet",
+    "transfer-notes",
+    "--wallet",
+    wallet,
+    "--network",
+    config.network,
+    "--note-ids",
+    JSON.stringify(noteIds),
+    "--recipients",
+    JSON.stringify(recipients),
+    "--amounts",
+    JSON.stringify(amounts),
+    "--acknowledge-action-impact",
+    "--tx-submitter",
+    config.rewardAccount,
+  ];
+}
+
+function findDirectTransactionHash(record: Record<string, unknown>): string | null {
+  for (const key of [
+    "txHash",
+    "transactionHash",
+    "payoutTxHash",
+    "hash",
+    "sourceTxHash",
+    "createdAtTxHash",
+  ]) {
+    const value = record[key];
+
+    if (typeof value === "string" && /^0x[a-fA-F0-9]{64}$/.test(value)) {
+      return value;
+    }
+  }
+
+  return null;
 }
 
 async function canReadAccountAddress(config: AppConfig): Promise<boolean> {

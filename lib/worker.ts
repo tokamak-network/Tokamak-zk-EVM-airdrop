@@ -14,6 +14,7 @@ import {
   getRewardWalletL2Address,
   getWalletNotes,
   preparePrivateStateCli,
+  recoverRewardWalletWorkspace,
   resolveRewardWalletName,
   transferNotes,
 } from "@/lib/private-state-cli";
@@ -43,6 +44,7 @@ export type WorkerDependencies = {
     config: AppConfig,
     wallet: string,
   ) => Promise<string>;
+  recoverRewardWalletWorkspace: (config: AppConfig) => Promise<void>;
   transferNotes: (
     config: AppConfig,
     wallet: string,
@@ -59,6 +61,7 @@ const defaultDependencies: WorkerDependencies = {
   resolveRewardWalletName,
   getWalletNotes,
   getRewardWalletL2Address,
+  recoverRewardWalletWorkspace,
   transferNotes,
 };
 
@@ -177,6 +180,7 @@ async function payoutVerifiedApplications(
         application.resolvedL2Address,
         rewardWalletL2Address,
       );
+      await dependencies.recoverRewardWalletWorkspace(config);
       const payoutTxHash = await dependencies.transferNotes(
         config,
         rewardWallet,
