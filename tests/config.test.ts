@@ -42,6 +42,10 @@ test("getConfig reads RPC settings from the private-state CLI rpc-config.env fil
     assert.equal(config.rpcBlockRangeCap, 777);
     assert.equal(config.rpcConfigPath, rpcConfigPath);
     assert.equal(config.rpcConfigSource, "file");
+    assert.equal(
+      config.cliArtifactDir,
+      path.join(process.cwd(), "private-state-artifacts", "chain-id-1"),
+    );
   } finally {
     restoreEnv("HOME", previousHome);
     restoreEnv("AIRDROP_RPC_URL", previousRpcUrl);

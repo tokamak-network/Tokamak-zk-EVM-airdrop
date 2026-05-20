@@ -1,0 +1,4530 @@
+{
+  "generatedAt": "2026-05-11T06:59:02.051Z",
+  "chainId": 1,
+  "contracts": {
+    "bridgeCore": {
+      "artifactPath": "out/BridgeCore.sol/BridgeCore.json",
+      "abi": [
+        {
+          "type": "constructor",
+          "inputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "bindBridgeTokenVault",
+          "inputs": [
+            {
+              "name": "bridgeTokenVault_",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "bridgeTokenVault",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "canonicalAsset",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "channelDeployer",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract ChannelDeployer"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "createChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "initialJoinToll",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "expectedDAppMetadataDigest",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "manager",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "boundBridgeTokenVault",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "dAppManager",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract DAppManager"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundBps1",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundBps2",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundBps3",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundBps4",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundCutoff1",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundCutoff2",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "defaultJoinTollRefundCutoff3",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct BridgeCore.ChannelDeployment",
+              "components": [
+                {
+                  "name": "exists",
+                  "type": "bool",
+                  "internalType": "bool"
+                },
+                {
+                  "name": "dappId",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "leader",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "asset",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "manager",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "bridgeTokenVault",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "aPubBlockHash",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "dappMetadataDigestSchema",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "dappMetadataDigest",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getChannelManager",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getChannelWorkspaceMirror",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "string",
+              "internalType": "string"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "grothVerifier",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IGrothVerifier"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "initialize",
+          "inputs": [
+            {
+              "name": "initialOwner",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "dAppManager_",
+              "type": "address",
+              "internalType": "contract DAppManager"
+            },
+            {
+              "name": "channelDeployer_",
+              "type": "address",
+              "internalType": "contract ChannelDeployer"
+            },
+            {
+              "name": "grothVerifier_",
+              "type": "address",
+              "internalType": "contract IGrothVerifier"
+            },
+            {
+              "name": "tokamakVerifier_",
+              "type": "address",
+              "internalType": "contract ITokamakVerifier"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "owner",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "proxiableUUID",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "renounceOwnership",
+          "inputs": [],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setChannelDeployer",
+          "inputs": [
+            {
+              "name": "channelDeployer_",
+              "type": "address",
+              "internalType": "contract ChannelDeployer"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setChannelWorkspaceMirror",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "uri",
+              "type": "string",
+              "internalType": "string"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setGrothVerifier",
+          "inputs": [
+            {
+              "name": "grothVerifier_",
+              "type": "address",
+              "internalType": "contract IGrothVerifier"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setJoinTollRefundSchedule",
+          "inputs": [
+            {
+              "name": "cutoff1",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps1",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "cutoff2",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps2",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "cutoff3",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps3",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "bps4",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setTokamakVerifier",
+          "inputs": [
+            {
+              "name": "tokamakVerifier_",
+              "type": "address",
+              "internalType": "contract ITokamakVerifier"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "tokamakVerifier",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract ITokamakVerifier"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "transferOwnership",
+          "inputs": [
+            {
+              "name": "newOwner",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeTo",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeToAndCall",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "data",
+              "type": "bytes",
+              "internalType": "bytes"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "payable"
+        },
+        {
+          "type": "event",
+          "name": "AdminChanged",
+          "inputs": [
+            {
+              "name": "previousAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            },
+            {
+              "name": "newAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "BeaconUpgraded",
+          "inputs": [
+            {
+              "name": "beacon",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "BridgeTokenVaultBound",
+          "inputs": [
+            {
+              "name": "bridgeTokenVault",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelCreated",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "manager",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            },
+            {
+              "name": "bridgeTokenVault",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelDeployerUpdated",
+          "inputs": [
+            {
+              "name": "channelDeployer",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelWorkspaceMirrorUpdated",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "leader",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "previousUri",
+              "type": "string",
+              "indexed": false,
+              "internalType": "string"
+            },
+            {
+              "name": "newUri",
+              "type": "string",
+              "indexed": false,
+              "internalType": "string"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "GrothVerifierUpdated",
+          "inputs": [
+            {
+              "name": "grothVerifier",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Initialized",
+          "inputs": [
+            {
+              "name": "version",
+              "type": "uint8",
+              "indexed": false,
+              "internalType": "uint8"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "JoinTollRefundScheduleUpdated",
+          "inputs": [
+            {
+              "name": "cutoff1",
+              "type": "uint64",
+              "indexed": false,
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps1",
+              "type": "uint16",
+              "indexed": false,
+              "internalType": "uint16"
+            },
+            {
+              "name": "cutoff2",
+              "type": "uint64",
+              "indexed": false,
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps2",
+              "type": "uint16",
+              "indexed": false,
+              "internalType": "uint16"
+            },
+            {
+              "name": "cutoff3",
+              "type": "uint64",
+              "indexed": false,
+              "internalType": "uint64"
+            },
+            {
+              "name": "bps3",
+              "type": "uint16",
+              "indexed": false,
+              "internalType": "uint16"
+            },
+            {
+              "name": "bps4",
+              "type": "uint16",
+              "indexed": false,
+              "internalType": "uint16"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "OwnershipTransferred",
+          "inputs": [
+            {
+              "name": "previousOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "newOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "TokamakVerifierUpdated",
+          "inputs": [
+            {
+              "name": "tokamakVerifier",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Upgraded",
+          "inputs": [
+            {
+              "name": "implementation",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "error",
+          "name": "BridgeTokenVaultAlreadySet",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "ChannelAlreadyExists",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "DAppMetadataDigestMismatch",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "expectedDigest",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "actualDigest",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidBridgeTokenVault",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidChannelDeployer",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidChannelManager",
+          "inputs": [
+            {
+              "name": "manager",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidDAppManager",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidGrothVerifier",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidJoinTollRefundSchedule",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidTokamakVerifier",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "OnlyChannelLeader",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "expectedLeader",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "actualCaller",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "TooManyManagedStorages",
+          "inputs": [
+            {
+              "name": "actualCount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "maxSupported",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnknownChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnsupportedCanonicalAssetChain",
+          "inputs": [
+            {
+              "name": "chainId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "WorkspaceMirrorUriTooLong",
+          "inputs": [
+            {
+              "name": "actualLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "maxLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        }
+      ]
+    },
+    "channelDeployer": {
+      "artifactPath": "out/ChannelDeployer.sol/ChannelDeployer.json",
+      "abi": [
+        {
+          "type": "function",
+          "name": "deployChannelManager",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "leader",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "channelTokenVaultTreeIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "bridgeCore",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "verifierSnapshot",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.DAppVerifierSnapshot",
+              "components": [
+                {
+                  "name": "grothVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "grothVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                },
+                {
+                  "name": "tokamakVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "tokamakVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                }
+              ]
+            },
+            {
+              "name": "dappMetadataDigestSchema",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "dappMetadataDigest",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "functionRoot",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "initialJoinToll",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "joinTollRefundCutoff1",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps1",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundCutoff2",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps2",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundCutoff3",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps3",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundBps4",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "dAppManager",
+              "type": "address",
+              "internalType": "contract DAppManager"
+            },
+            {
+              "name": "expectedManagedStorageCount",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "manager",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        }
+      ]
+    },
+    "dAppManager": {
+      "artifactPath": "out/DAppManager.sol/DAppManager.json",
+      "abi": [
+        {
+          "type": "constructor",
+          "inputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "DAPP_METADATA_DIGEST_SCHEMA",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "bindBridgeCore",
+          "inputs": [
+            {
+              "name": "bridgeCore_",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "bridgeCore",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "deleteDApp",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "getChannelTokenVaultTreeIndex",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getDAppInfo",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct DAppManager.DAppInfo",
+              "components": [
+                {
+                  "name": "exists",
+                  "type": "bool",
+                  "internalType": "bool"
+                },
+                {
+                  "name": "labelHash",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "channelTokenVaultTreeIndex",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "metadataDigestSchema",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "metadataDigest",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "functionRoot",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getDAppVerifierSnapshot",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.DAppVerifierSnapshot",
+              "components": [
+                {
+                  "name": "grothVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "grothVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                },
+                {
+                  "name": "tokamakVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "tokamakVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getManagedStorageAddresses",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "out",
+              "type": "address[]",
+              "internalType": "address[]"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getManagedStorageCount",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getPreAllocKeys",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "out",
+              "type": "bytes32[]",
+              "internalType": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getUserSlots",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "out",
+              "type": "uint8[]",
+              "internalType": "uint8[]"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "initialize",
+          "inputs": [
+            {
+              "name": "initialOwner",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "isChannelTokenVaultStorageAddress",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "owner",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "proxiableUUID",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "registerDApp",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "labelHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "storages",
+              "type": "tuple[]",
+              "internalType": "struct BridgeStructs.StorageMetadata[]",
+              "components": [
+                {
+                  "name": "storageAddr",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "preAllocatedKeys",
+                  "type": "bytes32[]",
+                  "internalType": "bytes32[]"
+                },
+                {
+                  "name": "userStorageSlots",
+                  "type": "uint8[]",
+                  "internalType": "uint8[]"
+                },
+                {
+                  "name": "isChannelTokenVaultStorage",
+                  "type": "bool",
+                  "internalType": "bool"
+                }
+              ]
+            },
+            {
+              "name": "functions",
+              "type": "tuple[]",
+              "internalType": "struct BridgeStructs.DAppFunctionMetadata[]",
+              "components": [
+                {
+                  "name": "entryContract",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "functionSig",
+                  "type": "bytes4",
+                  "internalType": "bytes4"
+                },
+                {
+                  "name": "preprocessInputHash",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "instanceLayout",
+                  "type": "tuple",
+                  "internalType": "struct BridgeStructs.InstanceLayout",
+                  "components": [
+                    {
+                      "name": "entryContractOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "functionSigOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "currentRootVectorOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "updatedRootVectorOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "eventLogs",
+                      "type": "tuple[]",
+                      "internalType": "struct BridgeStructs.EventLogMetadata[]",
+                      "components": [
+                        {
+                          "name": "startOffsetWords",
+                          "type": "uint16",
+                          "internalType": "uint16"
+                        },
+                        {
+                          "name": "topicCount",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "renounceOwnership",
+          "inputs": [],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "transferOwnership",
+          "inputs": [
+            {
+              "name": "newOwner",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "updateDAppMetadata",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storages",
+              "type": "tuple[]",
+              "internalType": "struct BridgeStructs.StorageMetadata[]",
+              "components": [
+                {
+                  "name": "storageAddr",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "preAllocatedKeys",
+                  "type": "bytes32[]",
+                  "internalType": "bytes32[]"
+                },
+                {
+                  "name": "userStorageSlots",
+                  "type": "uint8[]",
+                  "internalType": "uint8[]"
+                },
+                {
+                  "name": "isChannelTokenVaultStorage",
+                  "type": "bool",
+                  "internalType": "bool"
+                }
+              ]
+            },
+            {
+              "name": "functions",
+              "type": "tuple[]",
+              "internalType": "struct BridgeStructs.DAppFunctionMetadata[]",
+              "components": [
+                {
+                  "name": "entryContract",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "functionSig",
+                  "type": "bytes4",
+                  "internalType": "bytes4"
+                },
+                {
+                  "name": "preprocessInputHash",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "instanceLayout",
+                  "type": "tuple",
+                  "internalType": "struct BridgeStructs.InstanceLayout",
+                  "components": [
+                    {
+                      "name": "entryContractOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "functionSigOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "currentRootVectorOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "updatedRootVectorOffsetWords",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    },
+                    {
+                      "name": "eventLogs",
+                      "type": "tuple[]",
+                      "internalType": "struct BridgeStructs.EventLogMetadata[]",
+                      "components": [
+                        {
+                          "name": "startOffsetWords",
+                          "type": "uint16",
+                          "internalType": "uint16"
+                        },
+                        {
+                          "name": "topicCount",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeTo",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeToAndCall",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "data",
+              "type": "bytes",
+              "internalType": "bytes"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "payable"
+        },
+        {
+          "type": "event",
+          "name": "AdminChanged",
+          "inputs": [
+            {
+              "name": "previousAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            },
+            {
+              "name": "newAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "BeaconUpgraded",
+          "inputs": [
+            {
+              "name": "beacon",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "BridgeCoreBound",
+          "inputs": [
+            {
+              "name": "bridgeCore",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "DAppDeleted",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "labelHash",
+              "type": "bytes32",
+              "indexed": false,
+              "internalType": "bytes32"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "DAppMetadataDigestUpdated",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "schema",
+              "type": "bytes32",
+              "indexed": true,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "digest",
+              "type": "bytes32",
+              "indexed": true,
+              "internalType": "bytes32"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "DAppMetadataUpdated",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "labelHash",
+              "type": "bytes32",
+              "indexed": false,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "storageCount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "functionCount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "DAppRegistered",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "labelHash",
+              "type": "bytes32",
+              "indexed": false,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "storageCount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "functionCount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Initialized",
+          "inputs": [
+            {
+              "name": "version",
+              "type": "uint8",
+              "indexed": false,
+              "internalType": "uint8"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "OwnershipTransferred",
+          "inputs": [
+            {
+              "name": "previousOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "newOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Upgraded",
+          "inputs": [
+            {
+              "name": "implementation",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "error",
+          "name": "BridgeCoreAlreadyBound",
+          "inputs": [
+            {
+              "name": "existingBridgeCore",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "BridgeCoreNotBound",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "DAppDeletionDisabled",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "DuplicateDApp",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "DuplicateFunction",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "entryContract",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "functionSig",
+              "type": "bytes4",
+              "internalType": "bytes4"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "DuplicatePreprocessInputHash",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "preprocessInputHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "DuplicateStorageAddress",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "EmptyFunctionList",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "EmptyStorageLayout",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidBridgeCore",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidDAppLabelHash",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidFunctionEntryContract",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "entryContract",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "functionSig",
+              "type": "bytes4",
+              "internalType": "bytes4"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidFunctionEventTopicCount",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "entryContract",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "functionSig",
+              "type": "bytes4",
+              "internalType": "bytes4"
+            },
+            {
+              "name": "topicCount",
+              "type": "uint8",
+              "internalType": "uint8"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidStorageAddress",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "MissingChannelTokenVaultStorageAddress",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "MissingPreprocessInputHash",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "entryContract",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "functionSig",
+              "type": "bytes4",
+              "internalType": "bytes4"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "MultipleChannelTokenVaultStorageAddresses",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "firstStorageAddr",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "secondStorageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnknownDApp",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnknownStorageAddress",
+          "inputs": [
+            {
+              "name": "dappId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        }
+      ]
+    },
+    "channelManager": {
+      "artifactPath": "out/ChannelManager.sol/ChannelManager.json",
+      "abi": [
+        {
+          "type": "constructor",
+          "inputs": [
+            {
+              "name": "channelId_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "dappId_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "leader_",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "channelTokenVaultTreeIndex_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "bridgeCore_",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "verifierSnapshot_",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.DAppVerifierSnapshot",
+              "components": [
+                {
+                  "name": "grothVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "grothVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                },
+                {
+                  "name": "tokamakVerifier",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "tokamakVerifierCompatibleBackendVersion",
+                  "type": "string",
+                  "internalType": "string"
+                }
+              ]
+            },
+            {
+              "name": "dappMetadataDigestSchema_",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "dappMetadataDigest_",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "functionRoot_",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "initialJoinToll_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "joinTollRefundCutoff1_",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps1_",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundCutoff2_",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps2_",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundCutoff3_",
+              "type": "uint64",
+              "internalType": "uint64"
+            },
+            {
+              "name": "joinTollRefundBps3_",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "joinTollRefundBps4_",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "dAppManager_",
+              "type": "address",
+              "internalType": "contract DAppManager"
+            },
+            {
+              "name": "expectedManagedStorageCount_",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "aPubBlockHash",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "applyVaultUpdate",
+          "inputs": [
+            {
+              "name": "currentRootVector",
+              "type": "bytes32[]",
+              "internalType": "bytes32[]"
+            },
+            {
+              "name": "updatedChannelTokenVaultRoot",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "bindBridgeTokenVault",
+          "inputs": [
+            {
+              "name": "bridgeTokenVault_",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "bridgeCore",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "bridgeTokenVault",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "channelId",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "channelTokenVaultStorageAddress",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "channelTokenVaultTreeIndex",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "currentRootVectorHash",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "dappId",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "dappMetadataDigest",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "dappMetadataDigestSchema",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "executeChannelTransaction",
+          "inputs": [
+            {
+              "name": "payload",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.TokamakProofPayload",
+              "components": [
+                {
+                  "name": "proofPart1",
+                  "type": "uint128[]",
+                  "internalType": "uint128[]"
+                },
+                {
+                  "name": "proofPart2",
+                  "type": "uint256[]",
+                  "internalType": "uint256[]"
+                },
+                {
+                  "name": "functionPreprocessPart1",
+                  "type": "uint128[]",
+                  "internalType": "uint128[]"
+                },
+                {
+                  "name": "functionPreprocessPart2",
+                  "type": "uint256[]",
+                  "internalType": "uint256[]"
+                },
+                {
+                  "name": "aPubUser",
+                  "type": "uint256[]",
+                  "internalType": "uint256[]"
+                },
+                {
+                  "name": "aPubBlock",
+                  "type": "uint256[]",
+                  "internalType": "uint256[]"
+                }
+              ]
+            },
+            {
+              "name": "functionProof",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.FunctionMetadataProof",
+              "components": [
+                {
+                  "name": "metadata",
+                  "type": "tuple",
+                  "internalType": "struct BridgeStructs.DAppFunctionMetadata",
+                  "components": [
+                    {
+                      "name": "entryContract",
+                      "type": "address",
+                      "internalType": "address"
+                    },
+                    {
+                      "name": "functionSig",
+                      "type": "bytes4",
+                      "internalType": "bytes4"
+                    },
+                    {
+                      "name": "preprocessInputHash",
+                      "type": "bytes32",
+                      "internalType": "bytes32"
+                    },
+                    {
+                      "name": "instanceLayout",
+                      "type": "tuple",
+                      "internalType": "struct BridgeStructs.InstanceLayout",
+                      "components": [
+                        {
+                          "name": "entryContractOffsetWords",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        },
+                        {
+                          "name": "functionSigOffsetWords",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        },
+                        {
+                          "name": "currentRootVectorOffsetWords",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        },
+                        {
+                          "name": "updatedRootVectorOffsetWords",
+                          "type": "uint8",
+                          "internalType": "uint8"
+                        },
+                        {
+                          "name": "eventLogs",
+                          "type": "tuple[]",
+                          "internalType": "struct BridgeStructs.EventLogMetadata[]",
+                          "components": [
+                            {
+                              "name": "startOffsetWords",
+                              "type": "uint16",
+                              "internalType": "uint16"
+                            },
+                            {
+                              "name": "topicCount",
+                              "type": "uint8",
+                              "internalType": "uint8"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "siblings",
+                  "type": "bytes32[]",
+                  "internalType": "bytes32[]"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "functionRoot",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "genesisBlockNumber",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getChannelTokenVaultRegistration",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.ChannelTokenVaultRegistration",
+              "components": [
+                {
+                  "name": "exists",
+                  "type": "bool",
+                  "internalType": "bool"
+                },
+                {
+                  "name": "l2Address",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "channelTokenVaultKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "leafIndex",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "joinTollPaid",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "joinedAt",
+                  "type": "uint64",
+                  "internalType": "uint64"
+                },
+                {
+                  "name": "noteReceivePubKey",
+                  "type": "tuple",
+                  "internalType": "struct BridgeStructs.NoteReceivePubKey",
+                  "components": [
+                    {
+                      "name": "x",
+                      "type": "bytes32",
+                      "internalType": "bytes32"
+                    },
+                    {
+                      "name": "yParity",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    }
+                  ]
+                },
+                {
+                  "name": "isZeroBalance",
+                  "type": "bool",
+                  "internalType": "bool"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getChannelTokenVaultRegistrationByL2Address",
+          "inputs": [
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.ChannelTokenVaultRegistration",
+              "components": [
+                {
+                  "name": "exists",
+                  "type": "bool",
+                  "internalType": "bool"
+                },
+                {
+                  "name": "l2Address",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "channelTokenVaultKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "leafIndex",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "joinTollPaid",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "joinedAt",
+                  "type": "uint64",
+                  "internalType": "uint64"
+                },
+                {
+                  "name": "noteReceivePubKey",
+                  "type": "tuple",
+                  "internalType": "struct BridgeStructs.NoteReceivePubKey",
+                  "components": [
+                    {
+                      "name": "x",
+                      "type": "bytes32",
+                      "internalType": "bytes32"
+                    },
+                    {
+                      "name": "yParity",
+                      "type": "uint8",
+                      "internalType": "uint8"
+                    }
+                  ]
+                },
+                {
+                  "name": "isZeroBalance",
+                  "type": "bool",
+                  "internalType": "bool"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getExitTollRefundQuote",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "refundAmount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "refundBps",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getManagedStorageAddresses",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "out",
+              "type": "address[]",
+              "internalType": "address[]"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getNoteReceivePubKeyByL2Address",
+          "inputs": [
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.NoteReceivePubKey",
+              "components": [
+                {
+                  "name": "x",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "yParity",
+                  "type": "uint8",
+                  "internalType": "uint8"
+                }
+              ]
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "grothVerifier",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IGrothVerifier"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "grothVerifierCompatibleBackendVersion",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "string",
+              "internalType": "string"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinToll",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundBps1",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundBps2",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundBps3",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundBps4",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint16",
+              "internalType": "uint16"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundCutoff1",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundCutoff2",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "joinTollRefundCutoff3",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint64",
+              "internalType": "uint64"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "leader",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "observeChannelTokenVaultStorageWrite",
+          "inputs": [
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "storageKey",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "registerChannelTokenVaultIdentity",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "channelTokenVaultKey",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "noteReceivePubKey",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.NoteReceivePubKey",
+              "components": [
+                {
+                  "name": "x",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "yParity",
+                  "type": "uint8",
+                  "internalType": "uint8"
+                }
+              ]
+            },
+            {
+              "name": "joinTollPaid",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "setJoinToll",
+          "inputs": [
+            {
+              "name": "joinToll_",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "tokamakVerifier",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract ITokamakVerifier"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "tokamakVerifierCompatibleBackendVersion",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "string",
+              "internalType": "string"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "unregisterChannelTokenVaultIdentity",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "event",
+          "name": "BridgeTokenVaultBound",
+          "inputs": [
+            {
+              "name": "bridgeTokenVault",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelTokenVaultIdentityExited",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelTokenVaultIdentityRegistered",
+          "inputs": [
+            {
+              "name": "l1Address",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "l2Address",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "channelTokenVaultKey",
+              "type": "bytes32",
+              "indexed": true,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "joinTollPaid",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "joinedAt",
+              "type": "uint64",
+              "indexed": false,
+              "internalType": "uint64"
+            },
+            {
+              "name": "noteReceivePubKeyX",
+              "type": "bytes32",
+              "indexed": false,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "noteReceivePubKeyYParity",
+              "type": "uint8",
+              "indexed": false,
+              "internalType": "uint8"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "CurrentRootVectorObserved",
+          "inputs": [
+            {
+              "name": "rootVectorHash",
+              "type": "bytes32",
+              "indexed": true,
+              "internalType": "bytes32"
+            },
+            {
+              "name": "rootVector",
+              "type": "bytes32[]",
+              "indexed": false,
+              "internalType": "bytes32[]"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "JoinTollUpdated",
+          "inputs": [
+            {
+              "name": "previousJoinToll",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "newJoinToll",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "error",
+          "name": "APubBlockHashMismatch",
+          "inputs": [
+            {
+              "name": "expectedHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "actualHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "APubBlockLengthMismatch",
+          "inputs": [
+            {
+              "name": "expectedLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "actualLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "APubUserTooShort",
+          "inputs": [
+            {
+              "name": "expectedLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "actualLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "APubUserWordOutOfRange",
+          "inputs": [
+            {
+              "name": "index",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "BridgeTokenVaultAlreadySet",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultBalanceNotZero",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultIdentityAlreadyRegistered",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultIdentityNotRegistered",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultKeyAlreadyRegistered",
+          "inputs": [
+            {
+              "name": "key",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultKeyNotRegistered",
+          "inputs": [
+            {
+              "name": "key",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultL2AddressAlreadyRegistered",
+          "inputs": [
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultL2AddressNotRegistered",
+          "inputs": [
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultLeafIndexAlreadyRegistered",
+          "inputs": [
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultLeafIndexMismatch",
+          "inputs": [
+            {
+              "name": "expectedLeafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "actualLeafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ChannelTokenVaultLeafIndexOutOfRange",
+          "inputs": [
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "EntryContractPublicInputOutOfRange",
+          "inputs": [
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "FunctionSigPublicInputOutOfRange",
+          "inputs": [
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidChannelTokenVaultTreeIndex",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidFunctionMetadataProof",
+          "inputs": [
+            {
+              "name": "leaf",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "expectedRoot",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidJoinTollRefundSchedule",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidL1Address",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidL2Address",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidLiquidBalanceObservedEventDataLength",
+          "inputs": [
+            {
+              "name": "actualLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidNoteReceivePubKey",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidNoteReceivePubKeyYParity",
+          "inputs": [
+            {
+              "name": "yParity",
+              "type": "uint8",
+              "internalType": "uint8"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidObservedEventBoundary",
+          "inputs": [
+            {
+              "name": "startOffsetWords",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "endOffsetWords",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidObservedEventDataLength",
+          "inputs": [
+            {
+              "name": "startOffsetWords",
+              "type": "uint16",
+              "internalType": "uint16"
+            },
+            {
+              "name": "dataWordLength",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "ManagedStorageCountMismatch",
+          "inputs": [
+            {
+              "name": "expectedCount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "actualCount",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "OnlyBridgeCore",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "OnlyBridgeTokenVault",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "OnlyLeader",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "PreprocessInputHashMismatch",
+          "inputs": [
+            {
+              "name": "expectedHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "actualHash",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "TokamakProofRejected",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "UnexpectedChannelTokenVaultStorageAddress",
+          "inputs": [
+            {
+              "name": "expected",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "actual",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnexpectedCurrentRootVector",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "UnsupportedChannelFunction",
+          "inputs": [
+            {
+              "name": "entryContract",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "functionSig",
+              "type": "bytes4",
+              "internalType": "bytes4"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnsupportedObservedEventTopicCount",
+          "inputs": [
+            {
+              "name": "topicCount",
+              "type": "uint8",
+              "internalType": "uint8"
+            }
+          ]
+        }
+      ]
+    },
+    "bridgeTokenVault": {
+      "artifactPath": "out/L1TokenVault.sol/L1TokenVault.json",
+      "abi": [
+        {
+          "type": "constructor",
+          "inputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "asset",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IERC20"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "availableBalanceOf",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "channelRegistry",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IChannelRegistry"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "claimToWallet",
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "depositToChannelVault",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "proof",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.GrothProof",
+              "components": [
+                {
+                  "name": "pA",
+                  "type": "uint256[4]",
+                  "internalType": "uint256[4]"
+                },
+                {
+                  "name": "pB",
+                  "type": "uint256[8]",
+                  "internalType": "uint256[8]"
+                },
+                {
+                  "name": "pC",
+                  "type": "uint256[4]",
+                  "internalType": "uint256[4]"
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.GrothUpdate",
+              "components": [
+                {
+                  "name": "currentRootVector",
+                  "type": "bytes32[]",
+                  "internalType": "bytes32[]"
+                },
+                {
+                  "name": "updatedRoot",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "currentUserKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "currentUserValue",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "updatedUserKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "updatedUserValue",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "exitChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "fund",
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "grothVerifier",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IGrothVerifier"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "initialize",
+          "inputs": [
+            {
+              "name": "initialOwner",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "asset_",
+              "type": "address",
+              "internalType": "contract IERC20"
+            },
+            {
+              "name": "channelRegistry_",
+              "type": "address",
+              "internalType": "contract IChannelRegistry"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "joinChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "l2Address",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "channelTokenVaultKey",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            },
+            {
+              "name": "leafIndex",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "noteReceivePubKey",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.NoteReceivePubKey",
+              "components": [
+                {
+                  "name": "x",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "yParity",
+                  "type": "uint8",
+                  "internalType": "uint8"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "owner",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "proxiableUUID",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32",
+              "internalType": "bytes32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "renounceOwnership",
+          "inputs": [],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "tollTreasuryBalance",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "transferOwnership",
+          "inputs": [
+            {
+              "name": "newOwner",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeTo",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "upgradeToAndCall",
+          "inputs": [
+            {
+              "name": "newImplementation",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "data",
+              "type": "bytes",
+              "internalType": "bytes"
+            }
+          ],
+          "outputs": [],
+          "stateMutability": "payable"
+        },
+        {
+          "type": "function",
+          "name": "withdrawFromChannelVault",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "proof",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.GrothProof",
+              "components": [
+                {
+                  "name": "pA",
+                  "type": "uint256[4]",
+                  "internalType": "uint256[4]"
+                },
+                {
+                  "name": "pB",
+                  "type": "uint256[8]",
+                  "internalType": "uint256[8]"
+                },
+                {
+                  "name": "pC",
+                  "type": "uint256[4]",
+                  "internalType": "uint256[4]"
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "type": "tuple",
+              "internalType": "struct BridgeStructs.GrothUpdate",
+              "components": [
+                {
+                  "name": "currentRootVector",
+                  "type": "bytes32[]",
+                  "internalType": "bytes32[]"
+                },
+                {
+                  "name": "updatedRoot",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "currentUserKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "currentUserValue",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                },
+                {
+                  "name": "updatedUserKey",
+                  "type": "bytes32",
+                  "internalType": "bytes32"
+                },
+                {
+                  "name": "updatedUserValue",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "event",
+          "name": "AdminChanged",
+          "inputs": [
+            {
+              "name": "previousAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            },
+            {
+              "name": "newAdmin",
+              "type": "address",
+              "indexed": false,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "AssetsClaimed",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "amount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "AssetsFunded",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "amount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "BeaconUpgraded",
+          "inputs": [
+            {
+              "name": "beacon",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelExitRefunded",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "amount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "refundBps",
+              "type": "uint16",
+              "indexed": false,
+              "internalType": "uint16"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "ChannelJoinTollPaid",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "indexed": true,
+              "internalType": "uint256"
+            },
+            {
+              "name": "amount",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Initialized",
+          "inputs": [
+            {
+              "name": "version",
+              "type": "uint8",
+              "indexed": false,
+              "internalType": "uint8"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "OwnershipTransferred",
+          "inputs": [
+            {
+              "name": "previousOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "newOwner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "StorageWriteObserved",
+          "inputs": [
+            {
+              "name": "storageAddr",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "storageKey",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Upgraded",
+          "inputs": [
+            {
+              "name": "implementation",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "error",
+          "name": "GrothProofRejected",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InsufficientAvailableBalance",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InsufficientTollTreasuryBalance",
+          "inputs": [
+            {
+              "name": "available",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "requested",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "InvalidAmount",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidAsset",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "InvalidChannelRegistry",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "KeyMismatch",
+          "inputs": []
+        },
+        {
+          "type": "error",
+          "name": "L2ValueOutOfRange",
+          "inputs": [
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "NotRegisteredInChannel",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "SafeERC20FailedOperation",
+          "inputs": [
+            {
+              "name": "token",
+              "type": "address",
+              "internalType": "address"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnknownChannel",
+          "inputs": [
+            {
+              "name": "channelId",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        },
+        {
+          "type": "error",
+          "name": "UnsupportedAssetTransferBehavior",
+          "inputs": [
+            {
+              "name": "expectedDelta",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "actualDelta",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ]
+        }
+      ]
+    },
+    "erc20": {
+      "artifactPath": "out/IERC20.sol/IERC20.json",
+      "abi": [
+        {
+          "type": "function",
+          "name": "allowance",
+          "inputs": [
+            {
+              "name": "owner",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "spender",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "approve",
+          "inputs": [
+            {
+              "name": "spender",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "balanceOf",
+          "inputs": [
+            {
+              "name": "account",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "totalSupply",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "transfer",
+          "inputs": [
+            {
+              "name": "to",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "transferFrom",
+          "inputs": [
+            {
+              "name": "from",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "to",
+              "type": "address",
+              "internalType": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "event",
+          "name": "Approval",
+          "inputs": [
+            {
+              "name": "owner",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "spender",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        },
+        {
+          "type": "event",
+          "name": "Transfer",
+          "inputs": [
+            {
+              "name": "from",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "to",
+              "type": "address",
+              "indexed": true,
+              "internalType": "address"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
+            }
+          ],
+          "anonymous": false
+        }
+      ]
+    }
+  }
+}

@@ -31,6 +31,7 @@ export function getConfig(): AppConfig {
   const network = process.env.AIRDROP_NETWORK ?? "mainnet";
   const rpcConfig = readRpcConfig(network);
   const rpcUrl = process.env.AIRDROP_RPC_URL ?? rpcConfig.RPC_URL;
+  const defaultCliArtifactDir = resolveCliArtifactDir();
 
   return {
     channel: process.env.AIRDROP_CHANNEL ?? "the-great-first-channel",
@@ -57,14 +58,7 @@ export function getConfig(): AppConfig {
       process.env.AIRDROP_CHANNEL_MANAGER_ADDRESS ??
       "0x3108d92A38bFb4B3396DE7ad4D92318a8fbE61D7",
     cliArtifactDir:
-      process.env.AIRDROP_CLI_ARTIFACT_DIR ??
-      path.join(
-        process.env.HOME ?? process.cwd(),
-        "tokamak-private-channels",
-        "dapps",
-        "private-state",
-        "chain-id-1",
-      ),
+      process.env.AIRDROP_CLI_ARTIFACT_DIR ?? defaultCliArtifactDir,
     rewardAccount: process.env.AIRDROP_REWARD_ACCOUNT ?? "account2",
     rewardPrivateKeyFile: resolveHomePath(
       process.env.AIRDROP_REWARD_PRIVATE_KEY_FILE ??
@@ -72,6 +66,22 @@ export function getConfig(): AppConfig {
     ),
     rewardWallet: process.env.AIRDROP_REWARD_WALLET,
   };
+}
+
+function resolveCliArtifactDir(): string {
+  const localCliArtifactDir = path.join(
+    process.env.HOME ?? process.cwd(),
+    "tokamak-private-channels",
+    "dapps",
+    "private-state",
+    "chain-id-1",
+  );
+
+  if (fs.existsSync(localCliArtifactDir)) {
+    return localCliArtifactDir;
+  }
+
+  return path.join(process.cwd(), "private-state-artifacts", "chain-id-1");
 }
 
 function readRpcConfig(network: string): Record<string, string> & { path: string } {
