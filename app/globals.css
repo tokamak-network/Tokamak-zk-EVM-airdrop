@@ -693,6 +693,20 @@ input:focus {
   gap: 12px;
 }
 
+.hashLink,
+.receiptText {
+  color: rgba(226, 239, 252, 0.92);
+  text-decoration: underline;
+  text-decoration-color: rgba(123, 243, 255, 0.38);
+  text-underline-offset: 4px;
+}
+
+.hashLink:hover,
+.receiptText:hover {
+  color: var(--accent-strong);
+  text-decoration-color: currentColor;
+}
+
 .fileIcon {
   position: relative;
   flex: 0 0 auto;
@@ -716,10 +730,7 @@ input:focus {
 }
 
 .receiptText {
-  color: rgba(226, 239, 252, 0.92);
-  text-decoration: underline;
-  text-decoration-color: rgba(123, 243, 255, 0.38);
-  text-underline-offset: 4px;
+  font: inherit;
 }
 
 .mutedDash {

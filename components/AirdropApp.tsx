@@ -534,10 +534,15 @@ function StatusTable({ applications }: { applications: Application[] }) {
           {applications.slice(0, 10).map((application) => (
             <tr key={application.id}>
               <td title={application.qualifyingTxHash}>
-                <span className="hashCell">
+                <a
+                  className="hashCell hashLink"
+                  href={etherscanTxUrl(application.qualifyingTxHash)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <span className="fileIcon" aria-hidden="true" />
                   <span>{shortenHash(application.qualifyingTxHash)}</span>
-                </span>
+                </a>
               </td>
               <td title={application.resolvedL2Address ?? ""}>
                 {application.resolvedL2Address
@@ -556,9 +561,14 @@ function StatusTable({ applications }: { applications: Application[] }) {
               <td>{formatCreatedAt(application.createdAt)}</td>
               <td title={application.payoutTxHash ?? ""}>
                 {application.payoutTxHash ? (
-                  <span className="receiptText">
+                  <a
+                    className="receiptText"
+                    href={etherscanTxUrl(application.payoutTxHash)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {shortenHash(application.payoutTxHash)}
-                  </span>
+                  </a>
                 ) : (
                   <span className="mutedDash">-</span>
                 )}
@@ -624,6 +634,10 @@ function shortenHash(value: string): string {
   }
 
   return `${value.slice(0, 10)}...${value.slice(-6)}`;
+}
+
+function etherscanTxUrl(txHash: string): string {
+  return `https://etherscan.io/tx/${txHash}`;
 }
 
 function formatCreatedAt(value: string): string {
