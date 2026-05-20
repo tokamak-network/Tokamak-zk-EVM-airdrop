@@ -1,4 +1,11 @@
 import assert from "node:assert/strict";
+import {
+  mkdtempSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import test from "node:test";
 
 import { getAddress, Interface } from "ethers";
@@ -29,6 +36,11 @@ const bridgeInterface = new Interface([
   "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
   "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
 ]);
+const currentBridgeInterface = new Interface([
+  "function executeChannelTransaction((uint128[],uint256[],uint128[],uint256[],uint256[],uint256[]),((address,bytes4,bytes32,(uint8,uint8,uint8,uint8,(uint16,uint8)[])),bytes32[]))",
+  "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
+  "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
+]);
 
 test("verifySubmittedTransaction accepts a transferNotes tx and resolves the active participation epoch L2 address", async () => {
   const result = await verifySubmittedTransaction(
@@ -56,6 +68,43 @@ test("verifySubmittedTransaction accepts a transferNotes tx and resolves the act
     resolvedL1Address: l1Address,
     resolvedL2Address: secondL2Address,
   });
+});
+
+test("verifySubmittedTransaction skips stale ABI candidates and decodes with the matching channel manager ABI", async () => {
+  const artifactDir = mkdtempSync(path.join(tmpdir(), "tonnel-abi-test-"));
+
+  try {
+    writeFileSync(
+      path.join(artifactDir, "bridge-abi-manifest.json"),
+      JSON.stringify([
+        JSON.parse(bridgeInterface.formatJson()),
+        JSON.parse(currentBridgeInterface.formatJson()),
+      ]),
+    );
+
+    const result = await verifySubmittedTransaction(
+      createConfig({ cliArtifactDir: artifactDir }),
+      txHash,
+      {
+        provider: createProvider({
+          transaction: createTransaction({
+            blockNumber: 40,
+            data: encodeCurrentExecute(transferSelector),
+          }),
+          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
+        }),
+        transferSelectors: new Set([transferSelector]),
+      },
+    );
+
+    assert.deepEqual(result, {
+      valid: true,
+      resolvedL1Address: l1Address,
+      resolvedL2Address: firstL2Address,
+    });
+  } finally {
+    rmSync(artifactDir, { recursive: true, force: true });
+  }
 });
 
 test("verifySubmittedTransaction rejects failed receipts", async () => {
@@ -196,7 +245,7 @@ test("verifySubmittedTransaction rejects transferNotes txs after the submitter e
   );
 });
 
-function createConfig(): AppConfig {
+function createConfig(overrides: Partial<AppConfig> = {}): AppConfig {
   return {
     channel: "the-great-first-channel",
     network: "mainnet",
@@ -215,6 +264,7 @@ function createConfig(): AppConfig {
     rewardAccount: "account2",
     rewardPrivateKeyFile: "/tmp/account2.key",
     rewardWallet: "reward-wallet",
+    ...overrides,
   };
 }
 
@@ -317,6 +367,21 @@ function encodeExecute(selector: string): string {
   return bridgeInterface.encodeFunctionData("executeChannelTransaction", [
     { data: "0x" },
     { functionSig: selector },
+  ]);
+}
+
+function encodeCurrentExecute(selector: string): string {
+  return currentBridgeInterface.encodeFunctionData("executeChannelTransaction", [
+    [[], [], [], [], [], []],
+    [
+      [
+        "0x0000000000000000000000000000000000000000",
+        selector,
+        `0x${"0".repeat(64)}`,
+        [0, 0, 0, 0, []],
+      ],
+      [],
+    ],
   ]);
 }
 

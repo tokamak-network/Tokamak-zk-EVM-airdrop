@@ -37,6 +37,11 @@ type AbiCandidate = {
   source: string;
 };
 
+type DecodedChannelTransaction = {
+  bridgeInterface: Interface;
+  decoded: unknown;
+};
+
 export type VerificationTransaction = {
   data: string;
   value: bigint;
@@ -127,18 +132,21 @@ export async function verifySubmittedTransaction(
     return { valid: false, reason: "Transaction was not sent to Tonnel channel manager." };
   }
 
-  const channelManagerInterface =
-    dependencies.channelManagerInterface ??
-    loadChannelManagerInterface(config.cliArtifactDir);
-  let decoded: unknown;
+  const channelManagerInterfaces = dependencies.channelManagerInterface
+    ? [dependencies.channelManagerInterface]
+    : loadChannelManagerInterfaces(config.cliArtifactDir);
+  let decodedTransaction: DecodedChannelTransaction;
 
   try {
-    decoded = decodeChannelTransaction(channelManagerInterface, transaction);
+    decodedTransaction = decodeChannelTransaction(
+      channelManagerInterfaces,
+      transaction,
+    );
   } catch {
     return { valid: false, reason: "Transaction calldata is not executeChannelTransaction." };
   }
 
-  const functionSig = normalizeSelector(findFunctionSig(decoded));
+  const functionSig = normalizeSelector(findFunctionSig(decodedTransaction.decoded));
 
   if (!functionSig) {
     return { valid: false, reason: "Could not read private-state function selector from transaction metadata." };
@@ -173,7 +181,7 @@ export async function verifySubmittedTransaction(
   const resolvedL2Address = await resolveL2AddressAtBlock(
     config,
     provider,
-    channelManagerInterface,
+    decodedTransaction.bridgeInterface,
     resolvedL1Address,
     transaction.blockNumber,
   );
@@ -192,21 +200,28 @@ export async function verifySubmittedTransaction(
   };
 }
 
-function loadChannelManagerInterface(artifactDir: string): Interface {
+function loadChannelManagerInterfaces(artifactDir: string): Interface[] {
   const candidates = loadAbiCandidates(artifactDir);
+  const interfaces: Interface[] = [];
 
   for (const candidate of candidates) {
     try {
       const bridgeInterface = new Interface(candidate.abi as ConstructorParameters<typeof Interface>[0]);
 
-      bridgeInterface.getFunction("executeChannelTransaction");
-      bridgeInterface.getEvent(registeredEventName);
-      bridgeInterface.getEvent(exitedEventName);
-
-      return bridgeInterface;
+      if (
+        hasFunctionNamed(bridgeInterface, "executeChannelTransaction") &&
+        hasEventNamed(bridgeInterface, registeredEventName) &&
+        hasEventNamed(bridgeInterface, exitedEventName)
+      ) {
+        interfaces.push(bridgeInterface);
+      }
     } catch {
       continue;
     }
+  }
+
+  if (interfaces.length > 0) {
+    return interfaces;
   }
 
   throw new Error(
@@ -215,19 +230,28 @@ function loadChannelManagerInterface(artifactDir: string): Interface {
 }
 
 function decodeChannelTransaction(
-  bridgeInterface: Interface,
+  bridgeInterfaces: Interface[],
   transaction: VerificationTransaction,
-): unknown {
-  const parsed = bridgeInterface.parseTransaction({
-    data: transaction.data,
-    value: transaction.value,
-  });
+): DecodedChannelTransaction {
+  for (const bridgeInterface of bridgeInterfaces) {
+    try {
+      const parsed = bridgeInterface.parseTransaction({
+        data: transaction.data,
+        value: transaction.value,
+      });
 
-  if (!parsed || parsed.name !== "executeChannelTransaction") {
-    throw new Error("Transaction calldata is not executeChannelTransaction.");
+      if (parsed?.name === "executeChannelTransaction") {
+        return {
+          bridgeInterface,
+          decoded: parsed.args,
+        };
+      }
+    } catch {
+      continue;
+    }
   }
 
-  return parsed.args;
+  throw new Error("Transaction calldata is not executeChannelTransaction.");
 }
 
 function loadTransferNoteSelectors(artifactDir: string): Set<string> {
@@ -421,9 +445,27 @@ function parseParticipationLog(
   return null;
 }
 
+function hasFunctionNamed(abiInterface: Interface, name: string): boolean {
+  return abiInterface.fragments.some(
+    (fragment) =>
+      fragment.type === "function" &&
+      "name" in fragment &&
+      fragment.name === name,
+  );
+}
+
+function hasEventNamed(abiInterface: Interface, name: string): boolean {
+  return abiInterface.fragments.some(
+    (fragment) =>
+      fragment.type === "event" &&
+      "name" in fragment &&
+      fragment.name === name,
+  );
+}
+
 function findFunctionSig(value: unknown): string | null {
   if (typeof value === "string") {
-    return null;
+    return isHexString(value, 4) ? value : null;
   }
 
   if (!value || typeof value !== "object") {
@@ -477,20 +519,24 @@ function collectTransferSelectors(value: unknown, selectors: Set<string>): void 
       collectTransferSelectors(item, selectors);
     }
 
-    try {
-      const abiInterface = new Interface(value as ConstructorParameters<typeof Interface>[0]);
-      const transferFunction = abiInterface.fragments.find(
-        (fragment) =>
-          fragment.type === "function" &&
-          "name" in fragment &&
-          /transfernotes/i.test(String(fragment.name)),
-      );
+    if (isAbiFragmentArray(value)) {
+      try {
+        const abiInterface = new Interface(
+          value as ConstructorParameters<typeof Interface>[0],
+        );
+        const transferFunction = abiInterface.fragments.find(
+          (fragment) =>
+            fragment.type === "function" &&
+            "name" in fragment &&
+            /transfernotes/i.test(String(fragment.name)),
+        );
 
-      if (transferFunction && "selector" in transferFunction) {
-        selectors.add(String(transferFunction.selector).toLowerCase());
+        if (transferFunction && "selector" in transferFunction) {
+          selectors.add(String(transferFunction.selector).toLowerCase());
+        }
+      } catch {
+        // Not an ABI array.
       }
-    } catch {
-      // Not an ABI array.
     }
 
     return;
@@ -597,15 +643,7 @@ function collectAbiCandidates(
   candidates: AbiCandidate[],
 ): void {
   if (Array.isArray(value)) {
-    if (
-      value.some(
-        (item) =>
-          item &&
-          typeof item === "object" &&
-          "type" in item &&
-          "name" in item,
-      )
-    ) {
+    if (isAbiFragmentArray(value)) {
       candidates.push({ abi: value, source });
     }
 
@@ -625,7 +663,7 @@ function collectAbiCandidates(
   for (const key of ["abi", "channelManagerAbi", "bridgeAbi"]) {
     const candidate = record[key];
 
-    if (Array.isArray(candidate)) {
+    if (Array.isArray(candidate) && isAbiFragmentArray(candidate)) {
       candidates.push({ abi: candidate, source });
     }
   }
@@ -633,6 +671,31 @@ function collectAbiCandidates(
   for (const item of Object.values(record)) {
     collectAbiCandidates(item, source, candidates);
   }
+}
+
+function isAbiFragmentArray(value: unknown[]): boolean {
+  if (value.length === 0) {
+    return false;
+  }
+
+  const abiFragmentTypes = new Set([
+    "constructor",
+    "error",
+    "event",
+    "fallback",
+    "function",
+    "receive",
+  ]);
+
+  return value.every((item) => {
+    if (!item || typeof item !== "object" || !("type" in item)) {
+      return false;
+    }
+
+    const type = (item as { type?: unknown }).type;
+
+    return typeof type === "string" && abiFragmentTypes.has(type);
+  });
 }
 
 function listJsonFiles(rootDir: string): string[] {
