@@ -36,29 +36,55 @@ export type CreateApplicationInput = {
   qualifyingTxHash: string;
 };
 
-export function createApplication(input: CreateApplicationInput): Application {
-  const qualifyingTxHash = normalizeInput(input.qualifyingTxHash);
+export type CreateApplicationResult = {
+  application: Application;
+  created: boolean;
+};
+
+export function createApplication(
+  input: CreateApplicationInput,
+): CreateApplicationResult {
+  const qualifyingTxHash = normalizeTxHash(input.qualifyingTxHash);
   assertSubmissionInput(qualifyingTxHash);
 
   const db = getDb();
   const duplicate = findDuplicateTransaction(qualifyingTxHash);
+
+  if (duplicate) {
+    return {
+      application: duplicate,
+      created: false,
+    };
+  }
+
   const now = new Date().toISOString();
   const id = randomUUID();
-  const status: ApplicationStatus = duplicate ? "Duplication" : "Pending";
-  const reason = duplicate ? "Duplicate transaction hash." : null;
 
-  db.prepare(`
-    INSERT INTO applications (
-      id,
-      l2_address,
-      qualifying_tx_hash,
-      status,
-      reason,
-      created_at,
-      updated_at
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `).run(id, "", qualifyingTxHash, status, reason, now, now);
+  try {
+    db.prepare(`
+      INSERT INTO applications (
+        id,
+        l2_address,
+        qualifying_tx_hash,
+        status,
+        reason,
+        created_at,
+        updated_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(id, "", qualifyingTxHash, "Pending", null, now, now);
+  } catch (error) {
+    const existing = findDuplicateTransaction(qualifyingTxHash);
+
+    if (existing) {
+      return {
+        application: existing,
+        created: false,
+      };
+    }
+
+    throw error;
+  }
 
   const application = getApplicationById(id);
 
@@ -66,7 +92,10 @@ export function createApplication(input: CreateApplicationInput): Application {
     throw new Error("Application was not persisted.");
   }
 
-  return application;
+  return {
+    application,
+    created: true,
+  };
 }
 
 export function getApplicationById(id: string): Application | null {
@@ -282,17 +311,21 @@ function findDuplicateTransaction(qualifyingTxHash: string): Application | null 
 function assertSubmissionInput(qualifyingTxHash: string): void {
   if (!isSafeSubmittedValue(qualifyingTxHash)) {
     throw new Error(
-      "Qualifying transaction hash is required and must not contain whitespace.",
+      "Qualifying transaction hash must be a 0x-prefixed 32-byte Ethereum transaction hash.",
     );
   }
 }
 
 function isSafeSubmittedValue(value: string): boolean {
-  return value.length > 0 && value.length <= 180 && !/\s/.test(value);
+  return /^0x[a-fA-F0-9]{64}$/.test(value);
 }
 
 function normalizeInput(value: string): string {
   return value.trim();
+}
+
+function normalizeTxHash(value: string): string {
+  return normalizeInput(value).toLowerCase();
 }
 
 function mapApplication(row: ApplicationRow): Application {

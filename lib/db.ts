@@ -42,6 +42,10 @@ export function migrate(db = getDb()): void {
     CREATE INDEX IF NOT EXISTS idx_applications_tx_hash
       ON applications (qualifying_tx_hash);
 
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_active_tx_hash
+      ON applications (qualifying_tx_hash)
+      WHERE status != 'Duplication';
+
     CREATE INDEX IF NOT EXISTS idx_applications_status
       ON applications (status);
   `);

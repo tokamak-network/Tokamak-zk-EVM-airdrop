@@ -41,11 +41,22 @@ AIRDROP_REWARD_PRIVATE_KEY_FILE=~/user-secrets/account2.key
 # Optional. If omitted, the worker derives: the-great-first-channel-<account2 L1 address>
 AIRDROP_REWARD_WALLET=
 AIRDROP_PAYOUTS_PAUSED=false
+
+UPSTASH_REDIS_REST_URL=https://...
+UPSTASH_REDIS_REST_TOKEN=...
 ```
 
 Do not store `~/user-secrets/account2.key` in this repository, the database, logs, or deployment environment.
 
 For local worker execution, put these values in `.env.local` on the operator MacBook. The worker loads `.env` and `.env.local` before reading configuration, which keeps `launchd` runs consistent with manual runs.
+
+## Submit Abuse Protection
+
+- The submit API accepts only `0x`-prefixed 32-byte Ethereum transaction hashes.
+- Invalid transaction hashes are rejected before they are stored.
+- Re-submitting an existing transaction hash returns the existing application and does not insert another row.
+- Submit requests are rate-limited by client IP: 10 per minute and 100 per day.
+- Production and Vercel deployments require Upstash Redis environment variables. Without `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`, production submit requests fail closed with `503` instead of accepting unprotected traffic.
 
 ## Operator Commands
 

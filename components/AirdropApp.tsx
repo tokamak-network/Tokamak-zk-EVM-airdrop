@@ -29,6 +29,7 @@ type AirdropAppProps = {
 type ApiResult = {
   application?: Application | null;
   applications?: Application[];
+  created?: boolean;
   error?: string;
   page?: number;
   total?: number;
@@ -139,7 +140,11 @@ export function AirdropApp({
         throw new Error(result.error ?? "Submission failed.");
       }
 
-      setSubmitMessage("Application submitted.");
+      setSubmitMessage(
+        result.created === false
+          ? "This transaction hash has already been submitted."
+          : "Application submitted.",
+      );
       await loadStatusPage(1);
     } catch (error) {
       setSubmitMessage(

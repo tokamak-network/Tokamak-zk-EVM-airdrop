@@ -33,7 +33,9 @@ The repository already has these first-version web application pieces:
 - Public Tonnel airdrop page with hero content, event summary, participation guide, submission form, status section, winner criteria, and footer documentation copy.
 - Transaction-hash submission flow. Participants no longer submit an L2 address.
 - Application API for creating submissions, listing public applications, and checking individual status.
-- Duplicate transaction-hash handling at submission time. Duplicate transaction hashes are stored with status `Duplication`.
+- Strict transaction-hash validation. Invalid hashes are rejected before database writes.
+- IP-based submit rate limiting for Vercel/serverless deployment through Upstash Redis.
+- Duplicate transaction-hash handling at submission time. Existing transaction hashes return the existing application instead of creating another row.
 - SQLite-backed `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
 - `event_state` table for reward-wallet budget sync and worker status.
 - Public Status table with pagination and at most 10 rows per page.
@@ -119,7 +121,7 @@ Status meanings:
 - `Duplication`: application failed because the resolved L2 address or qualifying transaction hash was already used.
 - `Failed`: application failed for any non-duplication reason.
 
-Duplicate detection must prevent multiple payouts for the same resolved L2 address or qualifying transaction hash. Duplicate submissions are still stored, but their status is `Duplication` and they are never eligible for payout. A duplicate transaction hash can be detected at submission time. Duplicate resolved L2 addresses are detected after verification, because the participant no longer submits an L2 address.
+Duplicate detection must prevent multiple payouts for the same resolved L2 address or qualifying transaction hash. Exact duplicate transaction-hash submissions are not inserted again; the API returns the existing application. Duplicate resolved L2 addresses are detected after verification, because the participant no longer submits an L2 address. Those rows are marked `Duplication` and are never eligible for payout.
 
 The event page must read the remaining budget from `event_state`, not from `Transferred` count arithmetic. `Transferred count * 25` is retained only as a consistency check against the reward-wallet note balance measured by the CLI.
 
@@ -129,9 +131,10 @@ The event page must read the remaining budget from `event_state`, not from `Tran
 2. User submits:
    - Qualifying `transfer notes` transaction hash.
 3. The application API validates basic formats.
-4. The application API checks whether the transaction hash was already submitted.
-5. The application API stores the application with default status `Pending` if the transaction hash is not duplicated.
-6. The application API stores the application with status `Duplication` if the transaction hash is duplicated.
+4. The application API rate-limits submit requests by client IP.
+5. The application API checks whether the transaction hash was already submitted.
+6. The application API stores the application with default status `Pending` if the transaction hash is new.
+7. The application API returns the existing application without inserting another row if the transaction hash was already submitted.
 
 The website must never ask users to submit private keys.
 
@@ -386,6 +389,8 @@ Controls that do not change the rule:
 - Total budget cap.
 - Payout pause flag.
 - Basic request rate limiting.
+- Strict transaction-hash validation before database writes.
+- No new database rows for exact duplicate transaction-hash submissions.
 
 Controls that would change the rule and require explicit approval:
 
@@ -411,8 +416,11 @@ Implementation is now present. Production operation should not start until these
 - Users can read instructions, submit a transaction-hash claim, and check status.
 - The public app stores each claim.
 - New applications default to `Pending`.
+- Invalid transaction-hash submissions are rejected before database writes.
+- Exact duplicate transaction-hash submissions return the existing application without inserting another row.
+- Submit requests are rate-limited by client IP in production through Upstash Redis.
 - Successful payouts are labeled `Transferred`.
-- Duplicate resolved L2 addresses or duplicate qualifying transactions are labeled `Duplication` and cannot create multiple payouts.
+- Duplicate resolved L2 addresses are labeled `Duplication` and cannot create multiple payouts.
 - Invalid transactions or other non-duplicate errors are labeled `Failed`.
 - Valid submissions can receive exactly `25 TON`.
 - Payout retry does not double-pay.
