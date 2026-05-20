@@ -1,4 +1,7 @@
-import { hasTransferredL2Address } from "@/lib/applications";
+import {
+  hasSubmittedTransaction,
+  hasTransferredL2Address,
+} from "@/lib/applications";
 import { type AppConfig, getConfig } from "@/lib/config";
 import {
   verifySubmittedTransaction,
@@ -12,7 +15,10 @@ export type EligibilityCheckResult =
     }
   | {
       eligible: false;
-      reason: "Transaction ineligible" | "L2 address duplicate";
+      reason:
+        | "Transaction duplicate"
+        | "Transaction ineligible"
+        | "L2 address duplicate";
     };
 
 type EligibilityDependencies = {
@@ -21,6 +27,7 @@ type EligibilityDependencies = {
     config: AppConfig,
     txHash: string,
   ) => Promise<VerificationResult>;
+  hasSubmittedTransaction?: (qualifyingTxHash: string) => Promise<boolean>;
   hasTransferredL2Address?: (resolvedL2Address: string) => Promise<boolean>;
 };
 
@@ -30,9 +37,20 @@ export async function checkEligibility(
 ): Promise<EligibilityCheckResult> {
   const config = (dependencies.getConfig ?? getConfig)();
   const verify = dependencies.verifySubmittedTransaction ?? verifySubmittedTransaction;
-  const duplicateCheck =
+  const submittedTransactionCheck =
+    dependencies.hasSubmittedTransaction ?? hasSubmittedTransaction;
+  const transferredL2Check =
     dependencies.hasTransferredL2Address ?? hasTransferredL2Address;
-  const verification = await verify(config, qualifyingTxHash.trim());
+  const normalizedTxHash = qualifyingTxHash.trim();
+
+  if (await submittedTransactionCheck(normalizedTxHash)) {
+    return {
+      eligible: false,
+      reason: "Transaction duplicate",
+    };
+  }
+
+  const verification = await verify(config, normalizedTxHash);
 
   if (!verification.valid) {
     return {
@@ -41,7 +59,7 @@ export async function checkEligibility(
     };
   }
 
-  if (await duplicateCheck(verification.resolvedL2Address)) {
+  if (await transferredL2Check(verification.resolvedL2Address)) {
     return {
       eligible: false,
       reason: "L2 address duplicate",

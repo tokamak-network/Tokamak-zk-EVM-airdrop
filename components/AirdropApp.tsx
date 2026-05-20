@@ -39,7 +39,11 @@ type StatusMode = "history" | "eligibility";
 
 type EligibilityResult = {
   eligible: boolean;
-  reason: "Transaction ineligible" | "L2 address duplicate" | null;
+  reason:
+    | "Transaction duplicate"
+    | "Transaction ineligible"
+    | "L2 address duplicate"
+    | null;
 };
 
 const statusPageSize = 10;
@@ -194,6 +198,7 @@ export function AirdropApp({
         !response.ok ||
         typeof result.eligible !== "boolean" ||
         (result.reason !== null &&
+          result.reason !== "Transaction duplicate" &&
           result.reason !== "Transaction ineligible" &&
           result.reason !== "L2 address duplicate")
       ) {

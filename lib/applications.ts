@@ -299,6 +299,16 @@ export async function hasTransferredL2Address(
   return Boolean(row);
 }
 
+export async function hasSubmittedTransaction(
+  qualifyingTxHash: string,
+): Promise<boolean> {
+  if (!isSafeSubmittedValue(normalizeInput(qualifyingTxHash))) {
+    return false;
+  }
+
+  return Boolean(await findDuplicateTransaction(normalizeTxHash(qualifyingTxHash)));
+}
+
 export async function countTransferredApplications(): Promise<number> {
   const row = await dbGet<{ count: number | string }>(
     "SELECT COUNT(*) as count FROM applications WHERE status = 'Transferred'",

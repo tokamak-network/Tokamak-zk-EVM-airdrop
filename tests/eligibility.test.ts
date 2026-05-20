@@ -13,6 +13,33 @@ import { withTempDbAsync } from "./test-utils";
 
 const config = createTestConfig();
 
+test("checkEligibility reports transaction duplicate before worker verification", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"f".repeat(64)}`;
+
+    await createApplication({ qualifyingTxHash: txHash });
+
+    let verificationCalled = false;
+    const result = await checkEligibility(txHash, {
+      getConfig: () => config,
+      verifySubmittedTransaction: async (): Promise<VerificationResult> => {
+        verificationCalled = true;
+
+        return {
+          valid: false,
+          reason: "verification should not run for duplicated tx hashes",
+        };
+      },
+    });
+
+    assert.equal(verificationCalled, false);
+    assert.deepEqual(result, {
+      eligible: false,
+      reason: "Transaction duplicate",
+    });
+  });
+});
+
 test("checkEligibility reports transaction ineligible when worker verification rejects", async () => {
   const result = await checkEligibility(`0x${"a".repeat(64)}`, {
     getConfig: () => config,
