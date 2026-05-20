@@ -11,12 +11,18 @@ type MemoryBucket = {
   resetAt: number;
 };
 
+type UpstashEnv = {
+  token: string;
+  url: string;
+};
+
 const minuteLimit = 10;
 const dayLimit = 100;
 const memoryBuckets = new Map<string, MemoryBucket>();
 
 let minuteLimiter: Ratelimit | null = null;
 let dayLimiter: Ratelimit | null = null;
+let redisClient: Redis | null = null;
 
 export async function checkSubmitRateLimit(
   request: Request,
@@ -50,7 +56,7 @@ export async function checkSubmitRateLimit(
 function getMinuteLimiter(): Ratelimit {
   if (!minuteLimiter) {
     minuteLimiter = new Ratelimit({
-      redis: Redis.fromEnv(),
+      redis: getRedisClient(),
       limiter: Ratelimit.slidingWindow(minuteLimit, "1 m"),
       prefix: "tonnel-airdrop:submit:minute",
     });
@@ -62,7 +68,7 @@ function getMinuteLimiter(): Ratelimit {
 function getDayLimiter(): Ratelimit {
   if (!dayLimiter) {
     dayLimiter = new Ratelimit({
-      redis: Redis.fromEnv(),
+      redis: getRedisClient(),
       limiter: Ratelimit.slidingWindow(dayLimit, "1 d"),
       prefix: "tonnel-airdrop:submit:day",
     });
@@ -84,10 +90,41 @@ function getClientIdentifier(request: Request): string {
 }
 
 function hasUpstashEnv(): boolean {
-  return Boolean(
-    process.env.UPSTASH_REDIS_REST_URL &&
-      process.env.UPSTASH_REDIS_REST_TOKEN,
-  );
+  return Boolean(getUpstashEnv());
+}
+
+function getRedisClient(): Redis {
+  const env = getUpstashEnv();
+
+  if (!env) {
+    throw new Error(
+      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required.",
+    );
+  }
+
+  if (!redisClient) {
+    redisClient = new Redis({
+      url: env.url,
+      token: env.token,
+    });
+  }
+
+  return redisClient;
+}
+
+function getUpstashEnv(): UpstashEnv | null {
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_URL;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    return null;
+  }
+
+  return { token, url };
 }
 
 function checkMemoryRateLimit(identifier: string): LimitResult {

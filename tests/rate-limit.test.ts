@@ -27,11 +27,17 @@ test("checkSubmitRateLimit fails closed in production without Upstash env", asyn
   const previousVercel = process.env.VERCEL;
   const previousUrl = process.env.UPSTASH_REDIS_REST_URL;
   const previousToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const previousPrefixedUrl =
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_URL;
+  const previousPrefixedToken =
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN;
 
   Reflect.set(process.env, "NODE_ENV", "production");
   delete process.env.VERCEL;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  delete process.env.UPSTASH_REDIS_REST_KV_REST_API_URL;
+  delete process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN;
 
   try {
     await assert.rejects(
@@ -50,6 +56,14 @@ test("checkSubmitRateLimit fails closed in production without Upstash env", asyn
     restoreEnv("VERCEL", previousVercel);
     restoreEnv("UPSTASH_REDIS_REST_URL", previousUrl);
     restoreEnv("UPSTASH_REDIS_REST_TOKEN", previousToken);
+    restoreEnv(
+      "UPSTASH_REDIS_REST_KV_REST_API_URL",
+      previousPrefixedUrl,
+    );
+    restoreEnv(
+      "UPSTASH_REDIS_REST_KV_REST_API_TOKEN",
+      previousPrefixedToken,
+    );
   }
 });
 
