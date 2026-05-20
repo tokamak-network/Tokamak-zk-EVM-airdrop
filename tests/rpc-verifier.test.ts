@@ -41,6 +41,15 @@ const currentBridgeInterface = new Interface([
   "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
   "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
 ]);
+const misleadingBridgeInterface = new Interface([
+  "function executeChannelTransaction((bytes4 selector) payload,(bytes32 proofRoot) functionProof)",
+  "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
+  "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
+]);
+const privateStateInterface = new Interface([
+  "function mintNotes1()",
+  "function transferNotes1To1()",
+]);
 
 test("verifySubmittedTransaction accepts a transferNotes tx and resolves the active participation epoch L2 address", async () => {
   const result = await verifySubmittedTransaction(
@@ -102,6 +111,117 @@ test("verifySubmittedTransaction skips stale ABI candidates and decodes with the
       resolvedL1Address: l1Address,
       resolvedL2Address: firstL2Address,
     });
+  } finally {
+    rmSync(artifactDir, { recursive: true, force: true });
+  }
+});
+
+test("verifySubmittedTransaction loads transfer selectors from explicit transferNotes ABI functions only", async () => {
+  const transferFunction = privateStateInterface.getFunction("transferNotes1To1");
+  const artifactDir = mkdtempSync(path.join(tmpdir(), "tonnel-selector-test-"));
+
+  try {
+    writeFileSync(
+      path.join(artifactDir, "bridge-abi.json"),
+      JSON.stringify(JSON.parse(bridgeInterface.formatJson())),
+    );
+    writeFileSync(
+      path.join(artifactDir, "private-state-abi.json"),
+      JSON.stringify(JSON.parse(privateStateInterface.formatJson())),
+    );
+
+    const result = await verifySubmittedTransaction(
+      createConfig({ cliArtifactDir: artifactDir }),
+      txHash,
+      {
+        provider: createProvider({
+          transaction: createTransaction({
+            blockNumber: 40,
+            data: encodeExecute(transferFunction!.selector),
+          }),
+          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
+        }),
+      },
+    );
+
+    assert.deepEqual(result, {
+      valid: true,
+      resolvedL1Address: l1Address,
+      resolvedL2Address: firstL2Address,
+    });
+  } finally {
+    rmSync(artifactDir, { recursive: true, force: true });
+  }
+});
+
+test("verifySubmittedTransaction rejects selectors hidden outside functionProof metadata", async () => {
+  const result = await verifySubmittedTransaction(
+    createConfig(),
+    txHash,
+    {
+      provider: createProvider({
+        transaction: createTransaction({
+          data: misleadingBridgeInterface.encodeFunctionData(
+            "executeChannelTransaction",
+            [
+              { selector: transferSelector },
+              { proofRoot: `0x${"0".repeat(64)}` },
+            ],
+          ),
+        }),
+        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
+      }),
+      channelManagerInterface: misleadingBridgeInterface,
+      transferSelectors: new Set([transferSelector]),
+    },
+  );
+
+  assertInvalidReason(
+    result,
+    "Could not read private-state function selector from transaction metadata.",
+  );
+});
+
+test("verifySubmittedTransaction rejects arbitrary selectors in non-ABI artifacts that mention transferNotes", async () => {
+  const mintFunction = privateStateInterface.getFunction("mintNotes1");
+  const artifactDir = mkdtempSync(path.join(tmpdir(), "tonnel-false-positive-test-"));
+
+  try {
+    writeFileSync(
+      path.join(artifactDir, "bridge-abi.json"),
+      JSON.stringify(JSON.parse(bridgeInterface.formatJson())),
+    );
+    writeFileSync(
+      path.join(artifactDir, "private-state-abi.json"),
+      JSON.stringify(JSON.parse(privateStateInterface.formatJson())),
+    );
+    writeFileSync(
+      path.join(artifactDir, "misleading-selector.json"),
+      JSON.stringify({
+        label: "transferNotes",
+        exampleName: "private-state/transferNotes/notAFunctionName",
+        functionSig: mintFunction!.selector,
+        selector: mintFunction!.selector,
+      }),
+    );
+
+    const result = await verifySubmittedTransaction(
+      createConfig({ cliArtifactDir: artifactDir }),
+      txHash,
+      {
+        provider: createProvider({
+          transaction: createTransaction({
+            data: encodeExecute(mintFunction!.selector),
+          }),
+          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
+        }),
+      },
+    );
+
+    assertInvalidReason(
+      result,
+      "Transaction is not a private-state transfer notes transaction.",
+    );
   } finally {
     rmSync(artifactDir, { recursive: true, force: true });
   }

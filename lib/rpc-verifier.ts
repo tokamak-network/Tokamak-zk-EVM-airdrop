@@ -146,7 +146,7 @@ export async function verifySubmittedTransaction(
     return { valid: false, reason: "Transaction calldata is not executeChannelTransaction." };
   }
 
-  const functionSig = normalizeSelector(findFunctionSig(decodedTransaction.decoded));
+  const functionSig = normalizeSelector(extractFunctionSig(decodedTransaction.decoded));
 
   if (!functionSig) {
     return { valid: false, reason: "Could not read private-state function selector from transaction metadata." };
@@ -463,54 +463,12 @@ function hasEventNamed(abiInterface: Interface, name: string): boolean {
   );
 }
 
-function findFunctionSig(value: unknown): string | null {
-  if (typeof value === "string") {
-    return isHexString(value, 4) ? value : null;
-  }
-
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-
-  const record = value as Record<string, unknown>;
-
-  for (const key of ["functionSig", "functionSelector", "selector"]) {
-    const candidate = record[key];
-
-    if (typeof candidate === "string" && isHexString(candidate)) {
-      return candidate;
-    }
-  }
-
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      const found = findFunctionSig(item);
-
-      if (found) {
-        return found;
-      }
-    }
-
-    return null;
-  }
-
-  for (const item of Object.values(record)) {
-    const found = findFunctionSig(item);
-
-    if (found) {
-      return found;
-    }
-  }
-
-  return null;
-}
-
 function normalizeSelector(value: string | null): string | null {
-  if (!value || !isHexString(value) || value.length < 10) {
+  if (!value || !isHexString(value, 4)) {
     return null;
   }
 
-  return value.slice(0, 10).toLowerCase();
+  return value.toLowerCase();
 }
 
 function collectTransferSelectors(value: unknown, selectors: Set<string>): void {
@@ -524,15 +482,15 @@ function collectTransferSelectors(value: unknown, selectors: Set<string>): void 
         const abiInterface = new Interface(
           value as ConstructorParameters<typeof Interface>[0],
         );
-        const transferFunction = abiInterface.fragments.find(
-          (fragment) =>
+        for (const fragment of abiInterface.fragments) {
+          if (
             fragment.type === "function" &&
             "name" in fragment &&
-            /transfernotes/i.test(String(fragment.name)),
-        );
-
-        if (transferFunction && "selector" in transferFunction) {
-          selectors.add(String(transferFunction.selector).toLowerCase());
+            isTransferNotesFunctionName(String(fragment.name)) &&
+            "selector" in fragment
+          ) {
+            selectors.add(String(fragment.selector).toLowerCase());
+          }
         }
       } catch {
         // Not an ABI array.
@@ -547,42 +505,16 @@ function collectTransferSelectors(value: unknown, selectors: Set<string>): void 
   }
 
   const record = value as Record<string, unknown>;
-  const serialized = JSON.stringify(record).toLowerCase();
+  const functionSig = normalizeSelector(
+    typeof record.functionSig === "string" ? record.functionSig : null,
+  );
 
-  if (serialized.includes("transfernotes")) {
-    collectHexSelectors(record, selectors);
+  if (functionSig && hasTransferNotesExampleName(record)) {
+    selectors.add(functionSig);
   }
 
   for (const item of Object.values(record)) {
     collectTransferSelectors(item, selectors);
-  }
-}
-
-function collectHexSelectors(value: unknown, selectors: Set<string>): void {
-  if (typeof value === "string") {
-    const selector = normalizeSelector(value);
-
-    if (selector && value.length === 10) {
-      selectors.add(selector);
-    }
-
-    return;
-  }
-
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      collectHexSelectors(item, selectors);
-    }
-
-    return;
-  }
-
-  if (!value || typeof value !== "object") {
-    return;
-  }
-
-  for (const item of Object.values(value)) {
-    collectHexSelectors(item, selectors);
   }
 }
 
@@ -623,6 +555,101 @@ function findAddressArg(args: unknown, key: string): string | null {
   }
 
   return null;
+}
+
+function extractFunctionSig(decodedArgs: unknown): string | null {
+  const functionProof = getTupleValue(decodedArgs, "functionProof", 1);
+
+  if (!functionProof) {
+    return null;
+  }
+
+  const legacyFunctionSig = getNamedSelector(functionProof, "functionSig");
+
+  if (legacyFunctionSig) {
+    return legacyFunctionSig;
+  }
+
+  const metadata =
+    getTupleValue(functionProof, "metadata", 0) ??
+    getTupleValue(functionProof, "functionMetadata", 0);
+
+  if (!metadata) {
+    return null;
+  }
+
+  return getNamedSelector(metadata, "functionSig") ?? getIndexedSelector(metadata, 1);
+}
+
+function getTupleValue(
+  value: unknown,
+  key: string,
+  index: number,
+): unknown {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const record = value as Record<string, unknown>;
+  const named = record[key];
+
+  if (named !== undefined) {
+    return named;
+  }
+
+  return Array.isArray(value) ? value[index] : null;
+}
+
+function getNamedSelector(value: unknown, key: string): string | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const candidate = (value as Record<string, unknown>)[key];
+
+  return typeof candidate === "string" && isHexString(candidate, 4)
+    ? candidate
+    : null;
+}
+
+function getIndexedSelector(value: unknown, index: number): string | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const candidate = value[index];
+
+  return typeof candidate === "string" && isHexString(candidate, 4)
+    ? candidate
+    : null;
+}
+
+function hasTransferNotesExampleName(record: Record<string, unknown>): boolean {
+  const exampleName = record.exampleName;
+
+  if (typeof exampleName === "string" && isTransferNotesExampleName(exampleName)) {
+    return true;
+  }
+
+  const exampleNames = record.exampleNames;
+
+  return (
+    Array.isArray(exampleNames) &&
+    exampleNames.some(
+      (value) => typeof value === "string" && isTransferNotesExampleName(value),
+    )
+  );
+}
+
+function isTransferNotesExampleName(value: string): boolean {
+  const parts = value.split("/").filter(Boolean);
+  const functionName = parts[parts.length - 1];
+
+  return functionName ? isTransferNotesFunctionName(functionName) : false;
+}
+
+function isTransferNotesFunctionName(value: string): boolean {
+  return /^transferNotes\d+To\d+$/.test(value);
 }
 
 function loadAbiCandidates(artifactDir: string): AbiCandidate[] {
