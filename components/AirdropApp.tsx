@@ -383,8 +383,64 @@ export function AirdropApp({
           </a>
           .
         </p>
+        <nav className="footerLinks" aria-label="External links">
+          <a
+            href="https://www.tokamak.network/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Tokamak Network official website"
+            title="Tokamak Network"
+          >
+            <WebsiteIcon />
+          </a>
+          <a
+            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Tokamak zk-EVM contracts GitHub repository"
+            title="Tokamak zk-EVM contracts"
+          >
+            <GithubIcon />
+          </a>
+          <a
+            href="https://t.me/tonnel_ethereum"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Tonnel Telegram"
+            title="Tonnel Telegram"
+          >
+            <TelegramIcon />
+          </a>
+        </nav>
       </footer>
     </main>
+  );
+}
+
+function WebsiteIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.4 2.4 3.6 5.4 3.6 9s-1.2 6.6-3.6 9" />
+      <path d="M12 3C9.6 5.4 8.4 8.4 8.4 12s1.2 6.6 3.6 9" />
+    </svg>
+  );
+}
+
+function GithubIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2.8c-5.1 0-9.2 4.1-9.2 9.2 0 4 2.6 7.4 6.2 8.7.5.1.7-.2.7-.5v-1.7c-2.5.5-3-1.1-3-1.1-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6.9.1 1.4.9 1.4.9.8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.5 0-1 .4-1.8.9-2.5-.1-.2-.4-1.2.1-2.5 0 0 .8-.2 2.5.9.7-.2 1.5-.3 2.3-.3s1.6.1 2.3.3c1.7-1.1 2.5-.9 2.5-.9.5 1.3.2 2.3.1 2.5.6.7.9 1.5.9 2.5 0 3.5-2.1 4.2-4.1 4.5.3.3.6.8.6 1.7v2.5c0 .3.2.6.7.5 3.6-1.3 6.2-4.7 6.2-8.7 0-5.1-4.1-9.2-9.2-9.2Z" />
+    </svg>
+  );
+}
+
+function TelegramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20.7 4.1 3.7 10.7c-1.2.5-1.2 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.3.8.7.8.3 0 .5-.1.8-.4l2.1-2 4.3 3.2c.8.4 1.3.2 1.5-.8l2.7-12.9c.3-1.2-.4-1.8-1-1.5ZM8.6 13.1l9.9-6.2c.5-.3.9-.1.5.2l-8 7.2-.3 3.2-1.5-4.6-.6.2Z" />
+    </svg>
   );
 }
 

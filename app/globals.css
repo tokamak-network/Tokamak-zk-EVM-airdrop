@@ -820,6 +820,57 @@ input:focus {
   text-shadow: 0 0 12px rgba(123, 243, 255, 0.2);
 }
 
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.footerLinks a {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(123, 243, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(4, 13, 30, 0.72);
+  color: var(--accent-strong);
+  box-shadow:
+    inset 0 0 16px rgba(123, 243, 255, 0.08),
+    0 0 18px rgba(47, 115, 223, 0.18);
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.footerLinks a:hover {
+  border-color: var(--accent-strong);
+  color: var(--tonnel-blue);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 18px rgba(123, 243, 255, 0.14),
+    0 0 24px rgba(47, 115, 223, 0.32);
+}
+
+.footerLinks svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footerLinks a:nth-child(2) svg,
+.footerLinks a:nth-child(3) svg {
+  fill: currentColor;
+  stroke: none;
+}
+
 .footerBrand {
   color: var(--tonnel-blue);
   font-weight: 900;
