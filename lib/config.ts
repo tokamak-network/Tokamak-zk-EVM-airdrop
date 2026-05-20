@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 
 export type AppConfig = {
@@ -10,6 +11,8 @@ export type AppConfig = {
   operatorToken?: string;
   rpcUrl?: string;
   rpcProvider?: string;
+  rpcConfigPath: string;
+  rpcConfigSource: "env" | "file" | "missing";
   rpcBlockRangeCap: number;
   channelGenesisBlock: number;
   channelManagerAddress: string;
@@ -25,17 +28,30 @@ export type CommandTemplate = {
 };
 
 export function getConfig(): AppConfig {
+  const network = process.env.AIRDROP_NETWORK ?? "mainnet";
+  const rpcConfig = readRpcConfig(network);
+  const rpcUrl = process.env.AIRDROP_RPC_URL ?? rpcConfig.RPC_URL;
+
   return {
     channel: process.env.AIRDROP_CHANNEL ?? "the-great-first-channel",
-    network: process.env.AIRDROP_NETWORK ?? "mainnet",
+    network,
     rewardTon: readNumberEnv("AIRDROP_REWARD_TON", 25),
     totalBudgetTon: readNumberEnv("AIRDROP_TOTAL_BUDGET_TON", 5000),
     dbPath: readDbPath(),
     payoutsPaused: process.env.AIRDROP_PAYOUTS_PAUSED === "true",
     operatorToken: process.env.OPERATOR_TOKEN,
-    rpcUrl: process.env.AIRDROP_RPC_URL,
+    rpcUrl,
     rpcProvider: process.env.AIRDROP_RPC_PROVIDER,
-    rpcBlockRangeCap: readNumberEnv("AIRDROP_RPC_BLOCK_RANGE_CAP", 1000),
+    rpcConfigPath: rpcConfig.path,
+    rpcConfigSource: process.env.AIRDROP_RPC_URL
+      ? "env"
+      : rpcUrl
+        ? "file"
+        : "missing",
+    rpcBlockRangeCap: readNumberEnv(
+      "AIRDROP_RPC_BLOCK_RANGE_CAP",
+      readPositiveNumber(rpcConfig.RPC_BLOCK_RANGE_CAP, 1000),
+    ),
     channelGenesisBlock: readNumberEnv("AIRDROP_CHANNEL_GENESIS_BLOCK", 25018368),
     channelManagerAddress:
       process.env.AIRDROP_CHANNEL_MANAGER_ADDRESS ??
@@ -56,6 +72,45 @@ export function getConfig(): AppConfig {
     ),
     rewardWallet: process.env.AIRDROP_REWARD_WALLET,
   };
+}
+
+function readRpcConfig(network: string): Record<string, string> & { path: string } {
+  const configPath = path.join(
+    process.env.HOME ?? "",
+    "tokamak-private-channels",
+    "workspace",
+    network,
+    "rpc-config.env",
+  );
+
+  if (!fs.existsSync(configPath)) {
+    return { path: configPath };
+  }
+
+  const values: Record<string, string> = { path: configPath };
+
+  for (const line of fs.readFileSync(configPath, "utf8").split(/\r?\n/)) {
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    const separatorIndex = trimmed.indexOf("=");
+
+    if (separatorIndex <= 0) {
+      continue;
+    }
+
+    const key = trimmed.slice(0, separatorIndex).trim();
+    const value = trimmed.slice(separatorIndex + 1).trim();
+
+    if (/^[A-Z_][A-Z0-9_]*$/.test(key)) {
+      values[key] = unquote(value);
+    }
+  }
+
+  return values as Record<string, string> & { path: string };
 }
 
 function readDbPath(): string {
@@ -84,6 +139,20 @@ function readNumberEnv(name: string, fallback: number): number {
   return value;
 }
 
+function readPositiveNumber(rawValue: string | undefined, fallback: number): number {
+  if (!rawValue) {
+    return fallback;
+  }
+
+  const value = Number(rawValue);
+
+  if (!Number.isFinite(value) || value <= 0) {
+    return fallback;
+  }
+
+  return value;
+}
+
 function resolveHomePath(value: string): string {
   if (value === "~") {
     return process.env.HOME ?? value;
@@ -91,6 +160,17 @@ function resolveHomePath(value: string): string {
 
   if (value.startsWith("~/")) {
     return path.join(process.env.HOME ?? "", value.slice(2));
+  }
+
+  return value;
+}
+
+function unquote(value: string): string {
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1);
   }
 
   return value;

@@ -32,6 +32,7 @@ Covered test areas:
 - Submit transaction-hash validation.
 - Duplicate transaction-hash no-new-row behavior.
 - Submit IP rate limiting.
+- Transaction eligibility verification false positive and false negative cases.
 - Reward note parsing and selection.
 - Worker payout-paused path without calling `wallet transfer-notes`.
 
@@ -47,6 +48,8 @@ AIRDROP_REWARD_TON=25
 AIRDROP_TOTAL_BUDGET_TON=5000
 OPERATOR_TOKEN=change-me
 
+# Optional override. If omitted, the worker reads:
+# ~/tokamak-private-channels/workspace/mainnet/rpc-config.env
 AIRDROP_RPC_URL=https://eth-mainnet.example
 AIRDROP_RPC_PROVIDER=alchemy
 AIRDROP_RPC_BLOCK_RANGE_CAP=1000
@@ -64,7 +67,7 @@ UPSTASH_REDIS_REST_TOKEN=...
 
 Do not store `~/user-secrets/account2.key` in this repository, the database, logs, or deployment environment.
 
-For local worker execution, put these values in `.env.local` on the operator MacBook. The worker loads `.env` and `.env.local` before reading configuration, which keeps `launchd` runs consistent with manual runs.
+For local worker execution, put these values in `.env.local` on the operator MacBook. The worker loads `.env` and `.env.local` before reading configuration, which keeps `launchd` runs consistent with manual runs. If `AIRDROP_RPC_URL` is not set, the worker uses the private-state CLI RPC configuration at `~/tokamak-private-channels/workspace/mainnet/rpc-config.env`.
 
 ## Submit Abuse Protection
 

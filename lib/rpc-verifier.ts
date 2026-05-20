@@ -2,14 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
-  type EventLog,
   getAddress,
   Interface,
   isAddress,
   isHexString,
   JsonRpcProvider,
-  type Log,
-  type TransactionResponse,
   zeroPadValue,
 } from "ethers";
 
@@ -40,22 +37,63 @@ type AbiCandidate = {
   source: string;
 };
 
+export type VerificationTransaction = {
+  data: string;
+  value: bigint;
+  to: string | null;
+  from: string;
+  blockNumber: number | null;
+};
+
+export type VerificationReceipt = {
+  status: number | null;
+};
+
+export type VerificationLog = {
+  address?: string;
+  topics: readonly string[];
+  data: string;
+  blockNumber: number;
+  transactionIndex: number;
+  index: number;
+};
+
+export type VerificationProvider = {
+  getTransaction(txHash: string): Promise<VerificationTransaction | null>;
+  getTransactionReceipt(txHash: string): Promise<VerificationReceipt | null>;
+  getLogs(filter: {
+    address: string;
+    fromBlock: number;
+    toBlock: number;
+    topics: Array<string | string[] | null>;
+  }): Promise<VerificationLog[]>;
+};
+
+export type VerifierDependencies = {
+  provider?: VerificationProvider;
+  channelManagerInterface?: Interface;
+  transferSelectors?: Set<string>;
+};
+
 const registeredEventName = "ChannelTokenVaultIdentityRegistered";
 const exitedEventName = "ChannelTokenVaultIdentityExited";
 
 export async function verifySubmittedTransaction(
   config: AppConfig,
   txHash: string,
+  dependencies: VerifierDependencies = {},
 ): Promise<VerificationResult> {
   if (!config.rpcUrl) {
-    throw new Error("AIRDROP_RPC_URL is required for RPC verification.");
+    throw new Error(
+      `AIRDROP_RPC_URL is required for RPC verification because no RPC_URL was found in ${config.rpcConfigPath}.`,
+    );
   }
 
   if (!isHexString(txHash, 32)) {
     return { valid: false, reason: "Submitted value is not a transaction hash." };
   }
 
-  const provider = new JsonRpcProvider(config.rpcUrl);
+  const provider = dependencies.provider ?? new JsonRpcProvider(config.rpcUrl);
   const transaction = await provider.getTransaction(txHash);
 
   if (!transaction) {
@@ -82,15 +120,26 @@ export async function verifySubmittedTransaction(
     return { valid: false, reason: "Transaction was not sent to Tonnel channel manager." };
   }
 
-  const channelManagerInterface = loadChannelManagerInterface(config.cliArtifactDir);
-  const decoded = decodeChannelTransaction(channelManagerInterface, transaction);
+  const channelManagerInterface =
+    dependencies.channelManagerInterface ??
+    loadChannelManagerInterface(config.cliArtifactDir);
+  let decoded: unknown;
+
+  try {
+    decoded = decodeChannelTransaction(channelManagerInterface, transaction);
+  } catch {
+    return { valid: false, reason: "Transaction calldata is not executeChannelTransaction." };
+  }
+
   const functionSig = normalizeSelector(findFunctionSig(decoded));
 
   if (!functionSig) {
     return { valid: false, reason: "Could not read private-state function selector from transaction metadata." };
   }
 
-  const transferSelectors = loadTransferNoteSelectors(config.cliArtifactDir);
+  const transferSelectors =
+    dependencies.transferSelectors ??
+    loadTransferNoteSelectors(config.cliArtifactDir);
 
   if (!transferSelectors.has(functionSig)) {
     return { valid: false, reason: "Transaction is not a private-state transfer notes transaction." };
@@ -147,7 +196,7 @@ function loadChannelManagerInterface(artifactDir: string): Interface {
 
 function decodeChannelTransaction(
   bridgeInterface: Interface,
-  transaction: TransactionResponse,
+  transaction: VerificationTransaction,
 ): unknown {
   const parsed = bridgeInterface.parseTransaction({
     data: transaction.data,
@@ -180,7 +229,7 @@ function loadTransferNoteSelectors(artifactDir: string): Set<string> {
 
 async function resolveL2AddressAtBlock(
   config: AppConfig,
-  provider: JsonRpcProvider,
+  provider: VerificationProvider,
   bridgeInterface: Interface,
   l1Address: string,
   blockNumber: number,
@@ -212,7 +261,7 @@ async function resolveL2AddressAtBlock(
 
 async function loadParticipationEvents(
   config: AppConfig,
-  provider: JsonRpcProvider,
+  provider: VerificationProvider,
   bridgeInterface: Interface,
   l1Address: string,
   toBlock: number,
@@ -253,12 +302,12 @@ async function loadParticipationEvents(
 
 async function loadEventLogs(
   config: AppConfig,
-  provider: JsonRpcProvider,
+  provider: VerificationProvider,
   bridgeInterface: Interface,
   eventName: string,
   l1Address: string,
   toBlock: number,
-): Promise<Log[]> {
+): Promise<VerificationLog[]> {
   const event = bridgeInterface.getEvent(eventName);
 
   if (!event) {
@@ -281,7 +330,7 @@ async function loadEventLogs(
     topics[topicPosition] = zeroPadValue(l1Address, 32);
   }
 
-  const logs: Log[] = [];
+  const logs: VerificationLog[] = [];
   const startBlock = config.channelGenesisBlock;
   const chunkSize = Math.max(Math.trunc(config.rpcBlockRangeCap), 1);
 
@@ -303,7 +352,7 @@ async function loadEventLogs(
 
 function parseParticipationLog(
   bridgeInterface: Interface,
-  log: Log | EventLog,
+  log: VerificationLog,
   expectedL1Address: string,
 ): ParticipationEvent | null {
   const parsed = bridgeInterface.parseLog({

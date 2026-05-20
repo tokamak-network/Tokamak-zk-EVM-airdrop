@@ -42,7 +42,7 @@ The repository already has these first-version web application pieces:
 - Local macOS worker entrypoint for latest CLI setup, RPC verification, note selection, payout, and reward-wallet budget sync.
 - macOS `launchd` install and uninstall scripts for twice-daily execution at 09:00 and 21:00 local time.
 - Public server payout execution disabled. Payout execution is local-only through `npm run worker`.
-- Automated non-payout tests for submit validation, duplicate transaction handling, submit rate limiting, reward note selection, and payout-paused worker behavior.
+- Automated non-payout tests for submit validation, duplicate transaction handling, submit rate limiting, tx eligibility false positive and false negative cases, reward note selection, and payout-paused worker behavior.
 
 The current web application is usable for collecting submissions and showing public status. Production payout operation still requires real operator configuration and live mainnet dry-run validation before funds are used.
 
@@ -51,7 +51,7 @@ The current web application is usable for collecting submissions and showing pub
 The following pieces are still required before the public event can be operated safely:
 
 - Configure the production database path shared by the deployed public app and the operator MacBook worker.
-- Configure `AIRDROP_RPC_URL` and, when needed, provider scan limits.
+- Confirm the private-state CLI RPC configuration at `~/tokamak-private-channels/workspace/mainnet/rpc-config.env`, or override it with `AIRDROP_RPC_URL`.
 - Confirm the reward wallet name, or rely on the implemented deterministic derivation from `account2` and `the-great-first-channel`.
 - Run live dry-run validation for valid mainnet verification, payout retry, unsupported note selection against live CLI output, insufficient notes, and budget sync.
 - Add a `2->2` note-selection path later if the CLI adds support for it.
@@ -420,6 +420,7 @@ Implementation is now present. Production operation should not start until these
 - Invalid transaction-hash submissions are rejected before database writes.
 - Exact duplicate transaction-hash submissions return the existing application without inserting another row.
 - Submit requests are rate-limited by client IP in production through Upstash Redis.
+- Tx eligibility verification false positive and false negative cases are covered by non-payout tests.
 - Successful payouts are labeled `Transferred`.
 - Duplicate resolved L2 addresses are labeled `Duplication` and cannot create multiple payouts.
 - Invalid transactions or other non-duplicate errors are labeled `Failed`.

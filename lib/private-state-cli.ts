@@ -31,20 +31,22 @@ export async function preparePrivateStateCli(config: AppConfig): Promise<void> {
     timeoutMs: 60 * 60_000,
   });
 
-  const rpcArgs = [
-    "set",
-    "rpc",
-    "--network",
-    config.network,
-    "--rpc-url",
-    config.rpcUrl!,
-  ];
+  if (config.rpcConfigSource === "env") {
+    const rpcArgs = [
+      "set",
+      "rpc",
+      "--network",
+      config.network,
+      "--rpc-url",
+      config.rpcUrl!,
+    ];
 
-  if (config.rpcProvider) {
-    rpcArgs.push("--provider", config.rpcProvider);
+    if (config.rpcProvider) {
+      rpcArgs.push("--provider", config.rpcProvider);
+    }
+
+    await runCommand("private-state-cli", rpcArgs, { timeoutMs: 120_000 });
   }
-
-  await runCommand("private-state-cli", rpcArgs, { timeoutMs: 120_000 });
 
   if (!(await canReadAccountAddress(config))) {
     await runCommand(
@@ -195,7 +197,9 @@ async function canReadAccountAddress(config: AppConfig): Promise<boolean> {
 
 function requireRpcUrl(config: AppConfig): void {
   if (!config.rpcUrl) {
-    throw new Error("AIRDROP_RPC_URL is required for the local worker.");
+    throw new Error(
+      `AIRDROP_RPC_URL is required for the local worker because no RPC_URL was found in ${config.rpcConfigPath}.`,
+    );
   }
 }
 

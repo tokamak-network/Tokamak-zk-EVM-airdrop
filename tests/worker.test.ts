@@ -81,6 +81,8 @@ function createTestConfig(overrides: Partial<AppConfig> = {}): AppConfig {
     operatorToken: undefined,
     rpcUrl: "https://example.test/rpc",
     rpcProvider: undefined,
+    rpcConfigPath: "/tmp/rpc-config.env",
+    rpcConfigSource: "env",
     rpcBlockRangeCap: 1000,
     channelGenesisBlock: 25018368,
     channelManagerAddress: "0x3108d92A38bFb4B3396DE7ad4D92318a8fbE61D7",
