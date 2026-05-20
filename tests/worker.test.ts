@@ -119,6 +119,147 @@ test("runAirdropWorker recovers the reward wallet workspace before transfer", as
   });
 });
 
+test("runAirdropWorker retries stale wallet workspace failures up to five times", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"f".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    let recoveries = 0;
+    let transfers = 0;
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {
+        recoveries += 1;
+      },
+      transferNotes: async () => {
+        transfers += 1;
+
+        if (transfers <= 5) {
+          throw new Error("Wallet note workspace is stale. Run wallet recover-workspace before using commands that read or spend wallet notes.");
+        }
+
+        return `0x${"1".repeat(64)}`;
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 1);
+    assert.equal(summary.failed, 0);
+    assert.equal(recoveries, 6);
+    assert.equal(transfers, 6);
+    assert.equal(application?.status, "Transferred");
+    assert.equal(application?.payoutTxHash, `0x${"1".repeat(64)}`);
+  });
+});
+
+test("runAirdropWorker fails after five stale wallet workspace retries", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"3".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    let transfers = 0;
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        transfers += 1;
+        throw new Error("Wallet note workspace is stale.");
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 0);
+    assert.equal(summary.failed, 1);
+    assert.equal(transfers, 6);
+    assert.equal(application?.status, "Failed");
+    assert.equal(application?.reason, "Wallet note workspace is stale.");
+  });
+});
+
+test("runAirdropWorker does not retry non-stale transfer failures", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"2".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    let transfers = 0;
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        transfers += 1;
+        throw new Error("Transaction reverted.");
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 0);
+    assert.equal(summary.failed, 1);
+    assert.equal(transfers, 1);
+    assert.equal(application?.status, "Failed");
+    assert.equal(application?.reason, "Transaction reverted.");
+  });
+});
+
 function createTestConfig(overrides: Partial<AppConfig> = {}): AppConfig {
   return {
     channel: "the-great-first-channel",

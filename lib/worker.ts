@@ -64,6 +64,7 @@ const defaultDependencies: WorkerDependencies = {
   recoverRewardWalletWorkspace,
   transferNotes,
 };
+const maxStaleWorkspaceRetries = 5;
 
 export async function runAirdropWorker(
   dependencies: WorkerDependencies = defaultDependencies,
@@ -162,31 +163,11 @@ async function payoutVerifiedApplications(
     }
 
     try {
-      const notesOutput = await dependencies.getWalletNotes(config, rewardWallet);
-      const notes = parseUnusedRewardNotes(notesOutput);
-
-      if (sumRewardNotes(notes) < config.rewardTon) {
-        await markFailed(application.id, "Reward wallet has less than 25 TON in unused notes.");
-        summary.failed += 1;
-        continue;
-      }
-
-      const rewardWalletL2Address = needsChangeAddress(notes, config.rewardTon)
-        ? await dependencies.getRewardWalletL2Address(config, rewardWallet)
-        : application.resolvedL2Address;
-      const selection = selectRewardNotes(
-        notes,
-        config.rewardTon,
-        application.resolvedL2Address,
-        rewardWalletL2Address,
-      );
-      await dependencies.recoverRewardWalletWorkspace(config);
-      const payoutTxHash = await dependencies.transferNotes(
+      const payoutTxHash = await transferRewardWithStaleRetry(
         config,
         rewardWallet,
-        selection.noteIds,
-        selection.recipients,
-        selection.amounts,
+        application.resolvedL2Address,
+        dependencies,
       );
 
       await markTransferred(application.id, payoutTxHash);
@@ -197,6 +178,69 @@ async function payoutVerifiedApplications(
       summary.failed += 1;
     }
   }
+}
+
+async function transferRewardWithStaleRetry(
+  config: AppConfig,
+  rewardWallet: string,
+  recipientL2Address: string,
+  dependencies: WorkerDependencies,
+): Promise<string> {
+  let staleRetries = 0;
+
+  while (true) {
+    try {
+      return await transferReward(
+        config,
+        rewardWallet,
+        recipientL2Address,
+        dependencies,
+      );
+    } catch (error) {
+      if (
+        !isStaleWalletWorkspaceError(error) ||
+        staleRetries >= maxStaleWorkspaceRetries
+      ) {
+        throw error;
+      }
+
+      staleRetries += 1;
+    }
+  }
+}
+
+async function transferReward(
+  config: AppConfig,
+  rewardWallet: string,
+  recipientL2Address: string,
+  dependencies: WorkerDependencies,
+): Promise<string> {
+  await dependencies.recoverRewardWalletWorkspace(config);
+
+  const notesOutput = await dependencies.getWalletNotes(config, rewardWallet);
+  const notes = parseUnusedRewardNotes(notesOutput);
+
+  if (sumRewardNotes(notes) < config.rewardTon) {
+    throw new Error("Reward wallet has less than 25 TON in unused notes.");
+  }
+
+  const rewardWalletL2Address = needsChangeAddress(notes, config.rewardTon)
+    ? await dependencies.getRewardWalletL2Address(config, rewardWallet)
+    : recipientL2Address;
+  const selection = selectRewardNotes(
+    notes,
+    config.rewardTon,
+    recipientL2Address,
+    rewardWalletL2Address,
+  );
+
+  return dependencies.transferNotes(
+    config,
+    rewardWallet,
+    selection.noteIds,
+    selection.recipients,
+    selection.amounts,
+  );
 }
 
 async function syncBudget(
@@ -224,6 +268,16 @@ async function syncBudget(
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Unknown error.";
+}
+
+function isStaleWalletWorkspaceError(error: unknown): boolean {
+  const message = getErrorMessage(error).toLowerCase();
+
+  return (
+    message.includes("workspace is stale") ||
+    message.includes("wallet note workspace is stale") ||
+    message.includes("still stale after recovery-index sync")
+  );
 }
 
 function needsChangeAddress(
