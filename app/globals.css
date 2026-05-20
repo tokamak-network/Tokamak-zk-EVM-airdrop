@@ -423,6 +423,27 @@ h1 {
   font-size: 1.2rem;
 }
 
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+}
+
+.sectionUpdated {
+  color: rgba(166, 187, 207, 0.5);
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .participationPanel {
   display: grid;
   gap: 14px;
@@ -871,6 +892,24 @@ input:focus {
   stroke: none;
 }
 
+.footerFinePrint {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  max-width: 980px;
+}
+
+.siteFooter .footerFinePrint p {
+  color: rgba(166, 187, 207, 0.58);
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.footerFinePrint strong {
+  color: rgba(208, 226, 244, 0.62);
+  font-weight: 800;
+}
+
 .footerBrand {
   color: var(--tonnel-blue);
   font-weight: 900;
@@ -889,6 +928,16 @@ input:focus {
 
   .eventStats {
     align-self: stretch;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sectionUpdated {
+    text-align: left;
   }
 }
 

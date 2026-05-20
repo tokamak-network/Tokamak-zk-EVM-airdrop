@@ -290,7 +290,10 @@ export function AirdropApp({
 
       <section className="workArea" aria-label="Airdrop application">
         <section className="contentSection" aria-labelledby="how-to-participate">
-          <h2 id="how-to-participate">How To Participate</h2>
+          <div className="sectionHeader">
+            <h2 id="how-to-participate">How To Participate</h2>
+            <span className="sectionUpdated">Last updated: May 21, 2026</span>
+          </div>
           <ParticipateModeToggle
             mode={participateMode}
             onChange={setParticipateMode}
@@ -412,6 +415,18 @@ export function AirdropApp({
             <TelegramIcon />
           </a>
         </nav>
+        <div className="footerFinePrint">
+          <p>
+            <strong>Privacy:</strong> This site stores submitted transaction
+            hashes, verification and payout records, resolved participant
+            addresses, and rate-limit data needed to protect the service.
+          </p>
+          <p>
+            <strong>Risk:</strong> Rewards are not guaranteed. Payouts depend on
+            verification, duplicate checks, remaining budget, network
+            availability, and operational review.
+          </p>
+        </div>
       </footer>
     </main>
   );
