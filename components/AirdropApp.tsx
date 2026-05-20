@@ -417,13 +417,10 @@ export function AirdropApp({
         </nav>
         <div className="footerFinePrint">
           <p>
-            <strong>Privacy:</strong> This site stores submitted transaction
-            hashes, verification and payout records, resolved participant
-            addresses, and rate-limit data needed to protect the service.
-          </p>
-          <p>
-            <strong>Risk:</strong> Rewards are not guaranteed. Payouts depend on
-            verification, duplicate checks, remaining budget, network
+            This site stores submitted transaction hashes, verification and
+            payout records, resolved participant addresses, and rate-limit data
+            needed to protect the service. Rewards are not guaranteed and depend
+            on verification, duplicate checks, remaining budget, network
             availability, and operational review.
           </p>
         </div>

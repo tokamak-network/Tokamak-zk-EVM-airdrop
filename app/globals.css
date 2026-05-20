@@ -844,6 +844,7 @@ input:focus {
 .footerLinks {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   margin-top: 14px;
 }
@@ -893,21 +894,16 @@ input:focus {
 }
 
 .footerFinePrint {
-  display: grid;
-  gap: 4px;
   margin-top: 12px;
-  max-width: 980px;
+  max-width: 1040px;
+  justify-self: center;
 }
 
 .siteFooter .footerFinePrint p {
   color: rgba(166, 187, 207, 0.58);
   font-size: 0.74rem;
   line-height: 1.55;
-}
-
-.footerFinePrint strong {
-  color: rgba(208, 226, 244, 0.62);
-  font-weight: 800;
+  text-align: center;
 }
 
 .footerBrand {
