@@ -15,14 +15,16 @@ test("parseUnusedRewardNotes reads note ids and TON values", () => {
     unusedNotes: [
       { noteId: "note-1", value: "25 TON" },
       { id: "note-2", amountTon: "10" },
+      { commitment: "note-3", valueTokens: "100.0" },
     ],
   });
 
   assert.deepEqual(notes, [
     { id: "note-1", valueTon: 25 },
     { id: "note-2", valueTon: 10 },
+    { id: "note-3", valueTon: 100 },
   ]);
-  assert.equal(sumRewardNotes(notes), 35);
+  assert.equal(sumRewardNotes(notes), 135);
 });
 
 test("selectRewardNotes prefers one exact 25 TON note", () => {

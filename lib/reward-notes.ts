@@ -12,7 +12,15 @@ export type NoteSelection = {
 type NoteRecord = Record<string, unknown>;
 
 const noteIdKeys = ["id", "noteId", "noteID", "commitment", "commitmentHex"];
-const noteValueKeys = ["value", "amount", "amountTon", "tokenAmount", "ton"];
+const noteValueKeys = [
+  "value",
+  "amount",
+  "amountTon",
+  "tokenAmount",
+  "ton",
+  "valueTokens",
+  "amountTokens",
+];
 
 export function parseUnusedRewardNotes(output: unknown): RewardNote[] {
   const unusedNotes = findArrayByKey(output, "unusedNotes");
