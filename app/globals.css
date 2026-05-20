@@ -423,12 +423,23 @@ h1 {
   font-size: 1.2rem;
 }
 
-.contentSection ol,
-.criteriaList {
+.participationPanel {
+  display: grid;
+  gap: 14px;
+}
+
+.participationIntro,
+.participationList {
   margin: 0;
-  padding-left: 20px;
   color: var(--muted);
+  font-size: 1rem;
   line-height: 1.65;
+}
+
+.participationList {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
 }
 
 .contentSection pre {
@@ -443,26 +454,7 @@ h1 {
   line-height: 1.6;
 }
 
-.criteriaList {
-  display: grid;
-  gap: 10px;
-}
-
-.prerequisitesPanel {
-  display: grid;
-  gap: 14px;
-}
-
-.prerequisitesPanel p {
-  margin: 0;
-}
-
-.prerequisitesPanel ul {
-  display: grid;
-  gap: 10px;
-}
-
-.prerequisitesPanel strong {
+.participationList strong {
   color: var(--foreground);
 }
 

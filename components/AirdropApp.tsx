@@ -427,7 +427,7 @@ function ParticipateModeToggle({
 
 function ParticipationSteps({ channel }: { channel: string }) {
   return (
-    <ol>
+    <ol className="participationList">
       <li>
         Ask your AI agents to install the latest version of{" "}
         <code className="shadedText">
@@ -450,12 +450,12 @@ function ParticipationSteps({ channel }: { channel: string }) {
 
 function Prerequisites() {
   return (
-    <div className="prerequisitesPanel">
-      <p>
+    <div className="participationPanel">
+      <p className="participationIntro">
         Your LLM will kindly explain everything, but I would like to summarize
         the requirements for participation for you.
       </p>
-      <ul>
+      <ul className="participationList">
         <li>
           <strong>Channel entry fee:</strong> 4 TON (partially refundable
           conditionally)
@@ -473,7 +473,7 @@ function Prerequisites() {
 
 function WinnerCriteria() {
   return (
-    <ul className="criteriaList">
+    <ul className="participationList">
       <li>
         Submit the transaction hash from a real private-state transfer notes
         transaction made in <span className="accentText">Tonnel</span>.
