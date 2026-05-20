@@ -36,6 +36,7 @@ type ApiResult = {
 };
 
 type StatusMode = "history" | "eligibility";
+type ParticipateMode = "steps" | "prerequisites" | "criteria";
 
 type EligibilityResult = {
   eligible: boolean;
@@ -70,6 +71,8 @@ export function AirdropApp({
   const [statusTotal, setStatusTotal] = useState(initialApplicationTotal);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [participateMode, setParticipateMode] =
+    useState<ParticipateMode>("steps");
   const [statusMode, setStatusMode] = useState<StatusMode>("history");
   const [eligibilityTxHash, setEligibilityTxHash] = useState("");
   const [eligibilityResult, setEligibilityResult] =
@@ -288,29 +291,21 @@ export function AirdropApp({
       <section className="workArea" aria-label="Airdrop application">
         <section className="contentSection" aria-labelledby="how-to-participate">
           <h2 id="how-to-participate">How To Participate</h2>
-          <ol>
-            <li>
-              Ask your AI agents to install the latest version of{" "}
-              <code className="shadedText">
-                @tokamak-private-dapps/private-state-cli
-              </code>
-              .
-            </li>
-            <li>
-              Ask your AI agents to join{" "}
-              <code className="shadedText">{channel}</code>.
-            </li>
-            <li>
-              Ask your AI agents to make one private-state transfer notes
-              transaction on <span className="accentText">Tonnel</span>.
-            </li>
-            <li>Ask your AI agents for the transaction hash.</li>
-            <li>Submit the transaction hash with this form.</li>
-          </ol>
-          <p className="warning">
-            Never share your Ethereum wallet private key or any secrets with
-            others including us.
-          </p>
+          <ParticipateModeToggle
+            mode={participateMode}
+            onChange={setParticipateMode}
+          />
+          {participateMode === "steps" ? (
+            <ParticipationSteps channel={channel} />
+          ) : null}
+          {participateMode === "prerequisites" ? <Prerequisites /> : null}
+          {participateMode === "criteria" ? <WinnerCriteria /> : null}
+          {participateMode !== "criteria" ? (
+            <p className="warning">
+              Never share your Ethereum wallet private key or any secrets with
+              others including us.
+            </p>
+          ) : null}
         </section>
 
         <section className="contentSection" aria-labelledby="submit">
@@ -361,39 +356,6 @@ export function AirdropApp({
           )}
         </section>
 
-        <section className="contentSection" aria-labelledby="winner-criteria">
-          <h2 id="winner-criteria">Winner Criteria</h2>
-          <ul className="criteriaList">
-            <li>
-              Submit the transaction hash from a real private-state transfer
-              notes transaction made in{" "}
-              <span className="accentText">Tonnel</span>.
-            </li>
-            <li>
-              The Ethereum wallet address that sent that transaction must have
-              been joined to <span className="accentText">Tonnel</span> when
-              the transaction happened.
-            </li>
-            <li>
-              We send the reward to the{" "}
-              <span className="accentText">Tonnel</span> channel address (L2
-              address) that was registered to that Ethereum wallet address at
-              that time.
-            </li>
-            <li>
-              A <span className="accentText">Tonnel</span> channel address can
-              receive only one reward. A transaction hash can also be used only
-              once.
-            </li>
-            <li>
-              A second transaction from the same{" "}
-              <span className="accentText">Tonnel</span> channel address will
-              not receive another reward. The same transaction hash will not
-              receive another reward, even if it is submitted with a different{" "}
-              <span className="accentText">Tonnel</span> channel address.
-            </li>
-          </ul>
-        </section>
       </section>
 
       <footer className="siteFooter">
@@ -423,6 +385,121 @@ export function AirdropApp({
         </p>
       </footer>
     </main>
+  );
+}
+
+function ParticipateModeToggle({
+  mode,
+  onChange,
+}: {
+  mode: ParticipateMode;
+  onChange: (mode: ParticipateMode) => void;
+}) {
+  return (
+    <div className="statusModeToggle" aria-label="Participation mode">
+      <button
+        type="button"
+        aria-pressed={mode === "steps"}
+        className={mode === "steps" ? "active" : ""}
+        onClick={() => onChange("steps")}
+      >
+        Show steps
+      </button>
+      <button
+        type="button"
+        aria-pressed={mode === "prerequisites"}
+        className={mode === "prerequisites" ? "active" : ""}
+        onClick={() => onChange("prerequisites")}
+      >
+        Prerequisites
+      </button>
+      <button
+        type="button"
+        aria-pressed={mode === "criteria"}
+        className={mode === "criteria" ? "active" : ""}
+        onClick={() => onChange("criteria")}
+      >
+        Winner criteria
+      </button>
+    </div>
+  );
+}
+
+function ParticipationSteps({ channel }: { channel: string }) {
+  return (
+    <ol>
+      <li>
+        Ask your AI agents to install the latest version of{" "}
+        <code className="shadedText">
+          @tokamak-private-dapps/private-state-cli
+        </code>
+        .
+      </li>
+      <li>
+        Ask your AI agents to join <code className="shadedText">{channel}</code>.
+      </li>
+      <li>
+        Ask your AI agents to make one private-state transfer notes transaction
+        on <span className="accentText">Tonnel</span>.
+      </li>
+      <li>Ask your AI agents for the transaction hash.</li>
+      <li>Submit the transaction hash with this form.</li>
+    </ol>
+  );
+}
+
+function Prerequisites() {
+  return (
+    <div className="prerequisitesPanel">
+      <p>
+        Your LLM will kindly explain everything, but I would like to summarize
+        the requirements for participation for you.
+      </p>
+      <ul>
+        <li>
+          <strong>Channel entry fee:</strong> 4 TON (partially refundable
+          conditionally)
+        </li>
+        <li>
+          <strong>Your EOA private key</strong> (not disclosed to anyone)
+        </li>
+        <li>
+          <strong>Node RPC URL</strong> (Recommended: Ankr's free API)
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+function WinnerCriteria() {
+  return (
+    <ul className="criteriaList">
+      <li>
+        Submit the transaction hash from a real private-state transfer notes
+        transaction made in <span className="accentText">Tonnel</span>.
+      </li>
+      <li>
+        The Ethereum wallet address that sent that transaction must have been
+        joined to <span className="accentText">Tonnel</span> when the
+        transaction happened.
+      </li>
+      <li>
+        We send the reward to the <span className="accentText">Tonnel</span>{" "}
+        channel address (L2 address) that was registered to that Ethereum wallet
+        address at that time.
+      </li>
+      <li>
+        A <span className="accentText">Tonnel</span> channel address can receive
+        only one reward. A transaction hash can also be used only once.
+      </li>
+      <li>
+        A second transaction from the same{" "}
+        <span className="accentText">Tonnel</span> channel address will not
+        receive another reward. The same transaction hash will not receive
+        another reward, even if it is submitted with a different{" "}
+        <span className="accentText">Tonnel</span> channel address.
+      </li>
+    </ul>
   );
 }
 

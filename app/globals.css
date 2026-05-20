@@ -448,6 +448,24 @@ h1 {
   gap: 10px;
 }
 
+.prerequisitesPanel {
+  display: grid;
+  gap: 14px;
+}
+
+.prerequisitesPanel p {
+  margin: 0;
+}
+
+.prerequisitesPanel ul {
+  display: grid;
+  gap: 10px;
+}
+
+.prerequisitesPanel strong {
+  color: var(--foreground);
+}
+
 .accentText {
   color: var(--tonnel-blue);
   font-weight: 900;
