@@ -9,3 +9,5 @@ data/*.sqlite-*
 logs/
 tsconfig.tsbuildinfo
 npm-debug.log*
+.vercel
+.env*.local
