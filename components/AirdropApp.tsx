@@ -35,6 +35,13 @@ type ApiResult = {
   total?: number;
 };
 
+type StatusMode = "history" | "eligibility";
+
+type EligibilityResult = {
+  eligible: boolean;
+  reason: "Transaction ineligible" | "L2 address duplicate" | null;
+};
+
 const statusPageSize = 10;
 
 const statusText: Record<ApplicationStatus, string> = {
@@ -59,8 +66,16 @@ export function AirdropApp({
   const [statusTotal, setStatusTotal] = useState(initialApplicationTotal);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [statusMode, setStatusMode] = useState<StatusMode>("history");
+  const [eligibilityTxHash, setEligibilityTxHash] = useState("");
+  const [eligibilityResult, setEligibilityResult] =
+    useState<EligibilityResult | null>(null);
+  const [eligibilityMessage, setEligibilityMessage] = useState<string | null>(
+    null,
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingStatus, setIsLoadingStatus] = useState(false);
+  const [isCheckingEligibility, setIsCheckingEligibility] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -152,6 +167,49 @@ export function AirdropApp({
       );
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function checkTransactionEligibility(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+    setIsCheckingEligibility(true);
+    setEligibilityResult(null);
+    setEligibilityMessage(null);
+
+    try {
+      const response = await fetch("/api/applications/eligibility", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ qualifyingTxHash: eligibilityTxHash }),
+      });
+      const result = (await response.json()) as EligibilityResult & {
+        error?: string;
+      };
+
+      if (
+        !response.ok ||
+        typeof result.eligible !== "boolean" ||
+        (result.reason !== null &&
+          result.reason !== "Transaction ineligible" &&
+          result.reason !== "L2 address duplicate")
+      ) {
+        throw new Error(result.error ?? "Eligibility check failed.");
+      }
+
+      setEligibilityResult({
+        eligible: result.eligible,
+        reason: result.reason,
+      });
+    } catch (error) {
+      setEligibilityMessage(
+        error instanceof Error ? error.message : "Eligibility check failed.",
+      );
+    } finally {
+      setIsCheckingEligibility(false);
     }
   }
 
@@ -272,16 +330,30 @@ export function AirdropApp({
 
         <section className="contentSection" aria-labelledby="status">
           <h2 id="status">Status</h2>
-          <StatusTable applications={statusApplications} />
-          <StatusPagination
-            isLoading={isLoadingStatus}
-            onNext={() => void loadStatusPage(statusPage + 1)}
-            onPrevious={() => void loadStatusPage(statusPage - 1)}
-            page={statusPage}
-            pageSize={statusPageSize}
-            total={statusTotal}
-          />
-          {statusMessage ? <p className="message">{statusMessage}</p> : null}
+          <StatusModeToggle mode={statusMode} onChange={setStatusMode} />
+          {statusMode === "history" ? (
+            <>
+              <StatusTable applications={statusApplications} />
+              <StatusPagination
+                isLoading={isLoadingStatus}
+                onNext={() => void loadStatusPage(statusPage + 1)}
+                onPrevious={() => void loadStatusPage(statusPage - 1)}
+                page={statusPage}
+                pageSize={statusPageSize}
+                total={statusTotal}
+              />
+              {statusMessage ? <p className="message">{statusMessage}</p> : null}
+            </>
+          ) : (
+            <EligibilityChecker
+              eligibilityTxHash={eligibilityTxHash}
+              isChecking={isCheckingEligibility}
+              message={eligibilityMessage}
+              onChange={setEligibilityTxHash}
+              onSubmit={checkTransactionEligibility}
+              result={eligibilityResult}
+            />
+          )}
         </section>
 
         <section className="contentSection" aria-labelledby="winner-criteria">
@@ -346,6 +418,91 @@ export function AirdropApp({
         </p>
       </footer>
     </main>
+  );
+}
+
+function StatusModeToggle({
+  mode,
+  onChange,
+}: {
+  mode: StatusMode;
+  onChange: (mode: StatusMode) => void;
+}) {
+  return (
+    <div className="statusModeToggle" aria-label="Status mode">
+      <button
+        type="button"
+        aria-pressed={mode === "history"}
+        className={mode === "history" ? "active" : ""}
+        onClick={() => onChange("history")}
+      >
+        Show history
+      </button>
+      <button
+        type="button"
+        aria-pressed={mode === "eligibility"}
+        className={mode === "eligibility" ? "active" : ""}
+        onClick={() => onChange("eligibility")}
+      >
+        Check eligibility
+      </button>
+    </div>
+  );
+}
+
+function EligibilityChecker({
+  eligibilityTxHash,
+  isChecking,
+  message,
+  onChange,
+  onSubmit,
+  result,
+}: {
+  eligibilityTxHash: string;
+  isChecking: boolean;
+  message: string | null;
+  onChange: (value: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  result: EligibilityResult | null;
+}) {
+  return (
+    <div className="eligibilityPanel">
+      <form onSubmit={onSubmit} className="formStack">
+        <label>
+          Transaction hash
+          <input
+            value={eligibilityTxHash}
+            onChange={(event) => onChange(event.target.value)}
+            placeholder="Transfer notes transaction hash"
+            autoComplete="off"
+            required
+          />
+        </label>
+        <button type="submit" disabled={isChecking}>
+          {isChecking ? "Checking..." : "Check eligibility"}
+        </button>
+      </form>
+      {result ? <EligibilityResultCard result={result} /> : null}
+      {message ? <p className="message">{message}</p> : null}
+    </div>
+  );
+}
+
+function EligibilityResultCard({ result }: { result: EligibilityResult }) {
+  if (result.eligible) {
+    return (
+      <div className="eligibilityResult eligible">
+        <strong>Eligible</strong>
+        <span>This transaction currently satisfies the winner criteria.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="eligibilityResult ineligible">
+      <strong>Not eligible</strong>
+      <span>{result.reason}</span>
+    </div>
   );
 }
 

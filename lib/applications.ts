@@ -283,6 +283,22 @@ export async function hasTransferredDuplicate(
   return Boolean(row);
 }
 
+export async function hasTransferredL2Address(
+  resolvedL2Address: string,
+): Promise<boolean> {
+  const row = await dbGet<{ id: string }>(
+    `
+      SELECT id FROM applications
+      WHERE status = 'Transferred'
+        AND resolved_l2_address = ?
+      LIMIT 1
+    `,
+    [normalizeInput(resolvedL2Address)],
+  );
+
+  return Boolean(row);
+}
+
 export async function countTransferredApplications(): Promise<number> {
   const row = await dbGet<{ count: number | string }>(
     "SELECT COUNT(*) as count FROM applications WHERE status = 'Transferred'",
