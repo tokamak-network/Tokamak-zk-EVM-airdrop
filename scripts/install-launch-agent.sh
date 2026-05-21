@@ -6,9 +6,12 @@ label="network.tokamak.tonnel-airdrop-worker"
 plist_path="${HOME}/Library/LaunchAgents/${label}.plist"
 log_dir="${repo_dir}/logs"
 node_path="$(command -v node)"
-worker_wrapper="${repo_dir}/scripts/run-worker-with-notification.sh"
+support_dir="${HOME}/Library/Application Support/TonnelAirdrop"
+worker_wrapper="${support_dir}/run-worker-with-notification.sh"
 
-mkdir -p "${HOME}/Library/LaunchAgents" "${log_dir}"
+mkdir -p "${HOME}/Library/LaunchAgents" "${log_dir}" "${support_dir}"
+cp "${repo_dir}/scripts/run-worker-with-notification.sh" "${worker_wrapper}"
+chmod +x "${worker_wrapper}"
 
 cat > "${plist_path}" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -19,7 +22,7 @@ cat > "${plist_path}" <<PLIST
   <key>Label</key>
   <string>${label}</string>
   <key>WorkingDirectory</key>
-  <string>${repo_dir}</string>
+  <string>${support_dir}</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
@@ -27,8 +30,10 @@ cat > "${plist_path}" <<PLIST
   </array>
   <key>EnvironmentVariables</key>
   <dict>
+    <key>TONNEL_AIRDROP_REPO_DIR</key>
+    <string>${repo_dir}</string>
     <key>PATH</key>
-    <string>$(dirname "${node_path}"):/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <string>${HOME}/.cargo/bin:$(dirname "${node_path}"):/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
   </dict>
   <key>StartCalendarInterval</key>
   <array>
