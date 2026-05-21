@@ -9,6 +9,8 @@ const [
   repoDir,
   stderrLog,
   stdoutLog,
+  runStdout,
+  runStderr,
 ] = process.argv;
 
 const env = readEnvFile(`${repoDir}/.env.local`);
@@ -22,15 +24,34 @@ if (!botToken || !chatId) {
   process.exit(0);
 }
 
-const text = [
-  "Tonnel airdrop worker failed",
+const succeeded = exitCode === "0";
+const summary = readWorkerSummary(runStdout);
+const errorTail = succeeded ? "" : readTail(runStderr, 1600);
+
+const lines = [
+  `Tonnel airdrop worker ${succeeded ? "succeeded" : "failed"}`,
   `Host: ${hostName}`,
   `Time: ${timestamp}`,
   `Exit: ${exitCode}`,
   `Repo: ${repoDir}`,
-  `stderr: ${stderrLog}`,
-  `stdout: ${stdoutLog}`,
-].join("\n");
+];
+
+if (summary) {
+  lines.push(
+    `Verified: ${summary.verified}`,
+    `Transferred: ${summary.transferred}`,
+    `Duplicated: ${summary.duplicated}`,
+    `Failed: ${summary.failed}`,
+    `Skipped payouts: ${summary.skippedPayouts}`,
+    `Remaining budget: ${summary.remainingBudgetTon ?? "unknown"} TON`,
+  );
+}
+
+if (errorTail) {
+  lines.push("", "Error:", errorTail);
+}
+
+lines.push("", `stderr: ${stderrLog}`, `stdout: ${stdoutLog}`);
 
 const response = await fetch(
   `https://api.telegram.org/bot${botToken}/sendMessage`,
@@ -39,7 +60,7 @@ const response = await fetch(
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       chat_id: chatId,
-      text,
+      text: lines.join("\n"),
     }),
   },
 );
@@ -48,6 +69,34 @@ if (!response.ok) {
   throw new Error(
     `Telegram alert failed: ${response.status} ${await response.text()}`,
   );
+}
+
+function readWorkerSummary(path) {
+  if (!path || !fs.existsSync(path)) {
+    return null;
+  }
+
+  const text = fs.readFileSync(path, "utf8");
+  const start = text.lastIndexOf("{\n");
+
+  if (start < 0) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text.slice(start));
+  } catch {
+    return null;
+  }
+}
+
+function readTail(path, maxLength) {
+  if (!path || !fs.existsSync(path)) {
+    return "";
+  }
+
+  const text = fs.readFileSync(path, "utf8").trim();
+  return text.length > maxLength ? text.slice(text.length - maxLength) : text;
 }
 
 function readEnvFile(path) {
