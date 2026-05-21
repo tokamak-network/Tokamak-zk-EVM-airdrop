@@ -6,7 +6,7 @@ label="network.tokamak.tonnel-airdrop-worker"
 plist_path="${HOME}/Library/LaunchAgents/${label}.plist"
 log_dir="${repo_dir}/logs"
 node_path="$(command -v node)"
-npm_path="$(command -v npm)"
+worker_wrapper="${repo_dir}/scripts/run-worker-with-notification.sh"
 
 mkdir -p "${HOME}/Library/LaunchAgents" "${log_dir}"
 
@@ -22,9 +22,7 @@ cat > "${plist_path}" <<PLIST
   <string>${repo_dir}</string>
   <key>ProgramArguments</key>
   <array>
-    <string>${npm_path}</string>
-    <string>run</string>
-    <string>worker</string>
+    <string>${worker_wrapper}</string>
   </array>
   <key>EnvironmentVariables</key>
   <dict>
