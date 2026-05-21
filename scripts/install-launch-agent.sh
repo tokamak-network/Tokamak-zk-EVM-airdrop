@@ -22,6 +22,7 @@ cat > "${plist_path}" <<PLIST
   <string>${repo_dir}</string>
   <key>ProgramArguments</key>
   <array>
+    <string>/bin/bash</string>
     <string>${worker_wrapper}</string>
   </array>
   <key>EnvironmentVariables</key>
