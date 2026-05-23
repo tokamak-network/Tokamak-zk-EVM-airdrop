@@ -95,6 +95,7 @@ async function runWorkerSteps(
   const config = dependencies.getConfig();
 
   await dependencies.preparePrivateStateCli(config);
+  await dependencies.recoverRewardWalletWorkspace(config);
   await verifyPendingApplications(summary, dependencies);
 
   const rewardWallet = await dependencies.resolveRewardWalletName(config);

@@ -30,7 +30,7 @@ export async function preparePrivateStateCli(config: AppConfig): Promise<void> {
   await runCommand(
     "npm",
     ["install", "-g", "@tokamak-private-dapps/private-state-cli@latest"],
-    { timeoutMs: 10 * 60_000 },
+    { env: getGlobalNpmInstallEnv(), timeoutMs: 10 * 60_000 },
   );
   await runCommand("private-state-cli", ["install"], {
     timeoutMs: 60 * 60_000,
@@ -160,6 +160,18 @@ export async function recoverRewardWalletWorkspace(
   await runCommand(
     "private-state-cli",
     [
+      "channel",
+      "recover-workspace",
+      "--channel-name",
+      config.channel,
+      "--network",
+      config.network,
+    ],
+    { timeoutMs: 60 * 60_000 },
+  );
+  await runCommand(
+    "private-state-cli",
+    [
       "wallet",
       "recover-workspace",
       "--channel-name",
@@ -168,7 +180,6 @@ export async function recoverRewardWalletWorkspace(
       config.network,
       "--account",
       config.rewardAccount,
-      "--from-genesis",
     ],
     { timeoutMs: 60 * 60_000 },
   );
@@ -287,6 +298,15 @@ function requireRpcUrl(config: AppConfig): void {
       `AIRDROP_RPC_URL is required for the local worker because no RPC_URL was found in ${config.rpcConfigPath}.`,
     );
   }
+}
+
+function getGlobalNpmInstallEnv(): NodeJS.ProcessEnv {
+  const env = { ...process.env };
+
+  delete env.npm_config_prefix;
+  delete env.NPM_CONFIG_PREFIX;
+
+  return env;
 }
 
 function findFirstAddressByKey(

@@ -27,6 +27,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
 
     let transferCalled = false;
     let walletNoteCalls = 0;
+    let recoveries = 0;
     const config = createTestConfig({ payoutsPaused: true });
     const dependencies: WorkerDependencies = {
       getConfig: () => config,
@@ -49,7 +50,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
         throw new Error("change address should not be resolved while payouts are paused");
       },
       recoverRewardWalletWorkspace: async () => {
-        throw new Error("workspace recovery should not run while payouts are paused");
+        recoveries += 1;
       },
       transferNotes: async () => {
         transferCalled = true;
@@ -66,6 +67,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
     assert.equal(summary.remainingBudgetTon, 50);
     assert.equal(transferCalled, false);
     assert.equal(walletNoteCalls, 2);
+    assert.equal(recoveries, 1);
     assert.equal(application?.status, "Pending");
     assert.equal(application?.payoutTxHash, null);
     assert.equal(eventState?.remainingBudgetTon, 50);
@@ -73,7 +75,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
   });
 });
 
-test("runAirdropWorker recovers the reward wallet workspace before transfer", async () => {
+test("runAirdropWorker recovers the reward wallet workspace before budget sync and transfer", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"d".repeat(64)}`;
     const created = await createApplication({ qualifyingTxHash: txHash });
@@ -115,7 +117,7 @@ test("runAirdropWorker recovers the reward wallet workspace before transfer", as
 
     assert.equal(summary.transferred, 1);
     assert.equal(application?.status, "Transferred");
-    assert.deepEqual(calls, ["prepare", "recover", "transfer"]);
+    assert.deepEqual(calls, ["prepare", "recover", "recover", "transfer"]);
   });
 });
 
@@ -165,7 +167,7 @@ test("runAirdropWorker retries stale wallet workspace failures up to five times"
 
     assert.equal(summary.transferred, 1);
     assert.equal(summary.failed, 0);
-    assert.equal(recoveries, 6);
+    assert.equal(recoveries, 7);
     assert.equal(transfers, 6);
     assert.equal(application?.status, "Transferred");
     assert.equal(application?.payoutTxHash, `0x${"1".repeat(64)}`);
