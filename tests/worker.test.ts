@@ -75,6 +75,43 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
   });
 });
 
+test("runAirdropWorker marks ineligible submitted transactions as Invalid tx", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"a".repeat(64)}`;
+    await createApplication({ qualifyingTxHash: txHash });
+
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => ({
+        valid: false,
+        reason: "Transaction was not sent to Tonnel channel manager.",
+      }),
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved without a payout");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        throw new Error("transfer should not run for invalid transactions");
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.invalidTx, 1);
+    assert.equal(summary.failed, 0);
+    assert.equal(summary.transferred, 0);
+    assert.equal(application?.status, "Invalid tx");
+    assert.equal(application?.reason, "Transaction was not sent to Tonnel channel manager.");
+  });
+});
+
 test("runAirdropWorker recovers the reward wallet workspace before budget sync and transfer", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"d".repeat(64)}`;

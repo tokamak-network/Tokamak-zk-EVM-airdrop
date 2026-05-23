@@ -2,7 +2,12 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-type ApplicationStatus = "Pending" | "Transferred" | "Duplication" | "Failed";
+type ApplicationStatus =
+  | "Pending"
+  | "Transferred"
+  | "Duplication"
+  | "Invalid tx"
+  | "Failed";
 
 type Application = {
   id: string;
@@ -53,7 +58,16 @@ const statusText: Record<ApplicationStatus, string> = {
   Pending: "Waiting for verification or transfer",
   Transferred: "Reward transfer completed",
   Duplication: "Duplicate application",
+  "Invalid tx": "Submitted transaction is not eligible",
   Failed: "Application failed",
+};
+
+const statusClassNames: Record<ApplicationStatus, string> = {
+  Pending: "Pending",
+  Transferred: "Transferred",
+  Duplication: "Duplication",
+  "Invalid tx": "InvalidTx",
+  Failed: "Failed",
 };
 
 export function AirdropApp({
@@ -696,7 +710,7 @@ function StatusTable({ applications }: { applications: Application[] }) {
               </td>
               <td>
                 <span
-                  className={`statusPill ${application.status}`}
+                  className={`statusPill ${statusClassNames[application.status]}`}
                   title={statusText[application.status]}
                 >
                   <span className="statusDot" aria-hidden="true" />

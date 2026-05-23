@@ -5,6 +5,7 @@ import {
   hasTransferredDuplicate,
   markDuplication,
   markFailed,
+  markInvalidTx,
   markTransferred,
   markVerified,
 } from "@/lib/applications";
@@ -29,6 +30,7 @@ export type WorkerSummary = {
   verified: number;
   transferred: number;
   duplicated: number;
+  invalidTx: number;
   failed: number;
   skippedPayouts: number;
   remainingBudgetTon: number | null;
@@ -73,6 +75,7 @@ export async function runAirdropWorker(
     verified: 0,
     transferred: 0,
     duplicated: 0,
+    invalidTx: 0,
     failed: 0,
     skippedPayouts: 0,
     remainingBudgetTon: null,
@@ -125,8 +128,8 @@ async function verifyPendingApplications(
         );
         summary.verified += 1;
       } else {
-        await markFailed(application.id, result.reason);
-        summary.failed += 1;
+        await markInvalidTx(application.id, result.reason);
+        summary.invalidTx += 1;
       }
     } catch (error) {
       await markFailed(application.id, getErrorMessage(error));

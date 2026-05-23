@@ -41,6 +41,7 @@ if (summary) {
     `Verified: ${summary.verified}`,
     `Transferred: ${summary.transferred}`,
     `Duplicated: ${summary.duplicated}`,
+    `Invalid tx: ${summary.invalidTx ?? 0}`,
     `Failed: ${summary.failed}`,
     `Skipped payouts: ${summary.skippedPayouts}`,
     `Remaining budget: ${summary.remainingBudgetTon ?? "unknown"} TON`,

@@ -568,6 +568,11 @@ input:focus {
   color: #ffd0a0;
 }
 
+.statusPill.InvalidTx {
+  background: rgba(97, 173, 255, 0.18);
+  color: #9ecbff;
+}
+
 .statusPill.Failed {
   background: rgba(255, 79, 139, 0.16);
   color: #ffb3cc;

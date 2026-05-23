@@ -136,8 +136,9 @@ export async function findApplication(query: string): Promise<Application | null
         CASE status
           WHEN 'Transferred' THEN 1
           WHEN 'Pending' THEN 2
-          WHEN 'Failed' THEN 3
-          WHEN 'Duplication' THEN 4
+          WHEN 'Invalid tx' THEN 3
+          WHEN 'Failed' THEN 4
+          WHEN 'Duplication' THEN 5
         END,
         created_at DESC
       LIMIT 1
@@ -242,6 +243,13 @@ export async function markDuplication(
 export async function markFailed(id: string, reason: string): Promise<void> {
   await updateApplication(id, {
     status: "Failed",
+    reason,
+  });
+}
+
+export async function markInvalidTx(id: string, reason: string): Promise<void> {
+  await updateApplication(id, {
+    status: "Invalid tx",
     reason,
   });
 }

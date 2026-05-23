@@ -141,7 +141,7 @@ function migrateSqlite(db: DatabaseSync): void {
       qualifying_tx_hash TEXT NOT NULL,
       resolved_l1_address TEXT,
       resolved_l2_address TEXT,
-      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Failed')),
+      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed')),
       reason TEXT,
       payout_tx_hash TEXT,
       verified_at TEXT,
@@ -205,7 +205,7 @@ const postgresMigrations = [
       qualifying_tx_hash TEXT NOT NULL,
       resolved_l1_address TEXT,
       resolved_l2_address TEXT,
-      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Failed')),
+      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed')),
       reason TEXT,
       payout_tx_hash TEXT,
       verified_at TEXT,
@@ -217,6 +217,11 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l1_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
+  "ALTER TABLE applications DROP CONSTRAINT IF EXISTS applications_status_check",
+  `
+    ALTER TABLE applications ADD CONSTRAINT applications_status_check
+      CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed'))
+  `,
   "CREATE INDEX IF NOT EXISTS idx_applications_l2_address ON applications (l2_address)",
   "CREATE INDEX IF NOT EXISTS idx_applications_tx_hash ON applications (qualifying_tx_hash)",
   `

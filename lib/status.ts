@@ -2,6 +2,7 @@ export const APPLICATION_STATUSES = [
   "Pending",
   "Transferred",
   "Duplication",
+  "Invalid tx",
   "Failed",
 ] as const;
 
