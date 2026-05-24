@@ -56,11 +56,14 @@ dd {
 }
 
 .shadedText {
+  display: inline;
   border: 1px solid rgba(123, 243, 255, 0.22);
   border-radius: 5px;
   background: rgba(123, 243, 255, 0.12);
   color: #d8fbff;
   padding: 0.08em 0.34em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .appShell {
@@ -284,6 +287,7 @@ dd {
 }
 
 .heroContent {
+  min-width: 0;
   max-width: 820px;
 }
 
@@ -380,6 +384,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 22px;
+  min-width: 0;
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
@@ -387,6 +392,7 @@ h1 {
 }
 
 .contentSection {
+  min-width: 0;
   border: 1px solid transparent;
   border-radius: 8px;
   background:
@@ -428,10 +434,12 @@ h1 {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
   margin-bottom: 18px;
 }
 
 .sectionHeader h2 {
+  min-width: 0;
   margin: 0;
 }
 
@@ -447,14 +455,17 @@ h1 {
 .participationPanel {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .participationIntro,
 .participationList {
+  min-width: 0;
   margin: 0;
   color: var(--muted);
   font-size: 1rem;
   line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 
 .participationList {
@@ -496,11 +507,13 @@ h1 {
 .formStack {
   display: grid;
   gap: 16px;
+  min-width: 0;
 }
 
 label {
   display: grid;
   gap: 8px;
+  min-width: 0;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 800;
@@ -522,6 +535,8 @@ input:focus {
 }
 
 .formStack button[type="submit"] {
+  width: 100%;
+  min-width: 0;
   min-height: 48px;
   border: 0;
   border-radius: 8px;
@@ -588,7 +603,9 @@ input:focus {
 
 .statusModeToggle {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 4px;
+  max-width: 100%;
   margin-top: 2px;
   margin-bottom: 16px;
   border: 1px solid rgba(123, 243, 255, 0.2);
@@ -598,7 +615,9 @@ input:focus {
 }
 
 .statusModeToggle button {
+  flex: 1 1 auto;
   min-height: 38px;
+  min-width: 0;
   border: 0;
   border-radius: 6px;
   background: transparent;
@@ -619,11 +638,13 @@ input:focus {
 .eligibilityPanel {
   display: grid;
   gap: 18px;
+  min-width: 0;
 }
 
 .eligibilityResult {
   display: grid;
   gap: 6px;
+  min-width: 0;
   border: 1px solid rgba(175, 218, 255, 0.16);
   border-radius: 8px;
   background: rgba(4, 13, 30, 0.72);
@@ -658,7 +679,11 @@ input:focus {
 }
 
 .statusTableWrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin-top: 10px;
   border: 1px solid rgba(175, 218, 255, 0.16);
   border-radius: 8px;
@@ -945,6 +970,42 @@ input:focus {
 @media (max-width: 560px) {
   h1 {
     font-size: 2.4rem;
+  }
+
+  .heroBand {
+    padding: 30px 16px 30px;
+  }
+
+  .workArea {
+    padding: 28px 16px 40px;
+  }
+
+  .contentSection {
+    padding: 18px;
+  }
+
+  .statusModeToggle {
+    display: flex;
+    width: 100%;
+  }
+
+  .statusModeToggle button {
+    padding: 8px 10px;
+    white-space: normal;
+  }
+
+  .participationList {
+    padding-left: 18px;
+  }
+
+  .statusTable {
+    min-width: 900px;
+  }
+
+  .statusTable th,
+  .statusTable td {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .workArea {
