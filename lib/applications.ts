@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { dbAll, dbGet, dbRun } from "@/lib/db";
 import type { ApplicationStatus } from "@/lib/status";
+import type { SubmissionMetadata } from "@/lib/submission-metadata";
 
 export type Application = {
   id: string;
@@ -34,6 +35,7 @@ type ApplicationRow = {
 
 export type CreateApplicationInput = {
   qualifyingTxHash: string;
+  submitterMetadata?: SubmissionMetadata;
 };
 
 export type CreateApplicationResult = {
@@ -58,6 +60,7 @@ export async function createApplication(
 
   const now = new Date().toISOString();
   const id = randomUUID();
+  const metadata = input.submitterMetadata;
 
   try {
     await dbRun(
@@ -68,12 +71,30 @@ export async function createApplication(
           qualifying_tx_hash,
           status,
           reason,
+          submitter_ip_hash,
+          submitter_user_agent_hash,
+          submitter_country,
+          submitter_region,
+          submitter_city,
           created_at,
           updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
-      [id, "", qualifyingTxHash, "Pending", null, now, now],
+      [
+        id,
+        "",
+        qualifyingTxHash,
+        "Pending",
+        null,
+        metadata?.submitterIpHash ?? null,
+        metadata?.submitterUserAgentHash ?? null,
+        metadata?.submitterCountry ?? null,
+        metadata?.submitterRegion ?? null,
+        metadata?.submitterCity ?? null,
+        now,
+        now,
+      ],
     );
   } catch (error) {
     const existing = await findDuplicateTransaction(qualifyingTxHash);

@@ -6,6 +6,7 @@ import {
   listApplications,
 } from "@/lib/applications";
 import { checkSubmitRateLimit } from "@/lib/rate-limit";
+import { buildSubmissionMetadata } from "@/lib/submission-metadata";
 
 export const runtime = "nodejs";
 const publicPageSize = 10;
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const result = await createApplication({
       qualifyingTxHash: String(body.qualifyingTxHash ?? ""),
+      submitterMetadata: buildSubmissionMetadata(request),
     });
 
     return NextResponse.json(

@@ -433,8 +433,10 @@ export function AirdropApp({
           <p>
             This site stores submitted transaction hashes, verification and
             payout records, resolved participant addresses, and rate-limit data
-            needed to protect the service. Rewards are not guaranteed and depend
-            on verification, duplicate checks, remaining budget, network
+            needed to protect the service. It may also store hashed submission
+            metadata and coarse location data for aggregate distribution and
+            abuse analysis. Rewards are not guaranteed and depend on
+            verification, duplicate checks, remaining budget, network
             availability, and operational review.
           </p>
         </div>

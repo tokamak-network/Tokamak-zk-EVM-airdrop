@@ -6,6 +6,8 @@ import {
   createApplication,
   findApplication,
 } from "@/lib/applications";
+import { dbGet } from "@/lib/db";
+import { buildSubmissionMetadata } from "@/lib/submission-metadata";
 import { withTempDbAsync } from "./test-utils";
 
 test("createApplication rejects invalid transaction hashes before persistence", async () => {
@@ -42,5 +44,64 @@ test("createApplication returns an existing row for duplicate transaction hashes
     assert.equal(second.application.qualifyingTxHash, txHash);
     assert.equal(await countApplications(), 1);
     assert.equal((await findApplication(txHash))?.id, first.application.id);
+  });
+});
+
+test("createApplication stores hashed submitter metadata without raw IP or user agent", async () => {
+  await withTempDbAsync(async () => {
+    const previousSecret = process.env.SUBMISSION_METADATA_SECRET;
+    process.env.SUBMISSION_METADATA_SECRET = "test-submission-metadata-secret";
+
+    try {
+      const request = new Request("https://example.test/api/applications", {
+        headers: {
+          "user-agent": "UnitTest Browser",
+          "x-forwarded-for": "203.0.113.10, 198.51.100.20",
+          "x-vercel-ip-country": "kr",
+          "x-vercel-ip-country-region": "Seoul",
+          "x-vercel-ip-city": "Seoul",
+        },
+      });
+      const txHash = `0x${"c".repeat(64)}`;
+
+      await createApplication({
+        qualifyingTxHash: txHash,
+        submitterMetadata: buildSubmissionMetadata(request),
+      });
+
+      const row = await dbGet<{
+        submitter_ip_hash: string | null;
+        submitter_user_agent_hash: string | null;
+        submitter_country: string | null;
+        submitter_region: string | null;
+        submitter_city: string | null;
+      }>(
+        `
+          SELECT
+            submitter_ip_hash,
+            submitter_user_agent_hash,
+            submitter_country,
+            submitter_region,
+            submitter_city
+          FROM applications
+          WHERE qualifying_tx_hash = ?
+        `,
+        [txHash],
+      );
+
+      assert.ok(row?.submitter_ip_hash);
+      assert.ok(row?.submitter_user_agent_hash);
+      assert.notEqual(row.submitter_ip_hash, "203.0.113.10");
+      assert.notEqual(row.submitter_user_agent_hash, "UnitTest Browser");
+      assert.equal(row.submitter_country, "KR");
+      assert.equal(row.submitter_region, "Seoul");
+      assert.equal(row.submitter_city, "Seoul");
+    } finally {
+      if (previousSecret === undefined) {
+        delete process.env.SUBMISSION_METADATA_SECRET;
+      } else {
+        process.env.SUBMISSION_METADATA_SECRET = previousSecret;
+      }
+    }
   });
 });

@@ -146,6 +146,11 @@ function migrateSqlite(db: DatabaseSync): void {
       payout_tx_hash TEXT,
       verified_at TEXT,
       transferred_at TEXT,
+      submitter_ip_hash TEXT,
+      submitter_user_agent_hash TEXT,
+      submitter_country TEXT,
+      submitter_region TEXT,
+      submitter_city TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
@@ -167,6 +172,11 @@ function migrateSqlite(db: DatabaseSync): void {
   addColumnIfMissing(db, "applications", "resolved_l1_address", "TEXT");
   addColumnIfMissing(db, "applications", "resolved_l2_address", "TEXT");
   addColumnIfMissing(db, "applications", "transferred_at", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_ip_hash", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_user_agent_hash", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_country", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_region", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_city", "TEXT");
 
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address
@@ -174,6 +184,12 @@ function migrateSqlite(db: DatabaseSync): void {
 
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l2_address
       ON applications (resolved_l2_address);
+
+    CREATE INDEX IF NOT EXISTS idx_applications_submitter_ip_hash
+      ON applications (submitter_ip_hash);
+
+    CREATE INDEX IF NOT EXISTS idx_applications_submitter_ip_ua_hash
+      ON applications (submitter_ip_hash, submitter_user_agent_hash);
 
     CREATE TABLE IF NOT EXISTS event_state (
       id TEXT PRIMARY KEY,
@@ -210,6 +226,11 @@ const postgresMigrations = [
       payout_tx_hash TEXT,
       verified_at TEXT,
       transferred_at TEXT,
+      submitter_ip_hash TEXT,
+      submitter_user_agent_hash TEXT,
+      submitter_country TEXT,
+      submitter_region TEXT,
+      submitter_city TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     )
@@ -217,6 +238,11 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l1_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_ip_hash TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_user_agent_hash TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_country TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_region TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_city TEXT",
   `
     DO $$
     DECLARE
@@ -252,6 +278,8 @@ const postgresMigrations = [
   "CREATE INDEX IF NOT EXISTS idx_applications_status ON applications (status)",
   "CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address ON applications (resolved_l1_address)",
   "CREATE INDEX IF NOT EXISTS idx_applications_resolved_l2_address ON applications (resolved_l2_address)",
+  "CREATE INDEX IF NOT EXISTS idx_applications_submitter_ip_hash ON applications (submitter_ip_hash)",
+  "CREATE INDEX IF NOT EXISTS idx_applications_submitter_ip_ua_hash ON applications (submitter_ip_hash, submitter_user_agent_hash)",
   `
     CREATE TABLE IF NOT EXISTS event_state (
       id TEXT PRIMARY KEY,
