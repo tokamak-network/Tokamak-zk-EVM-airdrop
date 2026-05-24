@@ -217,10 +217,30 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l1_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
-  "ALTER TABLE applications DROP CONSTRAINT IF EXISTS applications_status_check",
   `
-    ALTER TABLE applications ADD CONSTRAINT applications_status_check
-      CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed'))
+    DO $$
+    DECLARE
+      existing_status_check TEXT;
+    BEGIN
+      SELECT pg_get_constraintdef(oid)
+        INTO existing_status_check
+        FROM pg_constraint
+       WHERE conrelid = 'applications'::regclass
+         AND conname = 'applications_status_check';
+
+      IF existing_status_check IS NULL OR existing_status_check NOT LIKE '%Invalid tx%' THEN
+        IF existing_status_check IS NOT NULL THEN
+          ALTER TABLE applications DROP CONSTRAINT applications_status_check;
+        END IF;
+
+        ALTER TABLE applications ADD CONSTRAINT applications_status_check
+          CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed'));
+      END IF;
+    EXCEPTION
+      WHEN duplicate_object THEN
+        NULL;
+    END
+    $$
   `,
   "CREATE INDEX IF NOT EXISTS idx_applications_l2_address ON applications (l2_address)",
   "CREATE INDEX IF NOT EXISTS idx_applications_tx_hash ON applications (qualifying_tx_hash)",
