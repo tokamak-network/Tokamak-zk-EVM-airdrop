@@ -81,7 +81,7 @@ The local payout worker refuses to run without `DATABASE_URL` by default, becaus
 - The submit API accepts only `0x`-prefixed 32-byte Ethereum transaction hashes.
 - Invalid transaction hashes are rejected before they are stored.
 - Re-submitting an existing transaction hash returns the existing application and does not insert another row.
-- Submit requests are rate-limited by client IP: 10 per minute and 10 per day.
+- Submit requests are rate-limited by client IP.
 - Production and Vercel deployments require Upstash Redis environment variables. Without `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`, production submit requests fail closed with `503` instead of accepting unprotected traffic.
 
 ## Operator Commands
