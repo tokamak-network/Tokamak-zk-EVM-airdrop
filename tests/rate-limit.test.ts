@@ -3,14 +3,14 @@ import test from "node:test";
 
 import { checkSubmitRateLimit } from "@/lib/rate-limit";
 
-test("checkSubmitRateLimit blocks the eleventh submit attempt in one minute", async () => {
+test("checkSubmitRateLimit blocks the sixth submit attempt in one day", async () => {
   const request = new Request("https://example.test/api/applications", {
     headers: {
       "x-forwarded-for": "203.0.113.11",
     },
   });
 
-  for (let index = 0; index < 10; index += 1) {
+  for (let index = 0; index < 5; index += 1) {
     const result = await checkSubmitRateLimit(request);
 
     assert.equal(result.allowed, true);
