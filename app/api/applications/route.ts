@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     if (!limit.allowed) {
       return NextResponse.json(
-        { error: "Too many submissions. Try again later." },
+        { error: "Request could not be accepted. Try again later." },
         {
           status: 429,
           headers: {
@@ -71,7 +71,10 @@ export async function POST(request: Request) {
     const message = error instanceof Error ? error.message : "Invalid application.";
 
     if (message.includes("UPSTASH_REDIS_REST")) {
-      return NextResponse.json({ error: message }, { status: 503 });
+      return NextResponse.json(
+        { error: "Service is temporarily unavailable." },
+        { status: 503 },
+      );
     }
 
     return NextResponse.json(

@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
     if (!limit.allowed) {
       return NextResponse.json(
-        { error: "Too many eligibility checks. Try again later." },
+        { error: "Request could not be accepted. Try again later." },
         {
           status: 429,
           headers: {
@@ -30,7 +30,10 @@ export async function POST(request: Request) {
       error instanceof Error ? error.message : "Eligibility check failed.";
 
     if (message.includes("UPSTASH_REDIS_REST")) {
-      return NextResponse.json({ error: message }, { status: 503 });
+      return NextResponse.json(
+        { error: "Service is temporarily unavailable." },
+        { status: 503 },
+      );
     }
 
     return NextResponse.json(

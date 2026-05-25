@@ -34,7 +34,6 @@ The repository already has these first-version web application pieces:
 - Transaction-hash submission flow. Participants no longer submit an L2 address.
 - Application API for creating submissions, listing public applications, and checking individual status.
 - Strict transaction-hash validation. Invalid hashes are rejected before database writes.
-- IP-based submit rate limiting for Vercel/serverless deployment through Upstash Redis.
 - Duplicate transaction-hash handling at submission time. Existing transaction hashes return the existing application instead of creating another row.
 - Database layer that uses Neon Postgres through `DATABASE_URL` for Vercel and shared production worker access, with local SQLite fallback when `DATABASE_URL` is not set.
 - `applications` table with the current submission, verification, payout, status, and timestamp fields needed by the public app.
@@ -43,7 +42,7 @@ The repository already has these first-version web application pieces:
 - Local macOS worker entrypoint for latest CLI setup, RPC verification, note selection, payout, and reward-wallet budget sync.
 - macOS `launchd` install and uninstall scripts for twice-daily execution at 09:00 and 21:00 local time.
 - Public server payout execution disabled. Payout execution is local-only through `npm run worker`.
-- Automated non-payout tests for submit validation, duplicate transaction handling, submit rate limiting, tx eligibility false positive and false negative cases, reward note selection, and payout-paused worker behavior.
+- Automated non-payout tests for submit validation, duplicate transaction handling, tx eligibility false positive and false negative cases, reward note selection, and payout-paused worker behavior.
 
 The current web application is usable for collecting submissions and showing public status. Production payout operation still requires real operator configuration and live mainnet dry-run validation before funds are used.
 
@@ -133,10 +132,9 @@ The event page must read the remaining budget from `event_state`, not from `Tran
 2. User submits:
    - Qualifying `transfer notes` transaction hash.
 3. The application API validates basic formats.
-4. The application API rate-limits submit requests by client IP.
-5. The application API checks whether the transaction hash was already submitted.
-6. The application API stores the application with default status `Pending` if the transaction hash is new.
-7. The application API returns the existing application without inserting another row if the transaction hash was already submitted.
+4. The application API checks whether the transaction hash was already submitted.
+5. The application API stores the application with default status `Pending` if the transaction hash is new.
+6. The application API returns the existing application without inserting another row if the transaction hash was already submitted.
 
 The website must never ask users to submit private keys.
 
@@ -390,7 +388,6 @@ Controls that do not change the rule:
 
 - Total budget cap.
 - Payout pause flag.
-- Basic request rate limiting.
 - Strict transaction-hash validation before database writes.
 - No new database rows for exact duplicate transaction-hash submissions.
 
@@ -420,7 +417,6 @@ Implementation is now present. Production operation should not start until these
 - New applications default to `Pending`.
 - Invalid transaction-hash submissions are rejected before database writes.
 - Exact duplicate transaction-hash submissions return the existing application without inserting another row.
-- Submit requests are rate-limited by client IP in production through Upstash Redis.
 - Tx eligibility verification false positive and false negative cases are covered by non-payout tests.
 - Successful payouts are labeled `Transferred`.
 - Duplicate resolved L2 addresses are labeled `Duplication` and cannot create multiple payouts.
