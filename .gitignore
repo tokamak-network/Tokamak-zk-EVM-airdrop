@@ -11,3 +11,4 @@ tsconfig.tsbuildinfo
 npm-debug.log*
 .vercel
 .env*.local
+docs/local-operations.md
