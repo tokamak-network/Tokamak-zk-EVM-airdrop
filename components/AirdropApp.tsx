@@ -683,9 +683,6 @@ function StatusTable({ applications }: { applications: Application[] }) {
         <thead>
           <tr>
             <th>Transaction hash</th>
-            <th>
-              <span className="accentText">Tonnel</span> channel address
-            </th>
             <th>Status</th>
             <th>Submitted time</th>
             <th>Payout</th>
@@ -704,11 +701,6 @@ function StatusTable({ applications }: { applications: Application[] }) {
                   <span className="fileIcon" aria-hidden="true" />
                   <span>{shortenHash(application.qualifyingTxHash)}</span>
                 </a>
-              </td>
-              <td title={application.resolvedL2Address ?? ""}>
-                {application.resolvedL2Address
-                  ? shortenHash(application.resolvedL2Address)
-                  : "Pending verification"}
               </td>
               <td>
                 <span
