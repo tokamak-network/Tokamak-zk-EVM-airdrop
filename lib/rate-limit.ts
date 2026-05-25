@@ -17,7 +17,7 @@ type UpstashEnv = {
 };
 
 const minuteLimit = 10;
-const dayLimit = 100;
+const dayLimit = 10;
 const memoryBuckets = new Map<string, MemoryBucket>();
 
 let minuteLimiter: Ratelimit | null = null;
