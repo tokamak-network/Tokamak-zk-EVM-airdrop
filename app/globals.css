@@ -679,7 +679,7 @@ input:focus {
 }
 
 .statusTableWrap {
-  width: 100%;
+  width: fit-content;
   max-width: 100%;
   min-width: 0;
   overflow-x: auto;
@@ -691,9 +691,26 @@ input:focus {
 }
 
 .statusTable {
-  width: 100%;
+  width: 920px;
   border-collapse: collapse;
-  min-width: 980px;
+  min-width: 760px;
+  table-layout: fixed;
+}
+
+.statusColHash {
+  width: 340px;
+}
+
+.statusColStatus {
+  width: 180px;
+}
+
+.statusColTime {
+  width: 250px;
+}
+
+.statusColPayout {
+  width: 150px;
 }
 
 .statusTable th,
@@ -752,6 +769,16 @@ input:focus {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hashCell span:last-child,
+.receiptText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hashLink,
@@ -999,7 +1026,7 @@ input:focus {
   }
 
   .statusTable {
-    min-width: 900px;
+    min-width: 760px;
   }
 
   .statusTable th,
@@ -1008,7 +1035,112 @@ input:focus {
     padding-right: 12px;
   }
 
+  .statusColHash {
+    width: 310px;
+  }
+
+  .statusColStatus {
+    width: 160px;
+  }
+
+  .statusColTime {
+    width: 210px;
+  }
+
+  .statusColPayout {
+    width: 80px;
+  }
+
   .workArea {
     padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 720px) {
+  .statusTableWrap {
+    width: 100%;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .statusTable,
+  .statusTable tbody,
+  .statusTable tr,
+  .statusTable td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .statusTable {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .statusTable colgroup,
+  .statusTable thead {
+    display: none;
+  }
+
+  .statusTable tbody {
+    display: grid;
+    gap: 10px;
+  }
+
+  .statusTable tbody tr,
+  .statusTable tbody tr:nth-child(even) {
+    display: grid;
+    gap: 10px;
+    border: 1px solid rgba(175, 218, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(4, 13, 30, 0.66);
+    padding: 14px;
+  }
+
+  .statusTable th,
+  .statusTable td {
+    border: 0;
+  }
+
+  .statusTable td {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    height: auto;
+    padding: 0;
+    white-space: normal;
+    font-size: 0.78rem;
+  }
+
+  .statusTable td::before {
+    content: attr(data-label);
+    color: rgba(208, 226, 244, 0.62);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .hashCell {
+    gap: 8px;
+  }
+
+  .fileIcon {
+    width: 15px;
+    height: 19px;
+    border-width: 2px;
+  }
+
+  .statusPill {
+    justify-self: start;
+    min-height: 26px;
+    padding: 4px 9px;
+    font-size: 0.76rem;
+  }
+
+  .statusDot {
+    width: 7px;
+    height: 7px;
   }
 }

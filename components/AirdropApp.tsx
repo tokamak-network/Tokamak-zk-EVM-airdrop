@@ -679,6 +679,12 @@ function StatusTable({ applications }: { applications: Application[] }) {
   return (
     <div className="statusTableWrap">
       <table className="statusTable">
+        <colgroup>
+          <col className="statusColHash" />
+          <col className="statusColStatus" />
+          <col className="statusColTime" />
+          <col className="statusColPayout" />
+        </colgroup>
         <thead>
           <tr>
             <th>Transaction hash</th>
@@ -690,7 +696,10 @@ function StatusTable({ applications }: { applications: Application[] }) {
         <tbody>
           {applications.slice(0, 10).map((application) => (
             <tr key={application.id}>
-              <td title={application.qualifyingTxHash}>
+              <td
+                data-label="Transaction"
+                title={application.qualifyingTxHash}
+              >
                 <a
                   className="hashCell hashLink"
                   href={etherscanTxUrl(application.qualifyingTxHash)}
@@ -701,7 +710,7 @@ function StatusTable({ applications }: { applications: Application[] }) {
                   <span>{shortenHash(application.qualifyingTxHash)}</span>
                 </a>
               </td>
-              <td>
+              <td data-label="Status">
                 <span
                   className={`statusPill ${statusClassNames[application.status]}`}
                   title={statusText[application.status]}
@@ -710,8 +719,10 @@ function StatusTable({ applications }: { applications: Application[] }) {
                   {application.status}
                 </span>
               </td>
-              <td>{formatCreatedAt(application.createdAt)}</td>
-              <td title={application.payoutTxHash ?? ""}>
+              <td data-label="Submitted">
+                {formatCreatedAt(application.createdAt)}
+              </td>
+              <td data-label="Payout" title={application.payoutTxHash ?? ""}>
                 {application.payoutTxHash ? (
                   <a
                     className="receiptText"
