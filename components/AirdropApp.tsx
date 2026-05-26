@@ -40,7 +40,6 @@ type ApiResult = {
   total?: number;
 };
 
-type StatusMode = "history" | "eligibility";
 type ParticipateMode = "steps" | "prerequisites" | "criteria" | "faq";
 
 type EligibilityResult = {
@@ -87,8 +86,6 @@ export function AirdropApp({
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [participateMode, setParticipateMode] =
     useState<ParticipateMode>("steps");
-  const [statusMode, setStatusMode] = useState<StatusMode>("history");
-  const [eligibilityTxHash, setEligibilityTxHash] = useState("");
   const [eligibilityResult, setEligibilityResult] =
     useState<EligibilityResult | null>(null);
   const [eligibilityMessage, setEligibilityMessage] = useState<string | null>(
@@ -156,10 +153,63 @@ export function AirdropApp({
     }
   }
 
+  async function requestEligibility(txHash: string): Promise<EligibilityResult> {
+    const response = await fetch("/api/applications/eligibility", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ qualifyingTxHash: txHash }),
+    });
+    const result = (await response.json()) as EligibilityResult & {
+      error?: string;
+    };
+
+    if (
+      !response.ok ||
+      typeof result.eligible !== "boolean" ||
+      (result.reason !== null &&
+        result.reason !== "Transaction duplicate" &&
+        result.reason !== "Transaction ineligible" &&
+        result.reason !== "L2 address duplicate")
+    ) {
+      throw new Error(result.error ?? "Eligibility check failed.");
+    }
+
+    return {
+      eligible: result.eligible,
+      reason: result.reason,
+    };
+  }
+
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage(null);
+    setEligibilityResult(null);
+    setEligibilityMessage(null);
+
+    let eligibility: EligibilityResult;
+
+    try {
+      setIsCheckingEligibility(true);
+      eligibility = await requestEligibility(qualifyingTxHash);
+      setEligibilityResult(eligibility);
+    } catch (error) {
+      setEligibilityMessage(
+        error instanceof Error ? error.message : "Eligibility check failed.",
+      );
+      setIsSubmitting(false);
+      return;
+    } finally {
+      setIsCheckingEligibility(false);
+    }
+
+    if (!eligibility.eligible) {
+      setSubmitMessage("This transaction is not eligible for submission.");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const response = await fetch("/api/applications", {
@@ -188,50 +238,6 @@ export function AirdropApp({
       );
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  async function checkTransactionEligibility(
-    event: FormEvent<HTMLFormElement>,
-  ) {
-    event.preventDefault();
-    setIsCheckingEligibility(true);
-    setEligibilityResult(null);
-    setEligibilityMessage(null);
-
-    try {
-      const response = await fetch("/api/applications/eligibility", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ qualifyingTxHash: eligibilityTxHash }),
-      });
-      const result = (await response.json()) as EligibilityResult & {
-        error?: string;
-      };
-
-      if (
-        !response.ok ||
-        typeof result.eligible !== "boolean" ||
-        (result.reason !== null &&
-          result.reason !== "Transaction duplicate" &&
-          result.reason !== "Transaction ineligible" &&
-          result.reason !== "L2 address duplicate")
-      ) {
-        throw new Error(result.error ?? "Eligibility check failed.");
-      }
-
-      setEligibilityResult({
-        eligible: result.eligible,
-        reason: result.reason,
-      });
-    } catch (error) {
-      setEligibilityMessage(
-        error instanceof Error ? error.message : "Eligibility check failed.",
-      );
-    } finally {
-      setIsCheckingEligibility(false);
     }
   }
 
@@ -327,45 +333,49 @@ export function AirdropApp({
               Transaction hash that calls transfer notes in the private-state DApp
               <input
                 value={qualifyingTxHash}
-                onChange={(event) => setQualifyingTxHash(event.target.value)}
+                onChange={(event) => {
+                  setQualifyingTxHash(event.target.value);
+                  setEligibilityResult(null);
+                  setEligibilityMessage(null);
+                  setSubmitMessage(null);
+                }}
                 placeholder="Transfer notes transaction hash"
                 autoComplete="off"
                 required
               />
             </label>
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit application"}
+            <button
+              type="submit"
+              disabled={isSubmitting || isCheckingEligibility}
+            >
+              {isCheckingEligibility
+                ? "Checking eligibility..."
+                : isSubmitting
+                  ? "Submitting..."
+                  : "Submit application"}
             </button>
           </form>
+          {eligibilityResult ? (
+            <EligibilityResultCard result={eligibilityResult} />
+          ) : null}
+          {eligibilityMessage ? (
+            <p className="message">{eligibilityMessage}</p>
+          ) : null}
           {submitMessage ? <p className="message">{submitMessage}</p> : null}
         </section>
 
         <section className="contentSection" aria-labelledby="status">
           <h2 id="status">Status</h2>
-          <StatusModeToggle mode={statusMode} onChange={setStatusMode} />
-          {statusMode === "history" ? (
-            <>
-              <StatusTable applications={statusApplications} />
-              <StatusPagination
-                isLoading={isLoadingStatus}
-                onNext={() => void loadStatusPage(statusPage + 1)}
-                onPrevious={() => void loadStatusPage(statusPage - 1)}
-                page={statusPage}
-                pageSize={statusPageSize}
-                total={statusTotal}
-              />
-              {statusMessage ? <p className="message">{statusMessage}</p> : null}
-            </>
-          ) : (
-            <EligibilityChecker
-              eligibilityTxHash={eligibilityTxHash}
-              isChecking={isCheckingEligibility}
-              message={eligibilityMessage}
-              onChange={setEligibilityTxHash}
-              onSubmit={checkTransactionEligibility}
-              result={eligibilityResult}
-            />
-          )}
+          <StatusTable applications={statusApplications} />
+          <StatusPagination
+            isLoading={isLoadingStatus}
+            onNext={() => void loadStatusPage(statusPage + 1)}
+            onPrevious={() => void loadStatusPage(statusPage - 1)}
+            page={statusPage}
+            pageSize={statusPageSize}
+            total={statusTotal}
+          />
+          {statusMessage ? <p className="message">{statusMessage}</p> : null}
         </section>
 
       </section>
@@ -446,7 +456,7 @@ function ParticipateModeToggle({
   onChange: (mode: ParticipateMode) => void;
 }) {
   return (
-    <div className="statusModeToggle" aria-label="Participation mode">
+    <div className="modeToggle" aria-label="Participation mode">
       <button
         type="button"
         aria-pressed={mode === "steps"}
@@ -659,73 +669,6 @@ function Faq({ channel }: { channel: string }) {
         </dd>
       </div>
     </dl>
-  );
-}
-
-function StatusModeToggle({
-  mode,
-  onChange,
-}: {
-  mode: StatusMode;
-  onChange: (mode: StatusMode) => void;
-}) {
-  return (
-    <div className="statusModeToggle" aria-label="Status mode">
-      <button
-        type="button"
-        aria-pressed={mode === "history"}
-        className={mode === "history" ? "active" : ""}
-        onClick={() => onChange("history")}
-      >
-        Show history
-      </button>
-      <button
-        type="button"
-        aria-pressed={mode === "eligibility"}
-        className={mode === "eligibility" ? "active" : ""}
-        onClick={() => onChange("eligibility")}
-      >
-        Check eligibility
-      </button>
-    </div>
-  );
-}
-
-function EligibilityChecker({
-  eligibilityTxHash,
-  isChecking,
-  message,
-  onChange,
-  onSubmit,
-  result,
-}: {
-  eligibilityTxHash: string;
-  isChecking: boolean;
-  message: string | null;
-  onChange: (value: string) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  result: EligibilityResult | null;
-}) {
-  return (
-    <div className="eligibilityPanel">
-      <form onSubmit={onSubmit} className="formStack">
-        <label>
-          Transaction hash
-          <input
-            value={eligibilityTxHash}
-            onChange={(event) => onChange(event.target.value)}
-            placeholder="Transfer notes transaction hash"
-            autoComplete="off"
-            required
-          />
-        </label>
-        <button type="submit" disabled={isChecking}>
-          {isChecking ? "Checking..." : "Check eligibility"}
-        </button>
-      </form>
-      {result ? <EligibilityResultCard result={result} /> : null}
-      {message ? <p className="message">{message}</p> : null}
-    </div>
   );
 }
 

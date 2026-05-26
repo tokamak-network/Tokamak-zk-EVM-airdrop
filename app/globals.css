@@ -632,7 +632,7 @@ input:focus {
   box-shadow: 0 0 12px currentColor;
 }
 
-.statusModeToggle {
+.modeToggle {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
@@ -645,7 +645,7 @@ input:focus {
   padding: 4px;
 }
 
-.statusModeToggle button {
+.modeToggle button {
   flex: 1 1 auto;
   min-height: 38px;
   min-width: 0;
@@ -658,18 +658,12 @@ input:focus {
   font-weight: 900;
 }
 
-.statusModeToggle button.active {
+.modeToggle button.active {
   background: linear-gradient(135deg, rgba(47, 115, 223, 0.34), rgba(123, 243, 255, 0.18));
   color: var(--foreground);
   box-shadow:
     inset 0 0 0 1px rgba(123, 243, 255, 0.2),
     0 0 18px rgba(47, 115, 223, 0.22);
-}
-
-.eligibilityPanel {
-  display: grid;
-  gap: 18px;
-  min-width: 0;
 }
 
 .eligibilityResult {
@@ -1042,12 +1036,12 @@ input:focus {
     padding: 18px;
   }
 
-  .statusModeToggle {
+  .modeToggle {
     display: flex;
     width: 100%;
   }
 
-  .statusModeToggle button {
+  .modeToggle button {
     padding: 8px 10px;
     white-space: normal;
   }

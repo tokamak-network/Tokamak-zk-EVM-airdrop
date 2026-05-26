@@ -22,6 +22,30 @@ test("checkSubmitRateLimit blocks the eighth submit attempt in one day", async (
   assert.ok(blocked.retryAfterSeconds > 0);
 });
 
+test("checkSubmitRateLimit keeps eligibility and submit buckets separate", async () => {
+  const request = new Request("https://example.test/api/applications", {
+    headers: {
+      "x-forwarded-for": "203.0.113.13",
+    },
+  });
+
+  for (let index = 0; index < 7; index += 1) {
+    const result = await checkSubmitRateLimit(request, "eligibility");
+
+    assert.equal(result.allowed, true);
+  }
+
+  for (let index = 0; index < 7; index += 1) {
+    const result = await checkSubmitRateLimit(request);
+
+    assert.equal(result.allowed, true);
+  }
+
+  const blocked = await checkSubmitRateLimit(request);
+
+  assert.equal(blocked.allowed, false);
+});
+
 test("checkSubmitRateLimit fails closed in production without Upstash env", async () => {
   const previousNodeEnv = process.env.NODE_ENV;
   const previousVercel = process.env.VERCEL;

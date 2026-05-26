@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
-    const limit = await checkSubmitRateLimit(request);
+    const limit = await checkSubmitRateLimit(request, "eligibility");
 
     if (!limit.allowed) {
       return NextResponse.json(

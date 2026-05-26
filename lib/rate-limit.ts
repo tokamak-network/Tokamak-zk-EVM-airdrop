@@ -6,6 +6,8 @@ type LimitResult = {
   retryAfterSeconds: number;
 };
 
+type RateLimitScope = "eligibility" | "submit";
+
 type MemoryBucket = {
   count: number;
   resetAt: number;
@@ -20,19 +22,20 @@ const minuteLimit = 10;
 const dayLimit = 7;
 const memoryBuckets = new Map<string, MemoryBucket>();
 
-let minuteLimiter: Ratelimit | null = null;
-let dayLimiter: Ratelimit | null = null;
+const minuteLimiters = new Map<RateLimitScope, Ratelimit>();
+const dayLimiters = new Map<RateLimitScope, Ratelimit>();
 let redisClient: Redis | null = null;
 
 export async function checkSubmitRateLimit(
   request: Request,
+  scope: RateLimitScope = "submit",
 ): Promise<LimitResult> {
   const identifier = getClientIdentifier(request);
 
   if (hasUpstashEnv()) {
     const [minuteResult, dayResult] = await Promise.all([
-      getMinuteLimiter().limit(identifier),
-      getDayLimiter().limit(identifier),
+      getMinuteLimiter(scope).limit(identifier),
+      getDayLimiter(scope).limit(identifier),
     ]);
     const result = minuteResult.success ? dayResult : minuteResult;
 
@@ -50,31 +53,41 @@ export async function checkSubmitRateLimit(
     );
   }
 
-  return checkMemoryRateLimit(identifier);
+  return checkMemoryRateLimit(`${scope}:${identifier}`);
 }
 
-function getMinuteLimiter(): Ratelimit {
-  if (!minuteLimiter) {
-    minuteLimiter = new Ratelimit({
-      redis: getRedisClient(),
-      limiter: Ratelimit.slidingWindow(minuteLimit, "1 m"),
-      prefix: "tonnel-airdrop:submit:minute",
-    });
+function getMinuteLimiter(scope: RateLimitScope): Ratelimit {
+  const existing = minuteLimiters.get(scope);
+
+  if (existing) {
+    return existing;
   }
 
-  return minuteLimiter;
+  const limiter = new Ratelimit({
+    redis: getRedisClient(),
+    limiter: Ratelimit.slidingWindow(minuteLimit, "1 m"),
+    prefix: `tonnel-airdrop:${scope}:minute`,
+  });
+  minuteLimiters.set(scope, limiter);
+
+  return limiter;
 }
 
-function getDayLimiter(): Ratelimit {
-  if (!dayLimiter) {
-    dayLimiter = new Ratelimit({
-      redis: getRedisClient(),
-      limiter: Ratelimit.slidingWindow(dayLimit, "1 d"),
-      prefix: "tonnel-airdrop:submit:day",
-    });
+function getDayLimiter(scope: RateLimitScope): Ratelimit {
+  const existing = dayLimiters.get(scope);
+
+  if (existing) {
+    return existing;
   }
 
-  return dayLimiter;
+  const limiter = new Ratelimit({
+    redis: getRedisClient(),
+    limiter: Ratelimit.slidingWindow(dayLimit, "1 d"),
+    prefix: `tonnel-airdrop:${scope}:day`,
+  });
+  dayLimiters.set(scope, limiter);
+
+  return limiter;
 }
 
 function getClientIdentifier(request: Request): string {
