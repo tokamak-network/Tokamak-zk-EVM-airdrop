@@ -318,12 +318,6 @@ export function AirdropApp({
           {participateMode === "prerequisites" ? <Prerequisites /> : null}
           {participateMode === "criteria" ? <WinnerCriteria /> : null}
           {participateMode === "faq" ? <Faq channel={channel} /> : null}
-          {participateMode !== "criteria" ? (
-            <p className="warning">
-              Never share your Ethereum wallet private key or any secrets with
-              others including us.
-            </p>
-          ) : null}
         </section>
 
         <section className="contentSection" aria-labelledby="submit">
@@ -406,6 +400,12 @@ export function AirdropApp({
             <TelegramIcon />
           </a>
         </nav>
+        <div className="footerFinePrint">
+          <p>
+            Never share your Ethereum wallet private key or any secrets with
+            others, including us.
+          </p>
+        </div>
       </footer>
     </main>
   );
@@ -647,13 +647,6 @@ function Faq({ channel }: { channel: string }) {
         <dt>What is the official campaign page?</dt>
         <dd>
           <a href="https://airdrop.tonnel.io">https://airdrop.tonnel.io</a>
-        </dd>
-      </div>
-      <div>
-        <dt>What should I never share?</dt>
-        <dd>
-          Never share your Ethereum wallet private key or any secrets with
-          others, including us.
         </dd>
       </div>
       <div>
