@@ -306,7 +306,7 @@ export function AirdropApp({
         <section className="contentSection" aria-labelledby="how-to-participate">
           <div className="sectionHeader">
             <h2 id="how-to-participate">How To Participate</h2>
-            <span className="sectionUpdated">Last updated: May 21, 2026</span>
+            <span className="sectionUpdated">Last updated: May 26, 2026</span>
           </div>
           <ParticipateModeToggle
             mode={participateMode}
