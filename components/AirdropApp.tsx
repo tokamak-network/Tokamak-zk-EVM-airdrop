@@ -574,6 +574,22 @@ function Faq({ channel }: { channel: string }) {
         </dd>
       </div>
       <div>
+        <dt>What are Tokamak Private App Channels?</dt>
+        <dd>
+          Tokamak Private App Channels are application-specific channels where
+          DApps can run with proof-backed channel state while keeping Ethereum as
+          the public settlement and custody layer. Learn more:{" "}
+          <a
+            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Tokamak Private App Channels docs
+          </a>
+          .
+        </dd>
+      </div>
+      <div>
         <dt>What is the private-state DApp?</dt>
         <dd>
           The private-state DApp turns TON into proof-backed confidential notes
@@ -600,7 +616,15 @@ function Faq({ channel }: { channel: string }) {
           TON means Tokamak Network Token. Tokamak Network docs describe TON as
           a token that can be purchased from centralized exchanges or swapped
           through decentralized exchanges; exchange tickers may vary, including
-          TOKAMAK.
+          TOKAMAK. To see exchanges that list TON, open the{" "}
+          <a
+            href="https://docs.tokamak.network/home/information/get-ton"
+            target="_blank"
+            rel="noreferrer"
+          >
+            TON asset docs
+          </a>
+          .
         </dd>
       </div>
       <div>
@@ -623,28 +647,6 @@ function Faq({ channel }: { channel: string }) {
         <dt>What is the official campaign page?</dt>
         <dd>
           <a href="https://airdrop.tonnel.io">https://airdrop.tonnel.io</a>
-        </dd>
-      </div>
-      <div>
-        <dt>Where can I learn more?</dt>
-        <dd>
-          Read the{" "}
-          <a
-            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Tokamak Private App Channels docs
-          </a>{" "}
-          and the{" "}
-          <a
-            href="https://docs.tokamak.network/home/information/get-ton"
-            target="_blank"
-            rel="noreferrer"
-          >
-            TON asset docs
-          </a>
-          .
         </dd>
       </div>
       <div>
