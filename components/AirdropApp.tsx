@@ -218,7 +218,7 @@ export function AirdropApp({
     } catch (error) {
       setSubmitStatus(
         isRateLimitError(error)
-          ? buildRateLimitSubmitStatus(error.retryAfterSeconds)
+          ? buildRateLimitSubmitStatus(error)
           : {
               guidance:
                 error instanceof Error
@@ -284,7 +284,7 @@ export function AirdropApp({
     } catch (error) {
       setSubmitStatus(
         isRateLimitError(error)
-          ? buildRateLimitSubmitStatus(error.retryAfterSeconds)
+          ? buildRateLimitSubmitStatus(error)
           : {
               guidance:
                 error instanceof Error
@@ -751,18 +751,32 @@ function buildIneligibleSubmitStatus(
   };
 }
 
-function buildRateLimitSubmitStatus(
-  retryAfterSeconds: number | null,
-): SubmitStatus {
-  const waitTime = formatRetryAfter(retryAfterSeconds);
+function buildRateLimitSubmitStatus(error: ApiRequestError): SubmitStatus {
+  const waitTime = formatRetryAfter(error.retryAfterSeconds);
+  const isRegistrationLimit = error.message.includes("Registration");
 
   return {
-    guidance: waitTime
-      ? `You have submitted too many times today. Try again in about ${waitTime}, after the limit resets.`
-      : "You have submitted too many times today. Try again after the limit resets.",
-    title: "Submission limit reached",
+    guidance: buildRateLimitGuidance(isRegistrationLimit, waitTime),
+    title: isRegistrationLimit
+      ? "Registration limit reached"
+      : "Submission temporarily limited",
     tone: "warning",
   };
+}
+
+function buildRateLimitGuidance(
+  isRegistrationLimit: boolean,
+  waitTime: string | null,
+): string {
+  const prefix = isRegistrationLimit
+    ? "You have registered too many submissions today."
+    : "You are submitting too quickly.";
+
+  if (!waitTime) {
+    return `${prefix} Try again after the limit resets.`;
+  }
+
+  return `${prefix} Try again in about ${waitTime}, after the limit resets.`;
 }
 
 function formatRetryAfter(retryAfterSeconds: number | null): string | null {

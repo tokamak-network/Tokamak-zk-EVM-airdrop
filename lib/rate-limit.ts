@@ -1,4 +1,3 @@
-import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
 type LimitResult = {
@@ -6,7 +5,7 @@ type LimitResult = {
   retryAfterSeconds: number;
 };
 
-type RateLimitScope = "eligibility" | "submit";
+type CounterScope = "registration" | "submission";
 
 type MemoryBucket = {
   count: number;
@@ -18,76 +17,197 @@ type UpstashEnv = {
   url: string;
 };
 
-const minuteLimit = 10;
-const dayLimit = 7;
+const submissionMinuteLimit = 10;
+const registrationDayLimit = 7;
+const oneMinuteSeconds = 60;
+const oneDaySeconds = 24 * 60 * 60;
 const memoryBuckets = new Map<string, MemoryBucket>();
 
-const minuteLimiters = new Map<RateLimitScope, Ratelimit>();
-const dayLimiters = new Map<RateLimitScope, Ratelimit>();
 let redisClient: Redis | null = null;
 
-export async function checkSubmitRateLimit(
+export async function checkSubmissionRateLimit(
   request: Request,
-  scope: RateLimitScope = "submit",
 ): Promise<LimitResult> {
   const identifier = getClientIdentifier(request);
 
-  if (hasUpstashEnv()) {
-    const [minuteResult, dayResult] = await Promise.all([
-      getMinuteLimiter(scope).limit(identifier),
-      getDayLimiter(scope).limit(identifier),
-    ]);
-    const result = minuteResult.success ? dayResult : minuteResult;
+  return hitCounter(
+    "submission",
+    identifier,
+    submissionMinuteLimit,
+    oneMinuteSeconds,
+  );
+}
 
-    return {
-      allowed: result.success,
-      retryAfterSeconds: result.success
-        ? 0
-        : Math.max(Math.ceil((result.reset - Date.now()) / 1000), 1),
-    };
+export async function reserveRegistrationSlot(
+  request: Request,
+): Promise<LimitResult> {
+  const identifier = getClientIdentifier(request);
+
+  return hitCounter(
+    "registration",
+    identifier,
+    registrationDayLimit,
+    oneDaySeconds,
+  );
+}
+
+export async function rollbackRegistrationSlot(request: Request): Promise<void> {
+  const identifier = getClientIdentifier(request);
+
+  if (hasUpstashEnv()) {
+    await rollbackRedisCounter(buildCounterKey("registration", identifier));
+    return;
   }
 
-  if (process.env.VERCEL === "1" || process.env.NODE_ENV === "production") {
+  if (shouldFailClosedWithoutRedis()) {
     throw new Error(
-      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required for submit rate limiting in production.",
+      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required for rate limiting in production.",
     );
   }
 
-  return checkMemoryRateLimit(`${scope}:${identifier}`);
+  rollbackMemoryCounter(buildCounterKey("registration", identifier));
 }
 
-function getMinuteLimiter(scope: RateLimitScope): Ratelimit {
-  const existing = minuteLimiters.get(scope);
+async function hitCounter(
+  scope: CounterScope,
+  identifier: string,
+  limit: number,
+  windowSeconds: number,
+): Promise<LimitResult> {
+  const key = buildCounterKey(scope, identifier);
 
-  if (existing) {
-    return existing;
+  if (hasUpstashEnv()) {
+    return hitRedisCounter(key, limit, windowSeconds);
   }
 
-  const limiter = new Ratelimit({
-    redis: getRedisClient(),
-    limiter: Ratelimit.slidingWindow(minuteLimit, "1 m"),
-    prefix: `tonnel-airdrop:${scope}:minute`,
-  });
-  minuteLimiters.set(scope, limiter);
+  if (shouldFailClosedWithoutRedis()) {
+    throw new Error(
+      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required for rate limiting in production.",
+    );
+  }
 
-  return limiter;
+  return hitMemoryCounter(key, limit, windowSeconds);
 }
 
-function getDayLimiter(scope: RateLimitScope): Ratelimit {
-  const existing = dayLimiters.get(scope);
+async function hitRedisCounter(
+  key: string,
+  limit: number,
+  windowSeconds: number,
+): Promise<LimitResult> {
+  const result = await getRedisClient().eval<string[], [number, number]>(
+    `
+      local key = KEYS[1]
+      local limit = tonumber(ARGV[1])
+      local ttl = tonumber(ARGV[2])
+      local current = tonumber(redis.call("GET", key) or "0")
 
-  if (existing) {
-    return existing;
+      if current >= limit then
+        local remaining = redis.call("TTL", key)
+
+        if remaining < 1 then
+          remaining = ttl
+        end
+
+        return {0, remaining}
+      end
+
+      current = redis.call("INCR", key)
+
+      if current == 1 then
+        redis.call("EXPIRE", key, ttl)
+      end
+
+      local remaining = redis.call("TTL", key)
+
+      if remaining < 1 then
+        remaining = ttl
+      end
+
+      return {1, remaining}
+    `,
+    [key],
+    [String(limit), String(windowSeconds)],
+  );
+
+  return {
+    allowed: result[0] === 1,
+    retryAfterSeconds: result[0] === 1 ? 0 : Math.max(Math.ceil(result[1]), 1),
+  };
+}
+
+async function rollbackRedisCounter(key: string): Promise<void> {
+  await getRedisClient().eval<[], number>(
+    `
+      local key = KEYS[1]
+      local current = tonumber(redis.call("GET", key) or "0")
+
+      if current <= 1 then
+        redis.call("DEL", key)
+        return 0
+      end
+
+      return redis.call("DECR", key)
+    `,
+    [key],
+    [],
+  );
+}
+
+function hitMemoryCounter(
+  key: string,
+  limit: number,
+  windowSeconds: number,
+): LimitResult {
+  const now = Date.now();
+  const existing = memoryBuckets.get(key);
+
+  if (!existing || existing.resetAt <= now) {
+    memoryBuckets.set(key, {
+      count: 1,
+      resetAt: now + windowSeconds * 1000,
+    });
+
+    return {
+      allowed: true,
+      retryAfterSeconds: 0,
+    };
   }
 
-  const limiter = new Ratelimit({
-    redis: getRedisClient(),
-    limiter: Ratelimit.slidingWindow(dayLimit, "1 d"),
-    prefix: `tonnel-airdrop:${scope}:day`,
-  });
-  dayLimiters.set(scope, limiter);
+  if (existing.count >= limit) {
+    return {
+      allowed: false,
+      retryAfterSeconds: Math.max(
+        Math.ceil((existing.resetAt - now) / 1000),
+        1,
+      ),
+    };
+  }
 
-  return limiter;
+  existing.count += 1;
+
+  return {
+    allowed: true,
+    retryAfterSeconds: 0,
+  };
+}
+
+function rollbackMemoryCounter(key: string): void {
+  const existing = memoryBuckets.get(key);
+
+  if (!existing) {
+    return;
+  }
+
+  if (existing.count <= 1) {
+    memoryBuckets.delete(key);
+    return;
+  }
+
+  existing.count -= 1;
+}
+
+function buildCounterKey(scope: CounterScope, identifier: string): string {
+  return `tonnel-airdrop:${scope}:${identifier}`;
 }
 
 function getClientIdentifier(request: Request): string {
@@ -100,6 +220,10 @@ function getClientIdentifier(request: Request): string {
     "unknown";
 
   return `ip:${ip}`;
+}
+
+function shouldFailClosedWithoutRedis(): boolean {
+  return process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
 }
 
 function hasUpstashEnv(): boolean {
@@ -138,53 +262,4 @@ function getUpstashEnv(): UpstashEnv | null {
   }
 
   return { token, url };
-}
-
-function checkMemoryRateLimit(identifier: string): LimitResult {
-  const minuteResult = hitMemoryBucket(`${identifier}:minute`, minuteLimit, 60);
-  const dayResult = hitMemoryBucket(`${identifier}:day`, dayLimit, 24 * 60 * 60);
-
-  if (!minuteResult.allowed) {
-    return minuteResult;
-  }
-
-  return dayResult;
-}
-
-function hitMemoryBucket(
-  key: string,
-  limit: number,
-  windowSeconds: number,
-): LimitResult {
-  const now = Date.now();
-  const existing = memoryBuckets.get(key);
-
-  if (!existing || existing.resetAt <= now) {
-    memoryBuckets.set(key, {
-      count: 1,
-      resetAt: now + windowSeconds * 1000,
-    });
-
-    return {
-      allowed: true,
-      retryAfterSeconds: 0,
-    };
-  }
-
-  if (existing.count >= limit) {
-    return {
-      allowed: false,
-      retryAfterSeconds: Math.max(
-        Math.ceil((existing.resetAt - now) / 1000),
-        1,
-      ),
-    };
-  }
-
-  existing.count += 1;
-
-  return {
-    allowed: true,
-    retryAfterSeconds: 0,
-  };
 }

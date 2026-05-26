@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
 import { checkEligibility } from "@/lib/eligibility";
-import { checkSubmitRateLimit } from "@/lib/rate-limit";
+import { checkSubmissionRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
-    const limit = await checkSubmitRateLimit(request, "eligibility");
+    const limit = await checkSubmissionRateLimit(request);
 
     if (!limit.allowed) {
       return NextResponse.json(

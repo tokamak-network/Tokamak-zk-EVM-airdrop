@@ -3,9 +3,13 @@ import { NextResponse } from "next/server";
 import {
   countApplications,
   createApplication,
+  hasSubmittedTransaction,
   listApplications,
 } from "@/lib/applications";
-import { checkSubmitRateLimit } from "@/lib/rate-limit";
+import {
+  reserveRegistrationSlot,
+  rollbackRegistrationSlot,
+} from "@/lib/rate-limit";
 import { buildSubmissionMetadata } from "@/lib/submission-metadata";
 
 export const runtime = "nodejs";
@@ -39,13 +43,33 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  let registrationSlotReserved = false;
+
   try {
-    const limit = await checkSubmitRateLimit(request);
+    const body = await request.json();
+    const qualifyingTxHash = String(body.qualifyingTxHash ?? "");
+
+    if (await hasSubmittedTransaction(qualifyingTxHash)) {
+      const result = await createApplication({
+        qualifyingTxHash,
+        submitterMetadata: buildSubmissionMetadata(request),
+      });
+
+      return NextResponse.json(
+        {
+          application: result.application,
+          created: result.created,
+        },
+        { status: result.created ? 201 : 200 },
+      );
+    }
+
+    const limit = await reserveRegistrationSlot(request);
 
     if (!limit.allowed) {
       return NextResponse.json(
         {
-          error: "Submission limit reached.",
+          error: "Registration limit reached.",
           retryAfterSeconds: limit.retryAfterSeconds,
         },
         {
@@ -57,11 +81,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = await request.json();
+    registrationSlotReserved = true;
+
     const result = await createApplication({
-      qualifyingTxHash: String(body.qualifyingTxHash ?? ""),
+      qualifyingTxHash,
       submitterMetadata: buildSubmissionMetadata(request),
     });
+
+    if (!result.created) {
+      await rollbackRegistrationSlot(request);
+      registrationSlotReserved = false;
+    }
 
     return NextResponse.json(
       {
@@ -71,6 +101,10 @@ export async function POST(request: Request) {
       { status: result.created ? 201 : 200 },
     );
   } catch (error) {
+    if (registrationSlotReserved) {
+      await rollbackRegistrationSlot(request);
+    }
+
     const message = error instanceof Error ? error.message : "Invalid application.";
 
     if (message.includes("UPSTASH_REDIS_REST")) {

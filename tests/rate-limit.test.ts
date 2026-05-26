@@ -1,28 +1,52 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { checkSubmitRateLimit } from "@/lib/rate-limit";
+import {
+  checkSubmissionRateLimit,
+  reserveRegistrationSlot,
+  rollbackRegistrationSlot,
+} from "@/lib/rate-limit";
 
-test("checkSubmitRateLimit blocks the eighth submit attempt in one day", async () => {
+test("checkSubmissionRateLimit blocks the eleventh submit attempt in one minute", async () => {
   const request = new Request("https://example.test/api/applications", {
     headers: {
       "x-forwarded-for": "203.0.113.11",
     },
   });
 
-  for (let index = 0; index < 7; index += 1) {
-    const result = await checkSubmitRateLimit(request);
+  for (let index = 0; index < 10; index += 1) {
+    const result = await checkSubmissionRateLimit(request);
 
     assert.equal(result.allowed, true);
   }
 
-  const blocked = await checkSubmitRateLimit(request);
+  const blocked = await checkSubmissionRateLimit(request);
+
+  assert.equal(blocked.allowed, false);
+  assert.ok(blocked.retryAfterSeconds > 0);
+  assert.ok(blocked.retryAfterSeconds <= 60);
+});
+
+test("reserveRegistrationSlot blocks the eighth registration in one day", async () => {
+  const request = new Request("https://example.test/api/applications", {
+    headers: {
+      "x-forwarded-for": "203.0.113.12",
+    },
+  });
+
+  for (let index = 0; index < 7; index += 1) {
+    const result = await reserveRegistrationSlot(request);
+
+    assert.equal(result.allowed, true);
+  }
+
+  const blocked = await reserveRegistrationSlot(request);
 
   assert.equal(blocked.allowed, false);
   assert.ok(blocked.retryAfterSeconds > 0);
 });
 
-test("checkSubmitRateLimit keeps eligibility and submit buckets separate", async () => {
+test("rollbackRegistrationSlot releases a reserved registration slot", async () => {
   const request = new Request("https://example.test/api/applications", {
     headers: {
       "x-forwarded-for": "203.0.113.13",
@@ -30,23 +54,41 @@ test("checkSubmitRateLimit keeps eligibility and submit buckets separate", async
   });
 
   for (let index = 0; index < 7; index += 1) {
-    const result = await checkSubmitRateLimit(request, "eligibility");
+    const result = await reserveRegistrationSlot(request);
 
     assert.equal(result.allowed, true);
+    await rollbackRegistrationSlot(request);
   }
 
   for (let index = 0; index < 7; index += 1) {
-    const result = await checkSubmitRateLimit(request);
+    const result = await reserveRegistrationSlot(request);
 
     assert.equal(result.allowed, true);
   }
 
-  const blocked = await checkSubmitRateLimit(request);
+  const blocked = await reserveRegistrationSlot(request);
 
   assert.equal(blocked.allowed, false);
 });
 
-test("checkSubmitRateLimit fails closed in production without Upstash env", async () => {
+test("submission and registration counters are independent", async () => {
+  const request = new Request("https://example.test/api/applications", {
+    headers: {
+      "x-forwarded-for": "203.0.113.14",
+    },
+  });
+
+  for (let index = 0; index < 10; index += 1) {
+    const result = await checkSubmissionRateLimit(request);
+
+    assert.equal(result.allowed, true);
+  }
+
+  assert.equal((await checkSubmissionRateLimit(request)).allowed, false);
+  assert.equal((await reserveRegistrationSlot(request)).allowed, true);
+});
+
+test("rate limit checks fail closed in production without Upstash env", async () => {
   const previousNodeEnv = process.env.NODE_ENV;
   const previousVercel = process.env.VERCEL;
   const previousUrl = process.env.UPSTASH_REDIS_REST_URL;
@@ -66,10 +108,10 @@ test("checkSubmitRateLimit fails closed in production without Upstash env", asyn
   try {
     await assert.rejects(
       () =>
-        checkSubmitRateLimit(
+        checkSubmissionRateLimit(
           new Request("https://example.test/api/applications", {
             headers: {
-              "x-forwarded-for": "203.0.113.12",
+              "x-forwarded-for": "203.0.113.15",
             },
           }),
         ),
