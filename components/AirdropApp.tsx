@@ -284,7 +284,7 @@ export function AirdropApp({
             </dd>
           </div>
           <div>
-            <dt>Budget cap</dt>
+            <dt>Total reward budget</dt>
             <dd>
               <span className="metricValue">{totalBudgetTon} TON</span>
             </dd>
