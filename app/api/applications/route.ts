@@ -45,8 +45,8 @@ export async function POST(request: Request) {
     if (!limit.allowed) {
       return NextResponse.json(
         {
-          error:
-            "You have submitted too many times today. Please try again another day.",
+          error: "Submission limit reached.",
+          retryAfterSeconds: limit.retryAfterSeconds,
         },
         {
           status: 429,

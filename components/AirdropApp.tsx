@@ -37,6 +37,7 @@ type ApiResult = {
   created?: boolean;
   error?: string;
   page?: number;
+  retryAfterSeconds?: number;
   total?: number;
 };
 
@@ -56,6 +57,18 @@ type SubmitStatus = {
   title: string;
   tone: "error" | "success" | "warning";
 };
+
+class ApiRequestError extends Error {
+  readonly retryAfterSeconds: number | null;
+  readonly status: number;
+
+  constructor(message: string, status: number, retryAfterSeconds: number | null) {
+    super(message);
+    this.name = "ApiRequestError";
+    this.status = status;
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
 
 const statusPageSize = 10;
 
@@ -164,6 +177,7 @@ export function AirdropApp({
     });
     const result = (await response.json()) as EligibilityResult & {
       error?: string;
+      retryAfterSeconds?: number;
     };
 
     if (
@@ -174,7 +188,11 @@ export function AirdropApp({
         result.reason !== "Transaction ineligible" &&
         result.reason !== "L2 address duplicate")
     ) {
-      throw new Error(result.error ?? "Eligibility check failed.");
+      throw new ApiRequestError(
+        result.error ?? "Eligibility check failed.",
+        response.status,
+        getRetryAfterSeconds(response, result),
+      );
     }
 
     return {
@@ -198,14 +216,18 @@ export function AirdropApp({
       setIsCheckingEligibility(true);
       eligibility = await requestEligibility(qualifyingTxHash);
     } catch (error) {
-      setSubmitStatus({
-        guidance:
-          error instanceof Error
-            ? `${error.message} Check the transaction hash and try again.`
-            : "Check the transaction hash and try again.",
-        title: "Eligibility check failed",
-        tone: "error",
-      });
+      setSubmitStatus(
+        isRateLimitError(error)
+          ? buildRateLimitSubmitStatus(error.retryAfterSeconds)
+          : {
+              guidance:
+                error instanceof Error
+                  ? `${error.message} Check the transaction hash and try again.`
+                  : "Check the transaction hash and try again.",
+              title: "Eligibility check failed",
+              tone: "error",
+            },
+      );
       setIsSubmitting(false);
       return;
     } finally {
@@ -236,7 +258,11 @@ export function AirdropApp({
       const application = result.application;
 
       if (!response.ok || !application) {
-        throw new Error(result.error ?? "Submission failed.");
+        throw new ApiRequestError(
+          result.error ?? "Submission failed.",
+          response.status,
+          getRetryAfterSeconds(response, result),
+        );
       }
 
       setSubmitStatus(
@@ -256,14 +282,18 @@ export function AirdropApp({
       );
       await loadStatusPage(1);
     } catch (error) {
-      setSubmitStatus({
-        guidance:
-          error instanceof Error
-            ? `${error.message} Try again later.`
-            : "Try again later.",
-        title: "Submission failed",
-        tone: "error",
-      });
+      setSubmitStatus(
+        isRateLimitError(error)
+          ? buildRateLimitSubmitStatus(error.retryAfterSeconds)
+          : {
+              guidance:
+                error instanceof Error
+                  ? `${error.message} Try again later.`
+                  : "Try again later.",
+              title: "Submission failed",
+              tone: "error",
+            },
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -719,6 +749,70 @@ function buildIneligibleSubmitStatus(
     title: "Transaction ineligible",
     tone: "error",
   };
+}
+
+function buildRateLimitSubmitStatus(
+  retryAfterSeconds: number | null,
+): SubmitStatus {
+  const waitTime = formatRetryAfter(retryAfterSeconds);
+
+  return {
+    guidance: waitTime
+      ? `You have submitted too many times today. Try again in about ${waitTime}, after the limit resets.`
+      : "You have submitted too many times today. Try again after the limit resets.",
+    title: "Submission limit reached",
+    tone: "warning",
+  };
+}
+
+function formatRetryAfter(retryAfterSeconds: number | null): string | null {
+  if (!retryAfterSeconds || retryAfterSeconds <= 0) {
+    return null;
+  }
+
+  const totalMinutes = Math.max(Math.ceil(retryAfterSeconds / 60), 1);
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+  const parts: string[] = [];
+
+  if (days > 0) {
+    parts.push(`${days} ${days === 1 ? "day" : "days"}`);
+  }
+
+  if (hours > 0) {
+    parts.push(`${hours} ${hours === 1 ? "hour" : "hours"}`);
+  }
+
+  if (minutes > 0 && days === 0) {
+    parts.push(`${minutes} ${minutes === 1 ? "minute" : "minutes"}`);
+  }
+
+  return parts.join(" ");
+}
+
+function getRetryAfterSeconds(
+  response: Response,
+  result: { retryAfterSeconds?: number },
+): number | null {
+  if (
+    typeof result.retryAfterSeconds === "number" &&
+    Number.isFinite(result.retryAfterSeconds)
+  ) {
+    return Math.max(Math.ceil(result.retryAfterSeconds), 1);
+  }
+
+  const retryAfterHeader = Number(response.headers.get("Retry-After"));
+
+  if (!Number.isFinite(retryAfterHeader) || retryAfterHeader <= 0) {
+    return null;
+  }
+
+  return Math.ceil(retryAfterHeader);
+}
+
+function isRateLimitError(error: unknown): error is ApiRequestError {
+  return error instanceof ApiRequestError && error.status === 429;
 }
 
 function SubmitStatusCard({ status }: { status: SubmitStatus }) {

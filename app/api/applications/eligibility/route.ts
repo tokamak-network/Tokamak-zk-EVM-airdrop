@@ -11,7 +11,10 @@ export async function POST(request: Request) {
 
     if (!limit.allowed) {
       return NextResponse.json(
-        { error: "Request could not be accepted. Try again later." },
+        {
+          error: "Request limit reached.",
+          retryAfterSeconds: limit.retryAfterSeconds,
+        },
         {
           status: 429,
           headers: {
