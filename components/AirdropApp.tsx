@@ -51,6 +51,12 @@ type EligibilityResult = {
     | null;
 };
 
+type SubmitStatus = {
+  guidance: string;
+  title: string;
+  tone: "error" | "success" | "warning";
+};
+
 const statusPageSize = 10;
 
 const statusText: Record<ApplicationStatus, string> = {
@@ -83,14 +89,9 @@ export function AirdropApp({
   const [statusPage, setStatusPage] = useState(1);
   const [statusTotal, setStatusTotal] = useState(initialApplicationTotal);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
-  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
   const [participateMode, setParticipateMode] =
     useState<ParticipateMode>("steps");
-  const [eligibilityResult, setEligibilityResult] =
-    useState<EligibilityResult | null>(null);
-  const [eligibilityMessage, setEligibilityMessage] = useState<string | null>(
-    null,
-  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingStatus, setIsLoadingStatus] = useState(false);
   const [isCheckingEligibility, setIsCheckingEligibility] = useState(false);
@@ -185,20 +186,26 @@ export function AirdropApp({
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
-    setSubmitMessage(null);
-    setEligibilityResult(null);
-    setEligibilityMessage(null);
+    setSubmitStatus({
+      guidance: "We are checking the transaction hash before accepting it.",
+      title: "Checking eligibility",
+      tone: "warning",
+    });
 
     let eligibility: EligibilityResult;
 
     try {
       setIsCheckingEligibility(true);
       eligibility = await requestEligibility(qualifyingTxHash);
-      setEligibilityResult(eligibility);
     } catch (error) {
-      setEligibilityMessage(
-        error instanceof Error ? error.message : "Eligibility check failed.",
-      );
+      setSubmitStatus({
+        guidance:
+          error instanceof Error
+            ? `${error.message} Check the transaction hash and try again.`
+            : "Check the transaction hash and try again.",
+        title: "Eligibility check failed",
+        tone: "error",
+      });
       setIsSubmitting(false);
       return;
     } finally {
@@ -206,10 +213,16 @@ export function AirdropApp({
     }
 
     if (!eligibility.eligible) {
-      setSubmitMessage("This transaction is not eligible for submission.");
+      setSubmitStatus(buildIneligibleSubmitStatus(eligibility.reason));
       setIsSubmitting(false);
       return;
     }
+
+    setSubmitStatus({
+      guidance: "Submitting the transaction hash now.",
+      title: "Eligibility passed",
+      tone: "success",
+    });
 
     try {
       const response = await fetch("/api/applications", {
@@ -226,16 +239,31 @@ export function AirdropApp({
         throw new Error(result.error ?? "Submission failed.");
       }
 
-      setSubmitMessage(
+      setSubmitStatus(
         result.created === false
-          ? "This transaction hash has already been submitted."
-          : "Application submitted.",
+          ? {
+              guidance:
+                "This transaction hash is already in the submission history. Check the Status table for its current result.",
+              title: "Already submitted",
+              tone: "warning",
+            }
+          : {
+              guidance:
+                "Your transaction hash was accepted. It will appear in the Status table as Pending until the worker reviews it.",
+              title: "Application submitted",
+              tone: "success",
+            },
       );
       await loadStatusPage(1);
     } catch (error) {
-      setSubmitMessage(
-        error instanceof Error ? error.message : "Submission failed.",
-      );
+      setSubmitStatus({
+        guidance:
+          error instanceof Error
+            ? `${error.message} Try again later.`
+            : "Try again later.",
+        title: "Submission failed",
+        tone: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -335,9 +363,7 @@ export function AirdropApp({
                 value={qualifyingTxHash}
                 onChange={(event) => {
                   setQualifyingTxHash(event.target.value);
-                  setEligibilityResult(null);
-                  setEligibilityMessage(null);
-                  setSubmitMessage(null);
+                  setSubmitStatus(null);
                 }}
                 placeholder="Transfer notes transaction hash"
                 autoComplete="off"
@@ -355,13 +381,7 @@ export function AirdropApp({
                   : "Submit application"}
             </button>
           </form>
-          {eligibilityResult ? (
-            <EligibilityResultCard result={eligibilityResult} />
-          ) : null}
-          {eligibilityMessage ? (
-            <p className="message">{eligibilityMessage}</p>
-          ) : null}
-          {submitMessage ? <p className="message">{submitMessage}</p> : null}
+          {submitStatus ? <SubmitStatusCard status={submitStatus} /> : null}
         </section>
 
         <section className="contentSection" aria-labelledby="status">
@@ -672,20 +692,40 @@ function Faq({ channel }: { channel: string }) {
   );
 }
 
-function EligibilityResultCard({ result }: { result: EligibilityResult }) {
-  if (result.eligible) {
-    return (
-      <div className="eligibilityResult eligible">
-        <strong>Eligible</strong>
-        <span>This transaction currently satisfies the winner criteria.</span>
-      </div>
-    );
+function buildIneligibleSubmitStatus(
+  reason: EligibilityResult["reason"],
+): SubmitStatus {
+  if (reason === "Transaction duplicate") {
+    return {
+      guidance:
+        "This transaction hash has already been used. Submit a different private-state transfer notes transaction hash.",
+      title: "Transaction duplicate",
+      tone: "error",
+    };
   }
 
+  if (reason === "L2 address duplicate") {
+    return {
+      guidance:
+        "The Tonnel channel address resolved from this transaction has already received a reward. Ask your AI agent to prepare a new eligible Tonnel participation and submit a new private-state transfer notes transaction hash.",
+      title: "Tonnel channel address already rewarded",
+      tone: "error",
+    };
+  }
+
+  return {
+    guidance:
+      "This hash does not resolve to an eligible private-state transfer notes transaction on Tonnel. Ask your AI agent to make a private-state transfer notes transaction on Tonnel, then submit that Ethereum transaction hash.",
+    title: "Transaction ineligible",
+    tone: "error",
+  };
+}
+
+function SubmitStatusCard({ status }: { status: SubmitStatus }) {
   return (
-    <div className="eligibilityResult ineligible">
-      <strong>Not eligible</strong>
-      <span>{result.reason}</span>
+    <div className={`submitStatus ${status.tone}`}>
+      <strong>Status: {status.title}</strong>
+      <span>{status.guidance}</span>
     </div>
   );
 }

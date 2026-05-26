@@ -666,40 +666,51 @@ input:focus {
     0 0 18px rgba(47, 115, 223, 0.22);
 }
 
-.eligibilityResult {
+.submitStatus {
   display: grid;
   gap: 6px;
   min-width: 0;
+  margin-top: 18px;
   border: 1px solid rgba(175, 218, 255, 0.16);
   border-radius: 8px;
   background: rgba(4, 13, 30, 0.72);
   padding: 18px;
 }
 
-.eligibilityResult strong {
+.submitStatus strong {
   font-size: 1.08rem;
 }
 
-.eligibilityResult span {
+.submitStatus span {
   color: var(--muted);
   font-weight: 800;
+  line-height: 1.55;
 }
 
-.eligibilityResult.eligible {
+.submitStatus.success {
   border-color: rgba(57, 255, 182, 0.34);
   box-shadow: 0 0 24px rgba(57, 255, 182, 0.12);
 }
 
-.eligibilityResult.eligible strong {
+.submitStatus.success strong {
   color: #a7ffd9;
 }
 
-.eligibilityResult.ineligible {
+.submitStatus.warning {
+  border-color: rgba(255, 230, 109, 0.3);
+  box-shadow: 0 0 24px rgba(255, 230, 109, 0.1);
+}
+
+.submitStatus.warning strong {
+  color: #ffe66d;
+}
+
+.submitStatus.error {
   border-color: rgba(255, 79, 139, 0.3);
   box-shadow: 0 0 24px rgba(255, 79, 139, 0.1);
 }
 
-.eligibilityResult.ineligible strong {
+.submitStatus.error strong {
   color: #ffb3cc;
 }
 
