@@ -415,7 +415,7 @@ export function AirdropApp({
         </section>
 
         <section className="contentSection" aria-labelledby="status">
-          <h2 id="status">Status</h2>
+          <h2 id="status">Submissions</h2>
           <StatusTable applications={statusApplications} />
           <StatusPagination
             isLoading={isLoadingStatus}
