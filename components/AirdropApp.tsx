@@ -324,7 +324,7 @@ export function AirdropApp({
           <h2 id="submit">Submit</h2>
           <form onSubmit={submitApplication} className="formStack">
             <label>
-              Qualifying transaction hash
+              Transaction hash that calls transfer notes in the private-state DApp
               <input
                 value={qualifyingTxHash}
                 onChange={(event) => setQualifyingTxHash(event.target.value)}
