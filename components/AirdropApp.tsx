@@ -41,7 +41,7 @@ type ApiResult = {
 };
 
 type StatusMode = "history" | "eligibility";
-type ParticipateMode = "steps" | "prerequisites" | "criteria";
+type ParticipateMode = "steps" | "prerequisites" | "criteria" | "faq";
 
 type EligibilityResult = {
   eligible: boolean;
@@ -317,6 +317,7 @@ export function AirdropApp({
           ) : null}
           {participateMode === "prerequisites" ? <Prerequisites /> : null}
           {participateMode === "criteria" ? <WinnerCriteria /> : null}
+          {participateMode === "faq" ? <Faq channel={channel} /> : null}
           {participateMode !== "criteria" ? (
             <p className="warning">
               Never share your Ethereum wallet private key or any secrets with
@@ -376,30 +377,6 @@ export function AirdropApp({
       </section>
 
       <footer className="siteFooter">
-        <p>
-          <span className="footerBrand">Tonnel</span> is the public name for{" "}
-          <code className="shadedText">{channel}</code>, one of the Tokamak
-          Private App Channels and a dedicated channel for the private-state
-          DApp.
-        </p>
-        <p>
-          The private-state DApp is one of the dApps that can run on Tokamak
-          Private App Channels; it turns TON into proof-backed confidential
-          notes inside <span className="accentText">Tonnel</span>, enabling
-          channel-local transfers without exposing note ownership or transfer
-          meaning in public contract state.
-        </p>
-        <p>
-          To learn more, read{" "}
-          <a
-            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
-            target="_blank"
-            rel="noreferrer"
-          >
-            docs
-          </a>
-          .
-        </p>
         <nav className="footerLinks" aria-label="External links">
           <a
             href="https://www.tokamak.network/"
@@ -429,16 +406,6 @@ export function AirdropApp({
             <TelegramIcon />
           </a>
         </nav>
-        <div className="footerFinePrint">
-          <p>
-            This site stores submitted transaction hashes, verification and
-            payout records, and resolved participant addresses. It may also
-            store hashed submission metadata and coarse location data for
-            aggregate distribution and abuse analysis. Rewards are not
-            guaranteed and depend on verification, duplicate checks, remaining
-            budget, network availability, and operational review.
-          </p>
-        </div>
       </footer>
     </main>
   );
@@ -503,6 +470,14 @@ function ParticipateModeToggle({
         onClick={() => onChange("criteria")}
       >
         Winner criteria
+      </button>
+      <button
+        type="button"
+        aria-pressed={mode === "faq"}
+        className={mode === "faq" ? "active" : ""}
+        onClick={() => onChange("faq")}
+      >
+        FAQ
       </button>
     </div>
   );
@@ -583,6 +558,112 @@ function WinnerCriteria() {
         <span className="accentText">Tonnel</span> channel address.
       </li>
     </ul>
+  );
+}
+
+function Faq({ channel }: { channel: string }) {
+  return (
+    <dl className="faqList">
+      <div>
+        <dt>What is Tonnel?</dt>
+        <dd>
+          <span className="accentText">Tonnel</span> is the public name for{" "}
+          <code className="shadedText">{channel}</code>, one of the Tokamak
+          Private App Channels and a dedicated channel for the private-state
+          DApp.
+        </dd>
+      </div>
+      <div>
+        <dt>What is the private-state DApp?</dt>
+        <dd>
+          The private-state DApp turns TON into proof-backed confidential notes
+          inside <span className="accentText">Tonnel</span>, enabling
+          channel-local transfers without exposing note ownership or transfer
+          meaning in public contract state.
+        </dd>
+      </div>
+      <div>
+        <dt>What is the reward?</dt>
+        <dd>25 TON per valid private-state transfer submitted for verification.</dd>
+      </div>
+      <div>
+        <dt>What is the total reward budget?</dt>
+        <dd>5,000 TON.</dd>
+      </div>
+      <div>
+        <dt>What network does this campaign use?</dt>
+        <dd>Ethereum.</dd>
+      </div>
+      <div>
+        <dt>What asset is TON?</dt>
+        <dd>
+          TON means Tokamak Network Token. Tokamak Network docs describe TON as
+          a token that can be purchased from centralized exchanges or swapped
+          through decentralized exchanges; exchange tickers may vary, including
+          TOKAMAK.
+        </dd>
+      </div>
+      <div>
+        <dt>What should I submit?</dt>
+        <dd>
+          Submit the Ethereum transaction hash from a valid private-state
+          transfer notes transaction made on{" "}
+          <span className="accentText">Tonnel</span>.
+        </dd>
+      </div>
+      <div>
+        <dt>How is verification handled?</dt>
+        <dd>
+          Verification uses Ethereum transaction hash submission and operational
+          review. Rewards depend on transaction verification, duplicate checks,
+          remaining budget, network availability, and operational review.
+        </dd>
+      </div>
+      <div>
+        <dt>What is the official campaign page?</dt>
+        <dd>
+          <a href="https://airdrop.tonnel.io">https://airdrop.tonnel.io</a>
+        </dd>
+      </div>
+      <div>
+        <dt>Where can I learn more?</dt>
+        <dd>
+          Read the{" "}
+          <a
+            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Tokamak Private App Channels docs
+          </a>{" "}
+          and the{" "}
+          <a
+            href="https://docs.tokamak.network/home/information/get-ton"
+            target="_blank"
+            rel="noreferrer"
+          >
+            TON asset docs
+          </a>
+          .
+        </dd>
+      </div>
+      <div>
+        <dt>What should I never share?</dt>
+        <dd>
+          Never share your Ethereum wallet private key or any secrets with
+          others, including us.
+        </dd>
+      </div>
+      <div>
+        <dt>What data does this site store?</dt>
+        <dd>
+          This site stores submitted transaction hashes, verification and payout
+          records, and resolved participant addresses. It may also store hashed
+          submission metadata and coarse location data for aggregate
+          distribution and abuse analysis.
+        </dd>
+      </div>
+    </dl>
   );
 }
 
