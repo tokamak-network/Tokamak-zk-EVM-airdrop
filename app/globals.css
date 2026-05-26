@@ -459,7 +459,8 @@ h1 {
 }
 
 .participationIntro,
-.participationList {
+.participationList,
+.faqList {
   min-width: 0;
   margin: 0;
   color: var(--muted);
@@ -492,36 +493,26 @@ h1 {
 
 .faqList {
   display: grid;
-  gap: 14px;
-  margin: 0;
+  gap: 10px;
+  padding-left: 20px;
 }
 
 .faqList div {
   display: grid;
-  gap: 6px;
+  gap: 2px;
   min-width: 0;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(175, 218, 255, 0.12);
-}
-
-.faqList div:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
 }
 
 .faqList dt {
   color: var(--foreground);
   font-weight: 900;
-  line-height: 1.35;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 .faqList dd {
   min-width: 0;
   margin: 0;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.65;
-  overflow-wrap: anywhere;
 }
 
 .faqList a {
