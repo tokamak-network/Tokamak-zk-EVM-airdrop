@@ -71,6 +71,7 @@ test("createApplication stores hashed submitter metadata without raw IP or user 
 
       const row = await dbGet<{
         submitter_ip_hash: string | null;
+        submitter_ip_hash_version: string | null;
         submitter_user_agent_hash: string | null;
         submitter_country: string | null;
         submitter_region: string | null;
@@ -79,6 +80,7 @@ test("createApplication stores hashed submitter metadata without raw IP or user 
         `
           SELECT
             submitter_ip_hash,
+            submitter_ip_hash_version,
             submitter_user_agent_hash,
             submitter_country,
             submitter_region,
@@ -93,6 +95,7 @@ test("createApplication stores hashed submitter metadata without raw IP or user 
       assert.ok(row?.submitter_user_agent_hash);
       assert.notEqual(row.submitter_ip_hash, "203.0.113.10");
       assert.notEqual(row.submitter_user_agent_hash, "UnitTest Browser");
+      assert.equal(row.submitter_ip_hash_version, "legacy");
       assert.equal(row.submitter_country, "KR");
       assert.equal(row.submitter_region, "Seoul");
       assert.equal(row.submitter_city, "Seoul");
@@ -104,4 +107,43 @@ test("createApplication stores hashed submitter metadata without raw IP or user 
       }
     }
   });
+});
+
+test("buildSubmissionMetadata hashes canonical client IP values", async () => {
+  const previousSecret = process.env.SUBMISSION_METADATA_SECRET;
+  const previousSecretId = process.env.SUBMISSION_METADATA_SECRET_ID;
+  process.env.SUBMISSION_METADATA_SECRET = "test-submission-metadata-secret";
+  process.env.SUBMISSION_METADATA_SECRET_ID = "test-secret-v2";
+
+  try {
+    const direct = buildSubmissionMetadata(
+      new Request("https://example.test/api/applications", {
+        headers: {
+          "x-forwarded-for": "203.0.113.10",
+        },
+      }),
+    );
+    const mappedWithPort = buildSubmissionMetadata(
+      new Request("https://example.test/api/applications", {
+        headers: {
+          "x-forwarded-for": "[::ffff:203.0.113.10]:443",
+        },
+      }),
+    );
+
+    assert.equal(mappedWithPort.submitterIpHash, direct.submitterIpHash);
+    assert.equal(mappedWithPort.submitterIpHashVersion, "test-secret-v2");
+  } finally {
+    if (previousSecret === undefined) {
+      delete process.env.SUBMISSION_METADATA_SECRET;
+    } else {
+      process.env.SUBMISSION_METADATA_SECRET = previousSecret;
+    }
+
+    if (previousSecretId === undefined) {
+      delete process.env.SUBMISSION_METADATA_SECRET_ID;
+    } else {
+      process.env.SUBMISSION_METADATA_SECRET_ID = previousSecretId;
+    }
+  }
 });

@@ -73,6 +73,7 @@ function metadata(
 ): SubmissionMetadata {
   return {
     submitterIpHash: ipHash,
+    submitterIpHashVersion: "legacy",
     submitterUserAgentHash: userAgentHash,
     submitterCountry: country,
     submitterRegion: null,

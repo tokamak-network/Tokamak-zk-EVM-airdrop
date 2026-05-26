@@ -147,6 +147,7 @@ function migrateSqlite(db: DatabaseSync): void {
       verified_at TEXT,
       transferred_at TEXT,
       submitter_ip_hash TEXT,
+      submitter_ip_hash_version TEXT,
       submitter_user_agent_hash TEXT,
       submitter_country TEXT,
       submitter_region TEXT,
@@ -173,6 +174,7 @@ function migrateSqlite(db: DatabaseSync): void {
   addColumnIfMissing(db, "applications", "resolved_l2_address", "TEXT");
   addColumnIfMissing(db, "applications", "transferred_at", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_ip_hash", "TEXT");
+  addColumnIfMissing(db, "applications", "submitter_ip_hash_version", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_user_agent_hash", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_country", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_region", "TEXT");
@@ -227,6 +229,7 @@ const postgresMigrations = [
       verified_at TEXT,
       transferred_at TEXT,
       submitter_ip_hash TEXT,
+      submitter_ip_hash_version TEXT,
       submitter_user_agent_hash TEXT,
       submitter_country TEXT,
       submitter_region TEXT,
@@ -239,6 +242,7 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_ip_hash TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_ip_hash_version TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_user_agent_hash TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_country TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_region TEXT",

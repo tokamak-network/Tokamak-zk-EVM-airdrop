@@ -11,6 +11,7 @@ export type SubmissionAnalyticsApplication = {
   createdAt: string;
   updatedAt: string;
   submitterIpHash: string | null;
+  submitterIpHashVersion: string | null;
   submitterUserAgentHash: string | null;
   submitterCountry: string | null;
   submitterRegion: string | null;
@@ -64,6 +65,7 @@ type AnalyticsRow = {
   created_at: string;
   updated_at: string;
   submitter_ip_hash: string | null;
+  submitter_ip_hash_version: string | null;
   submitter_user_agent_hash: string | null;
   submitter_country: string | null;
   submitter_region: string | null;
@@ -74,10 +76,10 @@ export async function getSubmissionAnalytics(
   limit = 5000,
 ): Promise<SubmissionAnalytics> {
   const rows = await listAnalyticsRows(limit);
-  const ipGroups = buildGroups(rows, (row) => row.submitter_ip_hash);
+  const ipGroups = buildGroups(rows, (row) => buildIpHashGroupKey(row));
   const ipUserAgentGroups = buildGroups(rows, (row) =>
     row.submitter_ip_hash && row.submitter_user_agent_hash
-      ? `${row.submitter_ip_hash}:${row.submitter_user_agent_hash}`
+      ? `${getIpHashVersion(row)}:${row.submitter_ip_hash}:${row.submitter_user_agent_hash}`
       : null,
   );
   const l1Groups = buildGroups(rows, (row) => row.resolved_l1_address);
@@ -112,19 +114,20 @@ export async function getSubmissionAnalytics(
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       submitterIpHash: row.submitter_ip_hash,
+      submitterIpHashVersion: row.submitter_ip_hash_version,
       submitterUserAgentHash: row.submitter_user_agent_hash,
       submitterCountry: row.submitter_country,
       submitterRegion: row.submitter_region,
       submitterCity: row.submitter_city,
       ipUserAgentClusterKey:
         row.submitter_ip_hash && row.submitter_user_agent_hash
-          ? `${row.submitter_ip_hash}:${row.submitter_user_agent_hash}`
+          ? `${getIpHashVersion(row)}:${row.submitter_ip_hash}:${row.submitter_user_agent_hash}`
           : null,
       ipUserAgentClusterSize: getGroupSize(ipUserAgentGroups, [
-        row.submitter_ip_hash,
+        buildIpHashGroupKey(row),
         row.submitter_user_agent_hash,
       ]),
-      ipClusterSize: getGroupSize(ipGroups, [row.submitter_ip_hash]),
+      ipClusterSize: getGroupSize(ipGroups, [buildIpHashGroupKey(row)]),
       ethereumWalletClusterSize: getGroupSize(l1Groups, [row.resolved_l1_address]),
       tonnelChannelClusterSize: getGroupSize(l2Groups, [row.resolved_l2_address]),
     })),
@@ -148,6 +151,7 @@ async function listAnalyticsRows(limit: number): Promise<AnalyticsRow[]> {
         created_at,
         updated_at,
         submitter_ip_hash,
+        submitter_ip_hash_version,
         submitter_user_agent_hash,
         submitter_country,
         submitter_region,
@@ -158,6 +162,18 @@ async function listAnalyticsRows(limit: number): Promise<AnalyticsRow[]> {
     `,
     [safeLimit],
   );
+}
+
+function buildIpHashGroupKey(row: AnalyticsRow): string | null {
+  if (!row.submitter_ip_hash) {
+    return null;
+  }
+
+  return `${getIpHashVersion(row)}:${row.submitter_ip_hash}`;
+}
+
+function getIpHashVersion(row: AnalyticsRow): string {
+  return row.submitter_ip_hash_version?.trim() || "legacy";
 }
 
 function buildGroups(

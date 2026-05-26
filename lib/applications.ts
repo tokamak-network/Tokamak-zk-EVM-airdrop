@@ -72,6 +72,7 @@ export async function createApplication(
           status,
           reason,
           submitter_ip_hash,
+          submitter_ip_hash_version,
           submitter_user_agent_hash,
           submitter_country,
           submitter_region,
@@ -79,7 +80,7 @@ export async function createApplication(
           created_at,
           updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
         id,
@@ -88,6 +89,7 @@ export async function createApplication(
         "Pending",
         null,
         metadata?.submitterIpHash ?? null,
+        metadata?.submitterIpHashVersion ?? null,
         metadata?.submitterUserAgentHash ?? null,
         metadata?.submitterCountry ?? null,
         metadata?.submitterRegion ?? null,

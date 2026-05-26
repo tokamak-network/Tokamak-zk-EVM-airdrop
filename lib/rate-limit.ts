@@ -1,5 +1,7 @@
 import { Redis } from "@upstash/redis";
 
+import { getCanonicalClientIp } from "@/lib/client-ip";
+
 type LimitResult = {
   allowed: boolean;
   retryAfterSeconds: number;
@@ -211,13 +213,7 @@ function buildCounterKey(scope: CounterScope, identifier: string): string {
 }
 
 function getClientIdentifier(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const forwardedIp = forwardedFor?.split(",")[0]?.trim();
-  const ip =
-    forwardedIp ||
-    request.headers.get("x-real-ip") ||
-    request.headers.get("cf-connecting-ip") ||
-    "unknown";
+  const ip = getCanonicalClientIp(request) ?? "unknown";
 
   return `ip:${ip}`;
 }

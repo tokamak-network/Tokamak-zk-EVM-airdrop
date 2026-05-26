@@ -1,7 +1,10 @@
 import { createHmac } from "node:crypto";
 
+import { getCanonicalClientIp } from "@/lib/client-ip";
+
 export type SubmissionMetadata = {
   submitterIpHash: string | null;
+  submitterIpHashVersion: string | null;
   submitterUserAgentHash: string | null;
   submitterCountry: string | null;
   submitterRegion: string | null;
@@ -9,11 +12,13 @@ export type SubmissionMetadata = {
 };
 
 export function buildSubmissionMetadata(request: Request): SubmissionMetadata {
-  const ip = getClientIp(request);
+  const ip = getCanonicalClientIp(request);
   const userAgent = cleanHeaderValue(request.headers.get("user-agent"));
+  const submitterIpHash = hashPrivateValue(ip);
 
   return {
-    submitterIpHash: hashPrivateValue(ip),
+    submitterIpHash,
+    submitterIpHashVersion: submitterIpHash ? getMetadataSecretId() : null,
     submitterUserAgentHash: hashPrivateValue(userAgent),
     submitterCountry: normalizeLocationCode(
       request.headers.get("x-vercel-ip-country") ??
@@ -24,17 +29,6 @@ export function buildSubmissionMetadata(request: Request): SubmissionMetadata {
     ),
     submitterCity: normalizeLocationText(request.headers.get("x-vercel-ip-city")),
   };
-}
-
-function getClientIp(request: Request): string | null {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const forwardedIp = forwardedFor?.split(",")[0]?.trim();
-
-  return cleanHeaderValue(
-    forwardedIp ||
-      request.headers.get("x-real-ip") ||
-      request.headers.get("cf-connecting-ip"),
-  );
 }
 
 function hashPrivateValue(value: string | null): string | null {
@@ -55,6 +49,10 @@ function getMetadataSecret(): string {
   }
 
   return secret ?? "local-development-submission-metadata-secret";
+}
+
+function getMetadataSecretId(): string {
+  return process.env.SUBMISSION_METADATA_SECRET_ID?.trim() || "legacy";
 }
 
 function cleanHeaderValue(value: string | null | undefined): string | null {

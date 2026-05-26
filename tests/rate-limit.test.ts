@@ -46,6 +46,38 @@ test("reserveRegistrationSlot blocks the eighth registration in one day", async 
   assert.ok(blocked.retryAfterSeconds > 0);
 });
 
+test("reserveRegistrationSlot uses canonical client IP values", async () => {
+  const requests = [
+    new Request("https://example.test/api/applications", {
+      headers: {
+        "x-forwarded-for": "203.0.113.16:443",
+      },
+    }),
+    new Request("https://example.test/api/applications", {
+      headers: {
+        "x-forwarded-for": "[::ffff:203.0.113.16]:443",
+      },
+    }),
+    new Request("https://example.test/api/applications", {
+      headers: {
+        "x-forwarded-for": "203.0.113.16",
+      },
+    }),
+  ];
+
+  for (let index = 0; index < 7; index += 1) {
+    const result = await reserveRegistrationSlot(
+      requests[index % requests.length]!,
+    );
+
+    assert.equal(result.allowed, true);
+  }
+
+  const blocked = await reserveRegistrationSlot(requests[0]!);
+
+  assert.equal(blocked.allowed, false);
+});
+
 test("rollbackRegistrationSlot releases a reserved registration slot", async () => {
   const request = new Request("https://example.test/api/applications", {
     headers: {
