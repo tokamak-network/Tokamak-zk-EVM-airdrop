@@ -7,7 +7,7 @@ import {
   isAddress,
   isHexString,
   JsonRpcProvider,
-  zeroPadValue,
+  ZeroAddress,
 } from "ethers";
 
 import type { AppConfig } from "@/lib/config";
@@ -22,15 +22,6 @@ export type VerificationResult =
       valid: false;
       reason: string;
     };
-
-type ParticipationEvent = {
-  type: "registered" | "exited";
-  blockNumber: number;
-  transactionIndex: number;
-  logIndex: number;
-  l1Address: string;
-  l2Address: string | null;
-};
 
 type AbiCandidate = {
   abi: unknown[];
@@ -58,25 +49,11 @@ export type VerificationBlock = {
   timestamp: number;
 };
 
-export type VerificationLog = {
-  address?: string;
-  topics: readonly string[];
-  data: string;
-  blockNumber: number;
-  transactionIndex: number;
-  index: number;
-};
-
 export type VerificationProvider = {
   getTransaction(txHash: string): Promise<VerificationTransaction | null>;
   getTransactionReceipt(txHash: string): Promise<VerificationReceipt | null>;
   getBlock(blockNumber: number): Promise<VerificationBlock | null>;
-  getLogs(filter: {
-    address: string;
-    fromBlock: number;
-    toBlock: number;
-    topics: Array<string | string[] | null>;
-  }): Promise<VerificationLog[]>;
+  call(transaction: { to: string; data: string }): Promise<string>;
 };
 
 export type VerifierDependencies = {
@@ -85,8 +62,7 @@ export type VerifierDependencies = {
   transferSelectors?: Set<string>;
 };
 
-const registeredEventName = "ChannelTokenVaultIdentityRegistered";
-const exitedEventName = "ChannelTokenVaultIdentityExited";
+const registrationFunctionName = "getChannelTokenVaultRegistration";
 const eligibleTransactionStartTimestamp =
   Date.UTC(2026, 4, 19, 0, 0, 0) / 1000;
 
@@ -178,18 +154,17 @@ export async function verifySubmittedTransaction(
   }
 
   const resolvedL1Address = getAddress(transaction.from);
-  const resolvedL2Address = await resolveL2AddressAtBlock(
+  const resolvedL2Address = await readCurrentRegisteredL2Address(
     config,
     provider,
     decodedTransaction.bridgeInterface,
     resolvedL1Address,
-    transaction.blockNumber,
   );
 
   if (!resolvedL2Address) {
     return {
       valid: false,
-      reason: "Transaction submitter was not a Tonnel participant when the transaction happened.",
+      reason: "Transaction submitter is not currently registered in Tonnel.",
     };
   }
 
@@ -210,8 +185,7 @@ function loadChannelManagerInterfaces(artifactDir: string): Interface[] {
 
       if (
         hasFunctionNamed(bridgeInterface, "executeChannelTransaction") &&
-        hasEventNamed(bridgeInterface, registeredEventName) &&
-        hasEventNamed(bridgeInterface, exitedEventName)
+        hasFunctionNamed(bridgeInterface, registrationFunctionName)
       ) {
         interfaces.push(bridgeInterface);
       }
@@ -225,7 +199,7 @@ function loadChannelManagerInterfaces(artifactDir: string): Interface[] {
   }
 
   throw new Error(
-    `Could not find channel manager ABI with executeChannelTransaction and participation events under ${artifactDir}.`,
+    `Could not find channel manager ABI with executeChannelTransaction and ${registrationFunctionName} under ${artifactDir}.`,
   );
 }
 
@@ -271,193 +245,45 @@ function loadTransferNoteSelectors(artifactDir: string): Set<string> {
   return selectors;
 }
 
-async function resolveL2AddressAtBlock(
+type ChannelTokenVaultRegistration = {
+  exists?: boolean;
+  l2Address?: string;
+  [index: number]: unknown;
+};
+
+async function readCurrentRegisteredL2Address(
   config: AppConfig,
   provider: VerificationProvider,
   bridgeInterface: Interface,
   l1Address: string,
-  blockNumber: number,
 ): Promise<string | null> {
-  const events = await loadParticipationEvents(
-    config,
-    provider,
-    bridgeInterface,
-    l1Address,
-    blockNumber,
-  );
-  let activeL2Address: string | null = null;
-
-  for (const event of events) {
-    if (event.blockNumber > blockNumber) {
-      break;
-    }
-
-    if (event.type === "registered") {
-      activeL2Address = event.l2Address;
-      continue;
-    }
-
-    activeL2Address = null;
-  }
-
-  return activeL2Address;
-}
-
-async function loadParticipationEvents(
-  config: AppConfig,
-  provider: VerificationProvider,
-  bridgeInterface: Interface,
-  l1Address: string,
-  toBlock: number,
-): Promise<ParticipationEvent[]> {
-  const registeredLogs = await loadEventLogs(
-    config,
-    provider,
-    bridgeInterface,
-    registeredEventName,
-    l1Address,
-    toBlock,
-  );
-  const exitedLogs = await loadEventLogs(
-    config,
-    provider,
-    bridgeInterface,
-    exitedEventName,
-    l1Address,
-    toBlock,
-  );
-  const events = [...registeredLogs, ...exitedLogs]
-    .map((log) => parseParticipationLog(bridgeInterface, log, l1Address))
-    .filter((event): event is ParticipationEvent => event !== null)
-    .sort((left, right) => {
-      if (left.blockNumber !== right.blockNumber) {
-        return left.blockNumber - right.blockNumber;
-      }
-
-      if (left.transactionIndex !== right.transactionIndex) {
-        return left.transactionIndex - right.transactionIndex;
-      }
-
-      return left.logIndex - right.logIndex;
-    });
-
-  return events;
-}
-
-async function loadEventLogs(
-  config: AppConfig,
-  provider: VerificationProvider,
-  bridgeInterface: Interface,
-  eventName: string,
-  l1Address: string,
-  toBlock: number,
-): Promise<VerificationLog[]> {
-  const event = bridgeInterface.getEvent(eventName);
-
-  if (!event) {
-    throw new Error(`Channel manager ABI is missing ${eventName}.`);
-  }
-
-  const topics = [event.topicHash] as Array<string | string[] | null>;
-  const l1InputIndex = event.inputs.findIndex((input) => input.name === "l1Address");
-
-  if (l1InputIndex >= 0 && event.inputs[l1InputIndex].indexed) {
-    const topicPosition =
-      event.inputs
-        .slice(0, l1InputIndex)
-        .filter((input) => input.indexed).length + 1;
-
-    while (topics.length <= topicPosition) {
-      topics.push(null);
-    }
-
-    topics[topicPosition] = zeroPadValue(l1Address, 32);
-  }
-
-  const logs: VerificationLog[] = [];
-  const startBlock = config.channelGenesisBlock;
-  const chunkSize = Math.max(Math.trunc(config.rpcBlockRangeCap), 1);
-
-  for (let fromBlock = startBlock; fromBlock <= toBlock; fromBlock += chunkSize) {
-    const chunkToBlock = Math.min(fromBlock + chunkSize - 1, toBlock);
-
-    logs.push(
-      ...(await provider.getLogs({
-        address: config.channelManagerAddress,
-        fromBlock,
-        toBlock: chunkToBlock,
-        topics,
-      })),
-    );
-  }
-
-  return logs;
-}
-
-function parseParticipationLog(
-  bridgeInterface: Interface,
-  log: VerificationLog,
-  expectedL1Address: string,
-): ParticipationEvent | null {
-  const parsed = bridgeInterface.parseLog({
-    topics: [...log.topics],
-    data: log.data,
+  const encodedRegistration = await provider.call({
+    to: config.channelManagerAddress,
+    data: bridgeInterface.encodeFunctionData(registrationFunctionName, [l1Address]),
   });
+  const decoded = bridgeInterface.decodeFunctionResult(
+    registrationFunctionName,
+    encodedRegistration,
+  );
+  const registration = decoded[0] as ChannelTokenVaultRegistration;
+  const exists = Boolean(registration.exists ?? registration[0]);
+  const l2Address = registration.l2Address ?? registration[1];
 
-  if (!parsed) {
+  if (!exists || typeof l2Address !== "string" || !isAddress(l2Address)) {
     return null;
   }
 
-  const l1Address = findAddressArg(parsed.args, "l1Address");
-
-  if (!l1Address || getAddress(l1Address) !== getAddress(expectedL1Address)) {
+  if (getAddress(l2Address) === ZeroAddress) {
     return null;
   }
 
-  if (parsed.name === registeredEventName) {
-    const l2Address = findAddressArg(parsed.args, "l2Address");
-
-    if (!l2Address) {
-      return null;
-    }
-
-    return {
-      type: "registered",
-      blockNumber: log.blockNumber,
-      transactionIndex: log.transactionIndex,
-      logIndex: log.index,
-      l1Address: getAddress(l1Address),
-      l2Address: getAddress(l2Address),
-    };
-  }
-
-  if (parsed.name === exitedEventName) {
-    return {
-      type: "exited",
-      blockNumber: log.blockNumber,
-      transactionIndex: log.transactionIndex,
-      logIndex: log.index,
-      l1Address: getAddress(l1Address),
-      l2Address: null,
-    };
-  }
-
-  return null;
+  return getAddress(l2Address);
 }
 
 function hasFunctionNamed(abiInterface: Interface, name: string): boolean {
   return abiInterface.fragments.some(
     (fragment) =>
       fragment.type === "function" &&
-      "name" in fragment &&
-      fragment.name === name,
-  );
-}
-
-function hasEventNamed(abiInterface: Interface, name: string): boolean {
-  return abiInterface.fragments.some(
-    (fragment) =>
-      fragment.type === "event" &&
       "name" in fragment &&
       fragment.name === name,
   );
@@ -516,45 +342,6 @@ function collectTransferSelectors(value: unknown, selectors: Set<string>): void 
   for (const item of Object.values(record)) {
     collectTransferSelectors(item, selectors);
   }
-}
-
-function findAddressArg(args: unknown, key: string): string | null {
-  if (Array.isArray(args)) {
-    const named = (args as unknown as Record<string, unknown>)[key];
-
-    if (typeof named === "string" && isAddress(named)) {
-      return named;
-    }
-
-    for (const item of args) {
-      const found = findAddressArg(item, key);
-
-      if (found) {
-        return found;
-      }
-    }
-  }
-
-  if (!args || typeof args !== "object") {
-    return null;
-  }
-
-  const record = args as Record<string, unknown>;
-  const candidate = record[key];
-
-  if (typeof candidate === "string" && isAddress(candidate)) {
-    return candidate;
-  }
-
-  for (const item of Object.values(record)) {
-    const found = findAddressArg(item, key);
-
-    if (found) {
-      return found;
-    }
-  }
-
-  return null;
 }
 
 function extractFunctionSig(decodedArgs: unknown): string | null {

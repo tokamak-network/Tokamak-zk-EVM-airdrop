@@ -14,7 +14,6 @@ import type { AppConfig } from "@/lib/config";
 import {
   verifySubmittedTransaction,
   type VerificationBlock,
-  type VerificationLog,
   type VerificationProvider,
   type VerificationReceipt,
   type VerificationTransaction,
@@ -32,26 +31,23 @@ const eligibleStartTimestamp = Date.UTC(2026, 4, 19, 0, 0, 0) / 1000;
 
 const bridgeInterface = new Interface([
   "function executeChannelTransaction((bytes data) payload,(bytes4 functionSig) functionProof)",
+  "function getChannelTokenVaultRegistration(address l1Address) view returns ((bool exists,address l2Address,bytes32 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint64 joinedAt,(bytes32 x,uint8 yParity) noteReceivePubKey,bool isZeroBalance))",
   "function otherFunction()",
-  "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
-  "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
 ]);
 const currentBridgeInterface = new Interface([
   "function executeChannelTransaction((uint128[],uint256[],uint128[],uint256[],uint256[],uint256[]),((address,bytes4,bytes32,(uint8,uint8,uint8,uint8,(uint16,uint8)[])),bytes32[]))",
-  "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
-  "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
+  "function getChannelTokenVaultRegistration(address l1Address) view returns ((bool exists,address l2Address,bytes32 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint64 joinedAt,(bytes32 x,uint8 yParity) noteReceivePubKey,bool isZeroBalance))",
 ]);
 const misleadingBridgeInterface = new Interface([
   "function executeChannelTransaction((bytes4 selector) payload,(bytes32 proofRoot) functionProof)",
-  "event ChannelTokenVaultIdentityRegistered(address indexed l1Address,address l2Address,uint256 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint256 joinedAt,uint256 noteReceivePubKeyX,bool noteReceivePubKeyYParity)",
-  "event ChannelTokenVaultIdentityExited(address indexed l1Address,uint256 leafIndex)",
+  "function getChannelTokenVaultRegistration(address l1Address) view returns ((bool exists,address l2Address,bytes32 channelTokenVaultKey,uint256 leafIndex,uint256 joinTollPaid,uint64 joinedAt,(bytes32 x,uint8 yParity) noteReceivePubKey,bool isZeroBalance))",
 ]);
 const privateStateInterface = new Interface([
   "function mintNotes1()",
   "function transferNotes1To1()",
 ]);
 
-test("verifySubmittedTransaction accepts a transferNotes tx and resolves the active participation epoch L2 address", async () => {
+test("verifySubmittedTransaction accepts a transferNotes tx and resolves the current registered L2 address", async () => {
   const result = await verifySubmittedTransaction(
     createConfig(),
     txHash,
@@ -61,11 +57,7 @@ test("verifySubmittedTransaction accepts a transferNotes tx and resolves the act
           blockNumber: 40,
           data: encodeExecute(transferSelector),
         }),
-        logs: [
-          createRegisteredLog(10, 0, l1Address, firstL2Address),
-          createExitedLog(20, 0, l1Address),
-          createRegisteredLog(30, 0, l1Address, secondL2Address),
-        ],
+        registrationL2Address: secondL2Address,
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -77,6 +69,27 @@ test("verifySubmittedTransaction accepts a transferNotes tx and resolves the act
     resolvedL1Address: l1Address,
     resolvedL2Address: secondL2Address,
   });
+});
+
+test("verifySubmittedTransaction reads current registration with eth_call instead of getLogs", async () => {
+  let callCount = 0;
+  const provider = createProvider({
+    transaction: createTransaction({
+      blockNumber: 40,
+      data: encodeExecute(transferSelector),
+    }),
+    onCall: () => {
+      callCount += 1;
+    },
+  });
+  const result = await verifySubmittedTransaction(createConfig(), txHash, {
+    provider,
+    channelManagerInterface: bridgeInterface,
+    transferSelectors: new Set([transferSelector]),
+  });
+
+  assert.equal(result.valid, true);
+  assert.equal(callCount, 1);
 });
 
 test("verifySubmittedTransaction skips stale ABI candidates and decodes with the matching channel manager ABI", async () => {
@@ -100,7 +113,6 @@ test("verifySubmittedTransaction skips stale ABI candidates and decodes with the
             blockNumber: 40,
             data: encodeCurrentExecute(transferSelector),
           }),
-          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
         }),
         transferSelectors: new Set([transferSelector]),
       },
@@ -139,7 +151,6 @@ test("verifySubmittedTransaction loads transfer selectors from explicit transfer
             blockNumber: 40,
             data: encodeExecute(transferFunction!.selector),
           }),
-          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
         }),
       },
     );
@@ -169,7 +180,6 @@ test("verifySubmittedTransaction rejects selectors hidden outside functionProof 
             ],
           ),
         }),
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: misleadingBridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -213,7 +223,6 @@ test("verifySubmittedTransaction rejects arbitrary selectors in non-ABI artifact
           transaction: createTransaction({
             data: encodeExecute(mintFunction!.selector),
           }),
-          logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
         }),
       },
     );
@@ -235,7 +244,6 @@ test("verifySubmittedTransaction rejects failed receipts", async () => {
       provider: createProvider({
         transaction: createTransaction({ data: encodeExecute(transferSelector) }),
         receipt: { status: 0 },
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -253,7 +261,6 @@ test("verifySubmittedTransaction rejects transferNotes txs before the eligible s
       provider: createProvider({
         transaction: createTransaction({ data: encodeExecute(transferSelector) }),
         block: { timestamp: eligibleStartTimestamp - 1 },
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -273,7 +280,6 @@ test("verifySubmittedTransaction rejects transactions sent to another contract",
           to: otherContract,
           data: encodeExecute(transferSelector),
         }),
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -292,7 +298,6 @@ test("verifySubmittedTransaction rejects channel-manager calldata that is not ex
         transaction: createTransaction({
           data: bridgeInterface.encodeFunctionData("otherFunction", []),
         }),
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -309,7 +314,6 @@ test("verifySubmittedTransaction rejects non-transferNotes private-state selecto
     {
       provider: createProvider({
         transaction: createTransaction({ data: encodeExecute(mintSelector) }),
-        logs: [createRegisteredLog(10, 0, l1Address, firstL2Address)],
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -319,14 +323,14 @@ test("verifySubmittedTransaction rejects non-transferNotes private-state selecto
   assertInvalidReason(result, "Transaction is not a private-state transfer notes transaction.");
 });
 
-test("verifySubmittedTransaction rejects transferNotes txs when submitter was never a participant", async () => {
+test("verifySubmittedTransaction rejects transferNotes txs when submitter is not currently registered", async () => {
   const result = await verifySubmittedTransaction(
     createConfig(),
     txHash,
     {
       provider: createProvider({
         transaction: createTransaction({ data: encodeExecute(transferSelector) }),
-        logs: [],
+        registrationExists: false,
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -335,24 +339,18 @@ test("verifySubmittedTransaction rejects transferNotes txs when submitter was ne
 
   assertInvalidReason(
     result,
-    "Transaction submitter was not a Tonnel participant when the transaction happened.",
+    "Transaction submitter is not currently registered in Tonnel.",
   );
 });
 
-test("verifySubmittedTransaction rejects transferNotes txs after the submitter exited", async () => {
+test("verifySubmittedTransaction rejects transferNotes txs when current registration has no L2 address", async () => {
   const result = await verifySubmittedTransaction(
     createConfig(),
     txHash,
     {
       provider: createProvider({
-        transaction: createTransaction({
-          blockNumber: 30,
-          data: encodeExecute(transferSelector),
-        }),
-        logs: [
-          createRegisteredLog(10, 0, l1Address, firstL2Address),
-          createExitedLog(20, 0, l1Address),
-        ],
+        transaction: createTransaction({ data: encodeExecute(transferSelector) }),
+        registrationL2Address: "0x0000000000000000000000000000000000000000",
       }),
       channelManagerInterface: bridgeInterface,
       transferSelectors: new Set([transferSelector]),
@@ -361,7 +359,7 @@ test("verifySubmittedTransaction rejects transferNotes txs after the submitter e
 
   assertInvalidReason(
     result,
-    "Transaction submitter was not a Tonnel participant when the transaction happened.",
+    "Transaction submitter is not currently registered in Tonnel.",
   );
 });
 
@@ -392,10 +390,10 @@ function createProvider(input: {
   transaction: VerificationTransaction | null;
   receipt?: VerificationReceipt | null;
   block?: VerificationBlock | null;
-  logs?: VerificationLog[];
+  registrationExists?: boolean;
+  registrationL2Address?: string;
+  onCall?: () => void;
 }): VerificationProvider {
-  const logs = input.logs ?? [];
-
   return {
     async getTransaction() {
       return input.transaction;
@@ -408,18 +406,23 @@ function createProvider(input: {
         ? { timestamp: eligibleStartTimestamp }
         : input.block;
     },
-    async getLogs(filter) {
-      return logs.filter((log) => {
-        if (log.address && getAddress(log.address) !== getAddress(filter.address)) {
-          return false;
-        }
-
-        if (log.blockNumber < filter.fromBlock || log.blockNumber > filter.toBlock) {
-          return false;
-        }
-
-        return filter.topics.every((topic, index) => topicMatches(topic, log.topics[index]));
-      });
+    async call() {
+      input.onCall?.();
+      return bridgeInterface.encodeFunctionResult(
+        "getChannelTokenVaultRegistration",
+        [
+          [
+            input.registrationExists ?? true,
+            input.registrationL2Address ?? firstL2Address,
+            `0x${"0".repeat(64)}`,
+            0,
+            0,
+            0,
+            [`0x${"0".repeat(64)}`, 0],
+            false,
+          ],
+        ],
+      );
     },
   };
 }
@@ -434,52 +437,6 @@ function createTransaction(
     from: l1Address,
     blockNumber: 15,
     ...overrides,
-  };
-}
-
-function createRegisteredLog(
-  blockNumber: number,
-  logIndex: number,
-  registeredL1Address: string,
-  l2Address: string,
-): VerificationLog {
-  const event = bridgeInterface.getEvent("ChannelTokenVaultIdentityRegistered");
-  const encoded = bridgeInterface.encodeEventLog(event!, [
-    registeredL1Address,
-    l2Address,
-    0,
-    0,
-    0,
-    0,
-    0,
-    false,
-  ]);
-
-  return {
-    address: manager,
-    topics: encoded.topics,
-    data: encoded.data,
-    blockNumber,
-    transactionIndex: 0,
-    index: logIndex,
-  };
-}
-
-function createExitedLog(
-  blockNumber: number,
-  logIndex: number,
-  exitedL1Address: string,
-): VerificationLog {
-  const event = bridgeInterface.getEvent("ChannelTokenVaultIdentityExited");
-  const encoded = bridgeInterface.encodeEventLog(event!, [exitedL1Address, 0]);
-
-  return {
-    address: manager,
-    topics: encoded.topics,
-    data: encoded.data,
-    blockNumber,
-    transactionIndex: 0,
-    index: logIndex,
   };
 }
 
@@ -503,21 +460,6 @@ function encodeCurrentExecute(selector: string): string {
       [],
     ],
   ]);
-}
-
-function topicMatches(
-  expected: string | string[] | null,
-  actual: string | undefined,
-): boolean {
-  if (expected === null) {
-    return true;
-  }
-
-  if (Array.isArray(expected)) {
-    return actual !== undefined && expected.includes(actual);
-  }
-
-  return actual === expected;
 }
 
 function assertInvalidReason(
