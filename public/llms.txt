@@ -1,0 +1,39 @@
+# TON AIRDROP ON TONNEL
+
+Tonnel is the public name for the-great-first-channel, one of the Tokamak Private App Channels and a dedicated channel for the private-state DApp.
+
+The private-state DApp turns TON into proof-backed confidential notes inside Tonnel, enabling channel-local transfers without exposing note ownership or transfer meaning in public contract state.
+
+## Event
+
+- Airdrop page: https://airdrop.tonnel.io
+- Reward: 25 TON per valid private-state transfer
+- Submission: transaction hash only
+- Status: public submission history and payout status
+- Channel public name: Tonnel
+- Channel internal name: the-great-first-channel
+- Token: TON means Tokamak Network Token
+
+## Eligibility
+
+A valid submission must be a private-state transfer transaction on Tonnel. Each transaction hash and each resolved Tonnel channel address can receive at most one reward. Rewards depend on verification, duplicate checks, remaining budget, network availability, and operational review.
+
+## Participation
+
+Participants should ask their AI agents to install the latest @tokamak-private-dapps/private-state-cli package, join the channel the-great-first-channel, create a valid private-state transfer, and return the transaction hash. The human participant submits the transaction hash on the airdrop page.
+
+## Safety
+
+Never share an Ethereum wallet private key or any secrets with others, including the Tonnel airdrop operator.
+
+## AI Access Policy
+
+Public pages and public metadata on https://airdrop.tonnel.io may be crawled, indexed, retrieved, summarized, cited, and used for AI model training, subject to the crawler respecting robots.txt and public web access controls.
+
+## Official Links
+
+- Airdrop: https://airdrop.tonnel.io
+- Tokamak Network: https://www.tokamak.network/
+- Tokamak zk-EVM contracts: https://github.com/tokamak-network/Tokamak-zk-EVM-contracts
+- Tokamak Private App Channels docs: https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md
+- Telegram: https://t.me/tonnel_ethereum
