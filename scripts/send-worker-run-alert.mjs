@@ -7,13 +7,18 @@ const [
   timestamp,
   exitCode,
   repoDir,
+  runtimeDir,
+  logDir,
   stderrLog,
   stdoutLog,
   runStdout,
   runStderr,
 ] = process.argv;
 
-const env = readEnvFile(`${repoDir}/.env.local`);
+const env = {
+  ...readEnvFile(`${runtimeDir}/.env`),
+  ...readEnvFile(`${runtimeDir}/.env.local`),
+};
 const botToken = env.AIRDROP_TELEGRAM_BOT_TOKEN;
 const chatId = env.AIRDROP_TELEGRAM_CHAT_ID;
 
@@ -33,7 +38,8 @@ const lines = [
   `Host: ${hostName}`,
   `Time: ${timestamp}`,
   `Exit: ${exitCode}`,
-  `Repo: ${repoDir}`,
+  `Source repo: ${repoDir}`,
+  `Runtime: ${runtimeDir}`,
 ];
 
 if (summary) {
@@ -52,7 +58,7 @@ if (errorTail) {
   lines.push("", "Error:", errorTail);
 }
 
-lines.push("", `stderr: ${stderrLog}`, `stdout: ${stdoutLog}`);
+lines.push("", `Logs: ${logDir}`, `stderr: ${stderrLog}`, `stdout: ${stdoutLog}`);
 
 const response = await fetch(
   `https://api.telegram.org/bot${botToken}/sendMessage`,
