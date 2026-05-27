@@ -15,6 +15,13 @@ mkdir -p "${log_dir}"
 : > "${run_stdout}"
 : > "${run_stderr}"
 
+node "${runtime_dir}/scripts/wait-worker-network.mjs" "${runtime_dir}"
+preflight_exit_code=$?
+
+if [[ ${preflight_exit_code} -ne 0 ]]; then
+  exit "${preflight_exit_code}"
+fi
+
 (
   cd "${runtime_dir}" &&
     npm run worker

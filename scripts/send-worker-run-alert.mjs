@@ -60,21 +60,29 @@ if (errorTail) {
 
 lines.push("", `Logs: ${logDir}`, `stderr: ${stderrLog}`, `stdout: ${stdoutLog}`);
 
-const response = await fetch(
-  `https://api.telegram.org/bot${botToken}/sendMessage`,
-  {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      chat_id: chatId,
-      text: lines.join("\n"),
-    }),
-  },
-);
+try {
+  const response = await fetch(
+    `https://api.telegram.org/bot${botToken}/sendMessage`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        chat_id: chatId,
+        text: lines.join("\n"),
+      }),
+    },
+  );
 
-if (!response.ok) {
-  throw new Error(
-    `Telegram alert failed: ${response.status} ${await response.text()}`,
+  if (!response.ok) {
+    throw new Error(
+      `Telegram alert failed: ${response.status} ${await response.text()}`,
+    );
+  }
+} catch (error) {
+  console.error(
+    `Telegram alert failed: ${
+      error instanceof Error ? error.message : String(error)
+    }`,
   );
 }
 
