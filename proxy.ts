@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.split(":")[0].toLowerCase();
 
-  if (host === "tonnel.io") {
+  if (host === "tonnel.io" || host === "www.tonnel.io") {
     const url = request.nextUrl.clone();
     url.protocol = "https";
     url.hostname = "airdrop.tonnel.io";
