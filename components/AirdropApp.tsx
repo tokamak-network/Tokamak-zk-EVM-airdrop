@@ -2,6 +2,8 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
+import { faqItems } from "@/lib/site-content";
+
 type ApplicationStatus =
   | "Pending"
   | "Transferred"
@@ -381,7 +383,7 @@ export function AirdropApp({
           ) : null}
           {participateMode === "prerequisites" ? <Prerequisites /> : null}
           {participateMode === "criteria" ? <WinnerCriteria /> : null}
-          {participateMode === "faq" ? <Faq channel={channel} /> : null}
+          {participateMode === "faq" ? <Faq /> : null}
         </section>
 
         <section className="contentSection" aria-labelledby="submit">
@@ -621,103 +623,31 @@ function WinnerCriteria() {
   );
 }
 
-function Faq({ channel }: { channel: string }) {
+function Faq() {
   return (
     <dl className="faqList">
-      <div>
-        <dt>What is Tonnel?</dt>
-        <dd>
-          <span className="accentText">Tonnel</span> is the public name for{" "}
-          <code className="shadedText">{channel}</code>, one of the Tokamak
-          Private App Channels and a dedicated channel for the private-state
-          DApp.
-        </dd>
-      </div>
-      <div>
-        <dt>What are Tokamak Private App Channels?</dt>
-        <dd>
-          Tokamak Private App Channels are application-specific channels where
-          DApps can run with proof-backed channel state while keeping Ethereum as
-          the public settlement and custody layer. Learn more:{" "}
-          <a
-            href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/blob/main/docs/index.md"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Tokamak Private App Channels docs
-          </a>
-          .
-        </dd>
-      </div>
-      <div>
-        <dt>What is the private-state DApp?</dt>
-        <dd>
-          The private-state DApp turns TON into proof-backed confidential notes
-          inside <span className="accentText">Tonnel</span>, enabling
-          channel-local transfers without exposing note ownership or transfer
-          meaning in public contract state.
-        </dd>
-      </div>
-      <div>
-        <dt>What is the reward?</dt>
-        <dd>25 TON per valid private-state transfer submitted for verification.</dd>
-      </div>
-      <div>
-        <dt>What is the total reward budget?</dt>
-        <dd>5,000 TON.</dd>
-      </div>
-      <div>
-        <dt>What network does this campaign use?</dt>
-        <dd>Ethereum.</dd>
-      </div>
-      <div>
-        <dt>What asset is TON?</dt>
-        <dd>
-          TON means Tokamak Network Token. Tokamak Network docs describe TON as
-          a token that can be purchased from centralized exchanges or swapped
-          through decentralized exchanges; exchange tickers may vary, including
-          TOKAMAK. To see exchanges that list TON, open the{" "}
-          <a
-            href="https://docs.tokamak.network/home/information/get-ton"
-            target="_blank"
-            rel="noreferrer"
-          >
-            TON asset docs
-          </a>
-          .
-        </dd>
-      </div>
-      <div>
-        <dt>What should I submit?</dt>
-        <dd>
-          Submit the Ethereum transaction hash from a valid private-state
-          transfer notes transaction made on{" "}
-          <span className="accentText">Tonnel</span>.
-        </dd>
-      </div>
-      <div>
-        <dt>How is verification handled?</dt>
-        <dd>
-          Verification uses Ethereum transaction hash submission and operational
-          review. Rewards depend on transaction verification, duplicate checks,
-          remaining budget, network availability, and operational review.
-        </dd>
-      </div>
-      <div>
-        <dt>What is the official campaign page?</dt>
-        <dd>
-          <a href="https://airdrop.tonnel.io">https://airdrop.tonnel.io</a>
-        </dd>
-      </div>
-      <div>
-        <dt>What data does this site store?</dt>
-        <dd>
-          This site stores submitted transaction hashes, verification and payout
-          records, and resolved participant addresses. It may also store hashed
-          submission metadata and coarse location data for aggregate
-          distribution and abuse analysis.
-        </dd>
-      </div>
+      {faqItems.map((item) => (
+        <div key={item.question}>
+          <dt>{item.question}</dt>
+          <dd>
+            {item.answer}
+            {item.links?.length ? (
+              <>
+                {" "}
+                {item.links.map((link, index) => (
+                  <span key={link.url}>
+                    {index > 0 ? ", " : ""}
+                    <a href={link.url} target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  </span>
+                ))}
+                .
+              </>
+            ) : null}
+          </dd>
+        </div>
+      ))}
     </dl>
   );
 }

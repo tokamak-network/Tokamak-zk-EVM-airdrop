@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { faqItems, siteDescription, siteTitle, siteUrl } from "@/lib/site-content";
 import "./globals.css";
-
-const siteUrl = "https://airdrop.tonnel.io";
-const siteTitle = "TON AIRDROP ON TONNEL";
-const siteDescription =
-  "Get 25 TON per valid private-state transfer on Tonnel. Submit your transaction hash and track reward status.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -59,7 +55,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
+  const webPageJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: siteTitle,
@@ -106,13 +102,27 @@ export default function RootLayout({
       category: "Airdrop",
     },
   };
+  const faqPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <html lang="en">
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([webPageJsonLd, faqPageJsonLd]),
+          }}
         />
         {children}
         <Analytics />

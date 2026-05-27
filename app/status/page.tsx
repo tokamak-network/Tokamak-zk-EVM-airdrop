@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AirdropApp } from "@/components/AirdropApp";
 import {
   countApplications,
@@ -7,6 +8,12 @@ import { getConfig } from "@/lib/config";
 import { getEventState } from "@/lib/event-state";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default async function StatusPage() {
   const config = getConfig();
