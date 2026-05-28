@@ -5,8 +5,8 @@ This list excludes items that are already implemented in this repository, such a
 ## Remaining Actions
 
 1. Submit the site to webmaster tools.
-   - Register `https://airdrop.tonnel.io` in Google Search Console.
-   - Register the site in Bing Webmaster Tools.
+   - Register `tonnel.io` as a domain property in Google Search Console so all protocols and subdomains, including `airdrop.tonnel.io`, `www.tonnel.io`, and future `*.tonnel.io` hosts, are covered.
+   - Register or import the `tonnel.io` domain property in Bing Webmaster Tools.
    - Submit `https://airdrop.tonnel.io/sitemap.xml`.
 
 2. Strengthen official external links.
