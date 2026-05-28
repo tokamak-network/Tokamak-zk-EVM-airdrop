@@ -9,10 +9,6 @@ This list targets AI search and crawler visibility for the `tonnel.io` domain an
    - Register or import the `tonnel.io` domain property in Bing Webmaster Tools.
    - Submit available sitemaps for public `tonnel.io` hosts, starting with `https://airdrop.tonnel.io/sitemap.xml`.
 
-2. Strengthen official external links.
-   - Link relevant public `tonnel.io` and `*.tonnel.io` pages from official Tokamak/Tonnel pages, docs, announcements, and social channels.
-   - Prefer stable, descriptive anchor text that names Tonnel and the linked page or program.
-
-3. Verify crawler access in logs.
+2. Verify crawler access in logs.
    - Check whether `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, `CCBot`, and search crawlers can fetch public `tonnel.io` and `*.tonnel.io` pages.
    - Confirm Vercel, DNS, or bot protection layers do not block allowed crawlers.
