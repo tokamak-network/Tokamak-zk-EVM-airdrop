@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="1180" viewBox="0 0 2600 1180">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1130" viewBox="0 0 1600 1130">
   <rect width="100%" height="100%" fill="#ffffff"/>
-  <text x="72" y="44" font-size="30" font-weight="800" fill="#111827">Participation Count by Anonymous Participant</text>
+  <text x="420" y="44" font-size="30" font-weight="800" fill="#111827">Participation Count by Anonymous Participant</text>
   <g>
-      <line x1="72" y1="920.00" x2="2552" y2="920.00" stroke="#e5e7eb"/>
-      <text x="58" y="926.00" text-anchor="end" font-size="16" fill="#6b7280">0</text>
-      <line x1="72" y1="754.40" x2="2552" y2="754.40" stroke="#e5e7eb"/>
-      <text x="58" y="760.40" text-anchor="end" font-size="16" fill="#6b7280">6</text>
-      <line x1="72" y1="588.80" x2="2552" y2="588.80" stroke="#e5e7eb"/>
-      <text x="58" y="594.80" text-anchor="end" font-size="16" fill="#6b7280">12</text>
-      <line x1="72" y1="423.20" x2="2552" y2="423.20" stroke="#e5e7eb"/>
-      <text x="58" y="429.20" text-anchor="end" font-size="16" fill="#6b7280">18</text>
-      <line x1="72" y1="257.60" x2="2552" y2="257.60" stroke="#e5e7eb"/>
-      <text x="58" y="263.60" text-anchor="end" font-size="16" fill="#6b7280">24</text>
-      <line x1="72" y1="92.00" x2="2552" y2="92.00" stroke="#e5e7eb"/>
-      <text x="58" y="98.00" text-anchor="end" font-size="16" fill="#6b7280">30</text>
-      <line x1="72" y1="920" x2="2552" y2="920" stroke="#111827" stroke-width="1.5"/>
-      <line x1="72" y1="92" x2="72" y2="920" stroke="#111827" stroke-width="1.5"/>
-      <rect x="72.00" y="174.80" width="105.09" height="745.20" rx="4" fill="#2563eb"/>
-      <text x="124.55" y="164.80" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">27</text>
-      <text transform="translate(124.55 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous A, ID-JB</text>
-      <rect x="185.09" y="644.00" width="105.09" height="276.00" rx="4" fill="#2563eb"/>
-      <text x="237.64" y="634.00" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">10</text>
-      <text transform="translate(237.64 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous B, ID-JB</text>
-      <rect x="298.18" y="699.20" width="105.09" height="220.80" rx="4" fill="#2563eb"/>
-      <text x="350.73" y="689.20" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">8</text>
-      <text transform="translate(350.73 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous C, ID-JK</text>
-      <rect x="411.27" y="726.80" width="105.09" height="193.20" rx="4" fill="#2563eb"/>
-      <text x="463.82" y="716.80" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">7</text>
-      <text transform="translate(463.82 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous D, SG</text>
-      <rect x="524.36" y="782.00" width="105.09" height="138.00" rx="4" fill="#2563eb"/>
-      <text x="576.91" y="772.00" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">5</text>
-      <text transform="translate(576.91 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous E, SG</text>
-      <rect x="637.45" y="837.20" width="105.09" height="82.80" rx="4" fill="#2563eb"/>
-      <text x="690.00" y="827.20" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">3</text>
-      <text transform="translate(690.00 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous F, ID-LA</text>
-      <rect x="750.55" y="837.20" width="105.09" height="82.80" rx="4" fill="#2563eb"/>
-      <text x="803.09" y="827.20" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">3</text>
-      <text transform="translate(803.09 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous G, ID-LA</text>
-      <rect x="863.64" y="837.20" width="105.09" height="82.80" rx="4" fill="#2563eb"/>
-      <text x="916.18" y="827.20" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">3</text>
-      <text transform="translate(916.18 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous H, ID-LA</text>
-      <rect x="976.73" y="864.80" width="105.09" height="55.20" rx="4" fill="#2563eb"/>
-      <text x="1029.27" y="854.80" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">2</text>
-      <text transform="translate(1029.27 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous I, SG</text>
-      <rect x="1089.82" y="864.80" width="105.09" height="55.20" rx="4" fill="#2563eb"/>
-      <text x="1142.36" y="854.80" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">2</text>
-      <text transform="translate(1142.36 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous J, ID-LA</text>
-      <rect x="1202.91" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1255.45" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1255.45 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous K, ID-JI</text>
-      <rect x="1316.00" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1368.55" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1368.55 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous L, US</text>
-      <rect x="1429.09" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1481.64" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1481.64 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous M, KR-11</text>
-      <rect x="1542.18" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1594.73" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1594.73 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous N, ID-YO</text>
-      <rect x="1655.27" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1707.82" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1707.82 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous O, PH-00</text>
-      <rect x="1768.36" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1820.91" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1820.91 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous P, SG</text>
-      <rect x="1881.45" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="1934.00" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1934.00 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous Q, US</text>
-      <rect x="1994.55" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="2047.09" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(2047.09 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous R, PH-00</text>
-      <rect x="2107.64" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="2160.18" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(2160.18 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous S, SG</text>
-      <rect x="2220.73" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="2273.27" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(2273.27 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous T, SG</text>
-      <rect x="2333.82" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="2386.36" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(2386.36 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous U, ID-JI</text>
-      <rect x="2446.91" y="892.40" width="105.09" height="27.60" rx="4" fill="#2563eb"/>
-      <text x="2499.45" y="882.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(2499.45 948.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Anonymous V, ID-LA</text>
+      <line x1="420.00" y1="86" x2="420.00" y2="1050" stroke="#e5e7eb"/>
+      <text x="420.00" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">0</text>
+      <line x1="638.80" y1="86" x2="638.80" y2="1050" stroke="#e5e7eb"/>
+      <text x="638.80" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">6</text>
+      <line x1="857.60" y1="86" x2="857.60" y2="1050" stroke="#e5e7eb"/>
+      <text x="857.60" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">12</text>
+      <line x1="1076.40" y1="86" x2="1076.40" y2="1050" stroke="#e5e7eb"/>
+      <text x="1076.40" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">18</text>
+      <line x1="1295.20" y1="86" x2="1295.20" y2="1050" stroke="#e5e7eb"/>
+      <text x="1295.20" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">24</text>
+      <line x1="1514.00" y1="86" x2="1514.00" y2="1050" stroke="#e5e7eb"/>
+      <text x="1514.00" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">30</text>
+      <line x1="420" y1="1050" x2="1514" y2="1050" stroke="#111827" stroke-width="1.5"/>
+      <line x1="420" y1="86" x2="420" y2="1050" stroke="#111827" stroke-width="1.5"/>
+      <text x="402" y="106.40" text-anchor="end" font-size="17" fill="#374151">Anonymous A, Indonesia - West Java</text>
+      <rect x="420" y="86.00" width="984.60" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="1416.60" y="106.40" font-size="18" font-weight="700" fill="#111827">27</text>
+      <text x="402" y="147.40" text-anchor="end" font-size="17" fill="#374151">Anonymous B, Indonesia - West Java</text>
+      <rect x="420" y="127.00" width="364.67" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="796.67" y="147.40" font-size="18" font-weight="700" fill="#111827">10</text>
+      <text x="402" y="188.40" text-anchor="end" font-size="17" fill="#374151">Anonymous C, Indonesia - Jakarta</text>
+      <rect x="420" y="168.00" width="291.73" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="723.73" y="188.40" font-size="18" font-weight="700" fill="#111827">8</text>
+      <text x="402" y="229.40" text-anchor="end" font-size="17" fill="#374151">Anonymous D, Singapore</text>
+      <rect x="420" y="209.00" width="255.27" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="687.27" y="229.40" font-size="18" font-weight="700" fill="#111827">7</text>
+      <text x="402" y="270.40" text-anchor="end" font-size="17" fill="#374151">Anonymous E, Singapore</text>
+      <rect x="420" y="250.00" width="182.33" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="614.33" y="270.40" font-size="18" font-weight="700" fill="#111827">5</text>
+      <text x="402" y="311.40" text-anchor="end" font-size="17" fill="#374151">Anonymous F, Indonesia - Lampung</text>
+      <rect x="420" y="291.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="541.40" y="311.40" font-size="18" font-weight="700" fill="#111827">3</text>
+      <text x="402" y="352.40" text-anchor="end" font-size="17" fill="#374151">Anonymous G, Indonesia - Lampung</text>
+      <rect x="420" y="332.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="541.40" y="352.40" font-size="18" font-weight="700" fill="#111827">3</text>
+      <text x="402" y="393.40" text-anchor="end" font-size="17" fill="#374151">Anonymous H, Indonesia - Lampung</text>
+      <rect x="420" y="373.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="541.40" y="393.40" font-size="18" font-weight="700" fill="#111827">3</text>
+      <text x="402" y="434.40" text-anchor="end" font-size="17" fill="#374151">Anonymous I, Singapore</text>
+      <rect x="420" y="414.00" width="72.93" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="504.93" y="434.40" font-size="18" font-weight="700" fill="#111827">2</text>
+      <text x="402" y="475.40" text-anchor="end" font-size="17" fill="#374151">Anonymous J, Indonesia - Lampung</text>
+      <rect x="420" y="455.00" width="72.93" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="504.93" y="475.40" font-size="18" font-weight="700" fill="#111827">2</text>
+      <text x="402" y="516.40" text-anchor="end" font-size="17" fill="#374151">Anonymous K, Indonesia - East Java</text>
+      <rect x="420" y="496.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="516.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="557.40" text-anchor="end" font-size="17" fill="#374151">Anonymous L, United States</text>
+      <rect x="420" y="537.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="557.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="598.40" text-anchor="end" font-size="17" fill="#374151">Anonymous M, South Korea - Seoul</text>
+      <rect x="420" y="578.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="598.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="639.40" text-anchor="end" font-size="17" fill="#374151">Anonymous N, Indonesia - Yogyakarta</text>
+      <rect x="420" y="619.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="639.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="680.40" text-anchor="end" font-size="17" fill="#374151">Anonymous O, Philippines - National Capital Region</text>
+      <rect x="420" y="660.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="680.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="721.40" text-anchor="end" font-size="17" fill="#374151">Anonymous P, Singapore</text>
+      <rect x="420" y="701.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="721.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="762.40" text-anchor="end" font-size="17" fill="#374151">Anonymous Q, United States</text>
+      <rect x="420" y="742.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="762.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="803.40" text-anchor="end" font-size="17" fill="#374151">Anonymous R, Philippines - National Capital Region</text>
+      <rect x="420" y="783.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="803.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="844.40" text-anchor="end" font-size="17" fill="#374151">Anonymous S, Singapore</text>
+      <rect x="420" y="824.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="844.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="885.40" text-anchor="end" font-size="17" fill="#374151">Anonymous T, Singapore</text>
+      <rect x="420" y="865.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="885.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="926.40" text-anchor="end" font-size="17" fill="#374151">Anonymous U, Indonesia - East Java</text>
+      <rect x="420" y="906.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="926.40" font-size="18" font-weight="700" fill="#111827">1</text>
+      <text x="402" y="967.40" text-anchor="end" font-size="17" fill="#374151">Anonymous V, Indonesia - Lampung</text>
+      <rect x="420" y="947.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
+      <text x="468.47" y="967.40" font-size="18" font-weight="700" fill="#111827">1</text>
   </g>
 </svg>
