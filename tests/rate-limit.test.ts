@@ -27,7 +27,7 @@ test("checkSubmissionRateLimit blocks the eleventh submit attempt in one minute"
   assert.ok(blocked.retryAfterSeconds <= 60);
 });
 
-test("reserveRegistrationSlot blocks the eighth registration in one day", async () => {
+test("reserveRegistrationSlot blocks the eighth registration before UTC day reset", async () => {
   const request = new Request("https://example.test/api/applications", {
     headers: {
       "x-forwarded-for": "203.0.113.12",
@@ -44,6 +44,34 @@ test("reserveRegistrationSlot blocks the eighth registration in one day", async 
 
   assert.equal(blocked.allowed, false);
   assert.ok(blocked.retryAfterSeconds > 0);
+});
+
+test("reserveRegistrationSlot resets registration counters at UTC midnight", async () => {
+  const request = new Request("https://example.test/api/applications", {
+    headers: {
+      "x-forwarded-for": "203.0.113.17",
+    },
+  });
+
+  await withFixedNow("2026-05-27T23:59:30.000Z", async () => {
+    for (let index = 0; index < 7; index += 1) {
+      const result = await reserveRegistrationSlot(request);
+
+      assert.equal(result.allowed, true);
+    }
+
+    const blocked = await reserveRegistrationSlot(request);
+
+    assert.equal(blocked.allowed, false);
+    assert.ok(blocked.retryAfterSeconds > 0);
+    assert.ok(blocked.retryAfterSeconds <= 30);
+  });
+
+  await withFixedNow("2026-05-28T00:00:00.000Z", async () => {
+    const result = await reserveRegistrationSlot(request);
+
+    assert.equal(result.allowed, true);
+  });
 });
 
 test("reserveRegistrationSlot uses canonical client IP values", async () => {
@@ -172,4 +200,20 @@ function restoreEnv(name: string, value: string | undefined): void {
   }
 
   Reflect.set(process.env, name, value);
+}
+
+async function withFixedNow<T>(
+  isoTimestamp: string,
+  run: () => Promise<T>,
+): Promise<T> {
+  const originalNow = Date.now;
+  const timestamp = new Date(isoTimestamp).getTime();
+
+  Date.now = () => timestamp;
+
+  try {
+    return await run();
+  } finally {
+    Date.now = originalNow;
+  }
 }

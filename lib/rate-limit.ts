@@ -44,20 +44,26 @@ export async function reserveRegistrationSlot(
   request: Request,
 ): Promise<LimitResult> {
   const identifier = getClientIdentifier(request);
+  const now = new Date(Date.now());
 
   return hitCounter(
     "registration",
-    identifier,
+    `${identifier}:utc-day:${formatUtcDate(now)}`,
     registrationDayLimit,
-    oneDaySeconds,
+    getSecondsUntilNextUtcDay(now),
   );
 }
 
 export async function rollbackRegistrationSlot(request: Request): Promise<void> {
   const identifier = getClientIdentifier(request);
+  const now = new Date(Date.now());
+  const registrationKey = buildCounterKey(
+    "registration",
+    `${identifier}:utc-day:${formatUtcDate(now)}`,
+  );
 
   if (hasUpstashEnv()) {
-    await rollbackRedisCounter(buildCounterKey("registration", identifier));
+    await rollbackRedisCounter(registrationKey);
     return;
   }
 
@@ -67,7 +73,7 @@ export async function rollbackRegistrationSlot(request: Request): Promise<void> 
     );
   }
 
-  rollbackMemoryCounter(buildCounterKey("registration", identifier));
+  rollbackMemoryCounter(registrationKey);
 }
 
 async function hitCounter(
@@ -216,6 +222,20 @@ function getClientIdentifier(request: Request): string {
   const ip = getCanonicalClientIp(request) ?? "unknown";
 
   return `ip:${ip}`;
+}
+
+function formatUtcDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function getSecondsUntilNextUtcDay(date: Date): number {
+  const nextUtcDay = Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate() + 1,
+  );
+
+  return Math.max(Math.ceil((nextUtcDay - date.getTime()) / 1000), 1);
 }
 
 function shouldFailClosedWithoutRedis(): boolean {
