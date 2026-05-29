@@ -202,7 +202,7 @@ async function transferRewardWithStaleRetry(
       );
     } catch (error) {
       if (
-        !isStaleWalletWorkspaceError(error) ||
+        !isRecoverableWorkspaceError(error) ||
         staleRetries >= maxStaleWorkspaceRetries
       ) {
         throw error;
@@ -274,13 +274,15 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "Unknown error.";
 }
 
-function isStaleWalletWorkspaceError(error: unknown): boolean {
+function isRecoverableWorkspaceError(error: unknown): boolean {
   const message = getErrorMessage(error).toLowerCase();
 
   return (
     message.includes("workspace is stale") ||
     message.includes("wallet note workspace is stale") ||
-    message.includes("still stale after recovery-index sync")
+    message.includes("still stale after recovery-index sync") ||
+    message.includes("unexpectedcurrentrootvector") ||
+    message.includes("0x8b1a1fc7")
   );
 }
 

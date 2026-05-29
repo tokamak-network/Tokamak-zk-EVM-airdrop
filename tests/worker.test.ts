@@ -211,6 +211,65 @@ test("runAirdropWorker retries stale wallet workspace failures up to five times"
   });
 });
 
+test("runAirdropWorker retries UnexpectedCurrentRootVector transfer failures", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"4".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    let recoveries = 0;
+    let transfers = 0;
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {
+        recoveries += 1;
+      },
+      transferNotes: async () => {
+        transfers += 1;
+
+        if (transfers === 1) {
+          throw new Error("execution reverted: UnexpectedCurrentRootVector()");
+        }
+
+        if (transfers === 2) {
+          throw new Error(
+            'execution reverted (unknown custom error) (action="estimateGas", data="0x8b1a1fc7", reason=null)',
+          );
+        }
+
+        return `0x${"4".repeat(64)}`;
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 1);
+    assert.equal(summary.failed, 0);
+    assert.equal(recoveries, 4);
+    assert.equal(transfers, 3);
+    assert.equal(application?.status, "Transferred");
+    assert.equal(application?.payoutTxHash, `0x${"4".repeat(64)}`);
+  });
+});
+
 test("runAirdropWorker fails after five stale wallet workspace retries", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"3".repeat(64)}`;
