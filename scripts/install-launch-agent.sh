@@ -84,37 +84,7 @@ cat > "${plist_path}" <<PLIST
   <array>
     <dict>
       <key>Hour</key>
-      <integer>12</integer>
-      <key>Minute</key>
       <integer>0</integer>
-    </dict>
-    <dict>
-      <key>Hour</key>
-      <integer>15</integer>
-      <key>Minute</key>
-      <integer>0</integer>
-    </dict>
-    <dict>
-      <key>Hour</key>
-      <integer>18</integer>
-      <key>Minute</key>
-      <integer>0</integer>
-    </dict>
-    <dict>
-      <key>Hour</key>
-      <integer>21</integer>
-      <key>Minute</key>
-      <integer>0</integer>
-    </dict>
-    <dict>
-      <key>Hour</key>
-      <integer>0</integer>
-      <key>Minute</key>
-      <integer>0</integer>
-    </dict>
-    <dict>
-      <key>Hour</key>
-      <integer>3</integer>
       <key>Minute</key>
       <integer>0</integer>
     </dict>
@@ -126,7 +96,13 @@ cat > "${plist_path}" <<PLIST
     </dict>
     <dict>
       <key>Hour</key>
-      <integer>9</integer>
+      <integer>12</integer>
+      <key>Minute</key>
+      <integer>0</integer>
+    </dict>
+    <dict>
+      <key>Hour</key>
+      <integer>18</integer>
       <key>Minute</key>
       <integer>0</integer>
     </dict>
