@@ -17,6 +17,16 @@ export function usingPostgres(): boolean {
   return Boolean(process.env.DATABASE_URL);
 }
 
+export function shouldAutoMigrate(): boolean {
+  const configured = process.env.AIRDROP_AUTO_MIGRATE;
+
+  if (configured !== undefined) {
+    return configured === "true";
+  }
+
+  return !usingPostgres();
+}
+
 export async function dbGet<T extends Record<string, unknown>>(
   sql: string,
   params: SqlValue[] = [],
@@ -81,6 +91,11 @@ export function closeDb(): void {
 
 async function ensureMigrated(): Promise<void> {
   if (migrated) {
+    return;
+  }
+
+  if (!shouldAutoMigrate()) {
+    migrated = true;
     return;
   }
 
