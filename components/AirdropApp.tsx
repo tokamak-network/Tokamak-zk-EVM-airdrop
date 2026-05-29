@@ -28,7 +28,7 @@ type AirdropAppProps = {
   channel: string;
   initialApplications: Application[];
   initialApplicationTotal: number;
-  remainingBudgetTon: number | null;
+  initialRemainingBudgetTon: number | null;
   rewardTon: number;
   totalBudgetTon: number;
 };
@@ -39,6 +39,7 @@ type ApiResult = {
   created?: boolean;
   error?: string;
   page?: number;
+  remainingBudgetTon?: number | null;
   retryAfterSeconds?: number;
   total?: number;
 };
@@ -94,7 +95,7 @@ export function AirdropApp({
   channel,
   initialApplications,
   initialApplicationTotal,
-  remainingBudgetTon,
+  initialRemainingBudgetTon,
   rewardTon,
   totalBudgetTon,
 }: AirdropAppProps) {
@@ -103,6 +104,9 @@ export function AirdropApp({
     useState(initialApplications);
   const [statusPage, setStatusPage] = useState(1);
   const [statusTotal, setStatusTotal] = useState(initialApplicationTotal);
+  const [remainingBudgetTon, setRemainingBudgetTon] = useState(
+    initialRemainingBudgetTon,
+  );
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus | null>(null);
   const [participateMode, setParticipateMode] =
@@ -138,6 +142,10 @@ export function AirdropApp({
     };
   }, []);
 
+  useEffect(() => {
+    void loadStatusPage(1);
+  }, []);
+
   async function loadStatusPage(page: number) {
     setIsLoadingStatus(true);
     setStatusMessage(null);
@@ -158,6 +166,7 @@ export function AirdropApp({
       setStatusApplications(result.applications);
       setStatusPage(result.page);
       setStatusTotal(result.total);
+      setRemainingBudgetTon(result.remainingBudgetTon ?? null);
     } catch (error) {
       setStatusMessage(
         error instanceof Error

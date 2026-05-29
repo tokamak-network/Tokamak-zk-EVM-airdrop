@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     siteName: "Tonnel",
     images: [
       {
-        url: "/tonnel-airdrop-poster.png",
-        width: 1672,
-        height: 941,
+        url: "/tonnel-airdrop-poster.jpg",
+        width: 1200,
+        height: 675,
         alt: "TON AIRDROP ON TONNEL",
       },
     ],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/tonnel-airdrop-poster.png"],
+    images: ["/tonnel-airdrop-poster.jpg"],
   },
   robots: {
     index: true,

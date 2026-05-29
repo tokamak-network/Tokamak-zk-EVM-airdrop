@@ -6,6 +6,7 @@ import {
   hasSubmittedTransaction,
   listApplications,
 } from "@/lib/applications";
+import { getEventState } from "@/lib/event-state";
 import {
   reserveRegistrationSlot,
   rollbackRegistrationSlot,
@@ -26,11 +27,16 @@ export async function GET(request: Request) {
     const totalPages = Math.max(Math.ceil(total / publicPageSize), 1);
     const safePage = Math.min(page, totalPages);
     const offset = (safePage - 1) * publicPageSize;
+    const [applications, eventState] = await Promise.all([
+      listApplications(publicPageSize, offset),
+      getEventState(),
+    ]);
 
     return NextResponse.json({
-      applications: await listApplications(publicPageSize, offset),
+      applications,
       page: safePage,
       pageSize: publicPageSize,
+      remainingBudgetTon: eventState?.remainingBudgetTon ?? null,
       total,
       totalPages,
     });
