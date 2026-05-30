@@ -559,11 +559,6 @@ function ParticipateModeToggle({
 function ParticipationSteps({ channel }: { channel: string }) {
   return (
     <div className="participationPanel">
-      <p className="participationIntro">
-        This path is for users who are comfortable directing an LLM agent. Even
-        experienced engineers should ask their agent how to run each step,
-        because private-state CLI usage is its own workflow.
-      </p>
       <ol className="participationList">
         <li>
           Ask your AI agent how to install or update the latest{" "}
