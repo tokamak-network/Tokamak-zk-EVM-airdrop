@@ -180,7 +180,7 @@ async function processApplication(
   } catch (error) {
     const message = getErrorMessage(error);
     const reason: FailureReason = isRecipientCannotReceiveNotesError(error)
-      ? "recipient_cannot_receive_notes"
+      ? "reward_l2_address_unresolved"
       : "internal_payout_error";
 
     await failApplication(current.id, [reason], message, summary);
@@ -204,7 +204,7 @@ async function verifyApplication(
 
     if (!result.valid) {
       const reason: FailureReason = isSubmitterNotJoinedReason(result.reason)
-        ? "submitter_not_joined"
+        ? "reward_l2_address_unresolved"
         : "internal_payout_error";
 
       await failApplication(application.id, [reason], result.reason, summary);

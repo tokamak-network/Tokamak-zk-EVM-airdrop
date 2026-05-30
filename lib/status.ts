@@ -11,8 +11,7 @@ export function isApplicationStatus(value: string): value is ApplicationStatus {
 }
 
 export const FAILURE_REASONS = [
-  "submitter_not_joined",
-  "recipient_cannot_receive_notes",
+  "reward_l2_address_unresolved",
   "duplicate_transaction",
   "duplicate_channel_account",
   "internal_payout_error",
@@ -21,10 +20,8 @@ export const FAILURE_REASONS = [
 export type FailureReason = (typeof FAILURE_REASONS)[number];
 
 export const failureReasonMessages: Record<FailureReason, string> = {
-  submitter_not_joined:
-    "The submitting wallet is not currently joined to the channel.",
-  recipient_cannot_receive_notes:
-    "The reward recipient address is not currently ready to receive private notes in the channel.",
+  reward_l2_address_unresolved:
+    "The reward recipient L2 address could not be resolved.",
   duplicate_transaction:
     "This transaction hash has already been submitted or rewarded.",
   duplicate_channel_account:

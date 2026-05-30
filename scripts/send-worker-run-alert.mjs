@@ -53,8 +53,7 @@ if (summary) {
 
   if (summary.failureReasons) {
     lines.push(
-      `Submitter not joined: ${summary.failureReasons.submitter_not_joined ?? 0}`,
-      `Recipient cannot receive notes: ${summary.failureReasons.recipient_cannot_receive_notes ?? 0}`,
+      `Reward L2 address unresolved: ${summary.failureReasons.reward_l2_address_unresolved ?? 0}`,
       `Duplicate transaction: ${summary.failureReasons.duplicate_transaction ?? 0}`,
       `Duplicate channel account: ${summary.failureReasons.duplicate_channel_account ?? 0}`,
       `Internal payout error: ${summary.failureReasons.internal_payout_error ?? 0}`,
