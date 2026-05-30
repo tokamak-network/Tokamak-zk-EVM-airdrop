@@ -614,10 +614,7 @@ function AgentPromptGuide({ channel }: { channel: string }) {
   return (
     <div className="agentPromptPanel">
       <p className="participationIntro">
-        If you are not technical, copy this prompt into your own LLM agent. It
-        tells the agent to detect your OS, use Ankr for Ethereum RPC, protect
-        secrets, prepare a burner MetaMask account, and guide you to the exact
-        transfer notes transaction hash.
+        If you are not technical, copy this prompt into your own LLM agent.
       </p>
       <ul className="promptSafetyList">
         <li>Never paste your seed phrase or private key into chat.</li>
