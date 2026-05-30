@@ -543,7 +543,7 @@ h1 {
 }
 
 .contentSection .agentPromptBox {
-  max-height: 420px;
+  max-height: 280px;
   min-width: 0;
   margin: 0;
   overflow: auto;
