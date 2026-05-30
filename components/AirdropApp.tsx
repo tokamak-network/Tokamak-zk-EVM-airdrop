@@ -886,75 +886,131 @@ function SubmitStatusCard({ status }: { status: SubmitStatus }) {
 }
 
 function StatusTable({ applications }: { applications: Application[] }) {
+  const [tooltip, setTooltip] = useState<{
+    text: string;
+    x: number;
+    y: number;
+  } | null>(null);
+
   if (applications.length === 0) {
     return <p className="emptyState">No submissions yet.</p>;
   }
 
   return (
-    <div className="statusTableWrap">
-      <table className="statusTable">
-        <colgroup>
-          <col className="statusColHash" />
-          <col className="statusColStatus" />
-          <col className="statusColTime" />
-          <col className="statusColPayout" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Transaction hash</th>
-            <th>Status</th>
-            <th>Submitted time</th>
-            <th>Payout</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.slice(0, 10).map((application) => (
-            <tr key={application.id}>
-              <td
-                data-label="Transaction"
-                title={application.qualifyingTxHash}
-              >
-                <a
-                  className="hashCell hashLink"
-                  href={etherscanTxUrl(application.qualifyingTxHash)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span className="fileIcon" aria-hidden="true" />
-                  <span>{shortenHash(application.qualifyingTxHash)}</span>
-                </a>
-              </td>
-              <td data-label="Status">
-                <span
-                  className={`statusPill ${statusClassNames[application.status]}`}
-                  title={getStatusTitle(application)}
-                >
-                  <span className="statusDot" aria-hidden="true" />
-                  {application.status}
-                </span>
-              </td>
-              <td data-label="Submitted">
-                {formatCreatedAt(application.createdAt)}
-              </td>
-              <td data-label="Payout" title={application.payoutTxHash ?? ""}>
-                {application.payoutTxHash ? (
-                  <a
-                    className="receiptText"
-                    href={etherscanTxUrl(application.payoutTxHash)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {shortenHash(application.payoutTxHash)}
-                  </a>
-                ) : (
-                  <span className="mutedDash">-</span>
-                )}
-              </td>
+    <>
+      <div className="statusTableWrap">
+        <table className="statusTable">
+          <colgroup>
+            <col className="statusColHash" />
+            <col className="statusColStatus" />
+            <col className="statusColTime" />
+            <col className="statusColPayout" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Transaction hash</th>
+              <th>Status</th>
+              <th>Submitted time</th>
+              <th>Payout</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {applications.slice(0, 10).map((application) => {
+              const statusTitle = getStatusTitle(application);
+
+              return (
+                <tr key={application.id}>
+                  <td
+                    data-label="Transaction"
+                    title={application.qualifyingTxHash}
+                  >
+                    <a
+                      className="hashCell hashLink"
+                      href={etherscanTxUrl(application.qualifyingTxHash)}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="fileIcon" aria-hidden="true" />
+                      <span>{shortenHash(application.qualifyingTxHash)}</span>
+                    </a>
+                  </td>
+                  <td data-label="Status">
+                    <span
+                      aria-label={statusTitle}
+                      className={`statusPill ${statusClassNames[application.status]}`}
+                      onBlur={() => setTooltip(null)}
+                      onFocus={(event) => {
+                        if (statusTitle) {
+                          setTooltip(
+                            getTooltipStateFromElement(
+                              event.currentTarget,
+                              statusTitle,
+                            ),
+                          );
+                        }
+                      }}
+                      onMouseEnter={(event) => {
+                        if (statusTitle) {
+                          setTooltip(
+                            getTooltipStateFromPointer(
+                              event.clientX,
+                              event.clientY,
+                              statusTitle,
+                            ),
+                          );
+                        }
+                      }}
+                      onMouseLeave={() => setTooltip(null)}
+                      onMouseMove={(event) => {
+                        if (statusTitle) {
+                          setTooltip(
+                            getTooltipStateFromPointer(
+                              event.clientX,
+                              event.clientY,
+                              statusTitle,
+                            ),
+                          );
+                        }
+                      }}
+                      tabIndex={statusTitle ? 0 : undefined}
+                    >
+                      <span className="statusDot" aria-hidden="true" />
+                      {application.status}
+                    </span>
+                  </td>
+                  <td data-label="Submitted">
+                    {formatCreatedAt(application.createdAt)}
+                  </td>
+                  <td data-label="Payout" title={application.payoutTxHash ?? ""}>
+                    {application.payoutTxHash ? (
+                      <a
+                        className="receiptText"
+                        href={etherscanTxUrl(application.payoutTxHash)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {shortenHash(application.payoutTxHash)}
+                      </a>
+                    ) : (
+                      <span className="mutedDash">-</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {tooltip ? (
+        <div
+          className="statusTooltip"
+          role="tooltip"
+          style={{ left: tooltip.x, top: tooltip.y }}
+        >
+          {tooltip.text}
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -1019,6 +1075,28 @@ function getNextPayoutTime(now: Date): Date {
   next.setHours(0, 0, 0, 0);
 
   return next;
+}
+
+function getTooltipStateFromPointer(x: number, y: number, text: string) {
+  return {
+    text,
+    x: clampTooltipX(x + 14),
+    y: Math.min(y + 18, window.innerHeight - 24),
+  };
+}
+
+function getTooltipStateFromElement(element: HTMLElement, text: string) {
+  const rect = element.getBoundingClientRect();
+
+  return {
+    text,
+    x: clampTooltipX(rect.left + rect.width / 2),
+    y: Math.min(rect.bottom + 10, window.innerHeight - 24),
+  };
+}
+
+function clampTooltipX(x: number): number {
+  return Math.min(Math.max(x, 16), Math.max(window.innerWidth - 340, 16));
 }
 
 function StatusPagination({

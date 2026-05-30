@@ -663,6 +663,15 @@ input:focus {
   line-height: 1;
 }
 
+.statusPill[tabindex="0"] {
+  cursor: help;
+}
+
+.statusPill:focus-visible {
+  outline: 2px solid rgba(123, 243, 255, 0.65);
+  outline-offset: 3px;
+}
+
 .statusPill.Pending {
   background: rgba(255, 230, 109, 0.18);
   color: #ffe66d;
@@ -684,6 +693,24 @@ input:focus {
   border-radius: 999px;
   background: currentColor;
   box-shadow: 0 0 12px currentColor;
+}
+
+.statusTooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: min(340px, calc(100vw - 32px));
+  border: 1px solid rgba(175, 218, 255, 0.22);
+  border-radius: 8px;
+  background: rgba(5, 12, 25, 0.97);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+  color: rgba(236, 246, 255, 0.94);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.45;
+  padding: 9px 11px;
+  pointer-events: none;
+  white-space: pre-line;
 }
 
 .modeToggle {
