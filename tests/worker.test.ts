@@ -113,7 +113,7 @@ test("runAirdropWorker marks unclassified verification failures as internal payo
   });
 });
 
-test("runAirdropWorker marks unresolved reward L2 addresses as failed", async () => {
+test("runAirdropWorker marks unresolved reward channel addresses as failed", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"b".repeat(64)}`;
     await createApplication({ qualifyingTxHash: txHash });
@@ -143,10 +143,10 @@ test("runAirdropWorker marks unresolved reward L2 addresses as failed", async ()
     const application = await findApplication(txHash);
 
     assert.equal(summary.failed, 1);
-    assert.equal(summary.failureReasons.reward_l2_address_unresolved, 1);
+    assert.equal(summary.failureReasons.reward_channel_address_unresolved, 1);
     assert.equal(application?.status, "Failed");
     assert.deepEqual(application?.failureReasons, [
-      "reward_l2_address_unresolved",
+      "reward_channel_address_unresolved",
     ]);
   });
 });
@@ -399,7 +399,7 @@ test("runAirdropWorker does not retry non-stale transfer failures", async () => 
   });
 });
 
-test("runAirdropWorker classifies note-receive key failures as unresolved reward L2 addresses", async () => {
+test("runAirdropWorker classifies note-receive key failures as unresolved reward channel addresses", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"5".repeat(64)}`;
     const created = await createApplication({ qualifyingTxHash: txHash });
@@ -436,10 +436,10 @@ test("runAirdropWorker classifies note-receive key failures as unresolved reward
     const application = await findApplication(txHash);
 
     assert.equal(summary.failed, 1);
-    assert.equal(summary.failureReasons.reward_l2_address_unresolved, 1);
+    assert.equal(summary.failureReasons.reward_channel_address_unresolved, 1);
     assert.equal(application?.status, "Failed");
     assert.deepEqual(application?.failureReasons, [
-      "reward_l2_address_unresolved",
+      "reward_channel_address_unresolved",
     ]);
   });
 });

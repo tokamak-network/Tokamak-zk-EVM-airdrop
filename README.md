@@ -24,7 +24,7 @@ Never share your Ethereum wallet private key or any secrets with others includin
 
 - The submitted transaction hash must be from a real private-state transfer notes transaction made in Tonnel.
 - The Ethereum wallet address that sent the transaction must have been joined to Tonnel when the transaction happened.
-- The reward is sent to the Tonnel channel address (L2 address) registered to that Ethereum wallet address at that time.
+- The reward is sent to the Tonnel Tonnel channel address registered to that Ethereum wallet address at that time.
 - A Tonnel channel address can receive only one reward.
 - A transaction hash can be used only once.
 

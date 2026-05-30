@@ -47,7 +47,7 @@ const privateStateInterface = new Interface([
   "function transferNotes1To1()",
 ]);
 
-test("verifySubmittedTransaction accepts a transferNotes tx and resolves the current registered L2 address", async () => {
+test("verifySubmittedTransaction accepts a transferNotes tx and resolves the current registered Tonnel channel address", async () => {
   const result = await verifySubmittedTransaction(
     createConfig(),
     txHash,
@@ -343,7 +343,7 @@ test("verifySubmittedTransaction rejects transferNotes txs when submitter is not
   );
 });
 
-test("verifySubmittedTransaction rejects transferNotes txs when current registration has no L2 address", async () => {
+test("verifySubmittedTransaction rejects transferNotes txs when current registration has no Tonnel channel address", async () => {
   const result = await verifySubmittedTransaction(
     createConfig(),
     txHash,

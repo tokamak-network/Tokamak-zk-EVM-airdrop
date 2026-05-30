@@ -161,7 +161,7 @@ async function processApplication(
     await failApplication(
       current.id,
       ["internal_payout_error"],
-      "Verified application is missing a resolved L2 address.",
+      "Verified application is missing a resolved Tonnel channel address.",
       summary,
     );
     return true;
@@ -180,7 +180,7 @@ async function processApplication(
   } catch (error) {
     const message = getErrorMessage(error);
     const reason: FailureReason = isRecipientCannotReceiveNotesError(error)
-      ? "reward_l2_address_unresolved"
+      ? "reward_channel_address_unresolved"
       : "internal_payout_error";
 
     await failApplication(current.id, [reason], message, summary);
@@ -204,7 +204,7 @@ async function verifyApplication(
 
     if (!result.valid) {
       const reason: FailureReason = isSubmitterNotJoinedReason(result.reason)
-        ? "reward_l2_address_unresolved"
+        ? "reward_channel_address_unresolved"
         : "internal_payout_error";
 
       await failApplication(application.id, [reason], result.reason, summary);

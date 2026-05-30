@@ -11,7 +11,7 @@ export function isApplicationStatus(value: string): value is ApplicationStatus {
 }
 
 export const FAILURE_REASONS = [
-  "reward_l2_address_unresolved",
+  "reward_channel_address_unresolved",
   "duplicate_transaction",
   "duplicate_channel_account",
   "internal_payout_error",
@@ -20,8 +20,8 @@ export const FAILURE_REASONS = [
 export type FailureReason = (typeof FAILURE_REASONS)[number];
 
 export const failureReasonMessages: Record<FailureReason, string> = {
-  reward_l2_address_unresolved:
-    "The reward recipient L2 address could not be resolved.",
+  reward_channel_address_unresolved:
+    "The reward recipient Tonnel channel address could not be resolved.",
   duplicate_transaction:
     "This transaction hash has already been submitted or rewarded.",
   duplicate_channel_account:

@@ -134,7 +134,9 @@ export async function getRewardWalletL2Address(
   ]);
 
   if (!address) {
-    throw new Error("Could not resolve reward wallet L2 address from wallet metadata.");
+    throw new Error(
+      "Could not resolve reward wallet Tonnel channel address from wallet metadata.",
+    );
   }
 
   return getAddress(address);

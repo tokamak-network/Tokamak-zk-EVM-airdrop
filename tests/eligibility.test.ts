@@ -55,7 +55,7 @@ test("checkEligibility reports transaction ineligible when worker verification r
   });
 });
 
-test("checkEligibility reports duplicate when the resolved L2 address was already transferred", async () => {
+test("checkEligibility reports duplicate when the resolved Tonnel channel address was already transferred", async () => {
   await withTempDbAsync(async () => {
     const existing = await createApplication({
       qualifyingTxHash: `0x${"b".repeat(64)}`,
@@ -80,12 +80,12 @@ test("checkEligibility reports duplicate when the resolved L2 address was alread
 
     assert.deepEqual(result, {
       eligible: false,
-      reason: "L2 address duplicate",
+      reason: "Tonnel channel address duplicate",
     });
   });
 });
 
-test("checkEligibility accepts a verified transaction with no transferred L2 duplicate", async () => {
+test("checkEligibility accepts a verified transaction with no transferred Tonnel channel address duplicate", async () => {
   await withTempDbAsync(async () => {
     const result = await checkEligibility(`0x${"e".repeat(64)}`, {
       getConfig: () => config,

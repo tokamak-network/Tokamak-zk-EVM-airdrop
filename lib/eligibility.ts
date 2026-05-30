@@ -18,7 +18,7 @@ export type EligibilityCheckResult =
       reason:
         | "Transaction duplicate"
         | "Transaction ineligible"
-        | "L2 address duplicate";
+        | "Tonnel channel address duplicate";
     };
 
 type EligibilityDependencies = {
@@ -62,7 +62,7 @@ export async function checkEligibility(
   if (await transferredL2Check(verification.resolvedL2Address)) {
     return {
       eligible: false,
-      reason: "L2 address duplicate",
+      reason: "Tonnel channel address duplicate",
     };
   }
 

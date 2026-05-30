@@ -183,13 +183,13 @@ function migrateSqlite(db: DatabaseSync): void {
 
   db.exec(`
     UPDATE applications
-       SET failure_reasons_json = '["reward_l2_address_unresolved"]',
+       SET failure_reasons_json = '["reward_channel_address_unresolved"]',
            status = 'Failed'
      WHERE status = 'Invalid tx'
        AND reason = 'Transaction submitter is not currently registered in Tonnel.';
 
     UPDATE applications
-       SET failure_reasons_json = '["reward_l2_address_unresolved"]',
+       SET failure_reasons_json = '["reward_channel_address_unresolved"]',
            status = 'Failed'
      WHERE status = 'Failed'
        AND reason LIKE '%missing a registered note-receive public key%';
@@ -197,15 +197,20 @@ function migrateSqlite(db: DatabaseSync): void {
     UPDATE applications
        SET failure_reasons_json = replace(
              replace(
-               failure_reasons_json,
-               '"submitter_not_joined"',
-               '"reward_l2_address_unresolved"'
+               replace(
+                 failure_reasons_json,
+                 '"submitter_not_joined"',
+                 '"reward_channel_address_unresolved"'
+               ),
+               '"recipient_cannot_receive_notes"',
+               '"reward_channel_address_unresolved"'
              ),
-             '"recipient_cannot_receive_notes"',
-             '"reward_l2_address_unresolved"'
+             '"reward_' || 'l2_address_unresolved"',
+             '"reward_channel_address_unresolved"'
            )
      WHERE failure_reasons_json LIKE '%submitter_not_joined%'
-        OR failure_reasons_json LIKE '%recipient_cannot_receive_notes%';
+        OR failure_reasons_json LIKE '%recipient_cannot_receive_notes%'
+        OR failure_reasons_json LIKE '%' || 'reward_' || 'l2_address_unresolved' || '%';
 
     UPDATE applications
        SET failure_reasons_json = CASE
@@ -319,14 +324,14 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_city TEXT",
   `
     UPDATE applications
-       SET failure_reasons_json = '["reward_l2_address_unresolved"]',
+       SET failure_reasons_json = '["reward_channel_address_unresolved"]',
            status = 'Failed'
      WHERE status = 'Invalid tx'
        AND reason = 'Transaction submitter is not currently registered in Tonnel.'
   `,
   `
     UPDATE applications
-       SET failure_reasons_json = '["reward_l2_address_unresolved"]',
+       SET failure_reasons_json = '["reward_channel_address_unresolved"]',
            status = 'Failed'
      WHERE status = 'Failed'
        AND reason LIKE '%missing a registered note-receive public key%'
@@ -335,15 +340,20 @@ const postgresMigrations = [
     UPDATE applications
        SET failure_reasons_json = replace(
              replace(
-               failure_reasons_json,
-               '"submitter_not_joined"',
-               '"reward_l2_address_unresolved"'
+               replace(
+                 failure_reasons_json,
+                 '"submitter_not_joined"',
+                 '"reward_channel_address_unresolved"'
+               ),
+               '"recipient_cannot_receive_notes"',
+               '"reward_channel_address_unresolved"'
              ),
-             '"recipient_cannot_receive_notes"',
-             '"reward_l2_address_unresolved"'
+             '"reward_' || 'l2_address_unresolved"',
+             '"reward_channel_address_unresolved"'
            )
      WHERE failure_reasons_json LIKE '%submitter_not_joined%'
         OR failure_reasons_json LIKE '%recipient_cannot_receive_notes%'
+        OR failure_reasons_json LIKE '%' || 'reward_' || 'l2_address_unresolved' || '%'
   `,
   `
     UPDATE applications

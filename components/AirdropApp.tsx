@@ -49,7 +49,7 @@ type EligibilityResult = {
   reason:
     | "Transaction duplicate"
     | "Transaction ineligible"
-    | "L2 address duplicate"
+    | "Tonnel channel address duplicate"
     | null;
 };
 
@@ -177,7 +177,7 @@ export function AirdropApp({
       (result.reason !== null &&
         result.reason !== "Transaction duplicate" &&
         result.reason !== "Transaction ineligible" &&
-        result.reason !== "L2 address duplicate")
+        result.reason !== "Tonnel channel address duplicate")
     ) {
       throw new ApiRequestError(
         result.error ?? "Eligibility check failed.",
@@ -638,7 +638,7 @@ Event facts:
 - Required transaction: a real private-state \`transfer notes\` transaction on Tonnel
 - The submitted hash must be the Ethereum transaction hash for the \`transfer notes\` transaction, not the join, deposit, approval, or setup transaction
 - Duplicate Ethereum transaction hashes do not receive another reward
-- Duplicate resolved Tonnel L2/channel addresses do not receive another reward
+- Duplicate resolved Tonnel channel addresses do not receive another reward
 
 Safety rules:
 - Never ask me to paste my seed phrase, private key, RPC API key, or any secret into this chat.
@@ -677,7 +677,7 @@ Interactive checklist:
 7. Check that the burner account has enough ETH for Ethereum mainnet gas and enough Tonnel-compatible TON on Ethereum mainnet for the 4 TON channel entry fee and the private-state transfer flow. If anything is missing, stop and tell me exactly what is missing.
 8. Check whether the account is already joined to \`${channel}\`. If not, prepare the join transaction on Ethereum mainnet, show what will be spent, and wait for my confirmation before broadcasting.
 9. Create a new local Tonnel/private-state wallet workspace unless I already have one. If recovery is needed, handle recovery secrets only locally and never through chat. Use the Ankr RPC URL for recovery.
-10. Prepare one small valid private-state \`transfer notes\` transaction on Tonnel. If a recipient L2/channel address is required, use only an address I control or a CLI-supported self-transfer flow. Verify this before broadcasting.
+10. Prepare one small valid private-state \`transfer notes\` transaction on Tonnel. If a recipient Tonnel channel address is required, use only an address I control or a CLI-supported self-transfer flow. Verify this before broadcasting.
 11. Before broadcasting the \`transfer notes\` transaction, show me the network, channel, sender, recipient, estimated gas/TON effects, and confirm that this is the airdrop-eligible transaction type. Wait for my explicit confirmation.
 12. After success, find the Ethereum transaction hash for that \`transfer notes\` transaction. Confirm it is a 66-character \`0x...\` hash and explicitly confirm it is not the join, deposit, approval, import, or setup hash.
 13. Tell me to open https://airdrop.tonnel.io, paste that transaction hash into the Submit form, and check the status after submission.
@@ -722,7 +722,7 @@ function WinnerCriteria() {
       </li>
       <li>
         We send the reward to the <span className="accentText">Tonnel</span>{" "}
-        channel address (L2 address) that was registered to that Ethereum wallet
+        Tonnel channel address that was registered to that Ethereum wallet
         address at that time.
       </li>
       <li>
@@ -781,7 +781,7 @@ function buildIneligibleSubmitStatus(
     };
   }
 
-  if (reason === "L2 address duplicate") {
+  if (reason === "Tonnel channel address duplicate") {
     return {
       guidance:
         "The Tonnel channel address resolved from this transaction has already received a reward. Ask your AI agent to prepare a new eligible Tonnel participation and submit a new private-state transfer notes transaction hash.",
