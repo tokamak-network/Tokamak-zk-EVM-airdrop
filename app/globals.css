@@ -673,16 +673,6 @@ input:focus {
   color: #a7ffd9;
 }
 
-.statusPill.Duplication {
-  background: rgba(255, 159, 67, 0.18);
-  color: #ffd0a0;
-}
-
-.statusPill.InvalidTx {
-  background: rgba(255, 79, 139, 0.16);
-  color: #ffb3cc;
-}
-
 .statusPill.Failed {
   background: rgba(255, 79, 139, 0.16);
   color: #ffb3cc;

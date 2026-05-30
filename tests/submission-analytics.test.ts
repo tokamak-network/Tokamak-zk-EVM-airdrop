@@ -3,7 +3,7 @@ import test from "node:test";
 
 import {
   createApplication,
-  markInvalidTx,
+  markFailed,
   markTransferred,
   markVerified,
 } from "@/lib/applications";
@@ -37,7 +37,11 @@ test("getSubmissionAnalytics summarizes unique submitters and duplicate clusters
       "0x00000000000000000000000000000000000000a1",
       "0x00000000000000000000000000000000000000b2",
     );
-    await markInvalidTx(third.application.id, "not a transfer notes tx");
+    await markFailed(
+      third.application.id,
+      ["internal_payout_error"],
+      "not a transfer notes tx",
+    );
 
     const analytics = await getSubmissionAnalytics();
 

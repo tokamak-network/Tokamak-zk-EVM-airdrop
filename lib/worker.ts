@@ -1,14 +1,13 @@
 import {
   countTransferredApplications,
-  getPendingForVerification,
-  getVerifiedPendingForPayout,
-  hasTransferredDuplicate,
-  markDuplication,
+  getApplicationById,
+  getNextPendingApplication,
+  getTransferredDuplicateReasons,
   markFailed,
-  markInvalidTx,
   markTransferred,
   markVerified,
 } from "@/lib/applications";
+import type { Application } from "@/lib/applications";
 import { type AppConfig, getConfig } from "@/lib/config";
 import { markWorkerRun, upsertBudgetSync } from "@/lib/event-state";
 import {
@@ -25,15 +24,15 @@ import {
   sumRewardNotes,
 } from "@/lib/reward-notes";
 import { verifySubmittedTransaction } from "@/lib/rpc-verifier";
+import { FAILURE_REASONS, type FailureReason } from "@/lib/status";
 
 export type WorkerSummary = {
   verified: number;
   transferred: number;
-  duplicated: number;
-  invalidTx: number;
   failed: number;
   skippedPayouts: number;
   remainingBudgetTon: number | null;
+  failureReasons: Record<FailureReason, number>;
 };
 
 export type WorkerDependencies = {
@@ -74,11 +73,10 @@ export async function runAirdropWorker(
   const summary: WorkerSummary = {
     verified: 0,
     transferred: 0,
-    duplicated: 0,
-    invalidTx: 0,
     failed: 0,
     skippedPayouts: 0,
     remainingBudgetTon: null,
+    failureReasons: createFailureReasonCounts(),
   };
 
   try {
@@ -99,88 +97,135 @@ async function runWorkerSteps(
 
   await dependencies.preparePrivateStateCli(config);
   await dependencies.recoverRewardWalletWorkspace(config);
-  await verifyPendingApplications(summary, dependencies);
 
   const rewardWallet = await dependencies.resolveRewardWalletName(config);
   await syncBudget(summary, rewardWallet, dependencies);
-  await payoutVerifiedApplications(summary, rewardWallet, dependencies);
-  await syncBudget(summary, rewardWallet, dependencies);
-}
 
-async function verifyPendingApplications(
-  summary: WorkerSummary,
-  dependencies: WorkerDependencies,
-): Promise<void> {
-  const config = dependencies.getConfig();
+  while (true) {
+    const application = await getNextPendingApplication();
 
-  for (const application of await getPendingForVerification()) {
-    try {
-      const result = await dependencies.verifySubmittedTransaction(
-        config,
-        application.qualifyingTxHash,
-      );
+    if (!application) {
+      break;
+    }
 
-      if (result.valid) {
-        await markVerified(
-          application.id,
-          result.resolvedL1Address,
-          result.resolvedL2Address,
-        );
-        summary.verified += 1;
-      } else {
-        await markInvalidTx(application.id, result.reason);
-        summary.invalidTx += 1;
-      }
-    } catch (error) {
-      await markFailed(application.id, getErrorMessage(error));
-      summary.failed += 1;
+    const shouldContinue = await processApplication(
+      application,
+      summary,
+      rewardWallet,
+      dependencies,
+    );
+    await syncBudget(summary, rewardWallet, dependencies);
+
+    if (!shouldContinue) {
+      break;
     }
   }
 }
 
-async function payoutVerifiedApplications(
+async function processApplication(
+  application: Application,
   summary: WorkerSummary,
   rewardWallet: string,
   dependencies: WorkerDependencies,
-): Promise<void> {
+): Promise<boolean> {
   const config = dependencies.getConfig();
+  let current = application;
 
-  if (config.payoutsPaused) {
-    summary.skippedPayouts += (await getVerifiedPendingForPayout()).length;
-    return;
+  if (!current.verifiedAt) {
+    const verificationCompleted = await verifyApplication(
+      current,
+      summary,
+      dependencies,
+    );
+
+    if (!verificationCompleted) {
+      return true;
+    }
+
+    current = (await getApplicationById(current.id)) ?? current;
   }
 
-  for (const application of await getVerifiedPendingForPayout()) {
-    if (await hasTransferredDuplicate(application)) {
-      await markDuplication(
-        application.id,
-        "A transferred application already exists for this resolved L2 address or transaction hash.",
-      );
-      summary.duplicated += 1;
-      continue;
+  if (config.payoutsPaused) {
+    summary.skippedPayouts += 1;
+    return false;
+  }
+
+  const duplicateReasons = await getTransferredDuplicateReasons(current);
+
+  if (duplicateReasons.length > 0) {
+    await failApplication(current.id, duplicateReasons, null, summary);
+    return true;
+  }
+
+  if (!current.resolvedL2Address) {
+    await failApplication(
+      current.id,
+      ["internal_payout_error"],
+      "Verified application is missing a resolved L2 address.",
+      summary,
+    );
+    return true;
+  }
+
+  try {
+    const payoutTxHash = await transferRewardWithStaleRetry(
+      config,
+      rewardWallet,
+      current.resolvedL2Address,
+      dependencies,
+    );
+
+    await markTransferred(current.id, payoutTxHash);
+    summary.transferred += 1;
+  } catch (error) {
+    const message = getErrorMessage(error);
+    const reason: FailureReason = isRecipientCannotReceiveNotesError(error)
+      ? "recipient_cannot_receive_notes"
+      : "internal_payout_error";
+
+    await failApplication(current.id, [reason], message, summary);
+  }
+
+  return true;
+}
+
+async function verifyApplication(
+  application: Application,
+  summary: WorkerSummary,
+  dependencies: WorkerDependencies,
+): Promise<boolean> {
+  const config = dependencies.getConfig();
+
+  try {
+    const result = await dependencies.verifySubmittedTransaction(
+      config,
+      application.qualifyingTxHash,
+    );
+
+    if (!result.valid) {
+      const reason: FailureReason = isSubmitterNotJoinedReason(result.reason)
+        ? "submitter_not_joined"
+        : "internal_payout_error";
+
+      await failApplication(application.id, [reason], result.reason, summary);
+      return false;
     }
 
-    if (!application.resolvedL2Address) {
-      await markFailed(application.id, "Verified application is missing a resolved L2 address.");
-      summary.failed += 1;
-      continue;
-    }
-
-    try {
-      const payoutTxHash = await transferRewardWithStaleRetry(
-        config,
-        rewardWallet,
-        application.resolvedL2Address,
-        dependencies,
-      );
-
-      await markTransferred(application.id, payoutTxHash);
-      summary.transferred += 1;
-      await syncBudget(summary, rewardWallet, dependencies);
-    } catch (error) {
-      await markFailed(application.id, getErrorMessage(error));
-      summary.failed += 1;
-    }
+    await markVerified(
+      application.id,
+      result.resolvedL1Address,
+      result.resolvedL2Address,
+    );
+    summary.verified += 1;
+    return true;
+  } catch (error) {
+    await failApplication(
+      application.id,
+      ["internal_payout_error"],
+      getErrorMessage(error),
+      summary,
+    );
+    return false;
   }
 }
 
@@ -284,6 +329,36 @@ function isRecoverableWorkspaceError(error: unknown): boolean {
     message.includes("unexpectedcurrentrootvector") ||
     message.includes("0x8b1a1fc7")
   );
+}
+
+function isSubmitterNotJoinedReason(reason: string): boolean {
+  return reason === "Transaction submitter is not currently registered in Tonnel.";
+}
+
+function isRecipientCannotReceiveNotesError(error: unknown): boolean {
+  return getErrorMessage(error)
+    .toLowerCase()
+    .includes("missing a registered note-receive public key");
+}
+
+async function failApplication(
+  id: string,
+  reasons: FailureReason[],
+  rawReason: string | null,
+  summary: WorkerSummary,
+): Promise<void> {
+  await markFailed(id, reasons, rawReason);
+  summary.failed += 1;
+
+  for (const reason of reasons) {
+    summary.failureReasons[reason] += 1;
+  }
+}
+
+function createFailureReasonCounts(): Record<FailureReason, number> {
+  return Object.fromEntries(
+    FAILURE_REASONS.map((reason) => [reason, 0]),
+  ) as Record<FailureReason, number>;
 }
 
 function needsChangeAddress(

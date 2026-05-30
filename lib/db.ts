@@ -141,8 +141,9 @@ function migrateSqlite(db: DatabaseSync): void {
       qualifying_tx_hash TEXT NOT NULL,
       resolved_l1_address TEXT,
       resolved_l2_address TEXT,
-      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed')),
+      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Failed')),
       reason TEXT,
+      failure_reasons_json TEXT,
       payout_tx_hash TEXT,
       verified_at TEXT,
       transferred_at TEXT,
@@ -162,9 +163,8 @@ function migrateSqlite(db: DatabaseSync): void {
     CREATE INDEX IF NOT EXISTS idx_applications_tx_hash
       ON applications (qualifying_tx_hash);
 
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_active_tx_hash
-      ON applications (qualifying_tx_hash)
-      WHERE status != 'Duplication';
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_tx_hash
+      ON applications (qualifying_tx_hash);
 
     CREATE INDEX IF NOT EXISTS idx_applications_status
       ON applications (status);
@@ -172,6 +172,7 @@ function migrateSqlite(db: DatabaseSync): void {
 
   addColumnIfMissing(db, "applications", "resolved_l1_address", "TEXT");
   addColumnIfMissing(db, "applications", "resolved_l2_address", "TEXT");
+  addColumnIfMissing(db, "applications", "failure_reasons_json", "TEXT");
   addColumnIfMissing(db, "applications", "transferred_at", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_ip_hash", "TEXT");
   addColumnIfMissing(db, "applications", "submitter_ip_hash_version", "TEXT");
@@ -181,6 +182,60 @@ function migrateSqlite(db: DatabaseSync): void {
   addColumnIfMissing(db, "applications", "submitter_city", "TEXT");
 
   db.exec(`
+    UPDATE applications
+       SET failure_reasons_json = '["submitter_not_joined"]',
+           status = 'Failed'
+     WHERE status = 'Invalid tx'
+       AND reason = 'Transaction submitter is not currently registered in Tonnel.';
+
+    UPDATE applications
+       SET failure_reasons_json = '["recipient_cannot_receive_notes"]',
+           status = 'Failed'
+     WHERE status = 'Failed'
+       AND reason LIKE '%missing a registered note-receive public key%';
+
+    UPDATE applications
+       SET failure_reasons_json = CASE
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.qualifying_tx_hash = applications.qualifying_tx_hash
+             )
+             AND EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.resolved_l2_address = applications.resolved_l2_address
+                  AND applications.resolved_l2_address IS NOT NULL
+             )
+               THEN '["duplicate_transaction","duplicate_channel_account"]'
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.qualifying_tx_hash = applications.qualifying_tx_hash
+             )
+               THEN '["duplicate_transaction"]'
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.resolved_l2_address = applications.resolved_l2_address
+                  AND applications.resolved_l2_address IS NOT NULL
+             )
+               THEN '["duplicate_channel_account"]'
+             ELSE '["internal_payout_error"]'
+           END,
+           status = 'Failed'
+     WHERE status = 'Duplication';
+
+    UPDATE applications
+       SET failure_reasons_json = '["internal_payout_error"]',
+           status = 'Failed'
+     WHERE status IN ('Invalid tx', 'Failed')
+       AND failure_reasons_json IS NULL;
+
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address
       ON applications (resolved_l1_address);
 
@@ -223,8 +278,9 @@ const postgresMigrations = [
       qualifying_tx_hash TEXT NOT NULL,
       resolved_l1_address TEXT,
       resolved_l2_address TEXT,
-      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed')),
+      status TEXT NOT NULL CHECK (status IN ('Pending', 'Transferred', 'Failed')),
       reason TEXT,
+      failure_reasons_json TEXT,
       payout_tx_hash TEXT,
       verified_at TEXT,
       transferred_at TEXT,
@@ -240,6 +296,7 @@ const postgresMigrations = [
   `,
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l1_address TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS resolved_l2_address TEXT",
+  "ALTER TABLE applications ADD COLUMN IF NOT EXISTS failure_reasons_json TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS transferred_at TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_ip_hash TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_ip_hash_version TEXT",
@@ -247,6 +304,64 @@ const postgresMigrations = [
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_country TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_region TEXT",
   "ALTER TABLE applications ADD COLUMN IF NOT EXISTS submitter_city TEXT",
+  `
+    UPDATE applications
+       SET failure_reasons_json = '["submitter_not_joined"]',
+           status = 'Failed'
+     WHERE status = 'Invalid tx'
+       AND reason = 'Transaction submitter is not currently registered in Tonnel.'
+  `,
+  `
+    UPDATE applications
+       SET failure_reasons_json = '["recipient_cannot_receive_notes"]',
+           status = 'Failed'
+     WHERE status = 'Failed'
+       AND reason LIKE '%missing a registered note-receive public key%'
+  `,
+  `
+    UPDATE applications
+       SET failure_reasons_json = CASE
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.qualifying_tx_hash = applications.qualifying_tx_hash
+             )
+             AND EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.resolved_l2_address = applications.resolved_l2_address
+                  AND applications.resolved_l2_address IS NOT NULL
+             )
+               THEN '["duplicate_transaction","duplicate_channel_account"]'
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.qualifying_tx_hash = applications.qualifying_tx_hash
+             )
+               THEN '["duplicate_transaction"]'
+             WHEN EXISTS (
+               SELECT 1 FROM applications transferred
+                WHERE transferred.id != applications.id
+                  AND transferred.status = 'Transferred'
+                  AND transferred.resolved_l2_address = applications.resolved_l2_address
+                  AND applications.resolved_l2_address IS NOT NULL
+             )
+               THEN '["duplicate_channel_account"]'
+             ELSE '["internal_payout_error"]'
+           END,
+           status = 'Failed'
+     WHERE status = 'Duplication'
+  `,
+  `
+    UPDATE applications
+       SET failure_reasons_json = '["internal_payout_error"]',
+           status = 'Failed'
+     WHERE status IN ('Invalid tx', 'Failed')
+       AND failure_reasons_json IS NULL
+  `,
   `
     DO $$
     DECLARE
@@ -258,13 +373,13 @@ const postgresMigrations = [
        WHERE conrelid = 'applications'::regclass
          AND conname = 'applications_status_check';
 
-      IF existing_status_check IS NULL OR existing_status_check NOT LIKE '%Invalid tx%' THEN
+      IF existing_status_check IS NULL OR existing_status_check != 'CHECK ((status = ANY (ARRAY[''Pending''::text, ''Transferred''::text, ''Failed''::text])))' THEN
         IF existing_status_check IS NOT NULL THEN
           ALTER TABLE applications DROP CONSTRAINT applications_status_check;
         END IF;
 
         ALTER TABLE applications ADD CONSTRAINT applications_status_check
-          CHECK (status IN ('Pending', 'Transferred', 'Duplication', 'Invalid tx', 'Failed'));
+          CHECK (status IN ('Pending', 'Transferred', 'Failed'));
       END IF;
     EXCEPTION
       WHEN duplicate_object THEN
@@ -275,9 +390,8 @@ const postgresMigrations = [
   "CREATE INDEX IF NOT EXISTS idx_applications_l2_address ON applications (l2_address)",
   "CREATE INDEX IF NOT EXISTS idx_applications_tx_hash ON applications (qualifying_tx_hash)",
   `
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_active_tx_hash
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_applications_unique_tx_hash
       ON applications (qualifying_tx_hash)
-      WHERE status != 'Duplication'
   `,
   "CREATE INDEX IF NOT EXISTS idx_applications_status ON applications (status)",
   "CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address ON applications (resolved_l1_address)",

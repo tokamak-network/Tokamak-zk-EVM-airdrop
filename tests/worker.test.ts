@@ -75,7 +75,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
   });
 });
 
-test("runAirdropWorker marks ineligible submitted transactions as Invalid tx", async () => {
+test("runAirdropWorker marks unclassified verification failures as internal payout errors", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"a".repeat(64)}`;
     await createApplication({ qualifyingTxHash: txHash });
@@ -104,11 +104,48 @@ test("runAirdropWorker marks ineligible submitted transactions as Invalid tx", a
     const summary = await runAirdropWorker(dependencies);
     const application = await findApplication(txHash);
 
-    assert.equal(summary.invalidTx, 1);
-    assert.equal(summary.failed, 0);
+    assert.equal(summary.failed, 1);
     assert.equal(summary.transferred, 0);
-    assert.equal(application?.status, "Invalid tx");
+    assert.equal(summary.failureReasons.internal_payout_error, 1);
+    assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, ["internal_payout_error"]);
     assert.equal(application?.reason, "Transaction was not sent to Tonnel channel manager.");
+  });
+});
+
+test("runAirdropWorker marks valid transfer notes from an unjoined submitter as failed", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"b".repeat(64)}`;
+    await createApplication({ qualifyingTxHash: txHash });
+
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => ({
+        valid: false,
+        reason: "Transaction submitter is not currently registered in Tonnel.",
+      }),
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved without a payout");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        throw new Error("transfer should not run for an unjoined submitter");
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.failed, 1);
+    assert.equal(summary.failureReasons.submitter_not_joined, 1);
+    assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, ["submitter_not_joined"]);
   });
 });
 
@@ -310,6 +347,7 @@ test("runAirdropWorker fails after five stale wallet workspace retries", async (
     assert.equal(summary.failed, 1);
     assert.equal(transfers, 6);
     assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, ["internal_payout_error"]);
     assert.equal(application?.reason, "Wallet note workspace is stale.");
   });
 });
@@ -354,7 +392,102 @@ test("runAirdropWorker does not retry non-stale transfer failures", async () => 
     assert.equal(summary.failed, 1);
     assert.equal(transfers, 1);
     assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, ["internal_payout_error"]);
     assert.equal(application?.reason, "Transaction reverted.");
+  });
+});
+
+test("runAirdropWorker classifies missing note-receive keys as recipient failures", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"5".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [{ id: "note-1", value: "25" }],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for an exact note");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        throw new Error(
+          "Recipient 0x0000000000000000000000000000000000000022 is missing a registered note-receive public key.",
+        );
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.failed, 1);
+    assert.equal(summary.failureReasons.recipient_cannot_receive_notes, 1);
+    assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, [
+      "recipient_cannot_receive_notes",
+    ]);
+  });
+});
+
+test("runAirdropWorker processes one application through transfer before checking the next duplicate", async () => {
+  await withTempDbAsync(async () => {
+    const firstHash = `0x${"6".repeat(64)}`;
+    const secondHash = `0x${"7".repeat(64)}`;
+    await createApplication({ qualifyingTxHash: firstHash });
+    await createApplication({ qualifyingTxHash: secondHash });
+
+    const config = createTestConfig();
+    const sharedL2 = "0x0000000000000000000000000000000000000022";
+    let transfers = 0;
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => ({
+        valid: true,
+        resolvedL1Address: "0x0000000000000000000000000000000000000011",
+        resolvedL2Address: sharedL2,
+      }),
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [
+          { id: "note-1", value: "25" },
+          { id: "note-2", value: "25" },
+        ],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved for exact notes");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        transfers += 1;
+        return `0x${"8".repeat(64)}`;
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const first = await findApplication(firstHash);
+    const second = await findApplication(secondHash);
+
+    assert.equal(summary.verified, 2);
+    assert.equal(summary.transferred, 1);
+    assert.equal(summary.failed, 1);
+    assert.equal(transfers, 1);
+    assert.equal(first?.status, "Transferred");
+    assert.equal(second?.status, "Failed");
+    assert.deepEqual(second?.failureReasons, ["duplicate_channel_account"]);
   });
 });
 

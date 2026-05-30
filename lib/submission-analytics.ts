@@ -234,8 +234,6 @@ function countStatuses(rows: AnalyticsRow[]): Record<ApplicationStatus, number> 
     {
       Pending: 0,
       Transferred: 0,
-      Duplication: 0,
-      "Invalid tx": 0,
       Failed: 0,
     } satisfies Record<ApplicationStatus, number>,
   );

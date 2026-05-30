@@ -1,7 +1,12 @@
 import { randomUUID } from "node:crypto";
 
 import { dbAll, dbGet, dbRun } from "@/lib/db";
-import type { ApplicationStatus } from "@/lib/status";
+import {
+  FAILURE_REASONS,
+  type ApplicationStatus,
+  type FailureReason,
+  isFailureReason,
+} from "@/lib/status";
 import type { SubmissionMetadata } from "@/lib/submission-metadata";
 
 export type Application = {
@@ -11,6 +16,7 @@ export type Application = {
   resolvedL2Address: string | null;
   status: ApplicationStatus;
   reason: string | null;
+  failureReasons: FailureReason[];
   payoutTxHash: string | null;
   verifiedAt: string | null;
   transferredAt: string | null;
@@ -26,6 +32,7 @@ type ApplicationRow = {
   resolved_l2_address: string | null;
   status: ApplicationStatus;
   reason: string | null;
+  failure_reasons_json: string | null;
   payout_tx_hash: string | null;
   verified_at: string | null;
   transferred_at: string | null;
@@ -71,6 +78,7 @@ export async function createApplication(
           qualifying_tx_hash,
           status,
           reason,
+          failure_reasons_json,
           submitter_ip_hash,
           submitter_ip_hash_version,
           submitter_user_agent_hash,
@@ -80,13 +88,14 @@ export async function createApplication(
           created_at,
           updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       [
         id,
         "",
         qualifyingTxHash,
         "Pending",
+        null,
         null,
         metadata?.submitterIpHash ?? null,
         metadata?.submitterIpHashVersion ?? null,
@@ -159,9 +168,7 @@ export async function findApplication(query: string): Promise<Application | null
         CASE status
           WHEN 'Transferred' THEN 1
           WHEN 'Pending' THEN 2
-          WHEN 'Invalid tx' THEN 3
-          WHEN 'Failed' THEN 4
-          WHEN 'Duplication' THEN 5
+          WHEN 'Failed' THEN 3
         END,
         created_at DESC
       LIMIT 1
@@ -223,21 +230,17 @@ export async function getPendingForVerification(
   return rows.map(mapApplication);
 }
 
-export async function getVerifiedPendingForPayout(
-  limit = 25,
-): Promise<Application[]> {
-  const rows = await dbAll<ApplicationRow>(
+export async function getNextPendingApplication(): Promise<Application | null> {
+  const row = await dbGet<ApplicationRow>(
     `
       SELECT * FROM applications
       WHERE status = 'Pending'
-        AND verified_at IS NOT NULL
-      ORDER BY verified_at ASC
-      LIMIT ?
+      ORDER BY created_at ASC
+      LIMIT 1
     `,
-    [limit],
   );
 
-  return rows.map(mapApplication);
+  return row ? mapApplication(row) : null;
 }
 
 export async function markVerified(
@@ -253,27 +256,15 @@ export async function markVerified(
   });
 }
 
-export async function markDuplication(
+export async function markFailed(
   id: string,
-  reason: string,
+  failureReasons: FailureReason[],
+  reason: string | null = null,
 ): Promise<void> {
-  await updateApplication(id, {
-    status: "Duplication",
-    reason,
-  });
-}
-
-export async function markFailed(id: string, reason: string): Promise<void> {
   await updateApplication(id, {
     status: "Failed",
     reason,
-  });
-}
-
-export async function markInvalidTx(id: string, reason: string): Promise<void> {
-  await updateApplication(id, {
-    status: "Invalid tx",
-    reason,
+    failure_reasons_json: stringifyFailureReasons(failureReasons),
   });
 }
 
@@ -286,32 +277,49 @@ export async function markTransferred(
     payout_tx_hash: payoutTxHash,
     transferred_at: new Date().toISOString(),
     reason: null,
+    failure_reasons_json: null,
   });
 }
 
-export async function hasTransferredDuplicate(
+export async function getTransferredDuplicateReasons(
   application: Application,
-): Promise<boolean> {
-  if (!application.resolvedL2Address) {
-    return false;
-  }
-
-  const row = await dbGet<{ id: string }>(
+): Promise<FailureReason[]> {
+  const reasons: FailureReason[] = [];
+  const txRow = await dbGet<{ id: string }>(
     `
       SELECT id FROM applications
       WHERE id != ?
         AND status = 'Transferred'
-        AND (resolved_l2_address = ? OR qualifying_tx_hash = ?)
+        AND qualifying_tx_hash = ?
       LIMIT 1
     `,
-    [
-      application.id,
-      application.resolvedL2Address,
-      application.qualifyingTxHash,
-    ],
+    [application.id, application.qualifyingTxHash],
   );
 
-  return Boolean(row);
+  if (txRow) {
+    reasons.push("duplicate_transaction");
+  }
+
+  if (!application.resolvedL2Address) {
+    return reasons;
+  }
+
+  const l2Row = await dbGet<{ id: string }>(
+    `
+      SELECT id FROM applications
+      WHERE id != ?
+        AND status = 'Transferred'
+        AND resolved_l2_address = ?
+      LIMIT 1
+    `,
+    [application.id, application.resolvedL2Address],
+  );
+
+  if (l2Row) {
+    reasons.push("duplicate_channel_account");
+  }
+
+  return reasons;
 }
 
 export async function hasTransferredL2Address(
@@ -353,6 +361,7 @@ async function updateApplication(
   values: Partial<{
     status: ApplicationStatus;
     reason: string | null;
+    failure_reasons_json: string | null;
     payout_tx_hash: string;
     verified_at: string;
     transferred_at: string;
@@ -426,10 +435,44 @@ function mapApplication(row: ApplicationRow): Application {
     resolvedL2Address: row.resolved_l2_address,
     status: row.status,
     reason: row.reason,
+    failureReasons: parseFailureReasons(row.failure_reasons_json),
     payoutTxHash: row.payout_tx_hash,
     verifiedAt: row.verified_at,
     transferredAt: row.transferred_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
+}
+
+function stringifyFailureReasons(reasons: FailureReason[]): string {
+  const uniqueReasons = FAILURE_REASONS.filter((reason) =>
+    reasons.includes(reason),
+  );
+
+  if (uniqueReasons.length === 0) {
+    return JSON.stringify(["internal_payout_error"]);
+  }
+
+  return JSON.stringify(uniqueReasons);
+}
+
+function parseFailureReasons(value: string | null): FailureReason[] {
+  if (!value) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (reason): reason is FailureReason =>
+        typeof reason === "string" && isFailureReason(reason),
+    );
+  } catch {
+    return [];
+  }
 }

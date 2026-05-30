@@ -46,12 +46,20 @@ if (summary) {
   lines.push(
     `Verified: ${summary.verified}`,
     `Transferred: ${summary.transferred}`,
-    `Duplicated: ${summary.duplicated}`,
-    `Invalid tx: ${summary.invalidTx ?? 0}`,
     `Failed: ${summary.failed}`,
     `Skipped payouts: ${summary.skippedPayouts}`,
     `Remaining budget: ${summary.remainingBudgetTon ?? "unknown"} TON`,
   );
+
+  if (summary.failureReasons) {
+    lines.push(
+      `Submitter not joined: ${summary.failureReasons.submitter_not_joined ?? 0}`,
+      `Recipient cannot receive notes: ${summary.failureReasons.recipient_cannot_receive_notes ?? 0}`,
+      `Duplicate transaction: ${summary.failureReasons.duplicate_transaction ?? 0}`,
+      `Duplicate channel account: ${summary.failureReasons.duplicate_channel_account ?? 0}`,
+      `Internal payout error: ${summary.failureReasons.internal_payout_error ?? 0}`,
+    );
+  }
 }
 
 if (errorTail) {

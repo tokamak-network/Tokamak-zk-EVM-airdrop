@@ -32,9 +32,7 @@ Never share your Ethereum wallet private key or any secrets with others includin
 
 - `Pending`: the submission is waiting for verification or payout.
 - `Transferred`: the reward transfer succeeded.
-- `Duplication`: the submission uses a duplicate Tonnel channel address or transaction hash.
-- `Invalid tx`: the submitted transaction is not eligible.
-- `Failed`: the submission failed for another reason.
+- `Failed`: the submission cannot receive a reward. Hover the label on the airdrop page to see every recorded failure reason.
 
 ## About Tonnel
 

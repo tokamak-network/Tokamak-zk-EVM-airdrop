@@ -3,13 +3,11 @@
 import { FormEvent, useEffect, useState } from "react";
 
 import { faqItems } from "@/lib/site-content";
-
-type ApplicationStatus =
-  | "Pending"
-  | "Transferred"
-  | "Duplication"
-  | "Invalid tx"
-  | "Failed";
+import {
+  failureReasonMessages,
+  type ApplicationStatus,
+  type FailureReason,
+} from "@/lib/status";
 
 type Application = {
   id: string;
@@ -18,6 +16,7 @@ type Application = {
   resolvedL2Address: string | null;
   status: ApplicationStatus;
   reason: string | null;
+  failureReasons: FailureReason[];
   payoutTxHash: string | null;
   transferredAt: string | null;
   createdAt: string;
@@ -74,19 +73,9 @@ class ApiRequestError extends Error {
 
 const statusPageSize = 10;
 
-const statusText: Record<ApplicationStatus, string> = {
-  Pending: "Waiting for verification or transfer",
-  Transferred: "Reward transfer completed",
-  Duplication: "Duplicate application",
-  "Invalid tx": "Submitted transaction is not eligible",
-  Failed: "Application failed",
-};
-
 const statusClassNames: Record<ApplicationStatus, string> = {
   Pending: "Pending",
   Transferred: "Transferred",
-  Duplication: "Duplication",
-  "Invalid tx": "InvalidTx",
   Failed: "Failed",
 };
 
@@ -938,7 +927,7 @@ function StatusTable({ applications }: { applications: Application[] }) {
               <td data-label="Status">
                 <span
                   className={`statusPill ${statusClassNames[application.status]}`}
-                  title={statusText[application.status]}
+                  title={getStatusTitle(application)}
                 >
                   <span className="statusDot" aria-hidden="true" />
                   {application.status}
@@ -967,6 +956,69 @@ function StatusTable({ applications }: { applications: Application[] }) {
       </table>
     </div>
   );
+}
+
+function getStatusTitle(application: Application): string | undefined {
+  if (application.status === "Transferred") {
+    return undefined;
+  }
+
+  if (application.status === "Pending") {
+    return getPendingStatusTitle();
+  }
+
+  const messages = application.failureReasons
+    .map((reason) => failureReasonMessages[reason])
+    .filter(Boolean);
+
+  if (messages.length === 0) {
+    return failureReasonMessages.internal_payout_error;
+  }
+
+  return messages.join("\n");
+}
+
+function getPendingStatusTitle(): string {
+  return `Next scheduled payout check in about ${formatDurationUntilNextPayout()}.`;
+}
+
+function formatDurationUntilNextPayout(now = new Date()): string {
+  const next = getNextPayoutTime(now);
+  const totalMinutes = Math.max(
+    1,
+    Math.ceil((next.getTime() - now.getTime()) / 60_000),
+  );
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  if (hours === 0) {
+    return `${minutes}m`;
+  }
+
+  if (minutes === 0) {
+    return `${hours}h`;
+  }
+
+  return `${hours}h ${minutes}m`;
+}
+
+function getNextPayoutTime(now: Date): Date {
+  const scheduleHours = [0, 6, 12, 18];
+
+  for (const hour of scheduleHours) {
+    const candidate = new Date(now);
+    candidate.setHours(hour, 0, 0, 0);
+
+    if (candidate.getTime() > now.getTime()) {
+      return candidate;
+    }
+  }
+
+  const next = new Date(now);
+  next.setDate(next.getDate() + 1);
+  next.setHours(0, 0, 0, 0);
+
+  return next;
 }
 
 function StatusPagination({
