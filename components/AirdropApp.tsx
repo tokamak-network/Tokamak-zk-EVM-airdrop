@@ -43,7 +43,7 @@ type ApiResult = {
   total?: number;
 };
 
-type ParticipateMode = "steps" | "prerequisites" | "criteria" | "faq";
+type ParticipateMode = "steps" | "agent" | "prerequisites" | "criteria" | "faq";
 
 type EligibilityResult = {
   eligible: boolean;
@@ -372,7 +372,7 @@ export function AirdropApp({
         <section className="contentSection" aria-labelledby="how-to-participate">
           <div className="sectionHeader">
             <h2 id="how-to-participate">How To Participate</h2>
-            <span className="sectionUpdated">Last updated: May 26, 2026</span>
+            <span className="sectionUpdated">Last updated: May 30, 2026</span>
           </div>
           <ParticipateModeToggle
             mode={participateMode}
@@ -380,6 +380,9 @@ export function AirdropApp({
           />
           {participateMode === "steps" ? (
             <ParticipationSteps channel={channel} />
+          ) : null}
+          {participateMode === "agent" ? (
+            <AgentPromptGuide channel={channel} />
           ) : null}
           {participateMode === "prerequisites" ? <Prerequisites /> : null}
           {participateMode === "criteria" ? <WinnerCriteria /> : null}
@@ -519,6 +522,14 @@ function ParticipateModeToggle({
       </button>
       <button
         type="button"
+        aria-pressed={mode === "agent"}
+        className={mode === "agent" ? "active" : ""}
+        onClick={() => onChange("agent")}
+      >
+        Use AI Agent
+      </button>
+      <button
+        type="button"
         aria-pressed={mode === "prerequisites"}
         className={mode === "prerequisites" ? "active" : ""}
         onClick={() => onChange("prerequisites")}
@@ -547,25 +558,155 @@ function ParticipateModeToggle({
 
 function ParticipationSteps({ channel }: { channel: string }) {
   return (
-    <ol className="participationList">
-      <li>
-        Ask your AI agents to install the latest version of{" "}
-        <code className="shadedText">
-          @tokamak-private-dapps/private-state-cli
-        </code>
-        .
-      </li>
-      <li>
-        Ask your AI agents to join <code className="shadedText">{channel}</code>.
-      </li>
-      <li>
-        Ask your AI agents to make one private-state transfer notes transaction
-        on <span className="accentText">Tonnel</span>.
-      </li>
-      <li>Ask your AI agents for the transaction hash.</li>
-      <li>Submit the transaction hash with this form.</li>
-    </ol>
+    <div className="participationPanel">
+      <p className="participationIntro">
+        This path is for users who are comfortable directing an LLM agent. Even
+        experienced engineers should ask their agent how to run each step,
+        because private-state CLI usage is its own workflow.
+      </p>
+      <ol className="participationList">
+        <li>
+          Ask your AI agent how to install or update the latest{" "}
+          <code className="shadedText">
+            @tokamak-private-dapps/private-state-cli
+          </code>
+          .
+        </li>
+        <li>
+          Ask your AI agent how to configure an Ethereum mainnet RPC URL. Ankr
+          is recommended because channel and wallet recovery can be too slow on
+          many other free RPC providers.
+        </li>
+        <li>
+          Ask your AI agent how to prepare a MetaMask-funded burner account
+          without pasting secrets into chat.
+        </li>
+        <li>
+          Ask your AI agent how to join{" "}
+          <code className="shadedText">{channel}</code> on Ethereum mainnet.
+        </li>
+        <li>
+          Ask your AI agent how to make one real private-state transfer notes
+          transaction on <span className="accentText">Tonnel</span>.
+        </li>
+        <li>
+          Ask your AI agent to identify the Ethereum transaction hash for that
+          transfer notes transaction. Do not submit a join, deposit, approval, or
+          setup transaction hash.
+        </li>
+        <li>Submit the transfer notes transaction hash with this form.</li>
+      </ol>
+    </div>
   );
+}
+
+function AgentPromptGuide({ channel }: { channel: string }) {
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
+    "idle",
+  );
+  const prompt = buildAgentPrompt(channel);
+
+  async function copyPrompt() {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      setCopyState("copied");
+      window.setTimeout(() => setCopyState("idle"), 1800);
+    } catch {
+      setCopyState("failed");
+    }
+  }
+
+  return (
+    <div className="agentPromptPanel">
+      <p className="participationIntro">
+        If you are not technical, copy this prompt into your own LLM agent. It
+        tells the agent to detect your OS, use Ankr for Ethereum RPC, protect
+        secrets, prepare a burner MetaMask account, and guide you to the exact
+        transfer notes transaction hash.
+      </p>
+      <ul className="promptSafetyList">
+        <li>Never paste your seed phrase or private key into chat.</li>
+        <li>Use a burner MetaMask account instead of your main wallet.</li>
+        <li>Submit only the transfer notes transaction hash.</li>
+      </ul>
+      <div className="promptToolbar">
+        <span>Copy this into your LLM agent</span>
+        <button type="button" onClick={() => void copyPrompt()}>
+          {copyState === "copied"
+            ? "Copied"
+            : copyState === "failed"
+              ? "Copy failed"
+              : "Copy prompt"}
+        </button>
+      </div>
+      <pre className="agentPromptBox">
+        <code>{prompt}</code>
+      </pre>
+      <p className="promptCoverage">
+        Covers OS detection, Node/npm setup, latest CLI install, Ankr RPC setup,
+        MetaMask burner account handling, channel join, transfer notes
+        transaction creation, and final hash submission.
+      </p>
+    </div>
+  );
+}
+
+function buildAgentPrompt(channel: string): string {
+  return `I want to participate in TON AIRDROP ON TONNEL at https://airdrop.tonnel.io. I am not a developer and I only know how to use MetaMask. Please act as my careful local technical assistant and guide me until I have one valid Ethereum transaction hash to submit on the airdrop page.
+
+Event facts:
+- Official page: https://airdrop.tonnel.io
+- Reward: 25 TON per valid submission
+- Channel name: \`${channel}\`
+- Network: Ethereum mainnet only
+- Required transaction: a real private-state \`transfer notes\` transaction on Tonnel
+- The submitted hash must be the Ethereum transaction hash for the \`transfer notes\` transaction, not the join, deposit, approval, or setup transaction
+- Duplicate Ethereum transaction hashes do not receive another reward
+- Duplicate resolved Tonnel L2/channel addresses do not receive another reward
+
+Safety rules:
+- Never ask me to paste my seed phrase, private key, RPC API key, or any secret into this chat.
+- Never print, upload, summarize, or store secrets in chat or logs.
+- Do not put secrets directly into shell commands that may be saved in terminal history.
+- Strongly prefer a new burner MetaMask account for this event. Do not use my main wallet unless I explicitly insist.
+- If a private key is required, guide me to export only the burner account private key from MetaMask, save it into a restricted local file, and use that file with the CLI. Do not ask me to paste the key here.
+- Before spending ETH gas, TON, or approving token allowance, explain exactly what transaction will be sent, what may be spent, and wait for my explicit confirmation.
+- Use exact/minimal token approvals where possible. Do not approve unlimited allowance unless there is no supported alternative and I explicitly confirm.
+- Do not execute any transaction while checking commands, help text, installation, balances, or dry-run output.
+
+RPC rule:
+- Recommend Ankr as the default Ethereum mainnet RPC provider.
+- Reason: this workflow may require channel and wallet recovery, which can be impractically slow on many other free RPC providers. Use Ankr unless it is unavailable for me.
+- Guide me to create or use an Ankr Ethereum mainnet RPC URL.
+- If Ankr requires an API key, show me how to save the RPC URL locally without pasting the key into chat.
+- Do not continue with a random public RPC if recovery or wallet sync becomes too slow; switch back to Ankr or tell me clearly what is blocking progress.
+
+Interactive checklist:
+1. Identify my operating system and whether you can run terminal commands on my computer. If you cannot run commands, give me exact copy/paste commands for my OS and wait for the result after each command.
+2. Ask whether I have already submitted a hash, already joined \`${channel}\`, or already made a Tonnel private-state \`transfer notes\` transaction. If yes, help verify before spending anything new.
+3. Check whether Node.js and npm are installed. If not, guide me through installing them for my OS.
+4. Install or update the latest CLI:
+   \`npm install -g @tokamak-private-dapps/private-state-cli@latest\`
+   Then run:
+   \`private-state-cli install\`
+   After installation, check the CLI version and run \`private-state-cli --help\`.
+5. Help me get an Ankr Ethereum mainnet RPC URL. Use Ankr by default. Do not ask me to paste API keys into chat. Help me save the RPC URL locally and configure the CLI for Ethereum mainnet using current \`private-state-cli --help\` output.
+6. Prepare a MetaMask-funded Ethereum mainnet burner account for local CLI use. If the CLI requires a private key, guide me to:
+   - create a new MetaMask account for this event,
+   - fund it only with the ETH and TON needed,
+   - export only that account's private key,
+   - save it into a restricted local file,
+   - import or use it with the CLI's documented \`--private-key-file\` option.
+   Never ask me to paste the private key into chat.
+7. Check that the burner account has enough ETH for Ethereum mainnet gas and enough Tonnel-compatible TON on Ethereum mainnet for the 4 TON channel entry fee and the private-state transfer flow. If anything is missing, stop and tell me exactly what is missing.
+8. Check whether the account is already joined to \`${channel}\`. If not, prepare the join transaction on Ethereum mainnet, show what will be spent, and wait for my confirmation before broadcasting.
+9. Create a new local Tonnel/private-state wallet workspace unless I already have one. If recovery is needed, handle recovery secrets only locally and never through chat. Use the Ankr RPC URL for recovery.
+10. Prepare one small valid private-state \`transfer notes\` transaction on Tonnel. If a recipient L2/channel address is required, use only an address I control or a CLI-supported self-transfer flow. Verify this before broadcasting.
+11. Before broadcasting the \`transfer notes\` transaction, show me the network, channel, sender, recipient, estimated gas/TON effects, and confirm that this is the airdrop-eligible transaction type. Wait for my explicit confirmation.
+12. After success, find the Ethereum transaction hash for that \`transfer notes\` transaction. Confirm it is a 66-character \`0x...\` hash and explicitly confirm it is not the join, deposit, approval, import, or setup hash.
+13. Tell me to open https://airdrop.tonnel.io, paste that transaction hash into the Submit form, and check the status after submission.
+
+At every step, explain what I should see, what can go wrong, and what to do next. If you are unsure about a CLI command, run \`private-state-cli --help\` or the relevant subcommand help first. Do not guess when money or secrets are involved.`;
 }
 
 function Prerequisites() {
