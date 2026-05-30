@@ -634,11 +634,6 @@ function AgentPromptGuide({ channel }: { channel: string }) {
       <pre className="agentPromptBox">
         <code>{prompt}</code>
       </pre>
-      <p className="promptCoverage">
-        Covers OS detection, Node/npm setup, latest CLI install, Ankr RPC setup,
-        MetaMask burner account handling, channel join, transfer notes
-        transaction creation, and final hash submission.
-      </p>
     </div>
   );
 }
