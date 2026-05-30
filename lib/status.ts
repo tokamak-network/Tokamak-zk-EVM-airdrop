@@ -22,9 +22,9 @@ export type FailureReason = (typeof FAILURE_REASONS)[number];
 
 export const failureReasonMessages: Record<FailureReason, string> = {
   submitter_not_joined:
-    "The transfer-notes transaction is valid, but the submitting wallet is not currently joined to the channel, so the reward recipient could not be confirmed.",
+    "The submitting wallet is not currently joined to the channel.",
   recipient_cannot_receive_notes:
-    "The reward recipient address was found, but it is not currently ready to receive private notes in the channel.",
+    "The reward recipient address is not currently ready to receive private notes in the channel.",
   duplicate_transaction:
     "This transaction hash has already been submitted or rewarded.",
   duplicate_channel_account:
