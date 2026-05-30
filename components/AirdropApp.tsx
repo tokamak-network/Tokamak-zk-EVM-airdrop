@@ -671,7 +671,11 @@ RPC rule:
 Interactive checklist:
 1. Identify my operating system and whether you can run terminal commands on my computer. If you cannot run commands, give me exact copy/paste commands for my OS and wait for the result after each command.
 2. Ask whether I have already submitted a hash, already joined \`${channel}\`, or already made a Tonnel private-state \`transfer notes\` transaction. If yes, help verify before spending anything new.
-3. Check whether Node.js and npm are installed. If not, guide me through installing them for my OS.
+3. Check whether Node.js, npm, native build tools, and Rust are installed. If anything is missing, guide me through installing only the missing tools for my OS:
+   - macOS: install Xcode Command Line Tools with \`xcode-select --install\` if developer tools are missing; install Node.js/npm with the official Node.js LTS installer or Homebrew; install Rust with rustup; restart the terminal after shell profile changes.
+   - Linux: identify my distribution first. For Debian/Ubuntu, install native build tools with \`sudo apt update && sudo apt install -y build-essential pkg-config libssl-dev curl\`; for Fedora, use \`sudo dnf groupinstall -y "Development Tools"\` and install \`pkgconf-pkg-config\`, \`openssl-devel\`, and \`curl\`; install Node.js/npm from the distribution package manager, official Node.js packages, or a local user-level version manager; install Rust with rustup.
+   - Windows: use PowerShell or Windows Terminal; install Node.js/npm with the official Node.js LTS installer or \`winget install OpenJS.NodeJS.LTS\`; install Microsoft C++ Build Tools if native builds are required; install Rust with rustup or \`winget install Rustlang.Rustup\`; restart the terminal after installation.
+   After installing any tool, verify with \`node --version\`, \`npm --version\`, \`rustc --version\`, and \`cargo --version\`. On macOS also verify \`xcode-select -p\`; on Windows verify the C++ build tools only if the CLI install reports a native build error.
 4. Install or update the latest CLI:
    \`npm install -g @tokamak-private-dapps/private-state-cli@latest\`
    Then run:
