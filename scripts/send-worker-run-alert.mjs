@@ -21,8 +21,9 @@ const env = {
 };
 const botToken = env.AIRDROP_TELEGRAM_BOT_TOKEN;
 const chatId = env.AIRDROP_TELEGRAM_CHAT_ID;
+const dryRun = process.env.AIRDROP_TELEGRAM_DRY_RUN === "true";
 
-if (!botToken || !chatId) {
+if ((!botToken || !chatId) && !dryRun) {
   console.error(
     "Telegram alert skipped: AIRDROP_TELEGRAM_BOT_TOKEN and AIRDROP_TELEGRAM_CHAT_ID are not both set.",
   );
@@ -69,6 +70,11 @@ if (errorTail) {
 
 lines.push("", `Logs: ${logDir}`, `stderr: ${stderrLog}`, `stdout: ${stdoutLog}`);
 
+if (dryRun) {
+  console.log(lines.join("\n"));
+  process.exit(0);
+}
+
 try {
   const response = await fetch(
     `https://api.telegram.org/bot${botToken}/sendMessage`,
@@ -101,17 +107,81 @@ function readWorkerSummary(path) {
   }
 
   const text = fs.readFileSync(path, "utf8");
-  const start = text.lastIndexOf("{\n");
+  let latestSummary = null;
 
-  if (start < 0) {
-    return null;
+  for (const candidate of extractJsonObjects(text)) {
+    try {
+      const parsed = JSON.parse(candidate);
+
+      if (isWorkerSummary(parsed)) {
+        latestSummary = parsed;
+      }
+    } catch {
+      continue;
+    }
   }
 
-  try {
-    return JSON.parse(text.slice(start));
-  } catch {
-    return null;
+  return latestSummary;
+}
+
+function extractJsonObjects(text) {
+  const objects = [];
+  let start = -1;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (character === "\\") {
+        escaped = true;
+      } else if (character === '"') {
+        inString = false;
+      }
+
+      continue;
+    }
+
+    if (character === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (character === "{") {
+      if (depth === 0) {
+        start = index;
+      }
+
+      depth += 1;
+      continue;
+    }
+
+    if (character === "}" && depth > 0) {
+      depth -= 1;
+
+      if (depth === 0 && start >= 0) {
+        objects.push(text.slice(start, index + 1));
+        start = -1;
+      }
+    }
   }
+
+  return objects;
+}
+
+function isWorkerSummary(value) {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    Number.isInteger(value.verified) &&
+    Number.isInteger(value.transferred) &&
+    Number.isInteger(value.failed) &&
+    Number.isInteger(value.skippedPayouts)
+  );
 }
 
 function readTail(path, maxLength) {
