@@ -214,6 +214,12 @@ function migrateSqlite(db: DatabaseSync): void {
        );
 
     UPDATE applications
+       SET failure_reasons_json = '["reward_budget_exhausted"]',
+           status = 'Failed'
+     WHERE status = 'Failed'
+       AND reason = 'Reward wallet has less than 25 TON in unused notes.';
+
+    UPDATE applications
        SET failure_reasons_json = replace(
              replace(
                replace(
@@ -380,6 +386,13 @@ const postgresMigrations = [
          'Transaction block was not found by RPC.',
          'Transaction is outside the eligible event window.'
        )
+  `,
+  `
+    UPDATE applications
+       SET failure_reasons_json = '["reward_budget_exhausted"]',
+           status = 'Failed'
+     WHERE status = 'Failed'
+       AND reason = 'Reward wallet has less than 25 TON in unused notes.'
   `,
   `
     UPDATE applications

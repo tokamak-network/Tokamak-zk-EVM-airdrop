@@ -55,6 +55,7 @@ if (summary) {
     lines.push(
       `Reward channel address unresolved: ${summary.failureReasons.reward_channel_address_unresolved ?? 0}`,
       `Invalid submission transaction: ${summary.failureReasons.invalid_submission_transaction ?? 0}`,
+      `Reward budget exhausted: ${summary.failureReasons.reward_budget_exhausted ?? 0}`,
       `Duplicate transaction: ${summary.failureReasons.duplicate_transaction ?? 0}`,
       `Duplicate channel account: ${summary.failureReasons.duplicate_channel_account ?? 0}`,
       `Internal payout error: ${summary.failureReasons.internal_payout_error ?? 0}`,

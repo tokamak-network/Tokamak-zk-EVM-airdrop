@@ -199,6 +199,52 @@ test("runAirdropWorker recovers the reward wallet workspace before budget sync a
   });
 });
 
+test("runAirdropWorker marks exhausted reward budgets separately from internal payout errors", async () => {
+  await withTempDbAsync(async () => {
+    const txHash = `0x${"6".repeat(64)}`;
+    const created = await createApplication({ qualifyingTxHash: txHash });
+
+    await markVerified(
+      created.application.id,
+      "0x0000000000000000000000000000000000000011",
+      "0x0000000000000000000000000000000000000022",
+    );
+
+    const config = createTestConfig();
+    const dependencies: WorkerDependencies = {
+      getConfig: () => config,
+      preparePrivateStateCli: async () => {},
+      verifySubmittedTransaction: async () => {
+        throw new Error("verification should not run for already verified rows");
+      },
+      resolveRewardWalletName: async () => "reward-wallet",
+      getWalletNotes: async () => ({
+        unusedNotes: [],
+      }),
+      getRewardWalletL2Address: async () => {
+        throw new Error("change address should not be resolved with no budget");
+      },
+      recoverRewardWalletWorkspace: async () => {},
+      transferNotes: async () => {
+        throw new Error("transfer should not run with no budget");
+      },
+    };
+
+    const summary = await runAirdropWorker(dependencies);
+    const application = await findApplication(txHash);
+
+    assert.equal(summary.transferred, 0);
+    assert.equal(summary.failed, 1);
+    assert.equal(summary.failureReasons.reward_budget_exhausted, 1);
+    assert.equal(application?.status, "Failed");
+    assert.deepEqual(application?.failureReasons, ["reward_budget_exhausted"]);
+    assert.equal(
+      application?.reason,
+      "Reward wallet has less than 25 TON in unused notes.",
+    );
+  });
+});
+
 test("runAirdropWorker retries stale wallet workspace failures up to five times", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"f".repeat(64)}`;

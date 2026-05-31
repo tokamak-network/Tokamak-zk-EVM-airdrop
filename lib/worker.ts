@@ -179,9 +179,7 @@ async function processApplication(
     summary.transferred += 1;
   } catch (error) {
     const message = getErrorMessage(error);
-    const reason: FailureReason = isRecipientCannotReceiveNotesError(error)
-      ? "reward_channel_address_unresolved"
-      : "internal_payout_error";
+    const reason = classifyPayoutFailureReason(error);
 
     await failApplication(current.id, [reason], message, summary);
   }
@@ -368,6 +366,22 @@ function isRecipientCannotReceiveNotesError(error: unknown): boolean {
   return getErrorMessage(error)
     .toLowerCase()
     .includes("missing a registered note-receive public key");
+}
+
+function classifyPayoutFailureReason(error: unknown): FailureReason {
+  if (isRecipientCannotReceiveNotesError(error)) {
+    return "reward_channel_address_unresolved";
+  }
+
+  if (isRewardBudgetExhaustedError(error)) {
+    return "reward_budget_exhausted";
+  }
+
+  return "internal_payout_error";
+}
+
+function isRewardBudgetExhaustedError(error: unknown): boolean {
+  return getErrorMessage(error) === "Reward wallet has less than 25 TON in unused notes.";
 }
 
 async function failApplication(
