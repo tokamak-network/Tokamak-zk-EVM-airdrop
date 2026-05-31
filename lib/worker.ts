@@ -203,9 +203,7 @@ async function verifyApplication(
     );
 
     if (!result.valid) {
-      const reason: FailureReason = isSubmitterNotJoinedReason(result.reason)
-        ? "reward_channel_address_unresolved"
-        : "internal_payout_error";
+      const reason = classifyVerificationFailureReason(result.reason);
 
       await failApplication(application.id, [reason], result.reason, summary);
       return false;
@@ -334,6 +332,37 @@ function isRecoverableWorkspaceError(error: unknown): boolean {
 function isSubmitterNotJoinedReason(reason: string): boolean {
   return reason === "Transaction submitter is not currently registered in Tonnel.";
 }
+
+function classifyVerificationFailureReason(reason: string): FailureReason {
+  if (isSubmitterNotJoinedReason(reason)) {
+    return "reward_channel_address_unresolved";
+  }
+
+  if (isInvalidSubmissionReason(reason)) {
+    return "invalid_submission_transaction";
+  }
+
+  return "internal_payout_error";
+}
+
+function isInvalidSubmissionReason(reason: string): boolean {
+  return invalidSubmissionReasonMessages.has(reason);
+}
+
+const invalidSubmissionReasonMessages = new Set([
+  "Submitted value is not a transaction hash.",
+  "Transaction was not found by RPC.",
+  "Transaction receipt was not found by RPC.",
+  "Transaction did not succeed.",
+  "Transaction does not call a contract.",
+  "Transaction was not sent to Tonnel channel manager.",
+  "Transaction calldata is not executeChannelTransaction.",
+  "Could not read private-state function selector from transaction metadata.",
+  "Transaction is not a private-state transfer notes transaction.",
+  "Transaction block number is missing.",
+  "Transaction block was not found by RPC.",
+  "Transaction is outside the eligible event window.",
+]);
 
 function isRecipientCannotReceiveNotesError(error: unknown): boolean {
   return getErrorMessage(error)

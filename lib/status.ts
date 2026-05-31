@@ -12,6 +12,7 @@ export function isApplicationStatus(value: string): value is ApplicationStatus {
 
 export const FAILURE_REASONS = [
   "reward_channel_address_unresolved",
+  "invalid_submission_transaction",
   "duplicate_transaction",
   "duplicate_channel_account",
   "internal_payout_error",
@@ -22,6 +23,8 @@ export type FailureReason = (typeof FAILURE_REASONS)[number];
 export const failureReasonMessages: Record<FailureReason, string> = {
   reward_channel_address_unresolved:
     "The reward recipient Tonnel channel address could not be resolved.",
+  invalid_submission_transaction:
+    "The submitted transaction is not an eligible Tonnel transfer notes transaction.",
   duplicate_transaction:
     "This transaction hash has already been submitted or rewarded.",
   duplicate_channel_account:

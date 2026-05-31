@@ -195,6 +195,25 @@ function migrateSqlite(db: DatabaseSync): void {
        AND reason LIKE '%missing a registered note-receive public key%';
 
     UPDATE applications
+       SET failure_reasons_json = '["invalid_submission_transaction"]',
+           status = 'Failed'
+     WHERE status IN ('Invalid tx', 'Failed')
+       AND reason IN (
+         'Submitted value is not a transaction hash.',
+         'Transaction was not found by RPC.',
+         'Transaction receipt was not found by RPC.',
+         'Transaction did not succeed.',
+         'Transaction does not call a contract.',
+         'Transaction was not sent to Tonnel channel manager.',
+         'Transaction calldata is not executeChannelTransaction.',
+         'Could not read private-state function selector from transaction metadata.',
+         'Transaction is not a private-state transfer notes transaction.',
+         'Transaction block number is missing.',
+         'Transaction block was not found by RPC.',
+         'Transaction is outside the eligible event window.'
+       );
+
+    UPDATE applications
        SET failure_reasons_json = replace(
              replace(
                replace(
@@ -249,9 +268,15 @@ function migrateSqlite(db: DatabaseSync): void {
      WHERE status = 'Duplication';
 
     UPDATE applications
+       SET failure_reasons_json = '["invalid_submission_transaction"]',
+           status = 'Failed'
+     WHERE status = 'Invalid tx'
+       AND failure_reasons_json IS NULL;
+
+    UPDATE applications
        SET failure_reasons_json = '["internal_payout_error"]',
            status = 'Failed'
-     WHERE status IN ('Invalid tx', 'Failed')
+     WHERE status = 'Failed'
        AND failure_reasons_json IS NULL;
 
     CREATE INDEX IF NOT EXISTS idx_applications_resolved_l1_address
@@ -338,6 +363,26 @@ const postgresMigrations = [
   `,
   `
     UPDATE applications
+       SET failure_reasons_json = '["invalid_submission_transaction"]',
+           status = 'Failed'
+     WHERE status IN ('Invalid tx', 'Failed')
+       AND reason IN (
+         'Submitted value is not a transaction hash.',
+         'Transaction was not found by RPC.',
+         'Transaction receipt was not found by RPC.',
+         'Transaction did not succeed.',
+         'Transaction does not call a contract.',
+         'Transaction was not sent to Tonnel channel manager.',
+         'Transaction calldata is not executeChannelTransaction.',
+         'Could not read private-state function selector from transaction metadata.',
+         'Transaction is not a private-state transfer notes transaction.',
+         'Transaction block number is missing.',
+         'Transaction block was not found by RPC.',
+         'Transaction is outside the eligible event window.'
+       )
+  `,
+  `
+    UPDATE applications
        SET failure_reasons_json = replace(
              replace(
                replace(
@@ -394,9 +439,16 @@ const postgresMigrations = [
   `,
   `
     UPDATE applications
+       SET failure_reasons_json = '["invalid_submission_transaction"]',
+           status = 'Failed'
+     WHERE status = 'Invalid tx'
+       AND failure_reasons_json IS NULL
+  `,
+  `
+    UPDATE applications
        SET failure_reasons_json = '["internal_payout_error"]',
            status = 'Failed'
-     WHERE status IN ('Invalid tx', 'Failed')
+     WHERE status = 'Failed'
        AND failure_reasons_json IS NULL
   `,
   `

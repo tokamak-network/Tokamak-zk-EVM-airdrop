@@ -75,7 +75,7 @@ test("runAirdropWorker skips payout transfer when payouts are paused", async () 
   });
 });
 
-test("runAirdropWorker marks unclassified verification failures as internal payout errors", async () => {
+test("runAirdropWorker marks invalid submitted transactions separately from internal payout errors", async () => {
   await withTempDbAsync(async () => {
     const txHash = `0x${"a".repeat(64)}`;
     await createApplication({ qualifyingTxHash: txHash });
@@ -106,9 +106,11 @@ test("runAirdropWorker marks unclassified verification failures as internal payo
 
     assert.equal(summary.failed, 1);
     assert.equal(summary.transferred, 0);
-    assert.equal(summary.failureReasons.internal_payout_error, 1);
+    assert.equal(summary.failureReasons.invalid_submission_transaction, 1);
     assert.equal(application?.status, "Failed");
-    assert.deepEqual(application?.failureReasons, ["internal_payout_error"]);
+    assert.deepEqual(application?.failureReasons, [
+      "invalid_submission_transaction",
+    ]);
     assert.equal(application?.reason, "Transaction was not sent to Tonnel channel manager.");
   });
 });
