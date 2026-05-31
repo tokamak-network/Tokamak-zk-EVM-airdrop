@@ -1,87 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1130" viewBox="0 0 1600 1130">
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1966" viewBox="0 0 1900 1966">
   <rect width="100%" height="100%" fill="#ffffff"/>
-  <text x="420" y="44" font-size="30" font-weight="800" fill="#111827">Participation Count by Anonymous Participant</text>
+  <text x="650" y="44" font-size="30" font-weight="800" fill="#111827">Successful Reward Transfers by Anonymous IP Label and Location</text>
+  <text x="650" y="74" font-size="16" fill="#4b5563">Transferred submissions only; missing IP and location metadata is grouped as Unknown (225 total rewards).</text>
   <g>
-      <line x1="420.00" y1="86" x2="420.00" y2="1050" stroke="#e5e7eb"/>
-      <text x="420.00" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">0</text>
-      <line x1="638.80" y1="86" x2="638.80" y2="1050" stroke="#e5e7eb"/>
-      <text x="638.80" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">6</text>
-      <line x1="857.60" y1="86" x2="857.60" y2="1050" stroke="#e5e7eb"/>
-      <text x="857.60" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">12</text>
-      <line x1="1076.40" y1="86" x2="1076.40" y2="1050" stroke="#e5e7eb"/>
-      <text x="1076.40" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">18</text>
-      <line x1="1295.20" y1="86" x2="1295.20" y2="1050" stroke="#e5e7eb"/>
-      <text x="1295.20" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">24</text>
-      <line x1="1514.00" y1="86" x2="1514.00" y2="1050" stroke="#e5e7eb"/>
-      <text x="1514.00" y="1084" text-anchor="middle" font-size="16" fill="#6b7280">30</text>
-      <line x1="420" y1="1050" x2="1514" y2="1050" stroke="#111827" stroke-width="1.5"/>
-      <line x1="420" y1="86" x2="420" y2="1050" stroke="#111827" stroke-width="1.5"/>
-      <text x="402" y="106.40" text-anchor="end" font-size="17" fill="#374151">Anonymous A, Indonesia - West Java</text>
-      <rect x="420" y="86.00" width="984.60" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="1416.60" y="106.40" font-size="18" font-weight="700" fill="#111827">27</text>
-      <text x="402" y="147.40" text-anchor="end" font-size="17" fill="#374151">Anonymous B, Indonesia - West Java</text>
-      <rect x="420" y="127.00" width="364.67" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="796.67" y="147.40" font-size="18" font-weight="700" fill="#111827">10</text>
-      <text x="402" y="188.40" text-anchor="end" font-size="17" fill="#374151">Anonymous C, Indonesia - Jakarta</text>
-      <rect x="420" y="168.00" width="291.73" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="723.73" y="188.40" font-size="18" font-weight="700" fill="#111827">8</text>
-      <text x="402" y="229.40" text-anchor="end" font-size="17" fill="#374151">Anonymous D, Singapore</text>
-      <rect x="420" y="209.00" width="255.27" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="687.27" y="229.40" font-size="18" font-weight="700" fill="#111827">7</text>
-      <text x="402" y="270.40" text-anchor="end" font-size="17" fill="#374151">Anonymous E, Singapore</text>
-      <rect x="420" y="250.00" width="182.33" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="614.33" y="270.40" font-size="18" font-weight="700" fill="#111827">5</text>
-      <text x="402" y="311.40" text-anchor="end" font-size="17" fill="#374151">Anonymous F, Indonesia - Lampung</text>
-      <rect x="420" y="291.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="541.40" y="311.40" font-size="18" font-weight="700" fill="#111827">3</text>
-      <text x="402" y="352.40" text-anchor="end" font-size="17" fill="#374151">Anonymous G, Indonesia - Lampung</text>
-      <rect x="420" y="332.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="541.40" y="352.40" font-size="18" font-weight="700" fill="#111827">3</text>
-      <text x="402" y="393.40" text-anchor="end" font-size="17" fill="#374151">Anonymous H, Indonesia - Lampung</text>
-      <rect x="420" y="373.00" width="109.40" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="541.40" y="393.40" font-size="18" font-weight="700" fill="#111827">3</text>
-      <text x="402" y="434.40" text-anchor="end" font-size="17" fill="#374151">Anonymous I, Singapore</text>
-      <rect x="420" y="414.00" width="72.93" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="504.93" y="434.40" font-size="18" font-weight="700" fill="#111827">2</text>
-      <text x="402" y="475.40" text-anchor="end" font-size="17" fill="#374151">Anonymous J, Indonesia - Lampung</text>
-      <rect x="420" y="455.00" width="72.93" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="504.93" y="475.40" font-size="18" font-weight="700" fill="#111827">2</text>
-      <text x="402" y="516.40" text-anchor="end" font-size="17" fill="#374151">Anonymous K, Indonesia - East Java</text>
-      <rect x="420" y="496.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="516.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="557.40" text-anchor="end" font-size="17" fill="#374151">Anonymous L, United States</text>
-      <rect x="420" y="537.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="557.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="598.40" text-anchor="end" font-size="17" fill="#374151">Anonymous M, South Korea - Seoul</text>
-      <rect x="420" y="578.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="598.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="639.40" text-anchor="end" font-size="17" fill="#374151">Anonymous N, Indonesia - Yogyakarta</text>
-      <rect x="420" y="619.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="639.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="680.40" text-anchor="end" font-size="17" fill="#374151">Anonymous O, Philippines - National Capital Region</text>
-      <rect x="420" y="660.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="680.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="721.40" text-anchor="end" font-size="17" fill="#374151">Anonymous P, Singapore</text>
-      <rect x="420" y="701.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="721.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="762.40" text-anchor="end" font-size="17" fill="#374151">Anonymous Q, United States</text>
-      <rect x="420" y="742.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="762.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="803.40" text-anchor="end" font-size="17" fill="#374151">Anonymous R, Philippines - National Capital Region</text>
-      <rect x="420" y="783.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="803.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="844.40" text-anchor="end" font-size="17" fill="#374151">Anonymous S, Singapore</text>
-      <rect x="420" y="824.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="844.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="885.40" text-anchor="end" font-size="17" fill="#374151">Anonymous T, Singapore</text>
-      <rect x="420" y="865.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="885.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="926.40" text-anchor="end" font-size="17" fill="#374151">Anonymous U, Indonesia - East Java</text>
-      <rect x="420" y="906.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="926.40" font-size="18" font-weight="700" fill="#111827">1</text>
-      <text x="402" y="967.40" text-anchor="end" font-size="17" fill="#374151">Anonymous V, Indonesia - Lampung</text>
-      <rect x="420" y="947.00" width="36.47" height="30.00" rx="4" fill="#2563eb"/>
-      <text x="468.47" y="967.40" font-size="18" font-weight="700" fill="#111827">1</text>
+    <line x1="650.00" y1="112" x2="650.00" y2="1839" stroke="#e5e7eb"/>
+    <text x="650.00" y="1885" text-anchor="middle" font-size="15" fill="#6b7280">0</text>
+    <line x1="932.50" y1="112" x2="932.50" y2="1839" stroke="#e5e7eb"/>
+    <text x="932.50" y="1885" text-anchor="middle" font-size="15" fill="#6b7280">10</text>
+    <line x1="1215.00" y1="112" x2="1215.00" y2="1839" stroke="#e5e7eb"/>
+    <text x="1215.00" y="1885" text-anchor="middle" font-size="15" fill="#6b7280">20</text>
+    <line x1="1497.50" y1="112" x2="1497.50" y2="1839" stroke="#e5e7eb"/>
+    <text x="1497.50" y="1885" text-anchor="middle" font-size="15" fill="#6b7280">30</text>
+    <line x1="1780.00" y1="112" x2="1780.00" y2="1839" stroke="#e5e7eb"/>
+    <text x="1780.00" y="1885" text-anchor="middle" font-size="15" fill="#6b7280">40</text>
+    <line x1="650" y1="1839" x2="1780" y2="1839" stroke="#111827" stroke-width="1.5"/>
+    <line x1="650" y1="112" x2="650" y2="1839" stroke="#111827" stroke-width="1.5"/>
+    <text x="632" y="126.96" text-anchor="end" font-size="16" fill="#374151">IP-01, Indonesia / West Java / Bekasi</text>
+    <rect x="650" y="112.00" width="904.00" height="22" rx="4" fill="#2563eb"/>
+    <text x="1566.00" y="126.96" font-size="17" font-weight="700" fill="#111827">32</text>
+    <text x="632" y="157.96" text-anchor="end" font-size="16" fill="#374151">IP-02, Indonesia / West Java / Bekasi</text>
+    <rect x="650" y="143.00" width="762.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="1424.75" y="157.96" font-size="17" font-weight="700" fill="#111827">27</text>
+    <text x="632" y="188.96" text-anchor="end" font-size="16" fill="#374151">IP-03, Indonesia / Jakarta</text>
+    <rect x="650" y="174.00" width="678.00" height="22" rx="4" fill="#2563eb"/>
+    <text x="1340.00" y="188.96" font-size="17" font-weight="700" fill="#111827">24</text>
+    <text x="632" y="219.96" text-anchor="end" font-size="16" fill="#374151">Unknown, Unknown</text>
+    <rect x="650" y="205.00" width="423.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="1085.75" y="219.96" font-size="17" font-weight="700" fill="#111827">15</text>
+    <text x="632" y="250.96" text-anchor="end" font-size="16" fill="#374151">IP-04, South Korea / South Chungcheong</text>
+    <rect x="650" y="236.00" width="339.00" height="22" rx="4" fill="#2563eb"/>
+    <text x="1001.00" y="250.96" font-size="17" font-weight="700" fill="#111827">12</text>
+    <text x="632" y="281.96" text-anchor="end" font-size="16" fill="#374151">IP-05, Singapore / Singapore</text>
+    <rect x="650" y="267.00" width="197.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="859.75" y="281.96" font-size="17" font-weight="700" fill="#111827">7</text>
+    <text x="632" y="312.96" text-anchor="end" font-size="16" fill="#374151">IP-06, South Korea / Incheon / Seo-gu</text>
+    <rect x="650" y="298.00" width="197.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="859.75" y="312.96" font-size="17" font-weight="700" fill="#111827">7</text>
+    <text x="632" y="343.96" text-anchor="end" font-size="16" fill="#374151">IP-07, Singapore / Singapore</text>
+    <rect x="650" y="329.00" width="197.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="859.75" y="343.96" font-size="17" font-weight="700" fill="#111827">7</text>
+    <text x="632" y="374.96" text-anchor="end" font-size="16" fill="#374151">IP-08, South Korea</text>
+    <rect x="650" y="360.00" width="197.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="859.75" y="374.96" font-size="17" font-weight="700" fill="#111827">7</text>
+    <text x="632" y="405.96" text-anchor="end" font-size="16" fill="#374151">IP-09, Singapore / Singapore</text>
+    <rect x="650" y="391.00" width="197.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="859.75" y="405.96" font-size="17" font-weight="700" fill="#111827">7</text>
+    <text x="632" y="436.96" text-anchor="end" font-size="16" fill="#374151">IP-10, South Korea / Seoul</text>
+    <rect x="650" y="422.00" width="169.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="831.50" y="436.96" font-size="17" font-weight="700" fill="#111827">6</text>
+    <text x="632" y="467.96" text-anchor="end" font-size="16" fill="#374151">IP-11, Singapore / Singapore</text>
+    <rect x="650" y="453.00" width="141.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="803.25" y="467.96" font-size="17" font-weight="700" fill="#111827">5</text>
+    <text x="632" y="498.96" text-anchor="end" font-size="16" fill="#374151">IP-12, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="484.00" width="113.00" height="22" rx="4" fill="#2563eb"/>
+    <text x="775.00" y="498.96" font-size="17" font-weight="700" fill="#111827">4</text>
+    <text x="632" y="529.96" text-anchor="end" font-size="16" fill="#374151">IP-13, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="515.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="529.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="560.96" text-anchor="end" font-size="16" fill="#374151">IP-14, Indonesia / Lampung</text>
+    <rect x="650" y="546.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="560.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="591.96" text-anchor="end" font-size="16" fill="#374151">IP-15, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="577.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="591.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="622.96" text-anchor="end" font-size="16" fill="#374151">IP-16, Singapore</text>
+    <rect x="650" y="608.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="622.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="653.96" text-anchor="end" font-size="16" fill="#374151">IP-17, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="639.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="653.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="684.96" text-anchor="end" font-size="16" fill="#374151">IP-18, Japan / Tokyo</text>
+    <rect x="650" y="670.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="684.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="715.96" text-anchor="end" font-size="16" fill="#374151">IP-19, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="701.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="715.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="746.96" text-anchor="end" font-size="16" fill="#374151">IP-20, Indonesia / Lampung / Bandar Lampung</text>
+    <rect x="650" y="732.00" width="84.75" height="22" rx="4" fill="#2563eb"/>
+    <text x="746.75" y="746.96" font-size="17" font-weight="700" fill="#111827">3</text>
+    <text x="632" y="777.96" text-anchor="end" font-size="16" fill="#374151">IP-21, Indonesia / Lampung</text>
+    <rect x="650" y="763.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="777.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="808.96" text-anchor="end" font-size="16" fill="#374151">IP-22, United States</text>
+    <rect x="650" y="794.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="808.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="839.96" text-anchor="end" font-size="16" fill="#374151">IP-23, Singapore / Singapore</text>
+    <rect x="650" y="825.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="839.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="870.96" text-anchor="end" font-size="16" fill="#374151">IP-24, Singapore / Singapore</text>
+    <rect x="650" y="856.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="870.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="901.96" text-anchor="end" font-size="16" fill="#374151">IP-25, Singapore / Singapore</text>
+    <rect x="650" y="887.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="901.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="932.96" text-anchor="end" font-size="16" fill="#374151">IP-26, Singapore / Singapore</text>
+    <rect x="650" y="918.00" width="56.50" height="22" rx="4" fill="#2563eb"/>
+    <text x="718.50" y="932.96" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="632" y="963.96" text-anchor="end" font-size="16" fill="#374151">IP-27, Indonesia / Yogyakarta</text>
+    <rect x="650" y="949.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="963.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="994.96" text-anchor="end" font-size="16" fill="#374151">IP-28, Philippines / Metro Manila / Manila</text>
+    <rect x="650" y="980.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="994.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1025.96" text-anchor="end" font-size="16" fill="#374151">IP-29, Indonesia / Lampung</text>
+    <rect x="650" y="1011.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1025.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1056.96" text-anchor="end" font-size="16" fill="#374151">IP-30, United States</text>
+    <rect x="650" y="1042.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1056.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1087.96" text-anchor="end" font-size="16" fill="#374151">IP-31, Indonesia / East Java / Surabaya</text>
+    <rect x="650" y="1073.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1087.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1118.96" text-anchor="end" font-size="16" fill="#374151">IP-32, Philippines / Metro Manila / Manila</text>
+    <rect x="650" y="1104.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1118.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1149.96" text-anchor="end" font-size="16" fill="#374151">IP-33, Indonesia / East Java / Surabaya</text>
+    <rect x="650" y="1135.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1149.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1180.96" text-anchor="end" font-size="16" fill="#374151">IP-34, Singapore / Singapore</text>
+    <rect x="650" y="1166.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1180.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1211.96" text-anchor="end" font-size="16" fill="#374151">IP-35, Singapore / Singapore</text>
+    <rect x="650" y="1197.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1211.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1242.96" text-anchor="end" font-size="16" fill="#374151">IP-36, South Korea / Seoul / Gangnam-gu</text>
+    <rect x="650" y="1228.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1242.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1273.96" text-anchor="end" font-size="16" fill="#374151">IP-37, Japan / Tokyo</text>
+    <rect x="650" y="1259.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1273.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1304.96" text-anchor="end" font-size="16" fill="#374151">IP-38, South Korea / Seoul</text>
+    <rect x="650" y="1290.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1304.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1335.96" text-anchor="end" font-size="16" fill="#374151">IP-39, South Korea / Seoul</text>
+    <rect x="650" y="1321.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1335.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1366.96" text-anchor="end" font-size="16" fill="#374151">IP-40, Singapore / Singapore</text>
+    <rect x="650" y="1352.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1366.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1397.96" text-anchor="end" font-size="16" fill="#374151">IP-41, Indonesia / Yogyakarta</text>
+    <rect x="650" y="1383.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1397.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1428.96" text-anchor="end" font-size="16" fill="#374151">IP-42, Indonesia / East Java / Surabaya</text>
+    <rect x="650" y="1414.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1428.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1459.96" text-anchor="end" font-size="16" fill="#374151">IP-43, Nigeria / Lagos</text>
+    <rect x="650" y="1445.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1459.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1490.96" text-anchor="end" font-size="16" fill="#374151">IP-44, Singapore / Singapore</text>
+    <rect x="650" y="1476.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1490.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1521.96" text-anchor="end" font-size="16" fill="#374151">IP-45, Singapore / Singapore</text>
+    <rect x="650" y="1507.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1521.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1552.96" text-anchor="end" font-size="16" fill="#374151">IP-46, Japan / Tokyo</text>
+    <rect x="650" y="1538.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1552.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1583.96" text-anchor="end" font-size="16" fill="#374151">IP-47, Tanzania / Dodoma</text>
+    <rect x="650" y="1569.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1583.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1614.96" text-anchor="end" font-size="16" fill="#374151">IP-48, Algeria / Algiers</text>
+    <rect x="650" y="1600.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1614.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1645.96" text-anchor="end" font-size="16" fill="#374151">IP-49, Argentina / Buenos Aires Province</text>
+    <rect x="650" y="1631.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1645.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1676.96" text-anchor="end" font-size="16" fill="#374151">IP-50, Nigeria / Lagos</text>
+    <rect x="650" y="1662.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1676.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1707.96" text-anchor="end" font-size="16" fill="#374151">IP-51, Switzerland</text>
+    <rect x="650" y="1693.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1707.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1738.96" text-anchor="end" font-size="16" fill="#374151">IP-52, Egypt / Cairo</text>
+    <rect x="650" y="1724.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1738.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1769.96" text-anchor="end" font-size="16" fill="#374151">IP-53, Singapore / Singapore</text>
+    <rect x="650" y="1755.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1769.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1800.96" text-anchor="end" font-size="16" fill="#374151">IP-54, Austria / Vienna</text>
+    <rect x="650" y="1786.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1800.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="632" y="1831.96" text-anchor="end" font-size="16" fill="#374151">IP-55, Japan / Tokyo</text>
+    <rect x="650" y="1817.00" width="28.25" height="22" rx="4" fill="#2563eb"/>
+    <text x="690.25" y="1831.96" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="1215" y="1936" text-anchor="middle" font-size="16" fill="#4b5563">Successful transferred submissions</text>
   </g>
 </svg>

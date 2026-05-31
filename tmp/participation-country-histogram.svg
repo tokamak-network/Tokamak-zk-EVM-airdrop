@@ -1,39 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
   <rect width="100%" height="100%" fill="#ffffff"/>
-  <text x="72" y="44" font-size="30" font-weight="800" fill="#111827">Participation Count by Country</text>
+  <text x="360" y="44" font-size="30" font-weight="800" fill="#111827">Successful Reward Transfers by Submission Country</text>
+  <text x="360" y="74" font-size="16" fill="#4b5563">Transferred submissions only, including Unknown metadata (225 total rewards).</text>
   <g>
-      <line x1="72" y1="560.00" x2="1152" y2="560.00" stroke="#e5e7eb"/>
-      <text x="58" y="566.00" text-anchor="end" font-size="16" fill="#6b7280">0</text>
-      <line x1="72" y1="466.40" x2="1152" y2="466.40" stroke="#e5e7eb"/>
-      <text x="58" y="472.40" text-anchor="end" font-size="16" fill="#6b7280">12</text>
-      <line x1="72" y1="372.80" x2="1152" y2="372.80" stroke="#e5e7eb"/>
-      <text x="58" y="378.80" text-anchor="end" font-size="16" fill="#6b7280">24</text>
-      <line x1="72" y1="279.20" x2="1152" y2="279.20" stroke="#e5e7eb"/>
-      <text x="58" y="285.20" text-anchor="end" font-size="16" fill="#6b7280">36</text>
-      <line x1="72" y1="185.60" x2="1152" y2="185.60" stroke="#e5e7eb"/>
-      <text x="58" y="191.60" text-anchor="end" font-size="16" fill="#6b7280">48</text>
-      <line x1="72" y1="92.00" x2="1152" y2="92.00" stroke="#e5e7eb"/>
-      <text x="58" y="98.00" text-anchor="end" font-size="16" fill="#6b7280">60</text>
-      <line x1="72" y1="560" x2="1152" y2="560" stroke="#111827" stroke-width="1.5"/>
-      <line x1="72" y1="92" x2="72" y2="560" stroke="#111827" stroke-width="1.5"/>
-      <rect x="72.00" y="92.00" width="165.00" height="468.00" rx="4" fill="#2563eb"/>
-      <text x="154.50" y="82.00" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">60</text>
-      <text transform="translate(154.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Indonesia (ID)</text>
-      <rect x="255.00" y="427.40" width="165.00" height="132.60" rx="4" fill="#2563eb"/>
-      <text x="337.50" y="417.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">17</text>
-      <text transform="translate(337.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Singapore (SG)</text>
-      <rect x="438.00" y="443.00" width="165.00" height="117.00" rx="4" fill="#2563eb"/>
-      <text x="520.50" y="433.00" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">15</text>
-      <text transform="translate(520.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Unknown Region</text>
-      <rect x="621.00" y="544.40" width="165.00" height="15.60" rx="4" fill="#2563eb"/>
-      <text x="703.50" y="534.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">2</text>
-      <text transform="translate(703.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">United States (US)</text>
-      <rect x="804.00" y="544.40" width="165.00" height="15.60" rx="4" fill="#2563eb"/>
-      <text x="886.50" y="534.40" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">2</text>
-      <text transform="translate(886.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">Philippines (PH)</text>
-      <rect x="987.00" y="552.20" width="165.00" height="7.80" rx="4" fill="#2563eb"/>
-      <text x="1069.50" y="542.20" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">1</text>
-      <text transform="translate(1069.50 588.00) rotate(58)" text-anchor="start" font-size="17" fill="#374151">South Korea (KR)</text>
+    <line x1="360.00" y1="112" x2="360.00" y2="742" stroke="#e5e7eb"/>
+    <text x="360.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">0</text>
+    <line x1="566.00" y1="112" x2="566.00" y2="742" stroke="#e5e7eb"/>
+    <text x="566.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">25</text>
+    <line x1="772.00" y1="112" x2="772.00" y2="742" stroke="#e5e7eb"/>
+    <text x="772.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">50</text>
+    <line x1="978.00" y1="112" x2="978.00" y2="742" stroke="#e5e7eb"/>
+    <text x="978.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">75</text>
+    <line x1="1184.00" y1="112" x2="1184.00" y2="742" stroke="#e5e7eb"/>
+    <text x="1184.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">100</text>
+    <line x1="1390.00" y1="112" x2="1390.00" y2="742" stroke="#e5e7eb"/>
+    <text x="1390.00" y="788" text-anchor="middle" font-size="15" fill="#6b7280">125</text>
+    <line x1="360" y1="742" x2="1390" y2="742" stroke="#111827" stroke-width="1.5"/>
+    <line x1="360" y1="112" x2="360" y2="742" stroke="#111827" stroke-width="1.5"/>
+    <text x="342" y="133.76" text-anchor="end" font-size="16" fill="#374151">Indonesia (ID)</text>
+    <rect x="360" y="112.00" width="939.36" height="32" rx="4" fill="#2563eb"/>
+    <text x="1311.36" y="133.76" font-size="17" font-weight="700" fill="#111827">114</text>
+    <text x="342" y="179.76" text-anchor="end" font-size="16" fill="#374151">Singapore (SG)</text>
+    <rect x="360" y="158.00" width="354.32" height="32" rx="4" fill="#2563eb"/>
+    <text x="726.32" y="179.76" font-size="17" font-weight="700" fill="#111827">43</text>
+    <text x="342" y="225.76" text-anchor="end" font-size="16" fill="#374151">South Korea (KR)</text>
+    <rect x="360" y="204.00" width="288.40" height="32" rx="4" fill="#2563eb"/>
+    <text x="660.40" y="225.76" font-size="17" font-weight="700" fill="#111827">35</text>
+    <text x="342" y="271.76" text-anchor="end" font-size="16" fill="#374151">Unknown</text>
+    <rect x="360" y="250.00" width="123.60" height="32" rx="4" fill="#2563eb"/>
+    <text x="495.60" y="271.76" font-size="17" font-weight="700" fill="#111827">15</text>
+    <text x="342" y="317.76" text-anchor="end" font-size="16" fill="#374151">Japan (JP)</text>
+    <rect x="360" y="296.00" width="49.44" height="32" rx="4" fill="#2563eb"/>
+    <text x="421.44" y="317.76" font-size="17" font-weight="700" fill="#111827">6</text>
+    <text x="342" y="363.76" text-anchor="end" font-size="16" fill="#374151">Nigeria (NG)</text>
+    <rect x="360" y="342.00" width="16.48" height="32" rx="4" fill="#2563eb"/>
+    <text x="388.48" y="363.76" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="342" y="409.76" text-anchor="end" font-size="16" fill="#374151">Philippines (PH)</text>
+    <rect x="360" y="388.00" width="16.48" height="32" rx="4" fill="#2563eb"/>
+    <text x="388.48" y="409.76" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="342" y="455.76" text-anchor="end" font-size="16" fill="#374151">United States (US)</text>
+    <rect x="360" y="434.00" width="16.48" height="32" rx="4" fill="#2563eb"/>
+    <text x="388.48" y="455.76" font-size="17" font-weight="700" fill="#111827">2</text>
+    <text x="342" y="501.76" text-anchor="end" font-size="16" fill="#374151">Algeria (DZ)</text>
+    <rect x="360" y="480.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="501.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="342" y="547.76" text-anchor="end" font-size="16" fill="#374151">Argentina (AR)</text>
+    <rect x="360" y="526.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="547.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="342" y="593.76" text-anchor="end" font-size="16" fill="#374151">Austria (AT)</text>
+    <rect x="360" y="572.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="593.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="342" y="639.76" text-anchor="end" font-size="16" fill="#374151">Egypt (EG)</text>
+    <rect x="360" y="618.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="639.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="342" y="685.76" text-anchor="end" font-size="16" fill="#374151">Switzerland (CH)</text>
+    <rect x="360" y="664.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="685.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="342" y="731.76" text-anchor="end" font-size="16" fill="#374151">Tanzania (TZ)</text>
+    <rect x="360" y="710.00" width="8.24" height="32" rx="4" fill="#2563eb"/>
+    <text x="380.24" y="731.76" font-size="17" font-weight="700" fill="#111827">1</text>
+    <text x="875" y="870" text-anchor="middle" font-size="16" fill="#4b5563">Successful transferred submissions</text>
   </g>
 </svg>
