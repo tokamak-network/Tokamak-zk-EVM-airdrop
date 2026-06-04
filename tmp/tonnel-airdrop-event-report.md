@@ -130,28 +130,28 @@ The next campaign should be planned as a distribution campaign first and a rewar
 
 ## Conference Opportunities
 
-The following events are relevant for promotion, partnerships, developer adoption, investor visibility, or community development. Dates should be reconfirmed before booking because event programs can change. Sources were checked on June 4, 2026.
+The following events are relevant for promotion, partnerships, developer adoption, investor visibility, or community development. Dates and application windows should be reconfirmed before outreach because event programs can change. Sources were checked on June 4, 2026. "Not published" means a public speaker application period was not found in the available official or event-facing sources.
 
-| Event | Date | Location | Type | Investor relevance | Source |
-| --- | --- | --- | --- | --- | --- |
-| ETHis | July 2-3, 2026 | Munich, Germany | Ethereum real-world summit | Good fit for explaining Tonnel as Ethereum-settled private application infrastructure to builders and operators. | [ETHis](https://www.ethis.xyz/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| Pragma Lisbon | July 23, 2026 | Lisbon, Portugal | Ethereum conference | Concentrated Ethereum founder and protocol audience before the Lisbon hackathon. | [ETHGlobal](https://ethglobal.com/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| ETHGlobal Lisbon | July 24-26, 2026 | Lisbon, Portugal | Ethereum hackathon | Strong developer acquisition opportunity for privacy, wallet, and agent-assisted workflows. | [ETHGlobal](https://ethglobal.com/) |
-| Coinfest Asia | August 20-21, 2026 | Bali, Indonesia | Crypto, Web3, builders, traders, institutions | Highest-priority regional event because the airdrop data showed strong Indonesian participation and the event explicitly serves builders, traders, and institutions. | [Coinfest Asia](https://coinfest.asia/) |
-| ETHSafari | September 1-6, 2026 | Kenya | Ethereum conference and hackathon | Useful for emerging-market Ethereum community expansion and developer relations. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| ETHTaipei | September 11-15, 2026 | Taipei, Taiwan | Ethereum conference | Relevant for Asia-based Ethereum developers and protocol communities. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| European Blockchain Convention | September 16-17, 2026 | Barcelona, Spain | Blockchain business conference | Business-development venue for partnerships, institutional narratives, and ecosystem visibility. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| ETHSofia | September 24, 2026 | Sofia, Bulgaria | Ethereum builder and institutional conference | Targets Ethereum builders, researchers, privacy infrastructure teams, and institutions. | [ETHSofia](https://www.ethsofia.com/) |
-| Pragma Tokyo | September 24, 2026 | Tokyo, Japan | Ethereum conference | Strong pre-hackathon ecosystem access in Japan. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| ETHGlobal Tokyo | September 25-27, 2026 | Tokyo, Japan | Ethereum hackathon | Developer acquisition and product feedback opportunity in a major Asian market. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| Korea Blockchain Week | September 29-October 1, 2026 | Seoul, South Korea | Digital asset business conference | Relevant for Korean traders, institutions, exchanges, and Telegram-led promotion networks. | [KBW announcement](https://www.prnewswire.com/news-releases/kbw-2026-returns-to-seoul-september-29october-1-upbit-joins-as-main-sponsor-302660025.html) |
-| TOKEN2049 Singapore | October 7-8, 2026 | Singapore | Global crypto business conference | Major investor, exchange, market-maker, and ecosystem partner venue; includes startup and hackathon programs. | [TOKEN2049 Singapore](https://www.token2049.com/singapore) |
-| Devcon India | November 3-6, 2026 | Mumbai, India | Ethereum global community and developer conference | Flagship Ethereum developer event; best 2026 venue for serious Ethereum ecosystem positioning. | [Devcon](https://devcon.org/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| Pragma Mumbai | November 5, 2026 | Mumbai, India | Ethereum conference | Focused Ethereum networking during Devcon week. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| ETHGlobal Mumbai | November 6-8, 2026 | Mumbai, India | Ethereum hackathon | Strong follow-on developer acquisition after Devcon. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
-| DC Blockchain Summit | April 6-7, 2027 | Washington, DC, USA | Policy and business summit | Useful for policy, institutional, and regulated digital-asset conversations. | [DC Blockchain Summit](https://www.dcblockchainsummit.com/) |
-| EthCC | April 12-15, 2027 | Cannes, France | Ethereum community conference | Largest long-running European Ethereum conference; strong for developer credibility and ecosystem partnerships. | [Palais des Festivals](https://en.palaisdesfestivals.com/offers/ethereum-community-conference-cannes-en-5198662/) |
-| TOKEN2049 Dubai | April 21-22, 2027 | Dubai, UAE | Global crypto business conference | High-density investor and executive access; official site lists 15,000+ attendees and 4,000+ companies. | [TOKEN2049 Dubai](https://www.token2049.com/dubai) |
+| Event | Date | Location | Type | Speaker application period | Investor relevance | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| ETHis | July 2-3, 2026 | Munich, Germany | Ethereum real-world summit | Open as of June 4, 2026; close date not published. | Good fit for explaining Tonnel as Ethereum-settled private application infrastructure to builders and operators. | [ETHis](https://www.ethis.xyz/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| Pragma Lisbon | July 23, 2026 | Lisbon, Portugal | Ethereum conference | Not published; ETHGlobal describes Pragma speakers and topics as hand-picked and curated. | Concentrated Ethereum founder and protocol audience before the Lisbon hackathon. | [ETHGlobal Pragma](https://ethglobal.com/pragma), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| ETHGlobal Lisbon | July 24-26, 2026 | Lisbon, Portugal | Ethereum hackathon | Not published; public application information found is for attending or hacking, not speaking. | Strong developer acquisition opportunity for privacy, wallet, and agent-assisted workflows. | [ETHGlobal](https://ethglobal.com/) |
+| Coinfest Asia | August 20-21, 2026 | Bali, Indonesia | Crypto, Web3, builders, traders, institutions | Open as of June 4, 2026 via "Pitch to Speak"; close date not published. | Highest-priority regional event because the airdrop data showed strong Indonesian participation and the event explicitly serves builders, traders, and institutions. | [Coinfest Asia](https://coinfest.asia/), [FAQ](https://coinfest.asia/faq) |
+| ETHSafari | September 1-6, 2026 | Kenya | Ethereum conference and hackathon | Not published. | Useful for emerging-market Ethereum community expansion and developer relations. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| ETHTaipei | September 11-15, 2026 | Taipei, Taiwan | Ethereum conference | Open as of June 4, 2026 via "Apply to Speak"; close date not published. | Relevant for Asia-based Ethereum developers and protocol communities. | [ETHTaipei](https://ethtaipei.org/) |
+| European Blockchain Convention | September 16-17, 2026 | Barcelona, Spain | Blockchain business conference | "Become a Speaker" route exists; public date window not published. | Business-development venue for partnerships, institutional narratives, and ecosystem visibility. | [EBC12](https://eblockchainconvention.com/european-blockchain-convention-12/), [Become Speaker](https://eblockchainconvention.com/become-speaker/) |
+| ETHSofia | September 24, 2026 | Sofia, Bulgaria | Ethereum builder and institutional conference | Open as of June 4, 2026 via "Apply to Speak"; close date not published. | Targets Ethereum builders, researchers, privacy infrastructure teams, and institutions. | [ETHSofia](https://www.ethsofia.com/) |
+| Pragma Tokyo | September 24, 2026 | Tokyo, Japan | Ethereum conference | Not published; ETHGlobal describes Pragma speakers and topics as hand-picked and curated. | Strong pre-hackathon ecosystem access in Japan. | [ETHGlobal Pragma](https://ethglobal.com/pragma), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| ETHGlobal Tokyo | September 25-27, 2026 | Tokyo, Japan | Ethereum hackathon | Not published; public application information found is for attending or hacking, not speaking. | Developer acquisition and product feedback opportunity in a major Asian market. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| Korea Blockchain Week | September 29-October 1, 2026 | Seoul, South Korea | Digital asset business conference | Not published; announced materials say speaker lineup, agenda, and ticket information will be announced later. | Relevant for Korean traders, institutions, exchanges, and Telegram-led promotion networks. | [KBW announcement](https://www.prnewswire.com/news-releases/kbw-2026-returns-to-seoul-september-29october-1-upbit-joins-as-main-sponsor-302660025.html) |
+| TOKEN2049 Singapore | October 7-8, 2026 | Singapore | Global crypto business conference | Open as of June 4, 2026; close date not published. | Major investor, exchange, market-maker, and ecosystem partner venue; includes startup and hackathon programs. | [TOKEN2049 Singapore](https://www.token2049.com/singapore), [speaker application](https://www.token2049.com/singapore/speakers) |
+| Devcon India | November 3-6, 2026 | Mumbai, India | Ethereum global community and developer conference | Not yet announced; official materials say speaker applications will be announced in the coming months. | Flagship Ethereum developer event; best 2026 venue for serious Ethereum ecosystem positioning. | [Devcon](https://devcon.org/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| Pragma Mumbai | November 5, 2026 | Mumbai, India | Ethereum conference | Not published; ETHGlobal describes Pragma speakers and topics as hand-picked and curated. | Focused Ethereum networking during Devcon week. | [ETHGlobal Pragma](https://ethglobal.com/pragma), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| ETHGlobal Mumbai | November 6-8, 2026 | Mumbai, India | Ethereum hackathon | Not published; public application information found is for attending or hacking, not speaking. | Strong follow-on developer acquisition after Devcon. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
+| DC Blockchain Summit | April 6-7, 2027 | Washington, DC, USA | Policy and business summit | Speaker request route exists; 2027 public date window not published. | Useful for policy, institutional, and regulated digital-asset conversations. | [DC Blockchain Summit](https://www.dcblockchainsummit.com/), [contact](https://www.dcblockchainsummit.com/contactus) |
+| EthCC | April 12-15, 2027 | Cannes, France | Ethereum community conference | 2027 period not published; current EthCC speaker form says applications are closed. | Largest long-running European Ethereum conference; strong for developer credibility and ecosystem partnerships. | [Palais des Festivals](https://en.palaisdesfestivals.com/offers/ethereum-community-conference-cannes-en-5198662/), [EthCC speaker form](https://ethcc.io/forms/speakers) |
+| TOKEN2049 Dubai | April 21-22, 2027 | Dubai, UAE | Global crypto business conference | Open as of June 4, 2026; close date not published. | High-density investor and executive access; official site lists 15,000+ attendees and 4,000+ companies. | [TOKEN2049 Dubai](https://www.token2049.com/dubai), [speaker application](https://www.token2049.com/dubai/speakers) |
 
 ## Indonesian Community Targets
 
@@ -229,15 +229,25 @@ The key lesson is distribution. The next event should be promoted more aggressiv
 - Local repository implementation and commits: `Tokamak-zk-EVM-airdrop`
 - Related repository commits and changelog: `/Users/jehyuk/Documents/repo/tokamak-zk-evm-contracts`
 - Ethereum event list: https://ethereum.org/community/events/conferences/
+- ETHis: https://www.ethis.xyz/
 - ETHGlobal: https://ethglobal.com/
+- ETHGlobal Pragma: https://ethglobal.com/pragma
 - Devcon: https://devcon.org/
 - Coinfest Asia: https://coinfest.asia/
+- Coinfest Asia FAQ: https://coinfest.asia/faq
 - Korea Blockchain Week announcement: https://www.prnewswire.com/news-releases/kbw-2026-returns-to-seoul-september-29october-1-upbit-joins-as-main-sponsor-302660025.html
 - TOKEN2049 Singapore: https://www.token2049.com/singapore
+- TOKEN2049 Singapore speaker application: https://www.token2049.com/singapore/speakers
 - TOKEN2049 Dubai: https://www.token2049.com/dubai
+- TOKEN2049 Dubai speaker application: https://www.token2049.com/dubai/speakers
+- ETHTaipei: https://ethtaipei.org/
+- European Blockchain Convention EBC12: https://eblockchainconvention.com/european-blockchain-convention-12/
+- European Blockchain Convention speaker page: https://eblockchainconvention.com/become-speaker/
 - ETHSofia: https://www.ethsofia.com/
 - DC Blockchain Summit: https://www.dcblockchainsummit.com/
+- DC Blockchain Summit contact: https://www.dcblockchainsummit.com/contactus
 - EthCC venue listing: https://en.palaisdesfestivals.com/offers/ethereum-community-conference-cannes-en-5198662/
+- EthCC speaker form: https://ethcc.io/forms/speakers
 - BlockDevId: https://blockdev.id/
 - Official Ethereum Meetup Indonesia Telegram: https://t.me/ethereum_indo
 - Asosiasi Blockchain Indonesia: https://asosiasiblockchain.co.id/?RefID=Livetweets
