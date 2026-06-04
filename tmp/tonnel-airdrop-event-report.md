@@ -174,7 +174,7 @@ The following communities are relevant for the next campaign because they are In
 
 ## Related Project Updates
 
-The related `tokamak-zk-evm-contracts` repository changed materially between May 21, 2026 and June 4, 2026. The updates are grouped below by subject rather than by date.
+The related `tokamak-zk-evm-contracts` repository changed materially between May 21, 2026 and June 4, 2026. The updates are grouped below by subject rather than by date. Commit links point to the GitHub remote repository.
 
 ### Easier And Safer Private-State CLI Usage
 
@@ -182,11 +182,15 @@ The private-state CLI moved through releases up to version 2.4.3. The practical 
 
 For non-technical users, this matters because the command-line tool is the bridge between a user and the private-state product. If the tool explains what went wrong in plain terms, users are less likely to abandon the flow or ask for manual support.
 
+Related commits: [d9e321d Release private-state CLI 2.4.3](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/d9e321da316f3a6bb5f77d441cdb58a700629c0f), [3b23eb4 Document private-state CLI install prerequisites](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/3b23eb49f9d1bce35335bbec53128aa064f505d1), [71f07e2 Generalize CLI README agent error guidance](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/71f07e236886cd4ba66b9070d60ef7bde6046e14), [1c7f4f1 Standardize private-state CLI JSON output](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/1c7f4f14d0bc482c282dcc2b8fbc4cb3b8078301), [9317935 Add structured CLI JSON errors](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/931793581466f8a4f1b245ca8d1395d4ebe2487f).
+
 ### Fewer Failed Transactions Before Submission
 
 The CLI added pre-submit dry-runs for transaction-sending commands. In plain language, the tool can now rehearse a transaction locally before asking the blockchain to execute it. If the transaction is likely to fail, the user can see the issue before paying for a failed on-chain attempt.
 
 This is important for future airdrops because the rewarded action requires a real private-state transfer. A smoother transaction path should improve completion rates and reduce user frustration.
+
+Related commits: [3f99e79 Add CLI pre-submit dry-runs](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/3f99e798bef1feba363130935718fab4bfe26304), [0a75ba4 Check channel roots before proof-backed submit](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/0a75ba4116f2019912e6cba29c57f1a5737ef30b), [6a54f8c Handle stale channel root reverts](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/6a54f8ce45b1893de4eb6190d47c0235cc977a04).
 
 ### More Reliable Machine-Readable Output
 
@@ -194,11 +198,15 @@ The CLI standardized JSON output and added structured JSON errors. This means ap
 
 For Tonnel, this supports a better automated experience: the website, worker, analytics, and agent-assisted instructions can be connected with fewer fragile assumptions.
 
+Related commits: [1c7f4f1 Standardize private-state CLI JSON output](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/1c7f4f14d0bc482c282dcc2b8fbc4cb3b8078301), [9317935 Add structured CLI JSON errors](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/931793581466f8a4f1b245ca8d1395d4ebe2487f).
+
 ### Better Recovery When Local State Is Out Of Date
 
 Private-state usage depends on local workspace data that mirrors channel state. Several updates improved how the CLI detects stale channel data, gives recovery guidance, and uses workspace mirrors before falling back to heavier rebuilds.
 
 For users, the simple version is: when the local copy of Tonnel state is old, the tool is better at telling the user how to refresh it and better at avoiding unnecessary failed transactions.
+
+Related commits: [0bb2612 Prefer workspace mirrors for channel recovery guidance](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/0bb26123c6cbc2e10e715905e735c5f3c321604b), [d675bc8 Fold workspace mirror publishing into recovery](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/d675bc883e601b50410cdcc3f9bdec1ec07fb5fe), [6a54f8c Handle stale channel root reverts](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/6a54f8ce45b1893de4eb6190d47c0235cc977a04), [0a75ba4 Check channel roots before proof-backed submit](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/0a75ba4116f2019912e6cba29c57f1a5737ef30b).
 
 ### Clearer Guidance For AI-Assisted Users
 
@@ -206,17 +214,23 @@ The CLI documentation and package-shipped agent guidance were updated so AI agen
 
 Better agent guidance reduces ambiguity and keeps sensitive-key warnings visible.
 
+Related commits: [e7ecb39 Move CLI agent guidance into package file](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/e7ecb39db5539580e99f706c55b783fec6ad4700), [71f07e2 Generalize CLI README agent error guidance](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/71f07e236886cd4ba66b9070d60ef7bde6046e14), [3b23eb4 Document private-state CLI install prerequisites](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/3b23eb49f9d1bce35335bbec53128aa064f505d1).
+
 ### More Accurate Fee And Join-Toll Explanations
 
 Documentation clarified that a channel join toll is paid directly from the L1 wallet, while bridge deposits are for later channel liquidity. Fee-estimate guidance was also clarified.
 
 This makes onboarding easier because users can understand which payments are required, why they are required, and where they come from.
 
+Related commits: [98ea92d Clarify private-state join toll funding](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/98ea92d28f1f39c22d0478910a3e8e10ecdcea57), [022c3e5 Update changelog for join toll guidance](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/022c3e562a5791e88802ee67053670f31d5bc94c), [24b6579 Clarify CLI fee estimate guidance](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/24b6579cb044e81194ca8925d8091aef4fbfe00b).
+
 ### Stronger Educational Materials For Partners And Investors
 
 The contracts repository added and refined a private app channels bridge deck. The deck explains the system model, privacy purpose, trust assumptions, state transitions, DApp and channel policy concepts, verifier responsibilities, and related resources.
 
 For investors, this is meaningful because it turns the underlying technology into a clearer narrative: Tonnel is not only an airdrop page, but a demonstration of private application state running inside an Ethereum-settled channel model.
+
+Related commits: [de31831 Add private app channels bridge deck](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/de31831857ce7cfb20b3c23981934d685f199ec7), [49b8930 Improve private app channel deck introduction](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/49b893063441506a267e31085c34314d7e75a0c8), [deb1659 Add ZKP privacy purpose slides](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/deb16591aef62331deb6015749b5f262f706b063), [a6f5349 Clarify bridge proof verification model](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/a6f53492fa5b1ddcf494777ecdea34cafa7b1e67), [13c8a3b Add verifier responsibility slides](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/13c8a3bf40b7f1bfb89a385714e1f033e1f92f45), [9d9d8ed Add official docs and paper resources](https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/9d9d8edf24594fd61a299cc9e18f7e0d4aaf14a0).
 
 ## Conclusion
 
