@@ -137,7 +137,6 @@ The following events are relevant for promotion, partnerships, developer adoptio
 | ETHis | July 2-3, 2026 | Munich, Germany | Ethereum real-world summit | Good fit for explaining Tonnel as Ethereum-settled private application infrastructure to builders and operators. | [ETHis](https://www.ethis.xyz/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
 | Pragma Lisbon | July 23, 2026 | Lisbon, Portugal | Ethereum conference | Concentrated Ethereum founder and protocol audience before the Lisbon hackathon. | [ETHGlobal](https://ethglobal.com/), [ethereum.org events](https://ethereum.org/community/events/conferences/) |
 | ETHGlobal Lisbon | July 24-26, 2026 | Lisbon, Portugal | Ethereum hackathon | Strong developer acquisition opportunity for privacy, wallet, and agent-assisted workflows. | [ETHGlobal](https://ethglobal.com/) |
-| The Science of Blockchain Conference | July 27-29, 2026 | Stanford, USA | Technical blockchain research conference | Useful for credibility with researchers, cryptography teams, and infrastructure partners. | [SBC 2026](https://www.sbc-conference.com/2026/) |
 | Coinfest Asia | August 20-21, 2026 | Bali, Indonesia | Crypto, Web3, builders, traders, institutions | Highest-priority regional event because the airdrop data showed strong Indonesian participation and the event explicitly serves builders, traders, and institutions. | [Coinfest Asia](https://coinfest.asia/) |
 | ETHSafari | September 1-6, 2026 | Kenya | Ethereum conference and hackathon | Useful for emerging-market Ethereum community expansion and developer relations. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
 | ETHTaipei | September 11-15, 2026 | Taipei, Taiwan | Ethereum conference | Relevant for Asia-based Ethereum developers and protocol communities. | [ethereum.org events](https://ethereum.org/community/events/conferences/) |
@@ -153,7 +152,6 @@ The following events are relevant for promotion, partnerships, developer adoptio
 | DC Blockchain Summit | April 6-7, 2027 | Washington, DC, USA | Policy and business summit | Useful for policy, institutional, and regulated digital-asset conversations. | [DC Blockchain Summit](https://www.dcblockchainsummit.com/) |
 | EthCC | April 12-15, 2027 | Cannes, France | Ethereum community conference | Largest long-running European Ethereum conference; strong for developer credibility and ecosystem partnerships. | [Palais des Festivals](https://en.palaisdesfestivals.com/offers/ethereum-community-conference-cannes-en-5198662/) |
 | TOKEN2049 Dubai | April 21-22, 2027 | Dubai, UAE | Global crypto business conference | High-density investor and executive access; official site lists 15,000+ attendees and 4,000+ companies. | [TOKEN2049 Dubai](https://www.token2049.com/dubai) |
-| IEEE ICBC | May 31-June 4, 2027 | Toronto, Canada | Academic and technical blockchain conference | Useful for research credibility, security discussions, and technical partnerships. | [IEEE ComSoc](https://www.comsoc.org/conferences-events/ieee-international-conference-blockchain-and-cryptocurrency-2027) |
 
 ## Indonesian Community Targets
 
@@ -237,10 +235,8 @@ The key lesson is distribution. The next event should be promoted more aggressiv
 - Korea Blockchain Week announcement: https://www.prnewswire.com/news-releases/kbw-2026-returns-to-seoul-september-29october-1-upbit-joins-as-main-sponsor-302660025.html
 - TOKEN2049 Singapore: https://www.token2049.com/singapore
 - TOKEN2049 Dubai: https://www.token2049.com/dubai
-- Science of Blockchain Conference: https://www.sbc-conference.com/2026/
 - ETHSofia: https://www.ethsofia.com/
 - DC Blockchain Summit: https://www.dcblockchainsummit.com/
-- IEEE ICBC 2027: https://www.comsoc.org/conferences-events/ieee-international-conference-blockchain-and-cryptocurrency-2027
 - EthCC venue listing: https://en.palaisdesfestivals.com/offers/ethereum-community-conference-cannes-en-5198662/
 - BlockDevId: https://blockdev.id/
 - Official Ethereum Meetup Indonesia Telegram: https://t.me/ethereum_indo
