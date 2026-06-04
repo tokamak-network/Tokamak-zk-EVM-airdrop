@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tonnel Airdrop Event Report - Investor Slides</title>
+    <style>
+      :root {
+        --ink: #111827;
+        --muted: #586174;
+        --paper: #f7f8fb;
+        --panel: #ffffff;
+        --line: #d9dee8;
+        --blue: #2563eb;
+        --teal: #0f766e;
+        --green: #15803d;
+        --amber: #b45309;
+        --rose: #be123c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration-color: rgba(37, 99, 235, 0.45);
+        text-underline-offset: 0.18em;
+      }
+
+      .deck {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+      }
+
+      .slide {
+        width: 100vw;
+        height: 100vh;
+        padding: 56px 70px 72px;
+        display: none;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(37, 99, 235, 0.08), transparent 34%),
+          linear-gradient(180deg, #ffffff, #f7f8fb 68%);
+      }
+
+      .slide.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .slide::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 10px;
+        background: linear-gradient(90deg, var(--blue), var(--teal), var(--amber));
+      }
+
+      .kicker {
+        color: var(--blue);
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        margin: 0 0 14px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: clamp(54px, 7vw, 96px);
+        line-height: 0.96;
+        letter-spacing: 0;
+        margin-bottom: 28px;
+        max-width: 1000px;
+      }
+
+      h2 {
+        font-size: clamp(34px, 4.6vw, 64px);
+        line-height: 1.02;
+        letter-spacing: 0;
+        margin-bottom: 24px;
+        max-width: 1160px;
+      }
+
+      h3 {
+        font-size: 22px;
+        line-height: 1.22;
+        margin-bottom: 12px;
+      }
+
+      .lede {
+        color: #263244;
+        font-size: clamp(22px, 2.1vw, 34px);
+        line-height: 1.22;
+        max-width: 1040px;
+      }
+
+      .subtle {
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 22px;
+      }
+
+      .cols-2 {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .metric {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 24px;
+        min-height: 150px;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: clamp(38px, 5vw, 70px);
+        line-height: 1;
+        color: var(--blue);
+        margin-bottom: 12px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.35;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 24px;
+      }
+
+      ul,
+      ol {
+        margin: 0;
+        padding-left: 23px;
+      }
+
+      li {
+        font-size: clamp(20px, 1.8vw, 28px);
+        line-height: 1.26;
+        margin: 0 0 14px;
+      }
+
+      .small-list li {
+        font-size: 17px;
+        line-height: 1.26;
+        margin-bottom: 9px;
+      }
+
+      .text-sm {
+        font-size: 16px;
+        line-height: 1.35;
+      }
+
+      .text-md {
+        font-size: 20px;
+        line-height: 1.35;
+      }
+
+      .image-frame {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        min-height: 0;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        max-height: 58vh;
+        object-fit: contain;
+      }
+
+      .table-wrap {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+        line-height: 1.3;
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #eef3ff;
+        color: #1f2937;
+        font-weight: 800;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #ffffff;
+        color: #1f2937;
+        padding: 8px 13px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .quote {
+        border-left: 6px solid var(--teal);
+        padding-left: 22px;
+        max-width: 1040px;
+        color: #263244;
+        font-size: clamp(25px, 2.7vw, 42px);
+        line-height: 1.18;
+        font-weight: 750;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .step {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        min-height: 150px;
+      }
+
+      .step b {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        background: var(--blue);
+        color: #fff;
+        margin-bottom: 12px;
+      }
+
+      .step p {
+        font-size: 18px;
+        line-height: 1.3;
+        margin: 0;
+      }
+
+      .footer {
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        bottom: 26px;
+        display: flex;
+        justify-content: space-between;
+        color: #6b7280;
+        font-size: 14px;
+      }
+
+      .nav {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 10px;
+        box-shadow: 0 10px 30px rgba(17, 24, 39, 0.14);
+      }
+
+      .nav button {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 19px;
+        cursor: pointer;
+      }
+
+      .nav span {
+        min-width: 58px;
+        text-align: center;
+        color: #4b5563;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .cover {
+        justify-content: center;
+      }
+
+      .cover .lede {
+        max-width: 870px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .accent-blue strong {
+        color: var(--blue);
+      }
+
+      .accent-teal strong {
+        color: var(--teal);
+      }
+
+      .accent-amber strong {
+        color: var(--amber);
+      }
+
+      .accent-rose strong {
+        color: var(--rose);
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+        }
+
+        .deck {
+          height: auto;
+        }
+
+        .slide {
+          position: relative;
+          display: flex;
+          min-height: 100vh;
+          height: auto;
+          padding: 38px 22px 72px;
+        }
+
+        .slide:not(.active) {
+          display: none;
+        }
+
+        .cols-2,
+        .cols-3,
+        .cols-4,
+        .split,
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+
+        .footer {
+          left: 22px;
+          right: 22px;
+        }
+
+        table {
+          font-size: 13px;
+        }
+      }
+
+      @media print {
+        body {
+          overflow: visible;
+          background: #fff;
+        }
+
+        .deck {
+          height: auto;
+        }
+
+        .slide {
+          position: relative;
+          display: flex !important;
+          page-break-after: always;
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .nav {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck" aria-label="Tonnel airdrop investor slide deck">
+      <section class="slide cover active">
+        <p class="kicker">Investor Report</p>
+        <h1>Tonnel Airdrop Event</h1>
+        <p class="lede">Post-event results, market signals, operating lessons, and next promotion targets.</p>
+        <div class="tag-row">
+          <span class="tag">May 21-31, 2026</span>
+          <span class="tag">225 successful transfers</span>
+          <span class="tag">Indonesia-led demand signal</span>
+          <span class="tag">HTML slide deck</span>
+        </div>
+        <div class="footer">
+          <span>Tonnel Airdrop Event Report</span>
+          <span>June 4, 2026</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Executive Summary</p>
+        <h2>The event ended with a clear market signal.</h2>
+        <div class="grid cols-3">
+          <div class="metric accent-blue">
+            <strong>225</strong>
+            <span>Successful reward transfers shown in the exported histograms.</span>
+          </div>
+          <div class="metric accent-teal">
+            <strong>50.7%</strong>
+            <span>Share of successful transfers attributed to Indonesia.</span>
+          </div>
+          <div class="metric accent-amber">
+            <strong>25 TON</strong>
+            <span>Base reward rule implemented for each valid submission.</span>
+          </div>
+        </div>
+        <p class="lede" style="margin-top: 28px;">The next event should be treated as a distribution campaign first: stronger promotion is the main lever for broader reward distribution.</p>
+        <div class="footer">
+          <span>Executive Summary</span>
+          <span>2</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Event Outcome</p>
+        <h2>A lean, auditable public airdrop.</h2>
+        <div class="split">
+          <div class="panel">
+            <h3>What users did</h3>
+            <ul>
+              <li>Joined Tonnel, the public name for <code>the-great-first-channel</code>.</li>
+              <li>Completed a real private-state transfer-notes transaction.</li>
+              <li>Submitted only the transaction hash through the public site.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>What the system verified</h3>
+            <ul>
+              <li>The transaction existed and succeeded on Ethereum.</li>
+              <li>It called the Tonnel channel manager.</li>
+              <li>It represented a valid private-state transfer-notes action.</li>
+              <li>The payout address was resolved from channel registration data.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Event Outcome</span>
+          <span>3</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Execution Method</p>
+        <h2>Campaign flow from user action to payout.</h2>
+        <div class="timeline">
+          <div class="step"><b>1</b><p>Public page explained the reward, safety rules, and participation guide.</p></div>
+          <div class="step"><b>2</b><p>User made a private-state transfer in Tonnel using the CLI.</p></div>
+          <div class="step"><b>3</b><p>API accepted a transaction hash and rejected malformed values.</p></div>
+          <div class="step"><b>4</b><p>Local worker verified eligibility through RPC and artifacts.</p></div>
+          <div class="step"><b>5</b><p>Valid submissions received private-state reward payouts.</p></div>
+        </div>
+        <p class="lede" style="margin-top: 26px;">Public payout execution was intentionally disabled; the operator worker handled verification and transfer from the controlled local runtime.</p>
+        <div class="footer">
+          <span>Airdrop Execution Method</span>
+          <span>4</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Participation Analysis</p>
+        <h2>Indonesia was the strongest regional signal.</h2>
+        <div class="split">
+          <div class="image-frame">
+            <img src="participation-country-histogram.jpg" alt="Successful reward transfers by submission country">
+          </div>
+          <div class="grid">
+            <div class="metric accent-teal">
+              <strong>114</strong>
+              <span>Successful reward transfers from Indonesia.</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Region</th><th>Transfers</th><th>Share</th></tr></thead>
+                <tbody>
+                  <tr><td>Indonesia</td><td>114</td><td>50.7%</td></tr>
+                  <tr><td>Singapore</td><td>43</td><td>19.1%</td></tr>
+                  <tr><td>South Korea</td><td>35</td><td>15.6%</td></tr>
+                  <tr><td>Unknown</td><td>15</td><td>6.7%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Participation Analysis</span>
+          <span>5</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Participation Concentration</p>
+        <h2>A few anonymous clusters captured a large share.</h2>
+        <div class="split">
+          <div class="image-frame">
+            <img src="participation-anonymous-person-histogram.jpg" alt="Successful reward transfers by anonymous IP label and location">
+          </div>
+          <div>
+            <div class="metric accent-rose">
+              <strong>36.9%</strong>
+              <span>Top three anonymous Indonesian labels accounted for 83 of 225 successful transfers.</span>
+            </div>
+            <p class="text-md" style="margin-top: 20px;">This does not prove improper activity. It does show that promotion was not broad enough before rewards were consumed.</p>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Reward Distribution</span>
+          <span>6</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Positive Findings</p>
+        <h2>Three signals matter for the next campaign.</h2>
+        <div class="grid cols-3">
+          <div class="panel">
+            <h3>Indonesia is priority one</h3>
+            <p class="text-md">The region produced the majority of successful transfers and should be treated as a primary go-to-market target.</p>
+          </div>
+          <div class="panel">
+            <h3>Telegram is a core channel</h3>
+            <p class="text-md">Crypto-native discovery and coordination are stronger in Telegram than X for some trader communities.</p>
+          </div>
+          <div class="panel">
+            <h3>UX improved during the event</h3>
+            <p class="text-md">The app, worker operations, CLI guidance, and educational materials all became easier to operate and explain.</p>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Positive Findings</span>
+          <span>7</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Limitations</p>
+        <h2>The issue was reach, not the reward rule.</h2>
+        <p class="quote">Promotion was insufficient. The correction is stronger promotion before and during the next event.</p>
+        <div class="grid cols-2" style="margin-top: 34px;">
+          <div class="panel">
+            <h3>Observed effect</h3>
+            <p class="text-md">A limited number of highly active participants captured a significant share of the reward pool.</p>
+          </div>
+          <div class="panel">
+            <h3>Planned response</h3>
+            <p class="text-md">Increase the number of real participants reached through Indonesian communities, Telegram, Reddit, and conferences.</p>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Limitations</span>
+          <span>8</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Promotion Plan</p>
+        <h2>Next campaign targets.</h2>
+        <div class="grid cols-4">
+          <div class="metric accent-teal"><strong>ID</strong><span>Indonesian crypto, blockchain, builder, and trader communities.</span></div>
+          <div class="metric accent-blue"><strong>TG</strong><span>Official Telegram posts, community manager coverage, FAQs, and AMAs.</span></div>
+          <div class="metric accent-amber"><strong>RD</strong><span>Longer-form Reddit discussion where project posts are permitted.</span></div>
+          <div class="metric accent-rose"><strong>EV</strong><span>Ethereum developer events and blockchain business conferences.</span></div>
+        </div>
+        <div class="footer">
+          <span>Promotion Plan</span>
+          <span>9</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Indonesian Community Targets</p>
+        <h2>Channels to seed before launch.</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Community</th><th>Primary channel</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td>Official Ethereum Meetup Indonesia</td><td>Telegram</td><td>Ethereum-specific Indonesian audience.</td></tr>
+              <tr><td>BlockDevId</td><td>Telegram, Discord, Luma</td><td>Developer-focused Web3 builder community.</td></tr>
+              <tr><td>Asosiasi Blockchain Indonesia</td><td>Industry network</td><td>Legitimacy, policy context, ecosystem access.</td></tr>
+              <tr><td>Tokocrypto Official Channel</td><td>Telegram</td><td>Large Indonesian exchange-related trader audience.</td></tr>
+              <tr><td>Cryptocium, Kotas Crypto, IDNTRADE</td><td>Telegram, Discord</td><td>Crypto trader discovery and education communities.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-md subtle" style="margin-top: 18px;">Promotion terms and channel quality should be checked directly before paid or official outreach.</p>
+        <div class="footer">
+          <span>Community Targets</span>
+          <span>10</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Conference Opportunities</p>
+        <h2>Highest-value venues for promotion and credibility.</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Event</th><th>Date</th><th>Location</th><th>Role in campaign</th></tr></thead>
+            <tbody>
+              <tr><td>Coinfest Asia</td><td>Aug 20-21, 2026</td><td>Bali</td><td>Priority regional event for Indonesian users, traders, builders, and institutions.</td></tr>
+              <tr><td>TOKEN2049 Singapore</td><td>Oct 7-8, 2026</td><td>Singapore</td><td>Investor, exchange, market-maker, and ecosystem partner access.</td></tr>
+              <tr><td>Devcon India</td><td>Nov 3-6, 2026</td><td>Mumbai</td><td>Flagship Ethereum developer positioning.</td></tr>
+              <tr><td>Korea Blockchain Week</td><td>Sep 29-Oct 1, 2026</td><td>Seoul</td><td>Korean traders, institutions, exchanges, and Telegram-led networks.</td></tr>
+              <tr><td>EthCC, TOKEN2049 Dubai</td><td>Apr 2027</td><td>Cannes, Dubai</td><td>European Ethereum ecosystem and global business-development follow-up.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="footer">
+          <span>Conference Opportunities</span>
+          <span>11</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Speaker Application Status</p>
+        <h2>Application windows are mostly open-ended or unpublished.</h2>
+        <div class="grid cols-3">
+          <div class="panel">
+            <h3>Open, close date not published</h3>
+            <ul class="small-list">
+              <li>ETHis</li>
+              <li>Coinfest Asia</li>
+              <li>ETHTaipei</li>
+              <li>ETHSofia</li>
+              <li>TOKEN2049 Singapore</li>
+              <li>TOKEN2049 Dubai</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Curated or not published</h3>
+            <ul class="small-list">
+              <li>Pragma Lisbon, Tokyo, Mumbai</li>
+              <li>ETHGlobal hackathons</li>
+              <li>ETHSafari</li>
+              <li>Korea Blockchain Week</li>
+              <li>European Blockchain Convention</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>2027 watchlist</h3>
+            <ul class="small-list">
+              <li>DC Blockchain Summit has a speaker request route.</li>
+              <li>EthCC 2027 period is not published.</li>
+              <li>Devcon India says speaker applications will be announced later.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Speaker Applications</span>
+          <span>12</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Related Project Updates</p>
+        <h2>The UX story includes the contracts repo.</h2>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Private-state CLI maturity</h3>
+            <ul class="small-list">
+              <li>Pre-submit dry-runs reduce failed on-chain attempts.</li>
+              <li>Structured JSON output and errors improve automation.</li>
+              <li>Recovery guidance is clearer when local state is stale.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>User and investor communication</h3>
+            <ul class="small-list">
+              <li>AI-agent guidance keeps setup and safety warnings clearer.</li>
+              <li>Fee and join-toll explanations reduce onboarding confusion.</li>
+              <li>Private app channel deck improves investor-facing narrative.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-md" style="margin-top: 22px;">These updates are the concrete product and operations basis for the report's "UX And Operations Improved During The Campaign" finding.</p>
+        <div class="footer">
+          <span>Related Project Updates</span>
+          <span>13</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Commit References</p>
+        <h2>Representative remote commits.</h2>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>CLI and automation</h3>
+            <ul class="small-list">
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/d9e321da316f3a6bb5f77d441cdb58a700629c0f">d9e321d - Release private-state CLI 2.4.3</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/3f99e798bef1feba363130935718fab4bfe26304">3f99e79 - Add CLI pre-submit dry-runs</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/1c7f4f14d0bc482c282dcc2b8fbc4cb3b8078301">1c7f4f1 - Standardize CLI JSON output</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/0bb26123c6cbc2e10e715905e735c5f3c321604b">0bb2612 - Prefer workspace mirrors</a></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Guidance and investor materials</h3>
+            <ul class="small-list">
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/e7ecb39db5539580e99f706c55b783fec6ad4700">e7ecb39 - Move CLI agent guidance into package file</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/98ea92d28f1f39c22d0478910a3e8e10ecdcea57">98ea92d - Clarify private-state join toll funding</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/de31831857ce7cfb20b3c23981934d685f199ec7">de31831 - Add private app channels bridge deck</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts/commit/13c8a3bf40b7f1bfb89a385714e1f033e1f92f45">13c8a3b - Add verifier responsibility slides</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer">
+          <span>GitHub Commit Links</span>
+          <span>14</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Investor Takeaways</p>
+        <h2>What the event proves and what comes next.</h2>
+        <div class="grid cols-3">
+          <div class="panel">
+            <h3>Demand exists</h3>
+            <p class="text-md">Users completed a real privacy-preserving action, not only a social task.</p>
+          </div>
+          <div class="panel">
+            <h3>Market focus is clearer</h3>
+            <p class="text-md">Indonesia and Telegram should be primary distribution surfaces for the next event.</p>
+          </div>
+          <div class="panel">
+            <h3>Operations are improving</h3>
+            <p class="text-md">The app, CLI, worker, analytics, and explanation materials now support a broader campaign.</p>
+          </div>
+        </div>
+        <p class="lede" style="margin-top: 28px;">The next campaign should maximize qualified reach before reward exhaustion.</p>
+        <div class="footer">
+          <span>Conclusion</span>
+          <span>15</span>
+        </div>
+      </section>
+
+      <section class="slide">
+        <p class="kicker">Source Materials</p>
+        <h2>Files and links.</h2>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Local materials</h3>
+            <ul class="small-list">
+              <li><a href="tonnel-airdrop-event-report.md">Full Markdown report</a></li>
+              <li><a href="participation-country-histogram.jpg">Country histogram</a></li>
+              <li><a href="participation-anonymous-person-histogram.jpg">Anonymous label histogram</a></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>External references</h3>
+            <ul class="small-list">
+              <li><a href="https://ethereum.org/community/events/conferences/">ethereum.org conference list</a></li>
+              <li><a href="https://coinfest.asia/">Coinfest Asia</a></li>
+              <li><a href="https://www.token2049.com/singapore">TOKEN2049 Singapore</a></li>
+              <li><a href="https://devcon.org/">Devcon</a></li>
+              <li><a href="https://github.com/tokamak-network/Tokamak-zk-EVM-contracts">Tokamak-zk-EVM-contracts</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer">
+          <span>Sources</span>
+          <span>16</span>
+        </div>
+      </section>
+    </main>
+
+    <nav class="nav" aria-label="Slide controls">
+      <button type="button" id="prev" aria-label="Previous slide">&#8249;</button>
+      <span id="counter">1 / 16</span>
+      <button type="button" id="next" aria-label="Next slide">&#8250;</button>
+    </nav>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.getElementById("counter");
+      let index = 0;
+
+      function showSlide(nextIndex) {
+        index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === index);
+        });
+        counter.textContent = `${index + 1} / ${slides.length}`;
+        window.location.hash = `slide-${index + 1}`;
+      }
+
+      function initialIndexFromHash() {
+        const match = window.location.hash.match(/^#slide-(\d+)$/);
+        if (!match) return 0;
+        return Math.max(0, Math.min(slides.length - 1, Number(match[1]) - 1));
+      }
+
+      document.getElementById("prev").addEventListener("click", () => showSlide(index - 1));
+      document.getElementById("next").addEventListener("click", () => showSlide(index + 1));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          showSlide(index + 1);
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          showSlide(index - 1);
+        }
+        if (event.key === "Home") showSlide(0);
+        if (event.key === "End") showSlide(slides.length - 1);
+      });
+
+      showSlide(initialIndexFromHash());
+    </script>
+  </body>
+</html>
