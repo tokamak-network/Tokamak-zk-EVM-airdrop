@@ -109,7 +109,7 @@ The campaign reinforced that Telegram is a strong project-promotion channel in c
 
 ### UX And Operations Improved During The Campaign
 
-The product improved materially while the event was live. The application moved toward clearer user guidance, better mobile presentation, more understandable status messages, more visible failure reasons, and better worker monitoring. These improvements reduce future support load and make the next campaign easier to scale.
+The product improved materially while the event was live. The application moved toward clearer user guidance, better mobile presentation, more understandable status messages, more visible failure reasons, and better worker monitoring. The related `tokamak-zk-evm-contracts` updates described later in this report are part of the same improvement story: private-state CLI releases, safer dry-runs, structured machine-readable output, clearer recovery guidance, AI-agent instructions, and investor-facing educational materials made the Tonnel user journey and operating model easier to explain, automate, and support. Together, these improvements reduce future support load and make the next campaign easier to scale.
 
 ## Limitations
 
