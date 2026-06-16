@@ -34,28 +34,6 @@
       ],
       "destination": "https://airdrop.tonigma.network/:path*",
       "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "tonigma.network"
-        }
-      ],
-      "destination": "https://observer.tonigma.network/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.tonigma.network"
-        }
-      ],
-      "destination": "https://observer.tonigma.network/:path*",
-      "permanent": true
     }
   ]
 }

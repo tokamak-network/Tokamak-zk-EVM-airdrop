@@ -40,7 +40,7 @@ The linked Vercel project is `tonigma-airdrop` with project ID `prj_cXdkWqVZJ5kO
 - `airdrop.tonnel.io`
 - Vercel-generated project domains
 
-`airdrop.tonigma.network`, `tonigma.network`, and `www.tonigma.network` are not currently assigned to this project.
+`airdrop.tonigma.network` is the only Tonigma domain that should be assigned to this project.
 
 The repository currently hard-codes `https://airdrop.tonnel.io` and `Tonnel` in user-facing UI, metadata, crawler files, docs, and an IndexNow script.
 
@@ -74,7 +74,7 @@ The first migration should update only public brand and public URL surfaces. Int
 5. Update redirects.
    - Change existing redirects in `next.config.ts`, `vercel.json`, and `proxy.ts` so `tonnel.io`, `www.tonnel.io`, and `airdrop.tonnel.io` redirect to `https://airdrop.tonigma.network/:path*`.
    - Keep the redirect permanent only after the new domain is verified and serving production correctly.
-   - Add redirects from `tonigma.network` and `www.tonigma.network` to `https://observer.tonigma.network/:path*` if those domains are assigned to the same Vercel project.
+   - Do not assign or route `tonigma.network` or `www.tonigma.network` through this airdrop project.
 
 6. Update IndexNow.
    - Change `scripts/submit-indexnow.mjs` host from `airdrop.tonnel.io` to `airdrop.tonigma.network`.
@@ -127,11 +127,7 @@ The first migration should update only public brand and public URL surfaces. Int
    - `https://tonnel.io/*` and `https://www.tonnel.io/*` should redirect to the new canonical host if those domains remain attached to this project.
    - Do not remove the old domains until traffic, crawler discovery, and user communications have moved to the new domain.
 
-6. Add observer redirects for the Tonigma apex domains.
-   - `https://tonigma.network/*` should redirect to `https://observer.tonigma.network/*`.
-   - `https://www.tonigma.network/*` should redirect to `https://observer.tonigma.network/*`.
-
-7. Submit the new URLs for indexing.
+6. Submit the new URLs for indexing.
    - Run the updated IndexNow script after production deployment.
    - Confirm the submitted URL list uses the new host.
 
@@ -155,8 +151,6 @@ Check deployed behavior:
 - `curl -I https://airdrop.tonigma.network/status` returns a successful response.
 - `curl -I https://airdrop.tonnel.io/` redirects to `https://airdrop.tonigma.network/`.
 - `curl -I https://airdrop.tonnel.io/status` redirects to `https://airdrop.tonigma.network/status`.
-- `curl -I https://tonigma.network/` redirects to `https://observer.tonigma.network/`.
-- `curl -I https://www.tonigma.network/status` redirects to `https://observer.tonigma.network/status`.
 - `/api/` remains disallowed in `robots.txt`.
 - The submission form still validates and submits through the same API routes.
 - Operator routes still require the same auth.
@@ -171,7 +165,7 @@ Check deployed behavior:
 
 ## Confirmed Decisions
 
-- `tonigma.network` and `www.tonigma.network` redirect to `https://observer.tonigma.network`.
+- Only `airdrop.tonigma.network` is in scope for this airdrop project. Do not change `tonigma.network` or `www.tonigma.network` from this repository.
 - The Telegram link changes to `https://t.me/tonigma_network`.
 - Public poster and QR assets are replaced and renamed to Tonigma-based filenames.
 - Only public documentation is rebranded to Tonigma. Historical audit documents and internal implementation notes keep their original wording unless separately requested.

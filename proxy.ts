@@ -16,7 +16,6 @@ const tonigmaAirdropHosts = new Set([
   "tonnel.io",
   "www.tonnel.io",
 ]);
-const tonigmaObserverHosts = new Set(["tonigma.network", "www.tonigma.network"]);
 
 export function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.split(":")[0].toLowerCase();
@@ -39,15 +38,6 @@ export function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.protocol = "https";
     url.hostname = "airdrop.tonigma.network";
-    url.port = "";
-
-    return NextResponse.redirect(url, 308);
-  }
-
-  if (host && tonigmaObserverHosts.has(host)) {
-    const url = request.nextUrl.clone();
-    url.protocol = "https";
-    url.hostname = "observer.tonigma.network";
     url.port = "";
 
     return NextResponse.redirect(url, 308);
