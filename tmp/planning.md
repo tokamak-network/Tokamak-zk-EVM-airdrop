@@ -33,14 +33,14 @@ Out of scope unless explicitly approved:
 
 ## Current Findings
 
-The linked Vercel project is `tonnel-airdrop` with project ID `prj_cXdkWqVZJ5kOkEGCapm65rJbA9KJ`. Its current domains include:
+The linked Vercel project is `tonigma-airdrop` with project ID `prj_cXdkWqVZJ5kOkEGCapm65rJbA9KJ`. Its current domains include:
 
 - `tonnel.io`
 - `www.tonnel.io`
 - `airdrop.tonnel.io`
 - Vercel-generated project domains
 
-`airdrop.tonigma.network` is not currently assigned to this project.
+`airdrop.tonigma.network`, `tonigma.network`, and `www.tonigma.network` are not currently assigned to this project.
 
 The repository currently hard-codes `https://airdrop.tonnel.io` and `Tonnel` in user-facing UI, metadata, crawler files, docs, and an IndexNow script.
 
@@ -74,7 +74,7 @@ The first migration should update only public brand and public URL surfaces. Int
 5. Update redirects.
    - Change existing redirects in `next.config.ts`, `vercel.json`, and `proxy.ts` so `tonnel.io`, `www.tonnel.io`, and `airdrop.tonnel.io` redirect to `https://airdrop.tonigma.network/:path*`.
    - Keep the redirect permanent only after the new domain is verified and serving production correctly.
-   - Consider adding `tonigma.network` and `www.tonigma.network` redirects to `https://airdrop.tonigma.network/:path*` if those domains are assigned to the same Vercel project.
+   - Add redirects from `tonigma.network` and `www.tonigma.network` to `https://observer.tonigma.network/:path*` if those domains are assigned to the same Vercel project.
 
 6. Update IndexNow.
    - Change `scripts/submit-indexnow.mjs` host from `airdrop.tonnel.io` to `airdrop.tonigma.network`.
@@ -87,17 +87,18 @@ The first migration should update only public brand and public URL surfaces. Int
 8. Update visual assets.
    - Regenerate or edit public poster and QR assets that include the old brand or `airdrop.tonnel.io`.
    - Candidate files:
-     - `public/tonnel-airdrop-poster.jpg`
-     - `poster/tonnel-airdrop-poster-v2.png`
-     - `poster/tonnel-airdrop-poster-tokamak-logo.png`
-     - `poster/airdrop-tonnel-io-qr.png`
-   - If filenames are renamed, update all references and verify Open Graph images still render.
+     - `public/tonigma-airdrop-poster.jpg`
+     - `poster/tonigma-airdrop-poster-v2.png`
+     - `poster/tonigma-airdrop-poster-tokamak-logo.png`
+     - `poster/airdrop-tonigma-network-qr.png`
+   - Rename public asset paths from `tonnel` to `tonigma` and update all references so public metadata does not expose the old brand in asset URLs.
 
 9. Leave internal operational names unchanged in the first migration.
    - Keep local worker paths such as `TonnelAirdrop`.
    - Keep env var prefixes such as `TONNEL_AIRDROP_*`.
    - Keep exact eligibility reason strings unless a DB/test migration is planned.
-   - Keep `package.json` name and Vercel project name unless the operator approves a broader rename.
+- Keep `package.json` name and Vercel project name unless the operator approves a broader rename.
+   - Keep `package.json` name unless a separate package/runtime rename is approved.
 
 ## Vercel Domain Cutover Plan
 
@@ -126,7 +127,11 @@ The first migration should update only public brand and public URL surfaces. Int
    - `https://tonnel.io/*` and `https://www.tonnel.io/*` should redirect to the new canonical host if those domains remain attached to this project.
    - Do not remove the old domains until traffic, crawler discovery, and user communications have moved to the new domain.
 
-6. Submit the new URLs for indexing.
+6. Add observer redirects for the Tonigma apex domains.
+   - `https://tonigma.network/*` should redirect to `https://observer.tonigma.network/*`.
+   - `https://www.tonigma.network/*` should redirect to `https://observer.tonigma.network/*`.
+
+7. Submit the new URLs for indexing.
    - Run the updated IndexNow script after production deployment.
    - Confirm the submitted URL list uses the new host.
 
@@ -150,6 +155,8 @@ Check deployed behavior:
 - `curl -I https://airdrop.tonigma.network/status` returns a successful response.
 - `curl -I https://airdrop.tonnel.io/` redirects to `https://airdrop.tonigma.network/`.
 - `curl -I https://airdrop.tonnel.io/status` redirects to `https://airdrop.tonigma.network/status`.
+- `curl -I https://tonigma.network/` redirects to `https://observer.tonigma.network/`.
+- `curl -I https://www.tonigma.network/status` redirects to `https://observer.tonigma.network/status`.
 - `/api/` remains disallowed in `robots.txt`.
 - The submission form still validates and submits through the same API routes.
 - Operator routes still require the same auth.
@@ -162,10 +169,10 @@ Check deployed behavior:
 3. If redirects are wrong, fix redirect configuration first because permanent redirects can be cached by browsers and crawlers.
 4. Keep old domains attached until the new domain has been stable for a defined monitoring period.
 
-## Open Decisions
+## Confirmed Decisions
 
-- Should `tonigma.network` and `www.tonigma.network` also route or redirect to `airdrop.tonigma.network`?
-- Should the Telegram link remain `https://t.me/tonnel_ethereum`, or is there a new Tonigma Telegram channel?
-- Should public image filenames be renamed, or should references keep old filenames while image contents are updated?
-- Should historical docs and audit reports retain the original `Tonnel` wording, or should they be explicitly marked as pre-renaming artifacts?
-- Should the Vercel project name `tonnel-airdrop` remain unchanged for operational continuity?
+- `tonigma.network` and `www.tonigma.network` redirect to `https://observer.tonigma.network`.
+- The Telegram link changes to `https://t.me/tonigma_network`.
+- Public poster and QR assets are replaced and renamed to Tonigma-based filenames.
+- Only public documentation is rebranded to Tonigma. Historical audit documents and internal implementation notes keep their original wording unless separately requested.
+- The Vercel project has been renamed to `tonigma-airdrop`.

@@ -10,7 +10,7 @@
           "value": "tonnel.io"
         }
       ],
-      "destination": "https://airdrop.tonnel.io/:path*",
+      "destination": "https://airdrop.tonigma.network/:path*",
       "permanent": true
     },
     {
@@ -21,7 +21,40 @@
           "value": "www.tonnel.io"
         }
       ],
-      "destination": "https://airdrop.tonnel.io/:path*",
+      "destination": "https://airdrop.tonigma.network/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "airdrop.tonnel.io"
+        }
+      ],
+      "destination": "https://airdrop.tonigma.network/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "tonigma.network"
+        }
+      ],
+      "destination": "https://observer.tonigma.network/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.tonigma.network"
+        }
+      ],
+      "destination": "https://observer.tonigma.network/:path*",
       "permanent": true
     }
   ]

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const host = "airdrop.tonnel.io";
+const host = "airdrop.tonigma.network";
 const key = "acc6167f5ad091cd2414f1e84a5bddab";
 const keyLocation = `https://${host}/${key}.txt`;
 const endpoint = "https://api.indexnow.org/indexnow";

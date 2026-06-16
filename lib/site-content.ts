@@ -1,7 +1,7 @@
-export const siteUrl = "https://airdrop.tonnel.io";
-export const siteTitle = "TON AIRDROP ON TONNEL";
+export const siteUrl = "https://airdrop.tonigma.network";
+export const siteTitle = "TON AIRDROP ON TONIGMA";
 export const siteDescription =
-  "Get 25 TON per valid private-state transfer on Tonnel. Submit your transaction hash and track reward status.";
+  "Get 25 TON per valid private-state transfer on Tonigma. Submit your transaction hash and track reward status.";
 export const channelName = "the-great-first-channel";
 export const rewardTon = 25;
 export const totalBudgetTon = 5000;
@@ -17,9 +17,9 @@ export type FaqItem = {
 
 export const faqItems: FaqItem[] = [
   {
-    question: "What is Tonnel?",
+    question: "What is Tonigma?",
     answer:
-      "Tonnel is the public name for the-great-first-channel, one of the Tokamak Private App Channels and a dedicated channel for the private-state DApp.",
+      "Tonigma is the public name for the-great-first-channel, one of the Tokamak Private App Channels and a dedicated channel for the private-state DApp.",
   },
   {
     question: "What are Tokamak Private App Channels?",
@@ -35,7 +35,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "What is the private-state DApp?",
     answer:
-      "The private-state DApp turns TON into proof-backed confidential notes inside Tonnel, enabling channel-local transfers without exposing note ownership or transfer meaning in public contract state.",
+      "The private-state DApp turns TON into proof-backed confidential notes inside Tonigma, enabling channel-local transfers without exposing note ownership or transfer meaning in public contract state.",
   },
   {
     question: "What is the reward?",
@@ -63,7 +63,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "What should I submit?",
     answer:
-      "Submit the Ethereum transaction hash from a valid private-state transfer notes transaction made on Tonnel.",
+      "Submit the Ethereum transaction hash from a valid private-state transfer notes transaction made on Tonigma.",
   },
   {
     question: "How is verification handled?",
@@ -72,10 +72,10 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "What is the official campaign page?",
-    answer: "The official campaign page is https://airdrop.tonnel.io.",
+    answer: "The official campaign page is https://airdrop.tonigma.network.",
     links: [
       {
-        label: "https://airdrop.tonnel.io",
+        label: "https://airdrop.tonigma.network",
         url: siteUrl,
       },
     ],

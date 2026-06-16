@@ -23,9 +23,9 @@ export type FailureReason = (typeof FAILURE_REASONS)[number];
 
 export const failureReasonMessages: Record<FailureReason, string> = {
   reward_channel_address_unresolved:
-    "The reward recipient Tonnel channel address could not be resolved.",
+    "The reward recipient Tonigma channel address could not be resolved.",
   invalid_submission_transaction:
-    "The submitted transaction is not an eligible Tonnel transfer notes transaction.",
+    "The submitted transaction is not an eligible Tonigma transfer notes transaction.",
   reward_budget_exhausted:
     "The reward budget was exhausted before this submission could be paid.",
   duplicate_transaction:

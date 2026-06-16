@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   keywords: [
-    "Tonnel",
+    "Tonigma",
     "TON airdrop",
     "Tokamak Network Token",
     "Tokamak Private App Channels",
@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
-    siteName: "Tonnel",
+    siteName: "Tonigma",
     images: [
       {
-        url: "/tonnel-airdrop-poster.jpg",
+        url: "/tonigma-airdrop-poster.jpg",
         width: 1200,
         height: 675,
-        alt: "TON AIRDROP ON TONNEL",
+        alt: "TON AIRDROP ON TONIGMA",
       },
     ],
     locale: "en_US",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/tonnel-airdrop-poster.jpg"],
+    images: ["/tonigma-airdrop-poster.jpg"],
   },
   robots: {
     index: true,
@@ -65,13 +65,13 @@ export default function RootLayout({
     inLanguage: "en",
     isPartOf: {
       "@type": "WebSite",
-      name: "Tonnel",
+      name: "Tonigma",
       url: siteUrl,
     },
     about: [
       {
         "@type": "Thing",
-        name: "Tonnel",
+        name: "Tonigma",
         description:
           "The public name for the-great-first-channel, a dedicated Tokamak Private App Channel for the private-state DApp.",
       },
@@ -81,7 +81,7 @@ export default function RootLayout({
         applicationCategory: "BlockchainApplication",
         operatingSystem: "Web",
         description:
-          "A Tokamak Private App Channels DApp that turns TON into proof-backed confidential notes inside Tonnel.",
+          "A Tokamak Private App Channels DApp that turns TON into proof-backed confidential notes inside Tonigma.",
       },
     ],
     provider: {
@@ -90,14 +90,14 @@ export default function RootLayout({
       url: "https://www.tokamak.network/",
       sameAs: [
         "https://github.com/tokamak-network/Tokamak-zk-EVM-contracts",
-        "https://t.me/tonnel_ethereum",
+        "https://t.me/tonigma_network",
       ],
     },
     mainEntity: {
       "@type": "Offer",
       name: "25 TON per valid private-state transfer",
       description:
-        "Participants submit a valid private-state transfer transaction hash from Tonnel to receive 25 TON, subject to verification, duplicate checks, remaining budget, and operational review.",
+        "Participants submit a valid private-state transfer transaction hash from Tonigma to receive 25 TON, subject to verification, duplicate checks, remaining budget, and operational review.",
       url: siteUrl,
       category: "Airdrop",
     },

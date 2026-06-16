@@ -319,14 +319,14 @@ export function AirdropApp({
       <section className="heroBand">
         <div className="heroContent">
           <div className="brandLine">
-            <span className="accentText">Tonnel</span>
+            <span className="accentText">Tonigma</span>
           </div>
           <h1>
-            TON AIRDROP ON <span className="accentText">TONNEL</span>
+            TON AIRDROP ON <span className="accentText">TONIGMA</span>
           </h1>
           <p>
             Make a valid private-state transfer on{" "}
-            <span className="accentText">Tonnel</span>, submit the transaction
+            <span className="accentText">Tonigma</span>, submit the transaction
             hash, and earn 25 TON.
           </p>
         </div>
@@ -445,11 +445,11 @@ export function AirdropApp({
             <GithubIcon />
           </a>
           <a
-            href="https://t.me/tonnel_ethereum"
+            href="https://t.me/tonigma_network"
             target="_blank"
             rel="noreferrer"
-            aria-label="Tonnel Telegram"
-            title="Tonnel Telegram"
+            aria-label="Tonigma Telegram"
+            title="Tonigma Telegram"
           >
             <TelegramIcon />
           </a>
@@ -571,7 +571,7 @@ function ParticipationSteps({ channel }: { channel: string }) {
         </li>
         <li>
           Ask your AI agent how to make one real private-state transfer notes
-          transaction on <span className="accentText">Tonnel</span>.
+          transaction on <span className="accentText">Tonigma</span>.
         </li>
         <li>
           Ask your AI agent to identify the Ethereum transaction hash for that
@@ -628,17 +628,17 @@ function AgentPromptGuide({ channel }: { channel: string }) {
 }
 
 function buildAgentPrompt(channel: string): string {
-  return `I want to participate in TON AIRDROP ON TONNEL at https://airdrop.tonnel.io. I am not a developer and I only know how to use MetaMask. Please act as my careful local technical assistant and guide me until I have one valid Ethereum transaction hash to submit on the airdrop page.
+  return `I want to participate in TON AIRDROP ON TONIGMA at https://airdrop.tonigma.network. I am not a developer and I only know how to use MetaMask. Please act as my careful local technical assistant and guide me until I have one valid Ethereum transaction hash to submit on the airdrop page.
 
 Event facts:
-- Official page: https://airdrop.tonnel.io
+- Official page: https://airdrop.tonigma.network
 - Reward: 25 TON per valid submission
 - Channel name: \`${channel}\`
 - Network: Ethereum mainnet only
-- Required transaction: a real private-state \`transfer notes\` transaction on Tonnel
+- Required transaction: a real private-state \`transfer notes\` transaction on Tonigma
 - The submitted hash must be the Ethereum transaction hash for the \`transfer notes\` transaction, not the join, deposit, approval, or setup transaction
 - Duplicate Ethereum transaction hashes do not receive another reward
-- Duplicate resolved Tonnel channel addresses do not receive another reward
+- Duplicate resolved Tonigma channel addresses do not receive another reward
 
 Safety rules:
 - Never ask me to paste my seed phrase, private key, RPC API key, or any secret into this chat.
@@ -659,7 +659,7 @@ RPC rule:
 
 Interactive checklist:
 1. Identify my operating system and whether you can run terminal commands on my computer. If you cannot run commands, give me exact copy/paste commands for my OS and wait for the result after each command.
-2. Ask whether I have already submitted a hash, already joined \`${channel}\`, or already made a Tonnel private-state \`transfer notes\` transaction. If yes, help verify before spending anything new.
+2. Ask whether I have already submitted a hash, already joined \`${channel}\`, or already made a Tonigma private-state \`transfer notes\` transaction. If yes, help verify before spending anything new.
 3. Check whether Node.js and npm are installed. If not, guide me through installing them for my OS, then verify with \`node --version\` and \`npm --version\`.
 4. Install or update the latest CLI:
    \`npm install -g @tokamak-private-dapps/private-state-cli@latest\`
@@ -674,13 +674,13 @@ Interactive checklist:
    - save it into a restricted local file,
    - import or use it with the CLI's documented \`--private-key-file\` option.
    Never ask me to paste the private key into chat.
-7. Check that the burner account has enough ETH for Ethereum mainnet gas and enough Tonnel-compatible TON on Ethereum mainnet for the 4 TON channel entry fee and the private-state transfer flow. If anything is missing, stop and tell me exactly what is missing.
+7. Check that the burner account has enough ETH for Ethereum mainnet gas and enough Tonigma-compatible TON on Ethereum mainnet for the 4 TON channel entry fee and the private-state transfer flow. If anything is missing, stop and tell me exactly what is missing.
 8. Check whether the account is already joined to \`${channel}\`. If not, prepare the join transaction on Ethereum mainnet, show what will be spent, and wait for my confirmation before broadcasting.
-9. Create a new local Tonnel/private-state wallet workspace unless I already have one. If recovery is needed, handle recovery secrets only locally and never through chat. Use the Ankr RPC URL for recovery.
-10. Prepare one small valid private-state \`transfer notes\` transaction on Tonnel. If a recipient Tonnel channel address is required, use only an address I control or a CLI-supported self-transfer flow. Verify this before broadcasting.
+9. Create a new local Tonigma/private-state wallet workspace unless I already have one. If recovery is needed, handle recovery secrets only locally and never through chat. Use the Ankr RPC URL for recovery.
+10. Prepare one small valid private-state \`transfer notes\` transaction on Tonigma. If a recipient Tonigma channel address is required, use only an address I control or a CLI-supported self-transfer flow. Verify this before broadcasting.
 11. Before broadcasting the \`transfer notes\` transaction, show me the network, channel, sender, recipient, estimated gas/TON effects, and confirm that this is the airdrop-eligible transaction type. Wait for my explicit confirmation.
 12. After success, find the Ethereum transaction hash for that \`transfer notes\` transaction. Confirm it is a 66-character \`0x...\` hash and explicitly confirm it is not the join, deposit, approval, import, or setup hash.
-13. Tell me to open https://airdrop.tonnel.io, paste that transaction hash into the Submit form, and check the status after submission.
+13. Tell me to open https://airdrop.tonigma.network, paste that transaction hash into the Submit form, and check the status after submission.
 
 At every step, explain what I should see, what can go wrong, and what to do next. If you are unsure about a CLI command, run \`private-state-cli --help\` or the relevant subcommand help first. Do not guess when money or secrets are involved.`;
 }
@@ -713,28 +713,28 @@ function WinnerCriteria() {
     <ul className="participationList">
       <li>
         Submit the transaction hash from a real private-state transfer notes
-        transaction made in <span className="accentText">Tonnel</span>.
+        transaction made in <span className="accentText">Tonigma</span>.
       </li>
       <li>
         The Ethereum wallet address that sent that transaction must have been
-        joined to <span className="accentText">Tonnel</span> when the
+        joined to <span className="accentText">Tonigma</span> when the
         transaction happened.
       </li>
       <li>
-        We send the reward to the <span className="accentText">Tonnel</span>{" "}
-        Tonnel channel address that was registered to that Ethereum wallet
+        We send the reward to the <span className="accentText">Tonigma</span>{" "}
+        channel address that was registered to that Ethereum wallet
         address at that time.
       </li>
       <li>
-        A <span className="accentText">Tonnel</span> channel address can receive
+        A <span className="accentText">Tonigma</span> channel address can receive
         only one reward. A transaction hash can also be used only once.
       </li>
       <li>
         A second transaction from the same{" "}
-        <span className="accentText">Tonnel</span> channel address will not
+        <span className="accentText">Tonigma</span> channel address will not
         receive another reward. The same transaction hash will not receive
         another reward, even if it is submitted with a different{" "}
-        <span className="accentText">Tonnel</span> channel address.
+        <span className="accentText">Tonigma</span> channel address.
       </li>
     </ul>
   );
@@ -784,15 +784,15 @@ function buildIneligibleSubmitStatus(
   if (reason === "Tonnel channel address duplicate") {
     return {
       guidance:
-        "The Tonnel channel address resolved from this transaction has already received a reward. Ask your AI agent to prepare a new eligible Tonnel participation and submit a new private-state transfer notes transaction hash.",
-      title: "Tonnel channel address already rewarded",
+        "The Tonigma channel address resolved from this transaction has already received a reward. Ask your AI agent to prepare a new eligible Tonigma participation and submit a new private-state transfer notes transaction hash.",
+      title: "Tonigma channel address already rewarded",
       tone: "error",
     };
   }
 
   return {
     guidance:
-      "This hash does not resolve to an eligible private-state transfer notes transaction on Tonnel. Ask your AI agent to make a private-state transfer notes transaction on Tonnel, then submit that Ethereum transaction hash.",
+      "This hash does not resolve to an eligible private-state transfer notes transaction on Tonigma. Ask your AI agent to make a private-state transfer notes transaction on Tonigma, then submit that Ethereum transaction hash.",
     title: "Transaction ineligible",
     tone: "error",
   };

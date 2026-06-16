@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const tonigmaAirdropUrl = "https://airdrop.tonigma.network";
+const tonigmaObserverUrl = "https://observer.tonigma.network";
+
 const nextConfig: NextConfig = {
   async redirects() {
     return [
@@ -11,7 +14,7 @@ const nextConfig: NextConfig = {
             value: "tonnel.io",
           },
         ],
-        destination: "https://airdrop.tonnel.io/:path*",
+        destination: `${tonigmaAirdropUrl}/:path*`,
         permanent: true,
       },
       {
@@ -22,7 +25,40 @@ const nextConfig: NextConfig = {
             value: "www.tonnel.io",
           },
         ],
-        destination: "https://airdrop.tonnel.io/:path*",
+        destination: `${tonigmaAirdropUrl}/:path*`,
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "airdrop.tonnel.io",
+          },
+        ],
+        destination: `${tonigmaAirdropUrl}/:path*`,
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "tonigma.network",
+          },
+        ],
+        destination: `${tonigmaObserverUrl}/:path*`,
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.tonigma.network",
+          },
+        ],
+        destination: `${tonigmaObserverUrl}/:path*`,
         permanent: true,
       },
     ];

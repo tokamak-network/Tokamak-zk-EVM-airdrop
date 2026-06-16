@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = "https://airdrop.tonnel.io";
+const siteUrl = "https://airdrop.tonigma.network";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
