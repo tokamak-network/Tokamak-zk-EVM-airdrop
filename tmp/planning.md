@@ -131,6 +131,35 @@ The first migration should update only public brand and public URL surfaces. Int
    - Run the updated IndexNow script after production deployment.
    - Confirm the submitted URL list uses the new host.
 
+## Off-Repository SEO, AEO, and GEO Operations
+
+These tasks are outside the repository and should be handled by the operator after the production cutover.
+
+1. Google Search Console
+   - Add and verify `airdrop.tonigma.network` as a property.
+   - Submit `https://airdrop.tonigma.network/sitemap.xml`.
+   - Use Google's site-move guidance where applicable for the `airdrop.tonnel.io` to `airdrop.tonigma.network` migration.
+   - Monitor indexing, coverage, crawl errors, and canonical selection for both the new and legacy airdrop hosts.
+
+2. Bing Webmaster Tools and IndexNow
+   - Add or verify `airdrop.tonigma.network` in Bing Webmaster Tools.
+   - Confirm that IndexNow submissions are accepted for the new host.
+   - Monitor crawl and indexing status for the new host.
+
+3. External public links
+   - Update official social profiles, pinned posts, Telegram channel descriptions, community announcements, GitHub profile links, and any public partner pages that still point to `airdrop.tonnel.io`.
+   - Keep `airdrop.tonnel.io` links redirecting until May 21, 2027, but prefer the new canonical URL in all new communications.
+
+4. Answer-engine and generative-engine visibility
+   - Re-check that public answer surfaces use `Tonigma` and `https://airdrop.tonigma.network`.
+   - Verify that `https://airdrop.tonigma.network/llms.txt` remains reachable and aligned with the live public page.
+   - Monitor AI crawler traffic in Vercel logs where available.
+
+5. Post-cutover monitoring
+   - Check search results for `site:airdrop.tonigma.network` and `site:airdrop.tonnel.io` during the transition period.
+   - Track whether impressions and clicks move from the legacy host to the new host.
+   - Review Vercel Analytics and runtime logs for unexpected traffic drops, redirect loops, or crawler errors.
+
 ## Validation Checklist
 
 Run locally before deployment:
