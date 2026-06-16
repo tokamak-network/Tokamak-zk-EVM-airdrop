@@ -125,7 +125,7 @@ The first migration should update only public brand and public URL surfaces. Int
 5. Keep old domains assigned to the project.
    - `https://airdrop.tonnel.io/*` should redirect to `https://airdrop.tonigma.network/*`.
    - `https://tonnel.io/*` and `https://www.tonnel.io/*` should redirect to the new canonical host if those domains remain attached to this project.
-   - Do not remove the old domains until traffic, crawler discovery, and user communications have moved to the new domain.
+   - Keep the legacy airdrop-domain redirect active until the old domain expires on May 21, 2027.
 
 6. Submit the new URLs for indexing.
    - Run the updated IndexNow script after production deployment.
@@ -161,7 +161,7 @@ Check deployed behavior:
 1. If the new domain fails DNS or TLS validation, keep the current production deployment and old canonical domain unchanged.
 2. If the deployed app fails after the code change, roll back to the previous Vercel production deployment.
 3. If redirects are wrong, fix redirect configuration first because permanent redirects can be cached by browsers and crawlers.
-4. Keep old domains attached until the new domain has been stable for a defined monitoring period.
+4. Keep the legacy airdrop-domain redirect active until the old domain expires on May 21, 2027, unless a separate decision changes the retention policy.
 
 ## Confirmed Decisions
 
@@ -170,3 +170,4 @@ Check deployed behavior:
 - Public poster and QR assets are replaced and renamed to Tonigma-based filenames.
 - Only public documentation is rebranded to Tonigma. Historical audit documents and internal implementation notes keep their original wording unless separately requested.
 - The Vercel project has been renamed to `tonigma-airdrop`.
+- The legacy airdrop-domain redirect remains active until the old domain expires on May 21, 2027.
